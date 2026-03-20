@@ -1,6 +1,6 @@
 # AGENTS.md
 
-最新一期路径：`custom/notes/v1.2-pages-branch-deploy.md`
+最新一期路径：`custom/notes/v1.3-visual-simplification.md`
 
 ## 1. 基本原则
 
