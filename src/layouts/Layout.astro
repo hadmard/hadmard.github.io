@@ -38,6 +38,34 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 		<ClientRouter />
 	</head>
 	<body>
+		<div class="ambient-layer ambient-layer-primary" aria-hidden="true"></div>
+		<div class="ambient-layer ambient-layer-secondary" aria-hidden="true"></div>
+		<div class="ambient-grid" aria-hidden="true"></div>
 		<slot />
+		<script is:inline>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+		</script>
 	</body>
 </html>

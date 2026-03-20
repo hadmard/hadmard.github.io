@@ -1,6 +1,6 @@
 # AGENTS.md
 
-最新一期路径：`custom/notes/v1.3-visual-simplification.md`
+最新一期路径：`custom/notes/v1.4-apple-luxury-motion.md`
 
 ## 1. 基本原则
 

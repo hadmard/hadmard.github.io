@@ -37,7 +37,7 @@ const hasThoughts = featuredThoughts.length > 0;
 	alternatePath={alternatePath}
 >
 	<main class="site-shell gap-12">
-		<header class="flex flex-wrap items-center justify-between gap-4 border-b pb-4" style="border-color: var(--color-line);">
+		<header class="glass-topbar flex flex-wrap items-center justify-between gap-4">
 			<div class="space-y-1">
 				<p class="text-sm font-medium">{copy.brand.name}</p>
 				<p class="text-sm" style="color: var(--color-ink-soft);">{copy.brand.caption}</p>
@@ -59,17 +59,17 @@ const hasThoughts = featuredThoughts.length > 0;
 		<section class="grid gap-8 lg:grid-cols-[1.5fr_0.9fr] lg:items-start">
 			<div class="space-y-6">
 				<span class="soft-label">{copy.hero.badge}</span>
-				<div class="space-y-4">
+				<div class="hero-lead space-y-4">
 					<p class="section-kicker">{copy.hero.eyebrow}</p>
-					<h1 class="max-w-4xl font-display text-5xl leading-tight sm:text-6xl" style="color: var(--color-ink);">
+					<h1 class="max-w-4xl font-display text-5xl leading-[1.02] sm:text-6xl lg:text-7xl" style="color: var(--color-ink);">
 						{copy.hero.title}
 					</h1>
 					<p class="max-w-3xl text-lg leading-8" style="color: var(--color-ink-soft);">{copy.hero.description}</p>
 				</div>
-				<div class="flex flex-wrap gap-2">
+				<div class="hero-subtle flex flex-wrap gap-2">
 					{copy.hero.modes.slice(0, 3).map((mode) => <span class="signal-pill">{mode}</span>)}
 				</div>
-				<div class="grid gap-3 sm:grid-cols-2">
+				<div class="hero-stage grid gap-3 sm:grid-cols-2">
 					{
 						copy.hero.contacts.map((contact) => (
 							<a class="story-card block" href={contact.href}>
@@ -81,7 +81,10 @@ const hasThoughts = featuredThoughts.length > 0;
 				</div>
 			</div>
 
-			<aside class="panel-strong p-6">
+			<aside class="hero-frame hero-stage">
+				<div class="hero-orbit right-6 top-6 h-14 w-14"></div>
+				<div class="hero-orbit bottom-8 right-20 h-8 w-8" style="animation-delay: -2s;"></div>
+				<div class="hero-orbit bottom-14 right-6 h-5 w-5" style="animation-delay: -4s;"></div>
 				<div class="space-y-5">
 					{
 						copy.hero.terminal.map((item) => (
@@ -96,7 +99,7 @@ const hasThoughts = featuredThoughts.length > 0;
 			</aside>
 		</section>
 
-		<section id="resume" class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+		<section id="resume" data-reveal class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
 			<div class="space-y-4">
 				<p class="section-kicker">{copy.resume.kicker}</p>
 				<h2 class="section-title">{copy.resume.title}</h2>
@@ -118,7 +121,7 @@ const hasThoughts = featuredThoughts.length > 0;
 			</div>
 		</section>
 
-		<section id="projects" class="space-y-5">
+		<section id="projects" data-reveal class="space-y-5">
 			<div class="space-y-3">
 				<p class="section-kicker">{copy.projects.kicker}</p>
 				<h2 class="section-title">{copy.projects.title}</h2>
@@ -150,7 +153,7 @@ const hasThoughts = featuredThoughts.length > 0;
 			}
 		</section>
 
-		<section id="investments" class="space-y-5">
+		<section id="investments" data-reveal class="space-y-5">
 			<div class="space-y-3">
 				<p class="section-kicker">{copy.investments.kicker}</p>
 				<h2 class="section-title">{copy.investments.title}</h2>
@@ -206,7 +209,7 @@ const hasThoughts = featuredThoughts.length > 0;
 			</div>
 		</section>
 
-		<section id="thinking" class="space-y-5">
+		<section id="thinking" data-reveal class="space-y-5">
 			<div class="space-y-3">
 				<p class="section-kicker">{copy.thinking.kicker}</p>
 				<h2 class="section-title">{copy.thinking.title}</h2>
@@ -239,7 +242,7 @@ const hasThoughts = featuredThoughts.length > 0;
 			}
 		</section>
 
-		<footer class="border-t pt-6" style="border-color: var(--color-line);">
+		<footer data-reveal class="panel mt-4 px-6 py-8 sm:px-8">
 			<h2 class="font-display text-3xl" style="color: var(--color-ink);">{copy.footer.title}</h2>
 			<p class="mt-3 max-w-3xl text-base leading-8" style="color: var(--color-ink-soft);">{copy.footer.description}</p>
 			<p class="mt-4 text-sm" style="color: var(--color-ink-soft);">{copy.footer.note}</p>
