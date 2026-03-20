@@ -1,0 +1,22 @@
+---
+// 文件说明：该文件渲染站点的语言切换按钮。
+// 功能说明：在双语页面之间跳转，并保持当前语种的可见状态。
+//
+// 结构概览：
+//   第一部分：解析组件参数
+//   第二部分：输出语言切换 UI
+interface Props {
+	currentLocale: 'zh-cn' | 'en';
+	href: string;
+}
+
+const { currentLocale, href } = Astro.props;
+---
+
+<a
+	href={href}
+	class="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-2 text-sm text-white/80 transition duration-300 hover:bg-white/10"
+>
+	<span class:list={['rounded-full px-2 py-1 text-[11px]', currentLocale === 'zh-cn' ? 'bg-white/14 text-white' : 'text-white/54']}>中</span>
+	<span class:list={['rounded-full px-2 py-1 text-[11px]', currentLocale === 'en' ? 'bg-white/14 text-white' : 'text-white/54']}>EN</span>
+</a>

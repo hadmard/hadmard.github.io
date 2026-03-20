@@ -1,0 +1,186 @@
+/* 文件说明：该文件定义全站视觉基线与共享样式。 */
+/* 功能说明：负责导入 Tailwind 4、声明主题变量、统一页面组件视觉与文章排版。 */
+/*
+结构概览：
+  第一部分：导入字体与 Tailwind
+  第二部分：声明主题变量
+  第三部分：基础元素样式
+  第四部分：共享组件样式
+  第五部分：文章内容与动画
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+	--font-sans: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
+	--font-display: "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
+	--color-ink: #ecf3ff;
+	--color-surface: rgba(9, 16, 28, 0.76);
+	--color-surface-strong: rgba(9, 16, 28, 0.92);
+	--color-line: rgba(215, 227, 255, 0.14);
+	--color-mint: #52e0c6;
+	--color-gold: #fcb554;
+	--color-sky: #8bb8ff;
+	--shadow-panel: 0 24px 80px rgba(0, 0, 0, 0.28);
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		min-height: 100vh;
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		background: #050913;
+	}
+
+	::selection {
+		background: rgba(82, 224, 198, 0.28);
+		color: white;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+@utility site-shell {
+	@apply relative mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-4 pb-10 pt-5 sm:px-6 lg:px-10;
+}
+
+@utility panel {
+	@apply relative overflow-hidden rounded-[28px] border border-white/12 bg-white/6 backdrop-blur-xl;
+	box-shadow: var(--shadow-panel);
+}
+
+@utility panel-strong {
+	@apply panel bg-[color:var(--color-surface-strong)];
+}
+
+@utility soft-label {
+	@apply inline-flex items-center gap-2 rounded-full border border-white/12 px-3 py-1 text-[11px] uppercase tracking-[0.35em] text-white/68;
+}
+
+@utility section-kicker {
+	@apply text-[11px] font-medium uppercase tracking-[0.35em] text-[color:var(--color-mint)];
+}
+
+@utility section-title {
+	@apply font-display text-4xl leading-none text-white sm:text-5xl;
+}
+
+@layer components {
+	.signal-pill {
+		@apply inline-flex items-center rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs text-white/72;
+	}
+
+	.nav-link {
+		@apply rounded-full px-3 py-2 text-sm text-white/66 transition duration-300 hover:bg-white/8 hover:text-white;
+	}
+
+	.hero-gradient {
+		background:
+			radial-gradient(circle at 15% 18%, rgba(82, 224, 198, 0.28), transparent 28%),
+			radial-gradient(circle at 92% 18%, rgba(252, 181, 84, 0.22), transparent 24%),
+			linear-gradient(140deg, rgba(7, 17, 31, 0.94), rgba(4, 7, 12, 0.88));
+	}
+
+	.metric-card {
+		@apply panel rounded-[24px] p-4;
+	}
+
+	.shimmer-line {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.shimmer-line::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		transform: translateX(-100%);
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+		animation: shimmer 7s linear infinite;
+	}
+
+	.metric-card::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 42%);
+		pointer-events: none;
+	}
+
+	.data-row {
+		@apply grid gap-4 border-t border-white/10 py-4 text-sm text-white/72 md:grid-cols-[1.2fr_1fr_1.4fr_1fr];
+	}
+
+	.data-row:first-of-type {
+		@apply border-t-0 pt-0;
+	}
+
+	.story-card {
+		@apply panel rounded-[24px] p-5 sm:p-6;
+	}
+
+	.story-card::after {
+		content: "";
+		position: absolute;
+		inset: auto 20px 0;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, rgba(82, 224, 198, 0.7), transparent);
+	}
+
+	.prose-thought {
+		@apply text-[17px] leading-8 text-white/80;
+	}
+
+	.prose-thought h2 {
+		@apply mt-12 font-display text-3xl leading-tight text-white;
+	}
+
+	.prose-thought p {
+		@apply my-5;
+	}
+
+	.prose-thought ul {
+		@apply my-6 space-y-3 pl-5;
+	}
+
+	.prose-thought li {
+		@apply list-disc;
+	}
+
+	.prose-thought strong {
+		@apply font-semibold text-white;
+	}
+
+	.prose-thought blockquote {
+		@apply my-8 border-l-2 border-[color:var(--color-gold)] pl-5 font-display text-2xl italic text-white/92;
+	}
+}
+
+@keyframes shimmer {
+	to {
+		transform: translateX(100%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

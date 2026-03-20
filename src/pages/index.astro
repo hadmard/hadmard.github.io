@@ -1,0 +1,17 @@
+---
+// 文件说明：该文件是中文首页入口。
+// 功能说明：读取中文内容与文章集合，并交给共享首页组件渲染。
+//
+// 结构概览：
+//   第一部分：加载中文文章
+//   第二部分：渲染首页组件
+import { getCollection } from 'astro:content';
+
+import HomePage from '../components/HomePage.astro';
+
+const thoughts = (await getCollection('thoughts', ({ data }) => data.lang === 'zh-cn')).sort(
+	(a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+---
+
+<HomePage locale="zh-cn" thoughts={thoughts} />

@@ -1,0 +1,45 @@
+---
+// 文件说明：该文件是全站通用布局。
+// 功能说明：统一处理 SEO 元信息、全局样式、视图切换与页面外层结构。
+//
+// 结构概览：
+//   第一部分：导入依赖与解析页面参数
+//   第二部分：生成 canonical 与 alternate 元信息
+//   第三部分：输出页面框架
+import '../styles/global.css';
+
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+	title: string;
+	description: string;
+	lang: string;
+	canonicalPath: string;
+	alternatePath?: string;
+}
+
+const { title, description, lang, canonicalPath, alternatePath } = Astro.props;
+const canonical = Astro.site ? new URL(canonicalPath, Astro.site).toString() : undefined;
+const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.site).toString() : undefined;
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#07111f" />
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+		{canonical && <link rel="canonical" href={canonical} />}
+		{alternate && <link rel="alternate" hreflang={lang === 'zh-cn' ? 'en' : 'zh-CN'} href={alternate} />}
+		<title>{title}</title>
+		<ClientRouter />
+	</head>
+	<body>
+		<div class="fixed inset-0 -z-20 bg-[radial-gradient(circle_at_top,_rgba(82,224,198,0.18),_transparent_32%),radial-gradient(circle_at_82%_18%,_rgba(252,181,84,0.16),_transparent_26%),linear-gradient(180deg,_#08111d_0%,_#04070c_100%)]"></div>
+		<div class="fixed inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-35"></div>
+		<slot />
+	</body>
+</html>
