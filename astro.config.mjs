@@ -25,6 +25,7 @@ const base = isUserSite ? '/' : `/${repository}`;
 export default defineConfig({
 	site,
 	base,
+	outDir: './docs',
 	trailingSlash: 'always',
 	i18n: {
 		locales: ['zh-cn', 'en'],

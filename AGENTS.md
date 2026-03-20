@@ -1,6 +1,6 @@
 # AGENTS.md
 
-最新一期路径：`custom/notes/v1.1-profile-seeding.md`
+最新一期路径：`custom/notes/v1.2-pages-branch-deploy.md`
 
 ## 1. 基本原则
 
