@@ -1,0 +1,14 @@
+HTTP/1.1 200 Connection established
+
+HTTP/1.1 200 OK
+Content-Type: text/html
+Last-Modified: Thu, 12 Mar 2026 15:50:58 GMT
+Accept-Ranges: bytes
+ETag: "05da3438b2dc1:0"
+Server: Microsoft-IIS/10.0
+X-Powered-By: ASP.NET
+alt-svc: h3=":443"; ma=86400; persist=1
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+Date: Fri, 20 Mar 2026 04:58:10 GMT
+Content-Length: 14265
+

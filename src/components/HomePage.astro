@@ -18,6 +18,7 @@ import type { Locale } from '../data/site';
 import Layout from '../layouts/Layout.astro';
 import { getCopy, getThoughtSlug, localePath } from '../utils/i18n';
 import LocaleSwitch from './LocaleSwitch.astro';
+import LearningMap from './LearningMap';
 
 interface Props {
 	locale: Locale;
@@ -174,50 +175,26 @@ const investmentUi =
 			</div>
 		</header>
 
-		<section class="grid gap-8 lg:grid-cols-[1.5fr_0.9fr] lg:items-start">
+		<section class="grid gap-8 lg:items-start pt-4">
 			<div class="space-y-6">
-				<span class="soft-label">{copy.hero.badge}</span>
+				<span class="soft-label">探索日志 / PROGRESS NETWORK</span>
 				<div class="hero-lead space-y-4">
-					<p class="section-kicker">{copy.hero.eyebrow}</p>
-					<h1 class="max-w-4xl font-display text-5xl leading-[1.02] sm:text-6xl lg:text-7xl" style="color: var(--color-ink);">
-						{copy.hero.title}
+					<p class="section-kicker">数字工坊总控中心</p>
+					<h1 class="max-w-4xl font-display text-4xl leading-[1.1] sm:text-5xl lg:text-6xl text-slate-900">
+						你的学习与探索进度。
 					</h1>
-					<p class="max-w-3xl text-lg leading-8" style="color: var(--color-ink-soft);">{copy.hero.description}</p>
-				</div>
-				<div class="hero-subtle flex flex-wrap gap-2">
-					{copy.hero.modes.slice(0, 3).map((mode) => <span class="signal-pill">{mode}</span>)}
-				</div>
-				<div class="hero-stage grid gap-3 sm:grid-cols-2">
-					{
-						copy.hero.contacts.map((contact) => (
-							<a class="story-card block" href={contact.href}>
-								<p class="text-[11px] uppercase tracking-[0.24em]" style="color: var(--color-ink-soft);">{contact.label}</p>
-								<p class="mt-2 text-sm" style="color: var(--color-ink);">{contact.value}</p>
-							</a>
-						))
-					}
+					<p class="max-w-3xl text-lg leading-8 text-slate-500">
+						欢迎回到工坊。下方为你正在推进的课程地图拓扑。当前主攻方向为 <span class="text-sky-500 font-medium">UV & White 双源图像融合</span>。
+					</p>
 				</div>
 			</div>
-
-			<aside class="hero-frame hero-stage">
-				<div class="hero-orbit right-6 top-6 h-14 w-14"></div>
-				<div class="hero-orbit bottom-8 right-20 h-8 w-8" style="animation-delay: -2s;"></div>
-				<div class="hero-orbit bottom-14 right-6 h-5 w-5" style="animation-delay: -4s;"></div>
-				<div class="space-y-5">
-					{
-						copy.hero.terminal.map((item) => (
-							<div class="space-y-2 border-b pb-4 last:border-b-0 last:pb-0" style="border-color: var(--color-line);">
-								<p class="text-[11px] uppercase tracking-[0.24em]" style="color: var(--color-ink-soft);">{item.label}</p>
-								<p class="text-base leading-7" style="color: var(--color-ink);">{item.value}</p>
-								<p class="text-sm leading-6" style="color: var(--color-ink-soft);">{item.note}</p>
-							</div>
-						))
-					}
-				</div>
-			</aside>
 		</section>
 
-		<section id="resume" data-reveal class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+		<section data-reveal class="w-full relative z-10 mt-6">
+			<LearningMap client:load />
+		</section>
+
+		<section id="resume" data-reveal class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] mt-12">
 			<div class="space-y-4">
 				<p class="section-kicker">{copy.resume.kicker}</p>
 				<h2 class="section-title">{copy.resume.title}</h2>

@@ -1,6 +1,6 @@
 {
   "sourceUrl": "https://www.cc98.org/topic/6450962",
-  "crawledAt": "2026-03-20T08:06:03.885Z",
+  "crawledAt": "2026-04-06T12:09:24.951Z",
   "topic": {
     "topicId": "6450962",
     "title": "小散的破产之路",
@@ -8,8 +8,8 @@
     "boardName": "一路走来",
     "authorName": "hadmard",
     "createdAt": "2026-03-18T23:14:45.387681+08:00",
-    "replyCount": 9,
-    "hitCount": 83,
+    "replyCount": 17,
+    "hitCount": 185,
     "state": 1,
     "raw": {
       "id": 6450962,
@@ -21,14 +21,14 @@
       "userInfo": null,
       "isAnonymous": false,
       "disableHot": true,
-      "lastPostTime": "2026-03-20T08:43:45.6088847+08:00",
+      "lastPostTime": "2026-03-27T17:01:27.7492974+08:00",
       "state": 1,
       "type": 0,
-      "replyCount": 9,
-      "hitCount": 83,
+      "replyCount": 17,
+      "hitCount": 185,
       "totalVoteUserCount": 0,
       "lastPostUser": "hadmard",
-      "lastPostContent": "狠狠空btc跟eth吧，上完体育课回来看看流动性热力图...",
+      "lastPostContent": "最近事情有点多，所以操作又开始变形了，种种乱操作我真无...",
       "topState": 0,
       "bestState": 0,
       "isVote": false,
@@ -45,7 +45,7 @@
       "todayCount": 0,
       "allowHotReply": true,
       "contentType": 0,
-      "favoriteCount": 3,
+      "favoriteCount": 4,
       "topicAuthorPermissions": [
         "Lock",
         "Lift",
@@ -64,5 +64,5 @@
       "lotteryTopicDetail": null
     }
   },
-  "postCount": 10
+  "postCount": 18
 }

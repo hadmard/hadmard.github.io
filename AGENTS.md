@@ -1,6 +1,6 @@
 # AGENTS.md
 
-最新一期路径：`custom/notes/v1.7-cc98-pages-sync.md`
+最新一期路径：`custom/notes/v1.9-cc98-latest-refresh.md`
 
 ## 1. 基本原则
 

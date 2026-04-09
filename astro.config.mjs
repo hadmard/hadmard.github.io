@@ -10,10 +10,12 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
+import react from '@astrojs/react';
+
 // ========== 第一部分：计算 GitHub Pages 路径 ==========
 // 这里优先绑定到用户指定的 hadmard.github.io；如果工作流注入了仓库名，则继续按用户页/项目页规则兼容。
 const [owner = 'hadmard', repository = 'hadmard.github.io'] = (
-	process.env.GITHUB_REPOSITORY ?? 'hadmard/hadmard.github.io'
+    process.env.GITHUB_REPOSITORY ?? 'hadmard/hadmard.github.io'
 ).split('/');
 const normalizedRepository = repository.toLowerCase();
 const normalizedOwner = owner.toLowerCase();
@@ -23,19 +25,19 @@ const base = isUserSite ? '/' : `/${repository}`;
 
 // ========== 第二部分：声明 Astro 构建配置 ==========
 export default defineConfig({
-	site,
-	base,
-	outDir: './docs',
-	trailingSlash: 'always',
-	i18n: {
-		locales: ['zh-cn', 'en'],
-		defaultLocale: 'zh-cn',
-		routing: {
-			prefixDefaultLocale: false,
-		},
-	},
-	vite: {
-		plugins: [tailwindcss()],
-	},
-	integrations: [mdx(), sitemap()],
+    site,
+    base,
+    outDir: './docs',
+    trailingSlash: 'always',
+    i18n: {
+        locales: ['zh-cn', 'en'],
+        defaultLocale: 'zh-cn',
+        routing: {
+            prefixDefaultLocale: false,
+        },
+    },
+    vite: {
+        plugins: [tailwindcss()],
+    },
+    integrations: [mdx(), sitemap(), react()],
 });

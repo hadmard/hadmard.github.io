@@ -30,7 +30,7 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#07111f" />
+		<meta name="theme-color" content="#f8fafc" />
 		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 		{canonical && <link rel="canonical" href={canonical} />}
 		{alternate && <link rel="alternate" hreflang={lang === 'zh-cn' ? 'en' : 'zh-CN'} href={alternate} />}
