@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { getCopy, localePath } from '../../utils/i18n';
+
+const locale = 'en';
+const copy = getCopy(locale);
+const alternatePath = '/' + 'projects';
+---
+
+<Layout
+    title={`${copy.nav.find(i=>i.id==='projects')?.label||'projects'} | ${copy.brand.name}`}
+    description={copy.seo.description}
+    lang={locale}
+    canonicalPath={`/en/projects`}
+    alternatePath={alternatePath}
+>
+    <main class="site-shell mx-auto px-4 py-8">
+        <SiteHeader locale={locale} alternatePath={alternatePath} />
+        
+        <section id="projects" class="max-w-4xl mx-auto w-full mt-12 px-6">
+            <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out">
+                <div class="text-center space-y-4">
+                    <h1 class="text-4xl md:text-5xl font-semibold tracking-tight text-white/90 capitalize">{copy['projects']?.title || 'projects'}</h1>
+                    <p class="text-lg text-white/50">{copy['projects']?.intro || ''}</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl transition group hover:bg-white/[0.03]">
+                    <p class="text-white/60 leading-relaxed font-light">
+                        This space embodies the <strong>projects</strong> focus. Functioning on pure precision, glassmorphism, and minimal cognitive load, representing a more mature, Apple-styled aesthetic.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+</Layout>

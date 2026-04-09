@@ -22,8 +22,8 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
         
         <section class="max-w-7xl mx-auto w-full mt-6">
             <!-- Minecraft UI wrapped Learning Map -->
-            <div class="mc-bg p-2 sm:p-4 rounded shadow-2xl">
-                <div class="mc-bg-inset p-1 sm:p-3 relative overflow-hidden">
+            <div class="w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black/40 backdrop-blur-3xl animate-in fade-in zoom-in duration-1000">
+                <div class="relative w-full h-[70vh] sm:h-[80vh]">
                    <LearningMap client:load />
                 </div>
             </div>

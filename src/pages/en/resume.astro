@@ -1,18 +1,18 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import SiteHeader from '../components/SiteHeader.astro';
-import { getCopy, localePath } from '../utils/i18n';
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { getCopy, localePath } from '../../utils/i18n';
 
-const locale = 'zh-cn';
+const locale = 'en';
 const copy = getCopy(locale);
-const alternatePath = '/en/' + 'resume';
+const alternatePath = '/' + 'resume';
 ---
 
 <Layout
     title={`${copy.nav.find(i=>i.id==='resume')?.label||'resume'} | ${copy.brand.name}`}
     description={copy.seo.description}
     lang={locale}
-    canonicalPath={`/resume`}
+    canonicalPath={`/en/resume`}
     alternatePath={alternatePath}
 >
     <main class="site-shell mx-auto px-4 py-8">

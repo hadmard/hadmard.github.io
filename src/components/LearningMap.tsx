@@ -28,22 +28,22 @@ const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
 
   // Minecraft Achievement style themes:
   const themeClasses = useMemo(() => {
-    if (isCompleted) return 'border-[#E2C044] bg-[#2C2B26] shadow-[0_0_15px_rgba(226,192,68,0.4)] ring-[#E2C044]/50';
-    if (isInProgress) return 'border-[#55CCD4] bg-[#1E2E31] shadow-[0_0_15px_rgba(85,204,212,0.4)] ring-[#55CCD4]/50';
-    if (isAvailable) return 'border-[#8A8A8A] bg-[#2A2A2A] hover:border-[#A0A0A0] shadow-[0_4px_10px_rgba(0,0,0,0.5)]';
-    return 'border-[#3A3A3A] bg-[#1A1A1A] opacity-70 grayscale';
+    if (isCompleted) return 'backdrop-blur-xl border-white/20 bg-white/10 shadow-[0_8px_32px_rgba(255,255,255,0.15)] ring-white/50 text-white rounded-2xl';
+    if (isInProgress) return 'backdrop-blur-xl border-white/30 bg-white/20 shadow-[0_8px_32px_rgba(255,255,255,0.25)] ring-white/70 text-white rounded-2xl';
+    if (isAvailable) return 'backdrop-blur-md border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.2)] text-white/80 rounded-2xl transition-all duration-300';
+    return 'backdrop-blur-sm border border-white/5 bg-black/40 opacity-50 grayscale text-white/50 rounded-2xl';
   }, [isCompleted, isInProgress, isAvailable]);
 
   const iconClasses = useMemo(() => {
-    if (isCompleted) return 'text-[#E2C044] drop-shadow-[0_0_8px_rgba(226,192,68,0.8)]';
-    if (isInProgress) return 'text-[#55CCD4] drop-shadow-[0_0_8px_rgba(85,204,212,0.8)]';
-    if (isAvailable) return 'text-[#CCCCCC]';
-    return 'text-[#555555]';
+    if (isCompleted) return 'text-white';
+    if (isInProgress) return 'text-white/90 animate-pulse';
+    if (isAvailable) return 'text-white/60';
+    return 'text-white/30';
   }, [isCompleted, isInProgress, isAvailable]);
 
   return (
     <div
-      className="relative flex items-center justify-center p-1 cursor-pointer group"
+      className="relative flex items-center justify-center p-2 cursor-pointer group transition-transform duration-500 hover:scale-105"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -169,6 +169,7 @@ export default function LearningMap() {
         maxZoom={2.0}
         className="bg-transparent"
         proOptions={{ hideAttribution: true }}
+        className="!bg-transparent"
       >
         <Background gap={48} size={2} color="rgba(255,255,255,0.03)" />
         <Controls showInteractive={false} className="!bg-[#222] border !border-[#444] shadow-xl [&>button]:!border-b-[#333] [&>button]:!text-gray-300 [&>button:hover]:!bg-[#333] fill-gray-400" />
