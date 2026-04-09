@@ -1,9 +1,8 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   ReactFlow,
   Background,
   Controls,
-  MiniMap,
   useNodesState,
   useEdgesState,
   MarkerType,
@@ -14,70 +13,98 @@ import type { Node, Edge, NodeProps } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import type { LearningNode } from '../data/learningMap';
 import { learningMapData } from '../data/learningMap';
-import { Check, Lock, Play, Circle } from 'lucide-react';
+import { Check, Lock, Play, Circle, X, BookOpen, Crown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type CustomNodeType = Node<LearningNode & Record<string, unknown>, 'customTask'>;
 
-const BaseNode = ({ data }: NodeProps<CustomNodeType>) => {
+const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
   const isCompleted = data.status === 'completed';
   const isInProgress = data.status === 'in-progress';
   const isLocked = data.status === 'locked';
   const isAvailable = data.status === 'available';
 
-  // 根据状态设定不同的样式
-  let statusClasses = '';
-  if (isCompleted) {
-    statusClasses = 'border-slate-200 bg-white/80 shadow-[0_4px_20px_rgba(15,23,42,0.06)]';
-  } else if (isInProgress) {
-    statusClasses = 'border-sky-300 bg-sky-50 shadow-[0_8px_30px_rgba(14,165,233,0.15)] ring-2 ring-sky-400/50';
-  } else if (isAvailable) {
-    statusClasses = 'border-slate-300/50 bg-white opacity-90';
-  } else if (isLocked) {
-    statusClasses = 'border-slate-200 bg-slate-100 opacity-60 grayscale';
-  }
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Minecraft Achievement style themes:
+  const themeClasses = useMemo(() => {
+    if (isCompleted) return 'border-[#E2C044] bg-[#2C2B26] shadow-[0_0_15px_rgba(226,192,68,0.4)] ring-[#E2C044]/50';
+    if (isInProgress) return 'border-[#55CCD4] bg-[#1E2E31] shadow-[0_0_15px_rgba(85,204,212,0.4)] ring-[#55CCD4]/50';
+    if (isAvailable) return 'border-[#8A8A8A] bg-[#2A2A2A] hover:border-[#A0A0A0] shadow-[0_4px_10px_rgba(0,0,0,0.5)]';
+    return 'border-[#3A3A3A] bg-[#1A1A1A] opacity-70 grayscale';
+  }, [isCompleted, isInProgress, isAvailable]);
+
+  const iconClasses = useMemo(() => {
+    if (isCompleted) return 'text-[#E2C044] drop-shadow-[0_0_8px_rgba(226,192,68,0.8)]';
+    if (isInProgress) return 'text-[#55CCD4] drop-shadow-[0_0_8px_rgba(85,204,212,0.8)]';
+    if (isAvailable) return 'text-[#CCCCCC]';
+    return 'text-[#555555]';
+  }, [isCompleted, isInProgress, isAvailable]);
 
   return (
-    <div className={`relative flex flex-col p-4 w-64 rounded-2xl border backdrop-blur-md transition-all duration-300 ${statusClasses}`}>
-      <Handle type="target" position={Position.Top} className="!bg-slate-300 !w-3 !h-3 !border-2 !border-white" />
-      
-      <div className="flex items-center gap-3 mb-2">
-        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${isCompleted ? 'bg-slate-800 text-white' : isInProgress ? 'bg-sky-500 text-white' : 'bg-slate-200 text-slate-500'}`}>
-          {isCompleted && <Check size={16} strokeWidth={3} />}
-          {isInProgress && <Play size={16} fill="currentColor" className="ml-0.5" />}
-          {isAvailable && <Circle size={16} />}
-          {isLocked && <Lock size={16} />}
+    <div
+      className="relative flex items-center justify-center p-1 cursor-pointer group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div 
+        className={`relative flex items-center justify-center w-[72px] h-[72px] rounded-xl border-[3px] transition-all duration-300 ${themeClasses} ${selected ? 'ring-4 scale-105' : 'hover:scale-105'} z-10`}
+      >
+        <Handle type="target" position={Position.Top} className="!bg-transparent !border-none !w-4 !h-4" style={{ top: -8 }} />
+        
+        <div className={`transition-all duration-300 ${iconClasses}`}>
+          {isCompleted ? <Crown size={32} strokeWidth={2} /> : 
+           isInProgress ? <Play size={32} fill="currentColor" /> : 
+           isAvailable ? <Circle size={32} strokeWidth={3} /> : 
+           <Lock size={32} />}
         </div>
-        <div className="flex-1">
-          <p className={`text-xs font-bold uppercase tracking-wider ${isInProgress ? 'text-sky-600' : 'text-slate-500'}`}>
-            {data.status === 'in-progress' ? '进行中' : data.status === 'completed' ? '已完成' : data.status === 'locked' ? '未解锁' : '可开始'}
-          </p>
-          <h3 className="text-sm font-semibold text-slate-800 mt-0.5 leading-tight">{data.title}</h3>
-        </div>
-      </div>
-      
-      <p className="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
-        {data.description}
-      </p>
 
-      <Handle type="source" position={Position.Bottom} className="!bg-sky-400 !w-3 !h-3 !border-2 !border-white" />
+        <Handle type="source" position={Position.Bottom} className="!bg-transparent !border-none !w-4 !h-4" style={{ bottom: -8 }} />
+      </div>
+
+      {/* Hover Tooltip (Minecraft Advancement style popup) */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
+            className={`absolute z-50 left-[90px] top-0 min-w-[240px] p-4 rounded-lg border-2 !pointer-events-none
+              ${isCompleted ? 'border-[#E2C044] bg-[#2C2B26]/95' : 
+                isInProgress ? 'border-[#55CCD4] bg-[#1E2E31]/95' : 
+                'border-[#8A8A8A] bg-[#2A2A2A]/95'} 
+              backdrop-blur-md shadow-2xl origin-top-left`}
+          >
+            <div className="flex flex-col gap-2">
+              <h3 className={`text-base font-bold font-sans ${isCompleted ? 'text-[#E2C044]' : isInProgress ? 'text-[#55CCD4]' : 'text-gray-200'}`}>
+                {data.title}
+              </h3>
+              <p className="text-xs text-gray-400 font-sans leading-relaxed line-clamp-3">
+                {data.description}
+              </p>
+              {data.status === 'locked' && (
+                <div className="mt-2 inline-block px-2 py-1 bg-red-900/40 border border-red-800 rounded text-[10px] text-red-500 font-mono tracking-wider w-max">
+                  未解锁 - 需完成前置
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-
-const nodeTypes = {
-  customTask: BaseNode,
-};
+const nodeTypes = { customTask: BaseNode };
 
 export default function LearningMap() {
-  const [selectedNode, setSelectedNode] = React.useState<LearningNode | null>(null);
+  const [selectedNode, setSelectedNode] = useState<LearningNode | null>(null);
 
-  // 从原始数据中派生 XYFlow 的 Node 和 Edge
   const initialNodes: Node[] = useMemo(() => {
     return learningMapData.map((node) => ({
       id: node.id,
       type: 'customTask',
-      position: node.position || { x: Math.random() * 500, y: Math.random() * 500 },
+      position: node.position || { x: 0, y: 0 },
       data: { ...node },
     }));
   }, []);
@@ -87,19 +114,24 @@ export default function LearningMap() {
     learningMapData.forEach((node) => {
       node.dependsOn.forEach((depId) => {
         const isDepCompleted = learningMapData.find(n => n.id === depId)?.status === 'completed';
+        const targetColor = node.status === 'completed' ? '#E2C044' : node.status === 'in-progress' ? '#55CCD4' : '#8A8A8A';
+        const strokeColor = isDepCompleted ? targetColor : '#3A3A3A';
+        
         edges.push({
           id: `e-${depId}-${node.id}`,
           source: depId,
           target: node.id,
+          // Minecraft wiring style - step line
+          type: 'step',
           animated: isDepCompleted && node.status !== 'completed',
           style: { 
-            stroke: isDepCompleted ? '#0ea5e9' : '#cbd5e1',
-            strokeWidth: isDepCompleted ? 2 : 1,
+            stroke: strokeColor,
+            strokeWidth: isDepCompleted ? 3 : 2,
             opacity: node.status === 'locked' ? 0.3 : 1
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
-            color: isDepCompleted ? '#0ea5e9' : '#cbd5e1',
+            color: strokeColor,
           },
         });
       });
@@ -111,16 +143,15 @@ export default function LearningMap() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   return (
-    <div className="w-full h-[600px] sm:h-[700px] rounded-[30px] border border-slate-200/60 bg-white/70 backdrop-blur-xl overflow-hidden relative shadow-[0_15px_40px_rgba(15,23,42,0.06)]">
-      <div className="absolute top-6 left-6 z-10 pointer-events-none">
-        <span className="inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-medium tracking-wider bg-sky-50 text-sky-600 border border-sky-100 shadow-sm">
-          核心探索地图
-        </span>
-        <h2 className="text-2xl font-semibold text-slate-900 mt-3 drop-shadow-sm">
-          课程进度图谱
+    <div className="w-full h-[600px] sm:h-[800px] rounded-[24px] overflow-hidden relative bg-[#121212] border border-[#2a2a2a] shadow-[0_0_50px_rgba(0,0,0,0.5)] font-sans">
+      
+      {/* HUD Info */}
+      <div className="absolute top-8 left-8 z-10 pointer-events-none select-none">
+        <h2 className="text-3xl font-bold text-gray-100 drop-shadow-md tracking-tight">
+          进度与成就
         </h2>
-        <p className="text-slate-500 text-sm mt-1 max-w-xs">
-          拖拽并缩放以查看前置与连结关系，完成前置条件即可解锁核心支线。
+        <p className="text-gray-400 text-sm mt-2 max-w-sm drop-shadow-md">
+          滑动拖拽来探索全景地图，光标悬停查看任务预览，点击方块开启详细档案。
         </p>
       </div>
 
@@ -133,70 +164,127 @@ export default function LearningMap() {
         onPaneClick={() => setSelectedNode(null)}
         nodeTypes={nodeTypes}
         fitView
-        fitViewOptions={{ padding: 0.2 }}
-        minZoom={0.5}
-        maxZoom={1.5}
+        fitViewOptions={{ padding: 0.3, minZoom: 0.5, maxZoom: 1.5 }}
+        minZoom={0.3}
+        maxZoom={2.0}
         className="bg-transparent"
+        proOptions={{ hideAttribution: true }}
       >
-        <Background gap={40} size={1} color="rgba(15,23,42,0.04)" />
-        <Controls showInteractive={false} className="!bg-white border !border-slate-200 shadow-md [&>button]:!border-b-slate-100 [&>button]:!text-slate-600 [&>button:hover]:!bg-slate-50 fill-slate-500" />
-        <MiniMap 
-          className="!bg-white/90 !border-slate-200 shadow-lg rounded-xl overflow-hidden" 
-          maskColor="rgba(248, 250, 252, 0.7)" 
-          nodeColor={(n: Node) => {
-            const status = (n.data as unknown as LearningNode)?.status;
-            if (status === 'completed') return '#94a3b8';
-            if (status === 'in-progress') return '#38bdf8';
-            return '#e2e8f0';
-          }}
-        />
+        <Background gap={48} size={2} color="rgba(255,255,255,0.03)" />
+        <Controls showInteractive={false} className="!bg-[#222] border !border-[#444] shadow-xl [&>button]:!border-b-[#333] [&>button]:!text-gray-300 [&>button:hover]:!bg-[#333] fill-gray-400" />
       </ReactFlow>
 
-      {/* 详情抽屉 (Sidebar Drawer) */}
-      <div 
-        className={`absolute top-0 right-0 w-80 h-full bg-white border-l border-slate-200 shadow-[-10px_0_30px_rgba(15,23,42,0.08)] transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-20 ${selectedNode ? 'translate-x-0' : 'translate-x-full'}`}
-      >
+      {/* Detail Modal Overlay with framer-motion */}
+      <AnimatePresence>
         {selectedNode && (
-          <div className="p-6 h-full flex flex-col">
-            <button 
-              className="self-end text-slate-500 hover:text-slate-800 transition-colors bg-slate-100 p-1.5 rounded-md border border-slate-200" 
-              onClick={() => setSelectedNode(null)}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
+            onClick={() => setSelectedNode(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -10 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl bg-[#1a1c1e] border border-[#333] rounded-2xl shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col"
             >
-              关闭
-            </button>
-            <div className="mt-4 flex-1">
-              <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-medium tracking-wider mb-4 ${selectedNode.status === 'in-progress' ? 'bg-sky-50 text-sky-600 border border-sky-200' : 'bg-slate-100 text-slate-600 border border-slate-200'}`}>
-                {selectedNode.status === 'in-progress' ? 'STATUS: ACTIVE' : `STATUS: ${selectedNode.status.toUpperCase()}`}
-              </span>
-              <h3 className="text-xl font-semibold text-slate-900 mb-4">{selectedNode.title}</h3>
-              <p className="text-sm text-slate-600 leading-7">{selectedNode.description}</p>
-              
-              <div className="mt-8 pt-6 border-t border-slate-100">
-                <p className="text-xs uppercase text-slate-400 font-semibold mb-2 tracking-widest">Metadata</p>
-                <div className="grid grid-cols-2 gap-4 text-sm mt-3">
-                  <div>
-                    <p className="text-slate-400 mb-1 leading-none">类型</p>
-                    <p className="text-slate-700 font-medium">{selectedNode.type === 'main' ? '主线任务' : '支线拓展'}</p>
+              {/* Header */}
+              <div 
+                className={`px-8 py-6 border-b-2 flex items-center justify-between
+                  ${selectedNode.status === 'completed' ? 'bg-[#E2C044]/10 border-[#E2C044]/30' : 
+                    selectedNode.status === 'in-progress' ? 'bg-[#55CCD4]/10 border-[#55CCD4]/30' : 
+                    'bg-[#2A2A2A] border-[#444]'}
+                `}
+              >
+                <div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2.5 py-1 text-xs font-bold font-mono rounded tracking-widest uppercase
+                      ${selectedNode.status === 'completed' ? 'bg-[#E2C044] text-black' : 
+                        selectedNode.status === 'in-progress' ? 'bg-[#55CCD4] text-black' : 
+                        selectedNode.status === 'available' ? 'bg-[#555] text-white' : 
+                        'bg-red-900/50 text-red-200 border border-red-800'}
+                    `}>
+                      {selectedNode.status === 'in-progress' ? '进行中' : 
+                       selectedNode.status === 'completed' ? '已完成' : 
+                       selectedNode.status === 'locked' ? '锁定中' : '可供探索'}
+                    </span>
+                    <span className="text-gray-400 text-sm font-mono tracking-widest uppercase flex items-center gap-1">
+                      <BookOpen size={14} /> {selectedNode.type === 'main' ? '核心主线' : '扩展支线'}
+                    </span>
                   </div>
-                  <div>
-                    <p className="text-slate-400 mb-1 leading-none">XP 奖励</p>
-                    <p className="text-slate-700 font-medium">+{selectedNode.xp}</p>
+                  <h2 className={`mt-3 text-3xl font-extrabold tracking-tight
+                    ${selectedNode.status === 'completed' ? 'text-[#E2C044]' : 
+                      selectedNode.status === 'in-progress' ? 'text-[#55CCD4]' : 
+                      'text-gray-100'}
+                  `}>
+                    {selectedNode.title}
+                  </h2>
+                </div>
+                
+                <button 
+                  onClick={() => setSelectedNode(null)}
+                  className="p-2 bg-black/20 hover:bg-black/40 rounded-full text-gray-400 hover:text-white transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Content Body */}
+              <div className="p-8 pb-10 flex-1 bg-gradient-to-b from-[#1a1c1e] to-[#121212]">
+                <div className="prose prose-invert max-w-none">
+                  <p className="text-lg leading-relaxed text-gray-300">
+                    {selectedNode.description}
+                  </p>
+                  
+                  {/* Detailed Content Box */}
+                  <div className="mt-8 pt-6 border-t border-white/5">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <span className="text-[#55CCD4]">#</span> 任务日志与详情
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-[#222] p-4 rounded-xl border border-white/5">
+                        <div className="text-sm text-gray-500 mb-1">经验值 (XP)</div>
+                        <div className="text-2xl font-mono text-white flex items-center gap-2">
+                          {selectedNode.xp || 0} <span className="text-[#E2C044] text-sm">✨</span>
+                        </div>
+                      </div>
+                      <div className="bg-[#222] p-4 rounded-xl border border-white/5">
+                        <div className="text-sm text-gray-500 mb-1">前置要求</div>
+                        <div className="text-lg text-gray-200">
+                          {selectedNode.dependsOn.length > 0 ? `${selectedNode.dependsOn.length} 项前置任务` : '无前置要求'}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                {/* Footer Actions */}
+                <div className="mt-10 pt-6 border-t border-white/10 flex justify-end gap-4">
+                  {(selectedNode.status === 'available' || selectedNode.status === 'in-progress') && (
+                    <button className="px-6 py-3 bg-[#55CCD4] hover:bg-[#45b8c0] text-black font-bold rounded-xl transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-[0_0_15px_rgba(85,204,212,0.4)]">
+                      <Play size={18} fill="currentColor" /> {selectedNode.status === 'in-progress' ? '继续执行' : '开始任务'}
+                    </button>
+                  )}
+                  {selectedNode.status === 'completed' && (
+                    <button className="px-6 py-3 bg-[#E2C044] hover:bg-[#d0b03e] text-black font-bold rounded-xl transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-[0_0_15px_rgba(226,192,68,0.4)]">
+                      <Check size={18} strokeWidth={3} /> 温故知新
+                    </button>
+                  )}
+                  {selectedNode.status === 'locked' && (
+                    <button className="px-6 py-3 bg-[#333] text-gray-500 font-bold rounded-xl cursor-not-allowed flex items-center gap-2">
+                      <Lock size={18} /> 前置未完成
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-            
-            <div className="mt-auto pt-6 border-t border-slate-100">
-              <button 
-                className={`w-full py-3 rounded-xl font-medium transition-colors ${selectedNode.status === 'available' ? 'bg-sky-500 hover:bg-sky-600 text-white shadow-[0_5px_15px_rgba(14,165,233,0.3)]' : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'}`}
-                disabled={selectedNode.status !== 'available'}
-              >
-                {selectedNode.status === 'available' ? '开始此阶段' : selectedNode.status === 'in-progress' ? '前往任务面板' : selectedNode.status === 'locked' ? '条件未满足' : '阶段已完成'}
-              </button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </div>
   );
 }
