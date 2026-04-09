@@ -52,7 +52,7 @@ const alternatePath = '\/' + '\/';
                         </svg>
                     </div>
                     <p class="text-white/70 text-lg md:text-xl leading-relaxed font-light">
-                        This space explores the <strong>\</strong> dimension. Rebuilt with deep precision, ambient glassmorphism, and minimal cognitive load¡ªembodying an immersive cinematic aesthetic.
+                        This space explores the <strong>\</strong> dimension. Rebuilt with deep precision, ambient glassmorphism, and minimal cognitive loadï¿½ï¿½embodying an immersive cinematic aesthetic.
                     </p>
                 </div>
             </div>
