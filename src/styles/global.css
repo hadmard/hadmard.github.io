@@ -1,5 +1,5 @@
-/* 文件说明：该文件定义全站视觉基线与共享样式。 */
-/* 功能说明：导入 Tailwind 4，定义暗色模式主题变量，实现数字工坊/节点图谱风格。 */
+/* 文件说明：该文件定义全站视觉基线与共享样式�?*/
+/* 功能说明：导�?Tailwind 4，定义暗色模式主题变量，实现数字工坊/节点图谱风格�?*/
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap");
 @import "tailwindcss";
 
@@ -14,18 +14,21 @@
 	--color-surface-strong: rgba(255, 255, 255, 0.95);
 	--color-line: rgba(15, 23, 42, 0.08);
 	
-	/* 强调色：Sky 蓝为主 */
+	/* 强调色：Sky 蓝为�?*/
 	--color-accent: #0ea5e9; /* sky-500 */
 	--color-accent-strong: #0284c7; /* sky-600 */
 	--color-accent-soft: rgba(14, 165, 233, 0.1);
 	
-	/* 阴影与光晕 */
+	/* 阴影与光�?*/
 	--shadow-panel: 0 1px 3px rgba(0,0,0,0.02), 0 20px 40px rgba(15, 23, 42, 0.05);
-	--shadow-lift: 0 1px 3px rgba(0,0,0,0.02), 0 25px 50px rgba(15, 23, 42, 0.08), 0 0 15px rgba(14, 165, 233, 0.15);
+	--shadow-lift: 0 1px 3px rgba(0,0,0,0.02), 0 25px 50px rgba(15, 23, 42, 0.08), 0 0 15px rgba(14, 165, 233, 0.4);
 }
 
 @layer base {
 	html {
+                background-color: #020617;
+                color: #f8fafc;
+
 		scroll-behavior: smooth;
 	}
 
@@ -87,13 +90,13 @@
 		pointer-events: none;
 		z-index: -3;
 		background-image:
-			linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+			linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 		background-size: 60px 60px;
 		mask-image: radial-gradient(circle at center top, black 0%, transparent 80%);
 	}
 
-	/* 发光环境球 */
+	/* 发光环境�?*/
 	.ambient-layer {
 		position: fixed;
 		inset: auto;
@@ -110,7 +113,7 @@
 		right: 15%;
 		width: 400px;
 		height: 400px;
-		background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+		background: radial-gradient(circle, rgba(14, 165, 233, 0.4) 0%, transparent 70%);
 	}
 
 	.ambient-layer-secondary {
@@ -118,7 +121,7 @@
 		bottom: -150px;
 		width: 500px;
 		height: 500px;
-		background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+		background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
 		animation-delay: -10s;
 	}
 
@@ -132,7 +135,7 @@
 		@apply sticky top-4 z-20 rounded-full border px-4 py-3 backdrop-blur-xl transition-all;
 		border-color: rgba(15, 23, 42, 0.06);
 		background: rgba(255, 255, 255, 0.7);
-		box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+		box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
 	}
 
 	.nav-link {
@@ -141,7 +144,7 @@
 	}
 
 	.nav-link:hover {
-		background: rgba(15, 23, 42, 0.04);
+		background: rgba(255, 255, 255, 0.05);
 		color: var(--color-ink);
 	}
 
@@ -213,7 +216,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	html { scroll-behavior: auto; }
+	html {
+                background-color: #020617;
+                color: #f8fafc;
+ scroll-behavior: auto; }
 	*, *::before, *::after {
 		animation-duration: 0.01ms !important;
 		animation-iteration-count: 1 !important;
@@ -225,6 +231,7 @@
 		transform: none !important;
 	}
 }
+
 
 
 

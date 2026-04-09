@@ -5,28 +5,36 @@ import { getCopy, localePath } from '../utils/i18n';
 
 const locale = 'zh-cn';
 const copy = getCopy(locale);
-const alternatePath = '/en/' + 'projects';
+const alternatePath = '/en/' + 'projects/';
 ---
 
 <Layout
     title={`${copy.nav.find(i=>i.id==='projects')?.label||'projects'} | ${copy.brand.name}`}
     description={copy.seo.description}
     lang={locale}
-    canonicalPath={`/projects`}
+    canonicalPath={`/projects/`}
     alternatePath={alternatePath}
 >
-    <main class="site-shell mx-auto px-4 py-8">
+    <!-- Background Header Image -->
+    <div class="fixed inset-0 z-[-1] min-h-[50vh] bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat opacity-20 mix-blend-screen pointer-events-none fade-in duration-1000" style="mask-image:linear-gradient(to bottom,black 0%,transparent 100%)"></div>
+
+    <main class="site-shell mx-auto px-4 sm:px-8 lg:px-12 py-8 min-h-screen relative z-10 w-full">
         <SiteHeader locale={locale} alternatePath={alternatePath} />
         
-        <section id="projects" class="max-w-4xl mx-auto w-full mt-12 px-6">
-            <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out">
-                <div class="text-center space-y-4">
-                    <h1 class="text-4xl md:text-5xl font-semibold tracking-tight text-white/90 capitalize">{copy['projects']?.title || 'projects'}</h1>
-                    <p class="text-lg text-white/50">{copy['projects']?.intro || ''}</p>
+        <section id="projects" class="max-w-5xl mx-auto w-full mt-24 px-6 isolate">
+            <div class="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out">
+                <div class="text-center space-y-6">
+                    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 capitalize">{copy['projects']?.title || 'projects'}</h1>
+                    <p class="text-xl md:text-2xl text-white/50 font-light">{copy['projects']?.intro || ''}</p>
                 </div>
-                <div class="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl transition group hover:bg-white/[0.03]">
-                    <p class="text-white/60 leading-relaxed font-light">
-                        This space embodies the <strong>projects</strong> focus. Functioning on pure precision, glassmorphism, and minimal cognitive load, representing a more mature, Apple-styled aesthetic.
+                <div class="p-10 md:p-16 rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] transition group hover:bg-white/[0.05] hover:border-white/20 duration-500">
+                    <div class="flex items-center justify-center w-20 h-20 rounded-full bg-white/10 mb-8 shadow-inner shadow-white/20">
+                        <svg class="w-10 h-10 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <p class="text-white/70 text-lg md:text-xl leading-relaxed font-light">
+                        This space explores the <strong>projects</strong> dimension. Rebuilt with deep precision, ambient glassmorphism, and minimal cognitive load—embodying an immersive cinematic aesthetic.
                     </p>
                 </div>
             </div>

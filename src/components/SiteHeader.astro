@@ -1,11 +1,11 @@
-﻿---
+---
 import { getCopy, localePath } from '../utils/i18n';
 import LocaleSwitch from './LocaleSwitch.astro';
 const { locale, alternatePath } = Astro.props;
 const copy = getCopy(locale);
 
 const getHref = (id) => {
-    return locale === 'zh-cn' ? '/' + id : '/en/' + id;
+    return locale === 'zh-cn' ? '/' + id + '/' : '/en/' + id + '/';
 };
 ---
 
@@ -36,3 +36,4 @@ const getHref = (id) => {
         <LocaleSwitch currentLocale={locale} href={alternatePath} />
     </div>
 </header>
+
