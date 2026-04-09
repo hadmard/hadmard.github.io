@@ -1,0 +1,38 @@
+﻿---
+import { getCopy, localePath } from '../utils/i18n';
+import LocaleSwitch from './LocaleSwitch.astro';
+const { locale, alternatePath } = Astro.props;
+const copy = getCopy(locale);
+
+const getHref = (id) => {
+    return locale === 'zh-cn' ? '/' + id : '/en/' + id;
+};
+---
+
+<header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4">
+    <div class="space-y-1">
+        <p class="text-sm font-medium">{copy.brand.name}</p>
+        <p class="text-sm" style="color: var(--color-ink-soft);">{copy.brand.caption}</p>
+    </div>
+    <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+        <nav class="flex flex-wrap items-center gap-1"> 
+            {
+                copy.nav.map((item) => {
+                    const currentPath = Astro.url.pathname.replace(/\/$/, '');
+                    const targetPath = getHref(item.id).replace(/\/$/, '');
+                    const isActive = currentPath === targetPath || (currentPath === '' && targetPath === '') || (currentPath === '/en' && targetPath === '/en');
+                    
+                    return (
+                        <a 
+                            class={isActive ? 'nav-link active bg-white/10 text-white' : 'nav-link'} 
+                            href={targetPath || '/'}
+                        >
+                            {item.label}
+                        </a>
+                    );
+                })
+            }
+        </nav>
+        <LocaleSwitch currentLocale={locale} href={alternatePath} />
+    </div>
+</header>
