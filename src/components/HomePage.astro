@@ -67,7 +67,8 @@ async function loadSyncedInvestmentFeed() {
 	const baseDir = path.resolve(process.cwd(), 'custom/cc98-investment-crawler/output/topic-6450962');
 	const summary = await readJsonFile<SyncedSummaryRecord>(path.join(baseDir, 'records/investment-summary.json'));
 	const topic = summary?.topic ?? (await readJsonFile<SyncedTopicRecord>(path.join(baseDir, 'raw/topic.json')));
-	const postPages = await readJsonFile<Array<{ items?: SyncedPostRecord[] }>>(path.join(baseDir, 'raw/posts.json'));
+        const postPagesRaw = await readJsonFile<any>(path.join(baseDir, 'raw/posts.json'));
+        const postPages = Array.isArray(postPagesRaw) ? postPagesRaw : (postPagesRaw ? [postPagesRaw] : []);
 	const posts = (postPages ?? [])
 		.flatMap((page) => page.items ?? [])
 		.map((post, index) => ({
