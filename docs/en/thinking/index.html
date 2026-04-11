@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.0.7"><meta name="description" content="A personal homepage for learning progress, project targets, thinking notes, and long-term iteration."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/thinking/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/thinking/"><title>Thinking | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DmQZLfuR.js"></script><link rel="stylesheet" href="/_astro/SiteHeader.BNb2CVvS.css"></head> <body>  <main class="site-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <div class="space-y-1"> <p class="text-sm font-semibold text-slate-900">Yfcccc</p> <p class="text-sm" style="color: var(--color-ink-soft);">Personal Blog · Long-Horizon Research and Iteration</p> </div> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/progress"> Progress </a><a class="nav-link" href="/en/projects"> Projects </a><a class="nav-link active" href="/en/thinking"> Thinking </a><a class="nav-link" href="/en/resume"> Resume </a> </nav> <a href="/thinking/" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 shadow-[0_4px_12px_rgba(15,23,42,0.06)] transition duration-300 hover:border-slate-300 hover:bg-slate-50"> <span class="rounded-full px-2 py-1 text-[11px] text-slate-500">中</span> <span class="rounded-full px-2 py-1 text-[11px] bg-blue-50 text-blue-700">EN</span> </a> </div> </header> <section class="mx-auto mt-12 mb-24 w-full max-w-5xl" data-reveal> <div class="panel p-8 sm:p-10"> <p class="section-kicker">Thinking</p> <h1 class="section-title mt-3">Thinking Notes</h1> <div class="mt-8 border-t border-slate-200/80"> <article class="data-row md:grid-cols-[1fr_2.2fr]"> <div class="font-semibold text-slate-900">test</div> <div>Placeholder entry requested by you. It will be replaced with real notes later.</div> </article> </div> </div> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+		</script> </body> </html>

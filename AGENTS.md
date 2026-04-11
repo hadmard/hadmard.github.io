@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.23-astro-single-site-merge.md`
+最新一期路径：`custom/notes/v1.24-astro-home-showcase-and-subpages.md`
 
 ## 1. 基本原则
 

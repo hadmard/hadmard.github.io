@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { getCopy } from '../../utils/i18n';
+
+const locale = 'en';
+const copy = getCopy(locale);
+const alternatePath = '/thinking/';
+---
+
+<Layout
+  title={`Thinking | ${copy.brand.name}`}
+  description={copy.seo.description}
+  lang={locale}
+  canonicalPath="/en/thinking/"
+  alternatePath={alternatePath}
+>
+  <main class="site-shell">
+    <SiteHeader locale={locale} alternatePath={alternatePath} />
+
+    <section class="mx-auto mt-12 mb-24 w-full max-w-5xl" data-reveal>
+      <div class="panel p-8 sm:p-10">
+        <p class="section-kicker">Thinking</p>
+        <h1 class="section-title mt-3">Thinking Notes</h1>
+
+        <div class="mt-8 border-t border-slate-200/80">
+          <article class="data-row md:grid-cols-[1fr_2.2fr]">
+            <div class="font-semibold text-slate-900">test</div>
+            <div>Placeholder entry requested by you. It will be replaced with real notes later.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

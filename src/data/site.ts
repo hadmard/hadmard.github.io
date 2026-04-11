@@ -113,7 +113,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 	'zh-cn': {
 		brand: {
 			name: 'Yfcccc',
-			caption: '视觉算法研究者',
+			caption: '个人博客 · 长期研究与项目迭代',
 		},
 		seo: {
 			title: 'Yfcccc | 个人研究主页',
@@ -128,11 +128,11 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		hero: {
 			badge: 'YFCCCC / ASTRO / GITHUB PAGES',
 			eyebrow: '一个面向长期主义的个人研究与项目迭代界面',
-			title: '这个网站用于展示我的学习进度、项目目标与思考记录。',
+			title: '欢迎来到 Yfcccc 的个人博客。',
 			description:
-				'你访问的是我持续维护的个人主页：左到右进度图对应知识深度，项目区聚焦可执行目标，思考区用于沉淀过程性认知。',
-			primaryCta: '查看进度',
-			secondaryCta: '查看项目目标',
+				'这里是展示层首页：用于说明网站定位与方向。具体内容请通过右上角栏目进入对应子页面查看。',
+			primaryCta: '进入进度页',
+			secondaryCta: '进入项目页',
 			modes: ['Vision Algorithms', 'Image Fusion', 'AI+X', 'Tech Venture', 'Finance Minor'],
 			contacts: [
 				{ label: 'Personal', value: 'arcsin4130@gmail.com', href: 'mailto:arcsin4130@gmail.com' },
@@ -214,7 +214,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 	en: {
 		brand: {
 			name: 'Yfcccc',
-			caption: 'Visual Algorithm Researcher',
+			caption: 'Personal Blog · Long-Horizon Research and Iteration',
 		},
 		seo: {
 			title: 'Yfcccc | Personal Research Homepage',
@@ -229,11 +229,11 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		hero: {
 			badge: 'YFCCCC / ASTRO / GITHUB PAGES',
 			eyebrow: 'A long-horizon interface for research, projects, and iteration',
-			title: 'This website documents my learning progress, project goals, and thinking notes.',
+			title: 'Welcome to Yfcccc\'s personal blog.',
 			description:
-				'You are viewing my continuously updated personal homepage: the left-to-right map tracks knowledge depth, projects define executable targets, and thinking captures process-level reasoning.',
-			primaryCta: 'View Progress',
-			secondaryCta: 'View Project Targets',
+				'This homepage is a showcase layer that explains what the site is for. Use the top-right navigation to open focused subpages for details.',
+			primaryCta: 'Open Progress',
+			secondaryCta: 'Open Projects',
 			modes: ['Vision Algorithms', 'Image Fusion', 'AI+X', 'Tech Venture', 'Finance Minor'],
 			contacts: [
 				{ label: 'Personal', value: 'arcsin4130@gmail.com', href: 'mailto:arcsin4130@gmail.com' },

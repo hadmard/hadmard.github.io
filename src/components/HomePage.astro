@@ -2,9 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from './SiteHeader.astro';
 import { getCopy, localePath } from '../utils/i18n';
-import LearningMap from './LearningMap';
 
-const { locale, thoughts } = Astro.props;
+const { locale } = Astro.props;
 const copy = getCopy(locale);
 const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
 ---
@@ -31,66 +30,17 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
                 </p>
                 <div class="mt-8 flex flex-wrap items-center gap-3">
                     <a
-                        href={locale === 'zh-cn' ? '/#progress' : '/en/#progress'}
+                        href={locale === 'zh-cn' ? '/progress/' : '/en/progress/'}
                         class="inline-flex items-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                     >
-                        {copy.hero?.primaryCta || (locale === 'zh-cn' ? '查看进度' : 'View Progress')}
+                        {copy.hero?.primaryCta || (locale === 'zh-cn' ? '进入进度页' : 'Open Progress')}
                     </a>
                     <a
-                        href={locale === 'zh-cn' ? '/#projects' : '/en/#projects'}
+                        href={locale === 'zh-cn' ? '/projects/' : '/en/projects/'}
                         class="signal-pill"
                     >
-                        {copy.hero?.secondaryCta || (locale === 'zh-cn' ? '查看项目目标' : 'View Project Targets')}
+                        {copy.hero?.secondaryCta || (locale === 'zh-cn' ? '进入项目页' : 'Open Projects')}
                     </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="progress" class="mx-auto mt-16 mb-20 w-full max-w-5xl" data-reveal>
-            <div class="mb-6 px-1">
-                <h2 class="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Progress</h2>
-                <p class="mt-2 text-sm text-slate-500 sm:text-base">
-                    从左到右表示知识深度，列内是并列任务，列间是递进关系。
-                </p>
-            </div>
-
-            <div class="panel overflow-hidden rounded-3xl">
-                <div class="relative w-full h-[70vh] sm:h-[78vh]">
-                    <LearningMap client:load />
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="mx-auto mt-10 mb-20 w-full max-w-5xl" data-reveal>
-            <div class="panel p-8 sm:p-10">
-                <p class="section-kicker">Projects</p>
-                <h2 class="section-title mt-3">项目目标</h2>
-                <div class="mt-8 border-t border-slate-200/80">
-                    <article class="data-row md:grid-cols-[1.4fr_2fr]">
-                        <div class="font-semibold text-slate-900">Internship Goal: Google / Meta / Jane Street</div>
-                        <div>目标进入国际大厂实习，证明可交付的算法、系统和工程协作能力。</div>
-                    </article>
-                    <article class="data-row md:grid-cols-[1.4fr_2fr]">
-                        <div class="font-semibold text-slate-900">Project A: Research-to-Execution Pipeline</div>
-                        <div>完成从假设、实验、验证到部署监控的一体化流程。</div>
-                    </article>
-                    <article class="data-row md:grid-cols-[1.4fr_2fr]">
-                        <div class="font-semibold text-slate-900">Project B: Risk-Aware Allocation Engine</div>
-                        <div>构建带约束的决策层，把模型信号转化为可审计的配置方案。</div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section id="thinking" class="mx-auto mt-10 mb-20 w-full max-w-5xl" data-reveal>
-            <div class="panel p-8 sm:p-10">
-                <p class="section-kicker">Thinking</p>
-                <h2 class="section-title mt-3">个人思考</h2>
-                <div class="mt-8 border-t border-slate-200/80">
-                    <article class="data-row md:grid-cols-[1fr_2.2fr]">
-                        <div class="font-semibold text-slate-900">test</div>
-                        <div>这是新增的占位条目，后续会替换成正式思考内容。</div>
-                    </article>
                 </div>
             </div>
         </section>
