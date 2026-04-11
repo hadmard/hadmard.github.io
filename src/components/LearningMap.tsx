@@ -153,7 +153,7 @@ export default function LearningMap() {
           MINECRAFT STYLE 进度树
         </h2>
         <p className="text-[#4b3f2f] text-xs mt-2 max-w-sm leading-6">
-          固定布局，不可拖动。悬停看摘要，点击节点看详情。
+          固定布局，分区主线推进，底部项目行汇总。悬停看摘要，点击节点看详情。
         </p>
       </div>
 

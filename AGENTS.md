@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.16-learning-map-mc-style-static.md`
+最新一期路径：`custom/notes/v1.17-learning-map-sections-and-project-row.md`
 
 ## 1. 基本原则
 
