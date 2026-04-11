@@ -3,7 +3,6 @@ import {
   ReactFlow,
   Background,
   BackgroundVariant,
-  Controls,
   useNodesState,
   useEdgesState,
   MarkerType,
@@ -14,7 +13,7 @@ import type { Node, Edge, NodeProps } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import type { LearningNode } from '../data/learningMap';
 import { learningMapData } from '../data/learningMap';
-import { Check, Lock, Play, Circle, X, BookOpen, Crown } from 'lucide-react';
+import { Check, Lock, Play, Circle, X, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type CustomNodeType = Node<LearningNode & Record<string, unknown>, 'customTask'>;
@@ -26,38 +25,34 @@ const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
 
   const [isHovered, setIsHovered] = useState(false);
 
-  // 颜色参考 Google 四色体系，并在明度上压低，保证浅色底下可读。
+  // 以像素风任务树为核心，采用方块色块与硬边阴影。
   const themeClasses = useMemo(() => {
-    if (isCompleted) return 'border-emerald-300 bg-emerald-50 shadow-[0_10px_24px_rgba(5,150,105,0.18)] text-emerald-700 rounded-[22px]';
-    if (isInProgress) return 'border-blue-300 bg-blue-50 shadow-[0_10px_26px_rgba(37,99,235,0.2)] text-blue-700 rounded-[22px]';
-    if (isAvailable) return 'border-amber-300 bg-amber-50 hover:bg-amber-100 hover:border-amber-400 shadow-[0_8px_20px_rgba(217,119,6,0.16)] text-amber-700 rounded-[22px] transition-all duration-300';
-    return 'border-slate-200 bg-slate-100 opacity-80 text-slate-400 rounded-[22px]';
+    if (isCompleted) return 'border-[#1f5f35] bg-[#6bbf59] shadow-[4px_4px_0_#123920] text-[#102a1a] rounded-none';
+    if (isInProgress) return 'border-[#8a5a1f] bg-[#e0b45c] shadow-[4px_4px_0_#5d3c14] text-[#40270e] rounded-none';
+    if (isAvailable) return 'border-[#43515e] bg-[#9db0c3] hover:bg-[#b2c1cf] shadow-[4px_4px_0_#2f3944] text-[#17222d] rounded-none transition-all duration-200';
+    return 'border-[#424242] bg-[#7a7a7a] text-[#1f1f1f] rounded-none opacity-85';
   }, [isCompleted, isInProgress, isAvailable]);
 
   const iconClasses = useMemo(() => {
-    if (isCompleted) return 'text-emerald-700';
-    if (isInProgress) return 'text-blue-700';
-    if (isAvailable) return 'text-amber-700';
-    return 'text-slate-400';
+    if (isCompleted) return 'text-[#123521]';
+    if (isInProgress) return 'text-[#4a2f11]';
+    if (isAvailable) return 'text-[#1f2a35]';
+    return 'text-[#262626]';
   }, [isCompleted, isInProgress, isAvailable]);
 
   return (
     <div
-      className="relative flex items-center justify-center p-2 cursor-pointer group transition-transform duration-300 hover:scale-105"
+      className="relative flex items-center justify-center p-2 cursor-pointer group transition-transform duration-200 hover:scale-105"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {isInProgress && (
-        <div className="absolute inset-0 z-0 rounded-[24px] bg-blue-400/20 blur-md animate-pulse" />
-      )}
-
       <div
-        className={`relative flex items-center justify-center w-[76px] h-[76px] border-[3px] transition-all duration-300 ${themeClasses} ${selected ? 'ring-4 ring-blue-300 scale-105' : 'hover:scale-105'} z-10`}
+        className={`relative flex items-center justify-center w-[78px] h-[78px] border-[3px] transition-all duration-200 ${themeClasses} ${selected ? 'outline outline-4 outline-[#fff59d] scale-105' : 'hover:scale-105'} z-10`}
       >
         <Handle type="target" position={Position.Top} className="!bg-transparent !border-none !w-4 !h-4" style={{ top: -8 }} />
 
         <div className={`transition-all duration-300 ${iconClasses}`}>
-          {isCompleted ? <Crown size={32} strokeWidth={2} /> :
+          {isCompleted ? <Check size={34} strokeWidth={3} /> :
            isInProgress ? <Play size={32} fill="currentColor" /> :
            isAvailable ? <Circle size={32} strokeWidth={3} /> :
            <Lock size={32} />}
@@ -73,22 +68,18 @@ const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
-            className={`absolute z-50 left-[90px] top-0 min-w-[240px] p-4 rounded-lg border !pointer-events-none
-              ${isCompleted ? 'border-emerald-200 bg-white' :
-                isInProgress ? 'border-blue-300 bg-blue-50' :
-                isAvailable ? 'border-amber-200 bg-white' :
-                'border-slate-200 bg-white'}
-              shadow-xl origin-top-left`}
+            className={`absolute z-50 left-[94px] top-0 min-w-[250px] border-[3px] !pointer-events-none bg-[#f3ead4] shadow-[6px_6px_0_#2a2418] origin-top-left p-3
+              ${isCompleted ? 'border-[#2f6f45]' : isInProgress ? 'border-[#8a5a1f]' : isAvailable ? 'border-[#43515e]' : 'border-[#4a4a4a]'}`}
           >
             <div className="flex flex-col gap-2">
-              <h3 className={`text-base font-bold font-sans ${isCompleted ? 'text-emerald-700' : isInProgress ? 'text-blue-700' : isAvailable ? 'text-amber-700' : 'text-slate-700'}`}>
+              <h3 className={`text-sm font-bold tracking-wide ${isCompleted ? 'text-[#1b4d2d]' : isInProgress ? 'text-[#5b3a14]' : isAvailable ? 'text-[#1f2a35]' : 'text-[#2a2a2a]'}`}>
                 {data.title}
               </h3>
-              <p className="text-xs text-slate-500 font-sans leading-relaxed line-clamp-3">
+              <p className="text-xs text-[#4b3f2f] leading-relaxed line-clamp-3">
                 {data.description}
               </p>
               {data.status === 'locked' && (
-                <div className="mt-2 inline-block px-2 py-1 bg-rose-50 border border-rose-200 rounded text-[10px] text-rose-600 font-mono tracking-wider w-max">
+                <div className="mt-2 inline-block px-2 py-1 bg-[#c0392b] border border-[#7f261d] text-[10px] text-white tracking-wider w-max">
                   未解锁 - 需要完成前置
                 </div>
               )}
@@ -119,8 +110,8 @@ export default function LearningMap() {
     learningMapData.forEach((node) => {
       node.dependsOn.forEach((depId) => {
         const isDepCompleted = learningMapData.find((item) => item.id === depId)?.status === 'completed';
-        const targetColor = node.status === 'completed' ? '#059669' : node.status === 'in-progress' ? '#2563eb' : node.status === 'available' ? '#d97706' : '#94a3b8';
-        const strokeColor = isDepCompleted ? targetColor : '#cbd5e1';
+        const targetColor = node.status === 'completed' ? '#2f6f45' : node.status === 'in-progress' ? '#8a5a1f' : node.status === 'available' ? '#43515e' : '#5b5b5b';
+        const strokeColor = isDepCompleted ? targetColor : '#656565';
 
         edges.push({
           id: `e-${depId}-${node.id}`,
@@ -148,29 +139,30 @@ export default function LearningMap() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   return (
-    <div className="w-full h-[600px] sm:h-[800px] rounded-[24px] overflow-hidden relative bg-[#f8fafc] border border-slate-200 shadow-[0_14px_34px_rgba(15,23,42,0.1)] font-sans">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-blue-300/22 blur-3xl" />
-        <div className="absolute top-12 -right-16 h-64 w-64 rounded-full bg-emerald-300/18 blur-3xl" />
-        <div className="absolute -bottom-20 left-1/3 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl" />
-      </div>
+    <div className="w-full h-[600px] sm:h-[800px] rounded-[24px] overflow-hidden relative border-[3px] border-[#2f2a22] shadow-[0_14px_34px_rgba(0,0,0,0.35)] font-mono bg-[#1b1712]">
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: `
+          linear-gradient(0deg, rgba(0,0,0,0.18), rgba(0,0,0,0.18)),
+          repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 16px),
+          repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 16px)
+        `,
+      }} />
 
-      {/* 地图说明固定在左上角，避免用户首次进入时不知道可以拖拽和点击。 */}
-      <div className="absolute top-8 left-8 z-10 pointer-events-none select-none rounded-2xl border border-white/80 bg-white/85 px-5 py-4 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-md">
-        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">
-          基础进度地图
+      <div className="absolute top-6 left-6 z-10 pointer-events-none select-none border-[3px] border-[#4b3f2d] bg-[#f3ead4] px-4 py-3 shadow-[6px_6px_0_#2a2418]">
+        <h2 className="text-xl font-bold tracking-wide text-[#2c2418]">
+          MINECRAFT STYLE 进度树
         </h2>
-        <p className="text-slate-600 text-sm mt-2 max-w-sm">
-          从数学、编程、算法与系统基础开始，逐步解锁深度学习和机器人学。拖拽探索全景地图，悬停查看摘要，点击节点打开详细档案。
+        <p className="text-[#4b3f2f] text-xs mt-2 max-w-sm leading-6">
+          固定布局，不可拖动。悬停看摘要，点击节点看详情。
         </p>
       </div>
 
-      <div className="absolute bottom-6 left-6 z-10 rounded-2xl border border-white/80 bg-white/85 px-4 py-3 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-md">
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-slate-600">
-          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-emerald-500" />已完成</span>
-          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-blue-500" />进行中</span>
-          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-amber-500" />可开始</span>
-          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-slate-400" />锁定</span>
+      <div className="absolute bottom-6 right-6 z-10 border-[3px] border-[#4b3f2d] bg-[#f3ead4] px-4 py-3 shadow-[6px_6px_0_#2a2418]">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px] text-[#3f3428]">
+          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 bg-[#6bbf59] border border-[#1f5f35]" />已完成</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 bg-[#e0b45c] border border-[#8a5a1f]" />进行中</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 bg-[#9db0c3] border border-[#43515e]" />可开始</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 bg-[#7a7a7a] border border-[#424242]" />锁定</span>
         </div>
       </div>
 
@@ -182,15 +174,20 @@ export default function LearningMap() {
         onNodeClick={(e, node) => setSelectedNode(node.data as unknown as LearningNode)}
         onPaneClick={() => setSelectedNode(null)}
         nodeTypes={nodeTypes}
+        nodesDraggable={false}
+        panOnDrag={false}
+        panOnScroll={false}
+        zoomOnScroll={false}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
         fitView
         fitViewOptions={{ padding: 0.3, minZoom: 0.5, maxZoom: 1.5 }}
-        minZoom={0.3}
-        maxZoom={2.0}
+        minZoom={0.95}
+        maxZoom={1.05}
         proOptions={{ hideAttribution: true }}
         className="!bg-transparent"
       >
-        <Background variant={BackgroundVariant.Dots} gap={32} size={1.3} color="rgba(100,116,139,0.24)" />
-        <Controls showInteractive={false} className="!bg-white/90 border !border-slate-200 shadow-lg [&>button]:!border-b-slate-200 [&>button]:!text-slate-500 [&>button:hover]:!bg-slate-100 fill-slate-500" />
+        <Background variant={BackgroundVariant.Cross} gap={24} size={1.1} color="rgba(255,255,255,0.08)" />
       </ReactFlow>
 
       {/* 点击节点后展示完整说明，避免把课程描述塞进小节点导致阅读困难。 */}
@@ -200,7 +197,7 @@ export default function LearningMap() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/30"
+            className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-black/45"
             onClick={() => setSelectedNode(null)}
           >
             <motion.div
@@ -209,37 +206,37 @@ export default function LearningMap() {
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
               transition={{ type: 'spring', stiffness: 400, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-[0_24px_50px_rgba(15,23,42,0.18)] overflow-hidden flex flex-col"
+              className="relative w-full max-w-2xl bg-[#f3ead4] border-[3px] border-[#3f3428] shadow-[10px_10px_0_#1f1a13] overflow-hidden flex flex-col"
             >
               <div
-                className={`px-8 py-6 border-b-2 flex items-center justify-between
-                  ${selectedNode.status === 'completed' ? 'bg-emerald-50 border-emerald-200' :
-                    selectedNode.status === 'in-progress' ? 'bg-blue-50 border-blue-200' :
-                    selectedNode.status === 'available' ? 'bg-amber-50 border-amber-200' :
-                    'bg-slate-50 border-slate-200'}
+                className={`px-6 py-5 border-b-[3px] flex items-center justify-between
+                  ${selectedNode.status === 'completed' ? 'bg-[#c8efbf] border-[#2f6f45]' :
+                    selectedNode.status === 'in-progress' ? 'bg-[#f0d19a] border-[#8a5a1f]' :
+                    selectedNode.status === 'available' ? 'bg-[#cedae6] border-[#43515e]' :
+                    'bg-[#cfcfcf] border-[#555]'}
                 `}
               >
                 <div>
                   <div className="flex items-center gap-3">
-                    <span className={`px-2.5 py-1 text-xs font-bold font-mono rounded tracking-widest uppercase
-                      ${selectedNode.status === 'completed' ? 'bg-emerald-600 text-white' :
-                        selectedNode.status === 'in-progress' ? 'bg-blue-600 text-white' :
-                        selectedNode.status === 'available' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
-                        'bg-rose-100 text-rose-700 border border-rose-200'}
+                    <span className={`px-2.5 py-1 text-[11px] font-bold tracking-widest uppercase border
+                      ${selectedNode.status === 'completed' ? 'bg-[#6bbf59] border-[#1f5f35] text-[#102a1a]' :
+                        selectedNode.status === 'in-progress' ? 'bg-[#e0b45c] border-[#8a5a1f] text-[#40270e]' :
+                        selectedNode.status === 'available' ? 'bg-[#9db0c3] border-[#43515e] text-[#17222d]' :
+                        'bg-[#7a7a7a] border-[#424242] text-[#1f1f1f]'}
                     `}>
                       {selectedNode.status === 'in-progress' ? '进行中' :
                        selectedNode.status === 'completed' ? '已完成' :
                        selectedNode.status === 'locked' ? '锁定中' : '可开始'}
                     </span>
-                    <span className="text-slate-500 text-sm font-mono tracking-widest uppercase flex items-center gap-1">
+                    <span className="text-[#4b3f2f] text-xs tracking-widest uppercase flex items-center gap-1">
                       <BookOpen size={14} /> {selectedNode.type === 'main' ? '核心主线' : '扩展支线'}
                     </span>
                   </div>
                   <h2 className={`mt-3 text-3xl font-extrabold tracking-tight
-                    ${selectedNode.status === 'completed' ? 'text-emerald-700' :
-                      selectedNode.status === 'in-progress' ? 'text-blue-700' :
-                      selectedNode.status === 'available' ? 'text-amber-700' :
-                      'text-slate-900'}
+                    ${selectedNode.status === 'completed' ? 'text-[#1b4d2d]' :
+                      selectedNode.status === 'in-progress' ? 'text-[#5b3a14]' :
+                      selectedNode.status === 'available' ? 'text-[#1f2a35]' :
+                      'text-[#2a2a2a]'}
                   `}>
                     {selectedNode.title}
                   </h2>
@@ -247,32 +244,32 @@ export default function LearningMap() {
 
                 <button
                   onClick={() => setSelectedNode(null)}
-                  className="p-2 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-500 hover:text-slate-700 transition-colors"
+                  className="p-2 border border-[#4b3f2d] bg-[#efe4cd] hover:bg-[#e5d6ba] text-[#3f3428] transition-colors"
                 >
                   <X size={24} />
                 </button>
               </div>
 
-              <div className="p-8 pb-10 flex-1">
+              <div className="p-6 pb-8 flex-1">
                 <div className="max-w-none">
-                  <p className="text-lg leading-relaxed text-slate-700">
+                  <p className="text-lg leading-relaxed text-[#3d3226]">
                     {selectedNode.description}
                   </p>
 
-                  <div className="mt-8 pt-6 border-t border-slate-200">
-                    <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                      <span className="text-blue-600">#</span> 任务日志与说明
+                  <div className="mt-8 pt-6 border-t-[3px] border-[#d4c2a3]">
+                    <h3 className="text-xl font-bold text-[#2c2418] mb-4 flex items-center gap-2">
+                      <span className="text-[#8a5a1f]">#</span> 任务日志与说明
                     </h3>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <div className="text-sm text-slate-500 mb-1">经验值 (XP)</div>
-                        <div className="text-2xl font-mono text-slate-800 flex items-center gap-2">
-                          {selectedNode.xp || 0} <span className="text-blue-600 text-sm">✓</span>
+                      <div className="bg-[#efe4cd] p-4 border-[2px] border-[#c8b28d]">
+                        <div className="text-xs text-[#5a4a35] mb-1">经验值 (XP)</div>
+                        <div className="text-2xl text-[#2c2418] flex items-center gap-2">
+                          {selectedNode.xp || 0} <span className="text-[#2f6f45] text-sm">✓</span>
                         </div>
                       </div>
-                      <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <div className="text-sm text-slate-500 mb-1">前置要求</div>
-                        <div className="text-lg text-slate-700">
+                      <div className="bg-[#efe4cd] p-4 border-[2px] border-[#c8b28d]">
+                        <div className="text-xs text-[#5a4a35] mb-1">前置要求</div>
+                        <div className="text-lg text-[#2c2418]">
                           {selectedNode.dependsOn.length > 0 ? `${selectedNode.dependsOn.length} 项前置任务` : '无前置要求'}
                         </div>
                       </div>
@@ -280,19 +277,19 @@ export default function LearningMap() {
                   </div>
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-slate-200 flex justify-end gap-4">
+                <div className="mt-10 pt-6 border-t-[3px] border-[#d4c2a3] flex justify-end gap-4">
                   {(selectedNode.status === 'available' || selectedNode.status === 'in-progress') && (
-                    <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-transform hover:scale-105 active:scale-95 flex items-center gap-2">
+                    <button className="px-6 py-3 bg-[#8a5a1f] hover:bg-[#734a19] text-[#fef3de] font-bold border-[2px] border-[#4f3211] transition-transform hover:scale-105 active:scale-95 flex items-center gap-2">
                       <Play size={18} fill="currentColor" /> {selectedNode.status === 'in-progress' ? '继续推进' : '开始任务'}
                     </button>
                   )}
                   {selectedNode.status === 'completed' && (
-                    <button className="px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition-transform hover:scale-105 active:scale-95 flex items-center gap-2">
+                    <button className="px-6 py-3 bg-[#2f6f45] hover:bg-[#245638] text-[#e9ffe8] font-bold border-[2px] border-[#173421] transition-transform hover:scale-105 active:scale-95 flex items-center gap-2">
                       <Check size={18} strokeWidth={3} /> 温故知新
                     </button>
                   )}
                   {selectedNode.status === 'locked' && (
-                    <button className="px-6 py-3 bg-slate-100 text-slate-400 font-bold rounded-xl cursor-not-allowed flex items-center gap-2 border border-slate-200">
+                    <button className="px-6 py-3 bg-[#9a9a9a] text-[#3f3f3f] font-bold border-[2px] border-[#5b5b5b] cursor-not-allowed flex items-center gap-2">
                       <Lock size={18} /> 前置未完成
                     </button>
                   )}
