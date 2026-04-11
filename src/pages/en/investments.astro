@@ -1,43 +1,136 @@
 ---
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import Layout from '../../layouts/Layout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
-import { getCopy, localePath } from '../../utils/i18n';
+import { getCopy } from '../../utils/i18n';
 
 const locale = 'en';
 const copy = getCopy(locale);
-const alternatePath = '/' + 'investments/';
+const alternatePath = '/investments/';
+
+type Cc98Post = {
+    id: number;
+    userName: string | null;
+    content: string;
+    time: string;
+    floor: number;
+    isDeleted: boolean;
+    isLZ: boolean;
+};
+
+type PostPage = {
+    items?: Cc98Post[];
+};
+
+type Summary = {
+    sourceUrl?: string;
+    topic?: {
+        title?: string;
+        authorName?: string;
+        replyCount?: number;
+        hitCount?: number;
+    };
+    postCount?: number;
+    crawledAt?: string;
+};
+
+const outputDir = resolve(process.cwd(), 'custom/cc98-investment-crawler/output/topic-6450962');
+
+let summary: Summary | null = null;
+let records: Cc98Post[] = [];
+
+try {
+    const [summaryRaw, postsRaw] = await Promise.all([
+        readFile(resolve(outputDir, 'records/investment-summary.json'), 'utf-8'),
+        readFile(resolve(outputDir, 'raw/posts.json'), 'utf-8'),
+    ]);
+
+    summary = JSON.parse(summaryRaw) as Summary;
+    const pages = JSON.parse(postsRaw) as PostPage[];
+    const allPosts = pages.flatMap((page) => page.items ?? []);
+
+    const cleanPosts = allPosts
+        .filter((post) => !post.isDeleted && post.content?.trim())
+        .sort((a, b) => a.floor - b.floor);
+
+    const authorName = summary?.topic?.authorName;
+    records = cleanPosts.filter((post) => post.isLZ || (authorName && post.userName === authorName));
+
+    if (!records.length) {
+        records = cleanPosts;
+    }
+} catch {
+    summary = null;
+    records = [];
+}
+
+const crawledAtText = summary?.crawledAt
+    ? new Date(summary.crawledAt).toLocaleString('en-US', { hour12: false })
+    : null;
 ---
 
 <Layout
-    title={`${copy.nav.find(i=>i.id==='investments')?.label||'investments'} | ${copy.brand.name}`}
+    title={`${copy.nav.find((i) => i.id === 'investments')?.label || 'investments'} | ${copy.brand.name}`}
     description={copy.seo.description}
     lang={locale}
-    canonicalPath={`/investments/`}
+    canonicalPath="/en/investments/"
     alternatePath={alternatePath}
 >
-    <!-- Background Header Image -->
-    <div class="fixed inset-0 z-[-1] min-h-[50vh] bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat opacity-20 mix-blend-screen pointer-events-none fade-in duration-1000" style="mask-image:linear-gradient(to bottom,black 0%,transparent 100%)"></div>
-
-    <main class="site-shell mx-auto px-4 sm:px-8 lg:px-12 py-8 min-h-screen relative z-10 w-full">
+    <main class="site-shell">
         <SiteHeader locale={locale} alternatePath={alternatePath} />
-        
-        <section id="investments" class="max-w-5xl mx-auto w-full mt-24 px-6 isolate">
-            <div class="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out">
-                <div class="text-center space-y-6">
-                    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 capitalize">{copy['investments']?.title || 'investments'}</h1>
-                    <p class="text-xl md:text-2xl text-white/50 font-light">{copy['investments']?.intro || ''}</p>
+
+        <section id="investments" class="mx-auto mt-12 mb-20 w-full max-w-5xl" data-reveal>
+            <div class="panel-strong p-8 sm:p-12">
+                <p class="soft-label mb-5">Locally synced from cc98.org</p>
+                <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+                    {summary?.topic?.title || 'Investment Notes'}
+                </h1>
+                <p class="mt-4 max-w-3xl text-slate-600 leading-8">
+                    Your CC98 investment records exist locally. This page now renders those synced entries directly instead of a placeholder.
+                </p>
+
+                <div class="mt-6 flex flex-wrap gap-2">
+                    <span class="signal-pill">Entries: {records.length}</span>
+                    <span class="signal-pill">Total floors: {summary?.postCount ?? '-'}</span>
+                    <span class="signal-pill">Replies: {summary?.topic?.replyCount ?? '-'}</span>
+                    <span class="signal-pill">Views: {summary?.topic?.hitCount ?? '-'}</span>
                 </div>
-                <div class="p-10 md:p-16 rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] transition group hover:bg-white/[0.05] hover:border-white/20 duration-500">
-                    <div class="flex items-center justify-center w-20 h-20 rounded-full bg-white/10 mb-8 shadow-inner shadow-white/20">
-                        <svg class="w-10 h-10 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <p class="text-white/70 text-lg md:text-xl leading-relaxed font-light">
-                        This space explores the <strong>investments</strong> dimension. Rebuilt with deep precision, ambient glassmorphism, and minimal cognitive load—embodying an immersive cinematic aesthetic.
-                    </p>
+
+                <div class="mt-6 text-sm text-slate-500">
+                    <span>Source: </span>
+                    {summary?.sourceUrl ? (
+                        <a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:underline">
+                            {summary.sourceUrl}
+                        </a>
+                    ) : (
+                        <span>Local files</span>
+                    )}
+                    {crawledAtText && <span class="ml-3">Synced at: {crawledAtText}</span>}
                 </div>
             </div>
+        </section>
+
+        <section class="mx-auto mb-24 w-full max-w-5xl" data-reveal>
+            {records.length > 0 ? (
+                <div class="space-y-4">
+                    {records.map((record) => (
+                        <article class="story-card">
+                            <div class="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+                                <span class="signal-pill">Floor #{record.floor}</span>
+                                <span>{record.userName || 'Anonymous'}</span>
+                                <span>{new Date(record.time).toLocaleString('en-US', { hour12: false })}</span>
+                                <span>ID: {record.id}</span>
+                            </div>
+                            <p class="mt-4 whitespace-pre-wrap text-slate-700 leading-8">{record.content}</p>
+                        </article>
+                    ))}
+                </div>
+            ) : (
+                <div class="panel p-8 text-slate-600">
+                    No local records were found for rendering. Please run the CC98 crawler before building this page.
+                </div>
+            )}
         </section>
     </main>
 </Layout>

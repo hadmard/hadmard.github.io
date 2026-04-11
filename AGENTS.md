@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.11-cs-foundation-learning-map.md`
+最新一期路径：`custom/notes/v1.13-investments-page-cc98-local-sync.md`
 
 ## 1. 基本原则
 
