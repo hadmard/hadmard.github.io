@@ -1,6 +1,9 @@
 export type ProjectItem = {
   title: string;
   description: string;
+  depth: number;
+  lane: 'foundation' | 'research' | 'execution' | 'target';
+  isGoal?: boolean;
 };
 
 export type VersionItem = {

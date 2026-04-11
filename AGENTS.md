@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.20-quant-research-interface-refine.md`
+最新一期路径：`custom/notes/v1.21-rightward-depth-and-internship-target.md`
 
 ## 1. 基本原则
 
