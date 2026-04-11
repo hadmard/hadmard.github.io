@@ -112,27 +112,27 @@ interface SiteCopy {
 export const siteCopy: Record<Locale, SiteCopy> = {
 	'zh-cn': {
 		brand: {
-			name: '程翼飞',
+			name: 'Yfcccc',
 			caption: '视觉算法研究者',
 		},
 		seo: {
-			title: '程翼飞 | 视觉算法研究者',
-			description: '程翼飞的个人站点：聚焦视觉算法、图像融合、AI+X、科技创业投资与长期思考。',
+			title: 'Yfcccc | 个人研究主页',
+			description: 'Yfcccc 的个人主页：展示学习进度、项目目标、个人思考与长期迭代。',
 		},
 		nav: [
-			{ id: 'resume', label: '个人简历' },
-			{ id: 'projects', label: '项目经历' },
-			{ id: 'investments', label: '投资记录' },
-			{ id: 'thinking', label: '个人思考' },
+			{ id: 'progress', label: '进度' },
+			{ id: 'projects', label: '项目' },
+			{ id: 'thinking', label: '思考' },
+			{ id: 'resume', label: '简历' },
 		],
 		hero: {
-			badge: 'HADMARD.GITHUB.IO / ASTRO 6 / BILINGUAL',
-			eyebrow: '视觉算法、跨学科训练与长期主义知识资产的起点',
-			title: '研究图像，理解感知，也关心技术如何穿过产业、资本与现实场景。',
+			badge: 'YFCCCC / ASTRO / GITHUB PAGES',
+			eyebrow: '一个面向长期主义的个人研究与项目迭代界面',
+			title: '这个网站用于展示我的学习进度、项目目标与思考记录。',
 			description:
-				'我是程翼飞，一名视觉算法研究者。当前聚焦 UV & white 双源图像融合算法开发，同时在浙江大学完成农业工程主专业，并延伸到科技创业投资、AI+X 与金融学的交叉视角。',
-			primaryCta: '查看个人履历',
-			secondaryCta: '浏览建设计划',
+				'你访问的是我持续维护的个人主页：左到右进度图对应知识深度，项目区聚焦可执行目标，思考区用于沉淀过程性认知。',
+			primaryCta: '查看进度',
+			secondaryCta: '查看项目目标',
 			modes: ['Vision Algorithms', 'Image Fusion', 'AI+X', 'Tech Venture', 'Finance Minor'],
 			contacts: [
 				{ label: 'Personal', value: 'arcsin4130@gmail.com', href: 'mailto:arcsin4130@gmail.com' },
@@ -213,27 +213,27 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 	},
 	en: {
 		brand: {
-			name: 'Cheng Yifei',
+			name: 'Yfcccc',
 			caption: 'Visual Algorithm Researcher',
 		},
 		seo: {
-			title: 'Cheng Yifei | Visual Algorithm Researcher',
-			description: 'A personal site for Cheng Yifei, focused on visual algorithms, image fusion, AI+X, tech venture investing, and long-term thinking.',
+			title: 'Yfcccc | Personal Research Homepage',
+			description: 'A personal homepage for learning progress, project targets, thinking notes, and long-term iteration.',
 		},
 		nav: [
-			{ id: 'resume', label: 'Resume' },
+			{ id: 'progress', label: 'Progress' },
 			{ id: 'projects', label: 'Projects' },
-			{ id: 'investments', label: 'Investments' },
 			{ id: 'thinking', label: 'Thinking' },
+			{ id: 'resume', label: 'Resume' },
 		],
 		hero: {
-			badge: 'HADMARD.GITHUB.IO / ASTRO 6 / BILINGUAL',
-			eyebrow: 'A starting point for visual algorithms, interdisciplinary training, and long-term knowledge building',
-			title: 'Working on images and perception, while also caring about how technology moves through industry, capital, and real-world use.',
+			badge: 'YFCCCC / ASTRO / GITHUB PAGES',
+			eyebrow: 'A long-horizon interface for research, projects, and iteration',
+			title: 'This website documents my learning progress, project goals, and thinking notes.',
 			description:
-				'I am Cheng Yifei, a visual algorithm researcher. My current focus is UV and white dual-source image fusion algorithm development, while my academic path at Zhejiang University extends across Agricultural Engineering, Tech Venture Investing, AI+X, and a minor in Finance.',
-			primaryCta: 'View resume',
-			secondaryCta: 'See what is next',
+				'You are viewing my continuously updated personal homepage: the left-to-right map tracks knowledge depth, projects define executable targets, and thinking captures process-level reasoning.',
+			primaryCta: 'View Progress',
+			secondaryCta: 'View Project Targets',
 			modes: ['Vision Algorithms', 'Image Fusion', 'AI+X', 'Tech Venture', 'Finance Minor'],
 			contacts: [
 				{ label: 'Personal', value: 'arcsin4130@gmail.com', href: 'mailto:arcsin4130@gmail.com' },

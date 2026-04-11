@@ -19,8 +19,9 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
     <main class="site-shell">
         <SiteHeader locale={locale} alternatePath={alternatePath} />
 
-        <section class="mt-12 sm:mt-16" data-reveal>
-            <div class="panel-strong mx-auto max-w-5xl p-8 sm:p-12">
+        <section class="hero-particle-wrap mt-12 sm:mt-16" data-reveal>
+            <canvas id={`particle-canvas-${locale}`} class="hero-particle-canvas" aria-hidden="true"></canvas>
+            <div class="panel-strong hero-particle-panel mx-auto max-w-5xl p-8 sm:p-12">
                 <p class="soft-label mb-5">{copy.hero?.badge || 'HADMARD.GITHUB.IO'}</p>
                 <h1 class="max-w-4xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-6xl leading-tight">
                     {copy.hero?.title}
@@ -30,21 +31,26 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
                 </p>
                 <div class="mt-8 flex flex-wrap items-center gap-3">
                     <a
-                        href={locale === 'zh-cn' ? '/resume/' : '/en/resume/'}
+                        href={locale === 'zh-cn' ? '/#progress' : '/en/#progress'}
                         class="inline-flex items-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                     >
-                        {copy.hero?.primaryCta || (locale === 'zh-cn' ? '查看简历' : 'View Resume')}
+                        {copy.hero?.primaryCta || (locale === 'zh-cn' ? '查看进度' : 'View Progress')}
                     </a>
-                    <span class="signal-pill">{locale === 'zh-cn' ? '简洁、持续、可读' : 'Simple, steady, readable'}</span>
+                    <a
+                        href={locale === 'zh-cn' ? '/#projects' : '/en/#projects'}
+                        class="signal-pill"
+                    >
+                        {copy.hero?.secondaryCta || (locale === 'zh-cn' ? '查看项目目标' : 'View Project Targets')}
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section class="mx-auto mt-16 mb-20 w-full max-w-5xl" data-reveal>
+        <section id="progress" class="mx-auto mt-16 mb-20 w-full max-w-5xl" data-reveal>
             <div class="mb-6 px-1">
-                <h2 class="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Path & Progress</h2>
+                <h2 class="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Progress</h2>
                 <p class="mt-2 text-sm text-slate-500 sm:text-base">
-                    Fixed progression map split into clear sections, ending with a unified project row. Hover for quick tips, click for details.
+                    从左到右表示知识深度，列内是并列任务，列间是递进关系。
                 </p>
             </div>
 
@@ -54,5 +60,114 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
                 </div>
             </div>
         </section>
+
+        <section id="projects" class="mx-auto mt-10 mb-20 w-full max-w-5xl" data-reveal>
+            <div class="panel p-8 sm:p-10">
+                <p class="section-kicker">Projects</p>
+                <h2 class="section-title mt-3">项目目标</h2>
+                <div class="mt-8 border-t border-slate-200/80">
+                    <article class="data-row md:grid-cols-[1.4fr_2fr]">
+                        <div class="font-semibold text-slate-900">Internship Goal: Google / Meta / Jane Street</div>
+                        <div>目标进入国际大厂实习，证明可交付的算法、系统和工程协作能力。</div>
+                    </article>
+                    <article class="data-row md:grid-cols-[1.4fr_2fr]">
+                        <div class="font-semibold text-slate-900">Project A: Research-to-Execution Pipeline</div>
+                        <div>完成从假设、实验、验证到部署监控的一体化流程。</div>
+                    </article>
+                    <article class="data-row md:grid-cols-[1.4fr_2fr]">
+                        <div class="font-semibold text-slate-900">Project B: Risk-Aware Allocation Engine</div>
+                        <div>构建带约束的决策层，把模型信号转化为可审计的配置方案。</div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="thinking" class="mx-auto mt-10 mb-20 w-full max-w-5xl" data-reveal>
+            <div class="panel p-8 sm:p-10">
+                <p class="section-kicker">Thinking</p>
+                <h2 class="section-title mt-3">个人思考</h2>
+                <div class="mt-8 border-t border-slate-200/80">
+                    <article class="data-row md:grid-cols-[1fr_2.2fr]">
+                        <div class="font-semibold text-slate-900">test</div>
+                        <div>这是新增的占位条目，后续会替换成正式思考内容。</div>
+                    </article>
+                </div>
+            </div>
+        </section>
     </main>
 </Layout>
+
+<script is:inline>
+    (() => {
+        const canvas = document.querySelector('.hero-particle-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        const particles = [];
+        let width = 0;
+        let height = 0;
+        let raf = 0;
+
+        const init = () => {
+            const rect = canvas.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
+            canvas.width = Math.floor(width * window.devicePixelRatio);
+            canvas.height = Math.floor(height * window.devicePixelRatio);
+            ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+
+            particles.length = 0;
+            for (let i = 0; i < 85; i += 1) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.35,
+                    vy: (Math.random() - 0.5) * 0.35,
+                    r: Math.random() * 1.6 + 0.6,
+                });
+            }
+        };
+
+        const draw = () => {
+            ctx.clearRect(0, 0, width, height);
+
+            for (const p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(59,130,246,0.55)';
+                ctx.fill();
+            }
+
+            for (let i = 0; i < particles.length; i += 1) {
+                for (let j = i + 1; j < particles.length; j += 1) {
+                    const a = particles[i];
+                    const b = particles[j];
+                    const dx = a.x - b.x;
+                    const dy = a.y - b.y;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 105) {
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.strokeStyle = `rgba(96,165,250,${(1 - d / 105) * 0.26})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            raf = requestAnimationFrame(draw);
+        };
+
+        init();
+        draw();
+        window.addEventListener('resize', init);
+        window.addEventListener('beforeunload', () => cancelAnimationFrame(raf));
+    })();
+</script>

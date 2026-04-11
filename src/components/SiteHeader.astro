@@ -4,7 +4,11 @@ import LocaleSwitch from './LocaleSwitch.astro';
 const { locale, alternatePath } = Astro.props;
 const copy = getCopy(locale);
 
-const getHref = (id) => {
+const getHref = (id: string) => {
+    const base = locale === 'zh-cn' ? '/' : '/en/';
+    if (['progress', 'projects', 'thinking'].includes(id)) {
+        return `${base}#${id}`;
+    }
     return locale === 'zh-cn' ? '/' + id + '/' : '/en/' + id + '/';
 };
 ---
@@ -19,13 +23,15 @@ const getHref = (id) => {
             {
                 copy.nav.map((item) => {
                     const currentPath = Astro.url.pathname.replace(/\/$/, '');
-                    const targetPath = getHref(item.id).replace(/\/$/, '');
-                    const isActive = currentPath === targetPath || (currentPath === '' && targetPath === '') || (currentPath === '/en' && targetPath === '/en');
+                    const rawHref = getHref(item.id);
+                    const isHash = rawHref.includes('#');
+                    const targetPath = isHash ? rawHref.split('#')[0].replace(/\/$/, '') : rawHref.replace(/\/$/, '');
+                    const isActive = !isHash && (currentPath === targetPath || (currentPath === '' && targetPath === '') || (currentPath === '/en' && targetPath === '/en'));
                     
                     return (
                         <a 
                             class={isActive ? 'nav-link active' : 'nav-link'} 
-                            href={targetPath || '/'}
+                            href={rawHref || '/'}
                         >
                             {item.label}
                         </a>

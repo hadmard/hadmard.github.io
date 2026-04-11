@@ -2,6 +2,12 @@
 
 这是一个基于 `Astro 6 + Tailwind CSS 4 + MDX + Astro i18n` 的双语个人站点仓库，当前按 GitHub Pages 官方“从分支部署”的方式组织。
 
+## 部署口径（重要）
+
+- 线上发布**只使用 Astro 主站**。
+- GitHub Pages 读取的是仓库根目录构建产物 `docs/`。
+- `next-premium-site/` 是历史实验目录，不参与当前线上发布。
+
 ## 当前部署方式
 
 本仓库现在按下面这条路径部署：
