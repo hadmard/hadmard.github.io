@@ -13,207 +13,152 @@ export interface LearningNode {
 
 export const learningMapData: LearningNode[] = [
   // ==========================================
-  // 【金融的我】分支 (左侧)
+  // 数学基础：先补分析、线代、概率，再进入优化。
   // ==========================================
   {
-    id: 'fin-economics',
-    title: '宏观与微观经济学',
-    description: '理解市场运行的基本规律与资产定价的底层逻辑，构建金融世界观。',
-    status: 'completed',
-    type: 'side',
-    xp: 150,
+    id: 'math-calculus',
+    title: '微积分基础',
+    description: '从极限、导数、积分和多元微积分开始，建立后续概率、优化和机器学习所需的连续数学直觉。',
+    status: 'in-progress',
+    type: 'main',
+    xp: 200,
     dependsOn: [],
     position: { x: 200, y: 100 },
   },
   {
-    id: 'fin-investment-101',
-    title: '个人投资实盘探索',
-    description: '知行合一：量化基本面、建立券商实盘交易框架，追踪个股及大盘（涵盖 CC98 爬取的投资探讨与实盘记录）。',
+    id: 'math-linear-algebra-3b1b',
+    title: '线性代数 (3Blue1Brown)',
+    description: '用 3Blue1Brown 的几何视角理解向量空间、线性变换、特征值和矩阵分解，为深度学习中的张量运算打底。',
     status: 'in-progress',
-    type: 'side',
-    xp: 300,
-    dependsOn: ['fin-economics'],
+    type: 'main',
+    xp: 220,
+    dependsOn: [],
     position: { x: 200, y: 250 },
   },
   {
-    id: 'fin-roi-milestone',
-    title: '首个超额年化收益 (Alpha)',
-    description: '穿越牛熊，运用建立的投资系统达成 15%+ 的年度超额回报里程碑。',
+    id: 'math-probability-statistics',
+    title: '概率论与数理统计',
+    description: '补齐随机变量、分布、期望、方差、估计与假设检验，支撑机器学习中的泛化、采样和不确定性分析。',
     status: 'locked',
-    type: 'side',
-    xp: 1000,
-    dependsOn: ['fin-investment-101'],
+    type: 'main',
+    xp: 300,
+    dependsOn: ['math-calculus', 'math-linear-algebra-3b1b'],
     position: { x: 200, y: 400 },
   },
-
-  // ==========================================
-  // 【科研的我】分支 - 数学基础
-  // ==========================================
   {
-    id: 'math-calculus',
-    title: '微积分与实分析',
-    description: '连续性、极限与积分，数学大厦的地基。',
-    status: 'completed',
-    type: 'main',
-    xp: 100,
-    dependsOn: [],
-    position: { x: 500, y: 100 },
-  },
-  {
-    id: 'math-linalg',
-    title: '高等线性代数',
-    description: '矩阵空间、特征值、奇异值分解 (SVD)，机器学习最重要的血脉。',
-    status: 'completed',
-    type: 'main',
-    xp: 200,
-    dependsOn: ['math-calculus'],
-    position: { x: 500, y: 250 },
-  },
-  {
-    id: 'math-optimization',
-    title: '凸优化理论',
-    description: '拉格朗日乘子、梯度下降等优化算法，掌控神经网络的收敛命运。',
-    status: 'available',
-    type: 'main',
-    xp: 350,
-    dependsOn: ['math-linalg'],
-    position: { x: 500, y: 400 },
-  },
-
-  // ==========================================
-  // 【科研的我】分支 - 计算机基础(CS)
-  // ==========================================
-  {
-    id: 'cs-python',
-    title: '架构与解释 (Python CS61A)',
-    description: 'UC Berkeley CS61A：以 Python 为主，理解计算机程序的构造与解释，函数化抽象。',
-    status: 'completed',
-    type: 'main',
-    xp: 150,
-    dependsOn: [],
-    position: { x: 750, y: 100 },
-  },
-  {
-    id: 'cs-c',
-    title: '底层记忆与逻辑 (C语言 CS50)',
-    description: 'Harvard CS50：从底层指针与内存分配，理解 C 语言的精妙与系统调用。',
-    status: 'completed',
-    type: 'main',
-    xp: 200,
-    dependsOn: ['cs-python'],
-    position: { x: 750, y: 220 },
-  },
-  {
-    id: 'cs-cpp',
-    title: '系统级抽象 (现代 C++)',
-    description: '深入 RAII，泛型编程与 STL。打造兼具性能与架构的工程利器。',
-    status: 'in-progress',
-    type: 'main',
-    xp: 250,
-    dependsOn: ['cs-c'],
-    position: { x: 750, y: 340 },
-  },
-  {
-    id: 'cs-ds',
-    title: '数据结构与算法体系',
-    description: '算法复杂度分析、二叉树、图论、堆映射，算法艺术的根基。',
-    status: 'in-progress',
-    type: 'main',
-    xp: 300,
-    dependsOn: ['cs-cpp'],
-    position: { x: 750, y: 460 },
-  },
-  {
-    id: 'cs-os',
-    title: '操作系统 (南大 JYY)',
-    description: '并发、虚拟化与持久化：从代码史诗解读内核世界的宇宙观。',
-    status: 'available',
-    type: 'main',
-    xp: 500,
-    dependsOn: ['cs-ds', 'cs-c'],
-    position: { x: 750, y: 580 },
-  },
-
-  // ==========================================
-  // 【科研的我】分支 - 深度学习与视觉
-  // ==========================================
-  {
-    id: 'dl-basics',
-    title: '深度网络理论基础',
-    description: '感知机、反向传播与早期全连接神经网络架构。',
-    status: 'completed',
-    type: 'main',
-    xp: 200,
-    dependsOn: ['math-linalg', 'cs-python'],
-    position: { x: 1000, y: 340 },
-  },
-  {
-    id: 'dl-cv',
-    title: '计算机视觉 (CV)',
-    description: '深入卷积神经网络 (CNN)、ResNet，理解机器感知图像的范式变迁。',
-    status: 'in-progress',
-    type: 'main',
-    xp: 350,
-    dependsOn: ['dl-basics'],
-    position: { x: 1000, y: 460 },
-  },
-  {
-    id: 'dl-transformer',
-    title: 'Transformer 大模型范式',
-    description: '解构注意力机制 (Attention)，拥抱通用多模态 AI (AGI) 。',
-    status: 'available',
-    type: 'main',
-    xp: 400,
-    dependsOn: ['dl-basics'],
-    position: { x: 1000, y: 580 },
-  },
-
-  // ==========================================
-  // 【科研的我】分支 - 机器人学与控制理论
-  // ==========================================
-  {
-    id: 'rob-trad',
-    title: '经典自动控制理论',
-    description: '反馈机制、PID 控制与信频域分析，让硬件系统稳定服从意志。',
-    status: 'completed',
-    type: 'main',
-    xp: 200,
-    dependsOn: ['math-calculus'],
-    position: { x: 1250, y: 250 },
-  },
-  {
-    id: 'rob-modern',
-    title: '现代控制论',
-    description: '状态空间、能控/能观性、LQR 最优控制，多维动态系统的数学魔法。',
-    status: 'available',
-    type: 'main',
-    xp: 300,
-    dependsOn: ['rob-trad', 'math-linalg'],
-    position: { x: 1250, y: 400 },
-  },
-
-  // ==========================================
-  // 综合落地 - 项目经验
-  // ==========================================
-  {
-    id: 'proj-uv-white',
-    title: 'Proj: 紫外与白光视界融合 (2024~2025)',
-    description: '双源图像特征提取与高保真重建。融合 CV 算法与 C++ 工程落地。',
-    status: 'in-progress',
-    type: 'main',
-    xp: 800,
-    dependsOn: ['dl-cv', 'math-optimization', 'cs-cpp'],
-    position: { x: 875, y: 750 },
-  },
-  {
-    id: 'proj-robotics-ai',
-    title: 'Proj: 具身决策智能体 (2026~)',
-    description: '结合现代控制、微系统与大模型推理(Transformer)，突破端到端软硬件融合。',
+    id: 'math-convex-optimization-ee364a',
+    title: '凸优化 (Stanford EE364A)',
+    description: '学习凸集、凸函数、对偶、KKT 条件和一阶方法，把深度学习训练与机器人优化问题放到统一框架下理解。',
     status: 'locked',
     type: 'main',
-    xp: 1500,
-    dependsOn: ['rob-modern', 'dl-transformer', 'cs-os'],
-    position: { x: 1125, y: 750 },
+    xp: 420,
+    dependsOn: ['math-calculus', 'math-linear-algebra-3b1b'],
+    position: { x: 200, y: 550 },
+  },
+
+  // ==========================================
+  // 编程基础：Python 做抽象，C/C++ 做工程和底层。
+  // ==========================================
+  {
+    id: 'cs-python-cs61a',
+    title: 'Python 程序抽象 (CS61A)',
+    description: '以 CS61A 为主线，用 Python 训练函数式抽象、递归、解释器和程序构造能力，而不是只停留在语法层面。',
+    status: 'in-progress',
+    type: 'main',
+    xp: 260,
+    dependsOn: [],
+    position: { x: 560, y: 100 },
+  },
+  {
+    id: 'cs-c-foundation',
+    title: 'C 语言基础',
+    description: '补齐指针、内存模型、结构体、编译链接和基础调试能力，为 CSAPP 与 C++ 的对象生命周期理解做准备。',
+    status: 'available',
+    type: 'main',
+    xp: 240,
+    dependsOn: [],
+    position: { x: 560, y: 250 },
+  },
+  {
+    id: 'cs-cpp-cs106l',
+    title: '现代 C++ (CS106L)',
+    description: '学习 STL、RAII、移动语义、模板和现代 C++ 风格，把 C 的底层意识升级为可维护的工程抽象。',
+    status: 'locked',
+    type: 'main',
+    xp: 320,
+    dependsOn: ['cs-c-foundation'],
+    position: { x: 560, y: 400 },
+  },
+
+  // ==========================================
+  // 算法与系统基础：先数据结构，再理解计算机系统。
+  // ==========================================
+  {
+    id: 'algo-data-structures-cs61b',
+    title: '数据结构基础 (CS61B)',
+    description: '系统学习链表、树、哈希表、堆、图和复杂度分析，把算法题从经验练习变成结构化能力。',
+    status: 'locked',
+    type: 'main',
+    xp: 380,
+    dependsOn: ['cs-python-cs61a', 'cs-cpp-cs106l'],
+    position: { x: 920, y: 250 },
+  },
+  {
+    id: 'systems-csapp',
+    title: '计算机系统 (CSAPP)',
+    description: '从数据表示、汇编、内存层次、链接、异常控制流和并发理解程序到底如何在机器上运行。',
+    status: 'locked',
+    type: 'main',
+    xp: 520,
+    dependsOn: ['cs-c-foundation'],
+    position: { x: 920, y: 430 },
+  },
+
+  // ==========================================
+  // 深度学习：在数学和编程基础之后再进入模型方向。
+  // ==========================================
+  {
+    id: 'dl-cv-cs231n',
+    title: '计算机视觉 (CS231n)',
+    description: '从反向传播、CNN、ResNet 到视觉识别任务，建立图像理解和深度网络训练的第一条主线。',
+    status: 'locked',
+    type: 'side',
+    xp: 520,
+    dependsOn: ['math-linear-algebra-3b1b', 'math-probability-statistics', 'cs-python-cs61a'],
+    position: { x: 1260, y: 200 },
+  },
+  {
+    id: 'dl-nlp-cs224n',
+    title: '深度学习与 NLP (CS224N)',
+    description: '学习词向量、序列模型、Attention、Transformer 和现代 NLP，把深度学习从视觉扩展到语言建模。',
+    status: 'locked',
+    type: 'side',
+    xp: 540,
+    dependsOn: ['dl-cv-cs231n', 'math-probability-statistics', 'cs-python-cs61a'],
+    position: { x: 1260, y: 380 },
+  },
+  {
+    id: 'dl-reinforcement-learning',
+    title: '强化学习',
+    description: '在概率、优化和深度学习基础上学习 MDP、动态规划、策略梯度和价值函数，为机器人决策打基础。',
+    status: 'locked',
+    type: 'side',
+    xp: 620,
+    dependsOn: ['math-probability-statistics', 'math-convex-optimization-ee364a', 'dl-nlp-cs224n'],
+    position: { x: 1260, y: 560 },
+  },
+
+  // ==========================================
+  // 机器人学：最终把数学、系统、C++ 和学习算法汇合。
+  // ==========================================
+  {
+    id: 'robotics-foundation',
+    title: '机器人学',
+    description: '汇合线性代数、优化、C++、计算机系统和强化学习，进入运动学、动力学、控制、SLAM 与具身智能。',
+    status: 'locked',
+    type: 'side',
+    xp: 900,
+    dependsOn: ['cs-cpp-cs106l', 'systems-csapp', 'math-convex-optimization-ee364a', 'dl-reinforcement-learning'],
+    position: { x: 1600, y: 430 },
   }
 ];
-

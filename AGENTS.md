@@ -1,6 +1,6 @@
-# AGENTS.md
+﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.10-minecraft-learning-map-and-cc98-fix.md`
+最新一期路径：`custom/notes/v1.11-cs-foundation-learning-map.md`
 
 ## 1. 基本原则
 
