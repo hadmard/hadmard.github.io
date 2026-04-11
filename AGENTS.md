@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.21-rightward-depth-and-internship-target.md`
+最新一期路径：`custom/notes/v1.22-progress-projects-thinking-and-particles.md`
 
 ## 1. 基本原则
 

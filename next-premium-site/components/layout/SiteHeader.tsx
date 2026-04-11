@@ -6,7 +6,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-line bg-bg/95">
       <Container className="flex items-center justify-between py-4">
         <a href="#top" className="research-kicker text-[#c6cedd]">
-          Research Interface
+          Yfcccc
         </a>
         <nav className="hidden items-center gap-6 sm:flex">
           {navItems.map((item) => (

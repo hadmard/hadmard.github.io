@@ -20,11 +20,11 @@ export function ProjectShowcaseSection() {
   const depths = Array.from(new Set(projects.map((item) => item.depth))).sort((a, b) => a - b);
 
   return (
-    <SectionBlock id="projects" className="research-divider">
+    <SectionBlock id="progress" className="research-divider">
       <div className="mb-10">
         <SectionHeading
-          title="Core Work"
-          subtitle="Left-to-right progression represents knowledge depth. Items in the same column are parallel; columns are sequential."
+          title="Progress"
+          subtitle="Knowledge depth progresses from left to right. Parallel items share a column; progression moves across columns."
         />
       </div>
 
