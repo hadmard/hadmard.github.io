@@ -15,8 +15,8 @@ const { currentLocale, href } = Astro.props;
 
 <a
 	href={href}
-	class="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-2 text-sm text-white/80 transition duration-300 hover:bg-white/10"
+	class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 shadow-[0_4px_12px_rgba(15,23,42,0.06)] transition duration-300 hover:border-slate-300 hover:bg-slate-50"
 >
-	<span class:list={['rounded-full px-2 py-1 text-[11px]', currentLocale === 'zh-cn' ? 'bg-white/14 text-white' : 'text-white/54']}>中</span>
-	<span class:list={['rounded-full px-2 py-1 text-[11px]', currentLocale === 'en' ? 'bg-white/14 text-white' : 'text-white/54']}>EN</span>
+	<span class:list={['rounded-full px-2 py-1 text-[11px]', currentLocale === 'zh-cn' ? 'bg-blue-50 text-blue-700' : 'text-slate-500']}>中</span>
+	<span class:list={['rounded-full px-2 py-1 text-[11px]', currentLocale === 'en' ? 'bg-blue-50 text-blue-700' : 'text-slate-500']}>EN</span>
 </a>
