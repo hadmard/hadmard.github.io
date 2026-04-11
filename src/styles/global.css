@@ -1,34 +1,27 @@
-/* 文件说明：该文件定义全站视觉基线与共享样式�?*/
-/* 功能说明：导�?Tailwind 4，定义暗色模式主题变量，实现数字工坊/节点图谱风格�?*/
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap");
+/* 文件说明：该文件定义全站视觉基线与共享样式。 */
+/* 功能说明：导入 Tailwind 4，并提供简洁、克制的浅色主题。 */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
-	--font-sans: "IBM Plex Sans", system-ui, sans-serif;
-	--font-display: "Playfair Display", "Times New Roman", serif;
-	
-	/* 浅态模式基础颜色 */
-	--color-ink: #0f172a; /* text-slate-900 */
-	--color-ink-soft: #64748b; /* text-slate-500 */
-	--color-surface: rgba(255, 255, 255, 0.7);
-	--color-surface-strong: rgba(255, 255, 255, 0.95);
-	--color-line: rgba(15, 23, 42, 0.08);
-	
-	/* 强调色：Sky 蓝为�?*/
-	--color-accent: #0ea5e9; /* sky-500 */
-	--color-accent-strong: #0284c7; /* sky-600 */
-	--color-accent-soft: rgba(14, 165, 233, 0.1);
-	
-	/* 阴影与光�?*/
-	--shadow-panel: 0 1px 3px rgba(0,0,0,0.02), 0 20px 40px rgba(15, 23, 42, 0.05);
-	--shadow-lift: 0 1px 3px rgba(0,0,0,0.02), 0 25px 50px rgba(15, 23, 42, 0.08), 0 0 15px rgba(14, 165, 233, 0.4);
+	--font-sans: "Plus Jakarta Sans", "Noto Sans SC", system-ui, sans-serif;
+	--font-display: "Plus Jakarta Sans", "Noto Sans SC", system-ui, sans-serif;
+	--color-ink: #111827;
+	--color-ink-soft: #6b7280;
+	--color-surface: #ffffff;
+	--color-surface-strong: #ffffff;
+	--color-line: rgba(17, 24, 39, 0.08);
+	--color-accent: #2563eb;
+	--color-accent-strong: #1d4ed8;
+	--color-accent-soft: rgba(37, 99, 235, 0.08);
+	--shadow-panel: 0 1px 2px rgba(15, 23, 42, 0.06), 0 12px 24px rgba(15, 23, 42, 0.05);
+	--shadow-lift: 0 1px 2px rgba(15, 23, 42, 0.06), 0 18px 30px rgba(15, 23, 42, 0.08);
 }
 
 @layer base {
 	html {
-                background-color: #020617;
-                color: #f8fafc;
-
+		background-color: #f5f7fb;
+		color: var(--color-ink);
 		scroll-behavior: smooth;
 	}
 
@@ -36,7 +29,10 @@
 		min-height: 100vh;
 		color: var(--color-ink);
 		font-family: var(--font-sans);
-		background-color: #f8fafc; /* slate-50 */
+		background:
+			radial-gradient(1200px 500px at 5% -10%, rgba(37, 99, 235, 0.1), transparent 60%),
+			radial-gradient(900px 500px at 100% 0%, rgba(14, 165, 233, 0.08), transparent 55%),
+			#f5f7fb;
 		overflow-x: hidden;
 	}
 
@@ -52,11 +48,11 @@
 }
 
 @utility site-shell {
-	@apply relative mx-auto flex min-h-screen w-full max-w-[1240px] flex-col px-4 pb-16 pt-6 sm:px-6 lg:px-8;
+	@apply relative mx-auto flex min-h-screen w-full max-w-[1160px] flex-col px-4 pb-14 pt-5 sm:px-6 lg:px-8;
 }
 
 @utility panel {
-	@apply rounded-2xl border backdrop-blur-xl transition duration-500;
+	@apply rounded-2xl border transition duration-300;
 	border-color: var(--color-line);
 	background: var(--color-surface);
 	box-shadow: var(--shadow-panel);
@@ -71,7 +67,7 @@
 	@apply inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-medium tracking-wider;
 	background: var(--color-accent-soft);
 	color: var(--color-accent);
-	border: 1px solid rgba(56, 189, 248, 0.2);
+	border: 1px solid rgba(37, 99, 235, 0.18);
 }
 
 @utility section-kicker {
@@ -83,59 +79,17 @@
 }
 
 @layer components {
-	/* 背景网格 */
-	.ambient-grid {
-		position: fixed;
-		inset: 0;
-		pointer-events: none;
-		z-index: -3;
-		background-image:
-			linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-		background-size: 60px 60px;
-		mask-image: radial-gradient(circle at center top, black 0%, transparent 80%);
-	}
-
-	/* 发光环境�?*/
-	.ambient-layer {
-		position: fixed;
-		inset: auto;
-		pointer-events: none;
-		z-index: -2;
-		border-radius: 999px;
-		filter: blur(80px);
-		opacity: 0.6;
-		animation: ambient-float 20s ease-in-out infinite;
-	}
-
-	.ambient-layer-primary {
-		top: -100px;
-		right: 15%;
-		width: 400px;
-		height: 400px;
-		background: radial-gradient(circle, rgba(14, 165, 233, 0.4) 0%, transparent 70%);
-	}
-
-	.ambient-layer-secondary {
-		left: 10%;
-		bottom: -150px;
-		width: 500px;
-		height: 500px;
-		background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
-		animation-delay: -10s;
-	}
-
 	/* XYFlow Canvas Overrides */
 	.react-flow__bg {
 		background-color: transparent !important;
 	}
 
-	/* 共享组件恢复 (适应浅色模式) */
+	/* 共享组件：导航、卡片与条目 */
 	.glass-topbar {
-		@apply sticky top-4 z-20 rounded-full border px-4 py-3 backdrop-blur-xl transition-all;
+		@apply sticky top-4 z-20 rounded-full border px-4 py-3 transition-all;
 		border-color: rgba(15, 23, 42, 0.06);
-		background: rgba(255, 255, 255, 0.7);
-		box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+		background: rgba(255, 255, 255, 0.88);
+		box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 	}
 
 	.nav-link {
@@ -144,46 +98,41 @@
 	}
 
 	.nav-link:hover {
-		background: rgba(255, 255, 255, 0.05);
-		color: var(--color-ink);
+		background: rgba(37, 99, 235, 0.08);
+		color: var(--color-accent-strong);
+	}
+
+	.nav-link.active {
+		background: rgba(37, 99, 235, 0.12);
+		color: var(--color-accent-strong);
+		font-weight: 600;
 	}
 
 	.signal-pill {
 		@apply inline-flex items-center rounded-full border px-3 py-1 text-xs transition duration-300;
 		border-color: rgba(15, 23, 42, 0.08);
-		background: rgba(255, 255, 255, 0.6);
+		background: #fff;
 		color: var(--color-ink-soft);
 	}
 
 	.signal-pill:hover {
-		transform: translateY(-2px);
-		background: rgba(14, 165, 233, 0.05);
-		border-color: rgba(14, 165, 233, 0.2);
-		color: #0284c7;
-		box-shadow: 0 8px 16px rgba(14, 165, 233, 0.06);
+		transform: translateY(-1px);
+		background: rgba(37, 99, 235, 0.06);
+		border-color: rgba(37, 99, 235, 0.2);
+		color: var(--color-accent-strong);
 	}
 
 	.story-card {
-		@apply rounded-[26px] border p-6 transition duration-500;
-		border-color: rgba(15, 23, 42, 0.06);
-		background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
-		box-shadow: 0 8px 25px rgba(15, 23, 42, 0.03);
-		position: relative;
-		overflow: hidden;
-	}
-
-	.story-card::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(140deg, rgba(255, 255, 255, 0.6) 0%, transparent 28%, transparent 70%, rgba(255, 255, 255, 0.3) 100%);
-		pointer-events: none;
+		@apply rounded-3xl border p-6 transition duration-300;
+		border-color: rgba(15, 23, 42, 0.07);
+		background: #fff;
+		box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
 	}
 
 	.story-card:hover {
-		transform: translateY(-6px);
+		transform: translateY(-2px);
 		box-shadow: var(--shadow-lift);
-		border-color: rgba(14, 165, 233, 0.2);
+		border-color: rgba(37, 99, 235, 0.2);
 	}
 
 	.data-row {
@@ -195,13 +144,13 @@
 	.data-row:first-of-type {
 		@apply border-t-0 pt-0;
 	}
-	
+
 	[data-reveal] {
 		opacity: 0;
-		transform: translateY(20px);
+		transform: translateY(14px);
 		transition:
-			opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-			transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+			opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+			transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	[data-reveal].is-visible {
@@ -210,35 +159,21 @@
 	}
 }
 
-@keyframes ambient-float {
-	0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-	50% { transform: translate3d(20px, -30px, 0) scale(1.1); }
-}
-
 @media (prefers-reduced-motion: reduce) {
 	html {
-                background-color: #020617;
-                color: #f8fafc;
- scroll-behavior: auto; }
+		scroll-behavior: auto;
+	}
+
 	*, *::before, *::after {
 		animation-duration: 0.01ms !important;
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
 	}
+
 	[data-reveal] {
 		opacity: 1 !important;
 		transform: none !important;
 	}
 }
-
-
-
-
-
-
-
-
-
-
 

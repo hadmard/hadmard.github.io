@@ -11,7 +11,7 @@ const getHref = (id) => {
 
 <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4">
     <div class="space-y-1">
-        <p class="text-sm font-medium">{copy.brand.name}</p>
+        <p class="text-sm font-semibold text-slate-900">{copy.brand.name}</p>
         <p class="text-sm" style="color: var(--color-ink-soft);">{copy.brand.caption}</p>
     </div>
     <div class="flex flex-wrap items-center gap-2 sm:gap-4">
@@ -24,7 +24,7 @@ const getHref = (id) => {
                     
                     return (
                         <a 
-                            class={isActive ? 'nav-link active bg-white/10 text-white' : 'nav-link'} 
+                            class={isActive ? 'nav-link active' : 'nav-link'} 
                             href={targetPath || '/'}
                         >
                             {item.label}

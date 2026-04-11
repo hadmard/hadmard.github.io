@@ -38,9 +38,6 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 		<ClientRouter />
 	</head>
 	<body>
-		<div class="ambient-layer ambient-layer-primary" aria-hidden="true"></div>
-		<div class="ambient-layer ambient-layer-secondary" aria-hidden="true"></div>
-		<div class="ambient-grid" aria-hidden="true"></div>
 		<slot />
 		<script is:inline>
 			const setupReveal = () => {
