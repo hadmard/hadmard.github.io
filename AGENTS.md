@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.14-google-apple-contrast-fix.md`
+最新一期路径：`custom/notes/v1.15-learning-map-visual-refresh.md`
 
 ## 1. 基本原则
 

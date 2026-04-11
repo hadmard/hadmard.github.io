@@ -2,6 +2,7 @@
 import {
   ReactFlow,
   Background,
+  BackgroundVariant,
   Controls,
   useNodesState,
   useEdgesState,
@@ -25,29 +26,33 @@ const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
 
   const [isHovered, setIsHovered] = useState(false);
 
-  // 根据进度状态生成节点主题，避免把状态判断散落到 JSX 中。
+  // 颜色参考 Google 四色体系，并在明度上压低，保证浅色底下可读。
   const themeClasses = useMemo(() => {
-    if (isCompleted) return 'border-slate-300 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.08)] ring-blue-300 text-slate-700 rounded-2xl';
-    if (isInProgress) return 'border-blue-300 bg-blue-50 shadow-[0_8px_22px_rgba(37,99,235,0.12)] ring-blue-300 text-blue-700 rounded-2xl';
-    if (isAvailable) return 'border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 shadow-[0_4px_12px_rgba(15,23,42,0.06)] text-slate-600 rounded-2xl transition-all duration-300';
-    return 'border-slate-200 bg-slate-100 opacity-75 text-slate-400 rounded-2xl';
+    if (isCompleted) return 'border-emerald-300 bg-emerald-50 shadow-[0_10px_24px_rgba(5,150,105,0.18)] text-emerald-700 rounded-[22px]';
+    if (isInProgress) return 'border-blue-300 bg-blue-50 shadow-[0_10px_26px_rgba(37,99,235,0.2)] text-blue-700 rounded-[22px]';
+    if (isAvailable) return 'border-amber-300 bg-amber-50 hover:bg-amber-100 hover:border-amber-400 shadow-[0_8px_20px_rgba(217,119,6,0.16)] text-amber-700 rounded-[22px] transition-all duration-300';
+    return 'border-slate-200 bg-slate-100 opacity-80 text-slate-400 rounded-[22px]';
   }, [isCompleted, isInProgress, isAvailable]);
 
   const iconClasses = useMemo(() => {
-    if (isCompleted) return 'text-slate-700';
+    if (isCompleted) return 'text-emerald-700';
     if (isInProgress) return 'text-blue-700';
-    if (isAvailable) return 'text-slate-500';
+    if (isAvailable) return 'text-amber-700';
     return 'text-slate-400';
   }, [isCompleted, isInProgress, isAvailable]);
 
   return (
     <div
-      className="relative flex items-center justify-center p-2 cursor-pointer group transition-transform duration-500 hover:scale-105"
+      className="relative flex items-center justify-center p-2 cursor-pointer group transition-transform duration-300 hover:scale-105"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {isInProgress && (
+        <div className="absolute inset-0 z-0 rounded-[24px] bg-blue-400/20 blur-md animate-pulse" />
+      )}
+
       <div
-        className={`relative flex items-center justify-center w-[72px] h-[72px] rounded-xl border-[3px] transition-all duration-300 ${themeClasses} ${selected ? 'ring-4 scale-105' : 'hover:scale-105'} z-10`}
+        className={`relative flex items-center justify-center w-[76px] h-[76px] border-[3px] transition-all duration-300 ${themeClasses} ${selected ? 'ring-4 ring-blue-300 scale-105' : 'hover:scale-105'} z-10`}
       >
         <Handle type="target" position={Position.Top} className="!bg-transparent !border-none !w-4 !h-4" style={{ top: -8 }} />
 
@@ -69,13 +74,14 @@ const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
             className={`absolute z-50 left-[90px] top-0 min-w-[240px] p-4 rounded-lg border !pointer-events-none
-              ${isCompleted ? 'border-slate-300 bg-white' :
+              ${isCompleted ? 'border-emerald-200 bg-white' :
                 isInProgress ? 'border-blue-300 bg-blue-50' :
+                isAvailable ? 'border-amber-200 bg-white' :
                 'border-slate-200 bg-white'}
               shadow-xl origin-top-left`}
           >
             <div className="flex flex-col gap-2">
-              <h3 className={`text-base font-bold font-sans ${isCompleted ? 'text-slate-800' : isInProgress ? 'text-blue-700' : 'text-slate-700'}`}>
+              <h3 className={`text-base font-bold font-sans ${isCompleted ? 'text-emerald-700' : isInProgress ? 'text-blue-700' : isAvailable ? 'text-amber-700' : 'text-slate-700'}`}>
                 {data.title}
               </h3>
               <p className="text-xs text-slate-500 font-sans leading-relaxed line-clamp-3">
@@ -113,7 +119,7 @@ export default function LearningMap() {
     learningMapData.forEach((node) => {
       node.dependsOn.forEach((depId) => {
         const isDepCompleted = learningMapData.find((item) => item.id === depId)?.status === 'completed';
-        const targetColor = node.status === 'completed' ? '#64748b' : node.status === 'in-progress' ? '#2563eb' : '#94a3b8';
+        const targetColor = node.status === 'completed' ? '#059669' : node.status === 'in-progress' ? '#2563eb' : node.status === 'available' ? '#d97706' : '#94a3b8';
         const strokeColor = isDepCompleted ? targetColor : '#cbd5e1';
 
         edges.push({
@@ -142,15 +148,30 @@ export default function LearningMap() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   return (
-    <div className="w-full h-[600px] sm:h-[800px] rounded-[24px] overflow-hidden relative bg-[#f8fafc] border border-slate-200 shadow-[0_10px_30px_rgba(15,23,42,0.08)] font-sans">
+    <div className="w-full h-[600px] sm:h-[800px] rounded-[24px] overflow-hidden relative bg-[#f8fafc] border border-slate-200 shadow-[0_14px_34px_rgba(15,23,42,0.1)] font-sans">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-blue-300/22 blur-3xl" />
+        <div className="absolute top-12 -right-16 h-64 w-64 rounded-full bg-emerald-300/18 blur-3xl" />
+        <div className="absolute -bottom-20 left-1/3 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl" />
+      </div>
+
       {/* 地图说明固定在左上角，避免用户首次进入时不知道可以拖拽和点击。 */}
-      <div className="absolute top-8 left-8 z-10 pointer-events-none select-none">
+      <div className="absolute top-8 left-8 z-10 pointer-events-none select-none rounded-2xl border border-white/80 bg-white/85 px-5 py-4 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-md">
         <h2 className="text-3xl font-bold text-slate-900 tracking-tight">
           基础进度地图
         </h2>
-        <p className="text-slate-500 text-sm mt-2 max-w-sm">
+        <p className="text-slate-600 text-sm mt-2 max-w-sm">
           从数学、编程、算法与系统基础开始，逐步解锁深度学习和机器人学。拖拽探索全景地图，悬停查看摘要，点击节点打开详细档案。
         </p>
+      </div>
+
+      <div className="absolute bottom-6 left-6 z-10 rounded-2xl border border-white/80 bg-white/85 px-4 py-3 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-md">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-slate-600">
+          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-emerald-500" />已完成</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-blue-500" />进行中</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-amber-500" />可开始</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-slate-400" />锁定</span>
+        </div>
       </div>
 
       <ReactFlow
@@ -168,8 +189,8 @@ export default function LearningMap() {
         proOptions={{ hideAttribution: true }}
         className="!bg-transparent"
       >
-        <Background gap={48} size={1} color="rgba(100,116,139,0.18)" />
-        <Controls showInteractive={false} className="!bg-white border !border-slate-200 shadow-lg [&>button]:!border-b-slate-200 [&>button]:!text-slate-500 [&>button:hover]:!bg-slate-100 fill-slate-500" />
+        <Background variant={BackgroundVariant.Dots} gap={32} size={1.3} color="rgba(100,116,139,0.24)" />
+        <Controls showInteractive={false} className="!bg-white/90 border !border-slate-200 shadow-lg [&>button]:!border-b-slate-200 [&>button]:!text-slate-500 [&>button:hover]:!bg-slate-100 fill-slate-500" />
       </ReactFlow>
 
       {/* 点击节点后展示完整说明，避免把课程描述塞进小节点导致阅读困难。 */}
@@ -192,17 +213,18 @@ export default function LearningMap() {
             >
               <div
                 className={`px-8 py-6 border-b-2 flex items-center justify-between
-                  ${selectedNode.status === 'completed' ? 'bg-slate-50 border-slate-200' :
+                  ${selectedNode.status === 'completed' ? 'bg-emerald-50 border-emerald-200' :
                     selectedNode.status === 'in-progress' ? 'bg-blue-50 border-blue-200' :
+                    selectedNode.status === 'available' ? 'bg-amber-50 border-amber-200' :
                     'bg-slate-50 border-slate-200'}
                 `}
               >
                 <div>
                   <div className="flex items-center gap-3">
                     <span className={`px-2.5 py-1 text-xs font-bold font-mono rounded tracking-widest uppercase
-                      ${selectedNode.status === 'completed' ? 'bg-slate-700 text-white' :
+                      ${selectedNode.status === 'completed' ? 'bg-emerald-600 text-white' :
                         selectedNode.status === 'in-progress' ? 'bg-blue-600 text-white' :
-                        selectedNode.status === 'available' ? 'bg-slate-200 text-slate-700' :
+                        selectedNode.status === 'available' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
                         'bg-rose-100 text-rose-700 border border-rose-200'}
                     `}>
                       {selectedNode.status === 'in-progress' ? '进行中' :
@@ -214,8 +236,9 @@ export default function LearningMap() {
                     </span>
                   </div>
                   <h2 className={`mt-3 text-3xl font-extrabold tracking-tight
-                    ${selectedNode.status === 'completed' ? 'text-slate-800' :
+                    ${selectedNode.status === 'completed' ? 'text-emerald-700' :
                       selectedNode.status === 'in-progress' ? 'text-blue-700' :
+                      selectedNode.status === 'available' ? 'text-amber-700' :
                       'text-slate-900'}
                   `}>
                     {selectedNode.title}
