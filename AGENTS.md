@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.24-astro-home-showcase-and-subpages.md`
+最新一期路径：`custom/notes/v1.25-progress-tree-redesign-and-home-nav-constraint.md`
 
 ## 1. 基本原则
 
