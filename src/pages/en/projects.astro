@@ -18,28 +18,36 @@ const alternatePath = '/' + 'projects/';
     <main class="site-shell">
         <SiteHeader locale={locale} alternatePath={alternatePath} />
 
-        <section id="projects" class="mx-auto mt-12 mb-8 w-full max-w-5xl" data-reveal>
-            <div class="panel-strong p-8 sm:p-12">
-                <p class="soft-label mb-5">Google Color System · Apple Minimal Surfaces</p>
-                <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">{copy['projects']?.title || 'projects'}</h1>
-                <p class="mt-4 max-w-3xl text-slate-600 leading-8">{copy['projects']?.intro || ''}</p>
-                <div class="mt-6 flex flex-wrap gap-2">
-                    <span class="signal-pill">Clear hierarchy</span>
-                    <span class="signal-pill">Soft motion</span>
-                    <span class="signal-pill">Consistent accents</span>
+        <section id="projects" class="mx-auto mt-10 w-full max-w-6xl" data-reveal>
+            <div class="rounded-xl bg-black px-8 py-14 text-white sm:px-12 sm:py-20">
+                <p class="soft-label mb-5">Projects</p>
+                <h1 class="hero-title max-w-4xl font-semibold">{copy['projects']?.title || 'projects'}</h1>
+                <p class="mt-5 max-w-3xl text-[17px] leading-[1.47] text-white/82">{copy['projects']?.intro || ''}</p>
+                <div class="mt-8 flex flex-wrap gap-2">
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Structured Cases</span>
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Method Replayable</span>
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Results Verifiable</span>
                 </div>
             </div>
         </section>
 
-        <section class="mx-auto mb-24 w-full max-w-5xl" data-reveal>
-            <div class="panel p-8 sm:p-10">
-                <h2 class="text-xl font-semibold text-slate-900">Page Notes</h2>
-                <p class="mt-3 text-slate-600 leading-8">
-                    The page now follows a readable light surface design, fixing the white-on-white/white-on-light contrast issues from the previous style.
-                </p>
-                <p class="mt-3 text-slate-600 leading-8">
-                    You can now add real project cards on top of this baseline without reworking the visual system again.
-                </p>
+        <section class="mx-auto mb-24 mt-6 w-full max-w-6xl" data-reveal>
+            <div class="rounded-xl bg-[#f5f5f7] p-8 sm:p-12">
+                <h2 class="section-title">Module Status</h2>
+                <div class="mt-8 border-t border-black/12">
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">Current Status</div>
+                        <div>The projects layer is under construction and reserved for complete, public-ready flagship cases.</div>
+                    </article>
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">Suggested Structure</div>
+                        <div>Each case should follow one unified rhythm: context, objective, method, results, and retrospective.</div>
+                    </article>
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">Next Step</div>
+                        <div>Publish the first two or three complete cases, then expand with filters and multi-case navigation.</div>
+                    </article>
+                </div>
                 </div>
         </section>
     </main>

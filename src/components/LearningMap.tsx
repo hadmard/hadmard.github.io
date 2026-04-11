@@ -1,4 +1,4 @@
-﻿import React, { useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import {
   ReactFlow,
   Background,
@@ -20,30 +20,30 @@ type CustomNodeType = Node<LearningNode & Record<string, unknown>, 'customTask'>
 
 const statusConfig = {
   completed: {
-    chip: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
-    ring: 'border-emerald-400/45',
-    dot: 'bg-emerald-400',
+    chip: 'bg-white/12 text-white border-white/28',
+    ring: 'border-white/30',
+    dot: 'bg-white',
     icon: <Check size={16} />,
-    label: '已完成',
+    label: '已掌握',
   },
   'in-progress': {
-    chip: 'bg-sky-500/20 text-sky-300 border-sky-400/40',
-    ring: 'border-sky-400/45',
-    dot: 'bg-sky-400',
+    chip: 'bg-[#0071e3]/20 text-[#7cc0ff] border-[#2997ff]/45',
+    ring: 'border-[#2997ff]/55',
+    dot: 'bg-[#2997ff]',
     icon: <Play size={14} fill="currentColor" />,
     label: '进行中',
   },
   available: {
-    chip: 'bg-slate-500/20 text-slate-200 border-slate-300/35',
-    ring: 'border-slate-300/40',
-    dot: 'bg-slate-300',
+    chip: 'bg-[#d2d2d7]/14 text-[#e8e8ed] border-[#d2d2d7]/35',
+    ring: 'border-[#d2d2d7]/38',
+    dot: 'bg-[#d2d2d7]',
     icon: <Circle size={14} />,
-    label: '可开始',
+    label: '待开始',
   },
   locked: {
-    chip: 'bg-zinc-700/35 text-zinc-300 border-zinc-500/40',
-    ring: 'border-zinc-600/45',
-    dot: 'bg-zinc-500',
+    chip: 'bg-[#2a2a2d] text-[#a1a1a6] border-[#3a3a3c]',
+    ring: 'border-[#3a3a3c]',
+    dot: 'bg-[#636366]',
     icon: <Lock size={14} />,
     label: '锁定',
   },
@@ -63,15 +63,15 @@ const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
 
       <div
         className={[
-          'w-[210px] rounded-2xl border bg-[#0f1726]/92 px-4 py-3 text-slate-100 shadow-[0_12px_24px_rgba(2,6,23,0.35)] transition-colors duration-200',
+          'w-[184px] sm:w-[214px] rounded-lg border bg-[#272729] px-3 py-2.5 sm:px-4 sm:py-3 text-[#f5f5f7] transition-colors duration-200',
           cfg.ring,
-          selected ? 'ring-2 ring-sky-300/55' : 'hover:border-sky-300/45',
+          selected ? 'ring-2 ring-[#0071e3]/75' : 'hover:border-[#2997ff]/45',
         ].join(' ')}
       >
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
             <span className={`h-2.5 w-2.5 rounded-full ${cfg.dot}`} />
-            <h3 className="text-sm font-semibold leading-5 text-slate-100">{data.title}</h3>
+            <h3 className="text-[12px] sm:text-[13px] font-semibold leading-5 text-[#f5f5f7]">{data.title}</h3>
           </div>
           <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] tracking-wide ${cfg.chip}`}>
             {cfg.icon}
@@ -88,7 +88,7 @@ const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
-            className="pointer-events-none absolute left-0 top-[100%] z-40 mt-2 w-[260px] rounded-xl border border-slate-500/40 bg-[#0b1220]/95 p-3 text-xs leading-6 text-slate-300 shadow-xl"
+            className="pointer-events-none absolute left-0 top-[100%] z-40 mt-2 w-[220px] sm:w-[270px] rounded-lg border border-[#3a3a3c] bg-[#1d1d1f] p-3 text-xs leading-6 text-[#d2d2d7] shadow-[rgba(0,0,0,0.22)_3px_5px_30px_0px]"
           >
             {data.description}
           </motion.div>
@@ -102,6 +102,14 @@ const nodeTypes = { customTask: BaseNode };
 
 export default function LearningMap() {
   const [selectedNode, setSelectedNode] = useState<LearningNode | null>(null);
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const update = () => setIsCompact(window.innerWidth < 640);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   const initialNodes: Node[] = useMemo(() => {
     return learningMapData.map((node) => ({
@@ -121,7 +129,7 @@ export default function LearningMap() {
       node.dependsOn.forEach((depId) => {
         const sourceStatus = learningMapData.find((item) => item.id === depId)?.status;
         const active = sourceStatus === 'completed' || sourceStatus === 'in-progress';
-        const color = active ? '#60a5fa' : '#475569';
+        const color = active ? '#0071e3' : '#636366';
 
         edges.push({
           id: `e-${depId}-${node.id}`,
@@ -132,7 +140,7 @@ export default function LearningMap() {
           style: {
             stroke: color,
             strokeWidth: active ? 2.2 : 1.4,
-            opacity: node.status === 'locked' ? 0.45 : 0.9,
+            opacity: node.status === 'locked' ? 0.38 : 0.85,
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
@@ -151,18 +159,18 @@ export default function LearningMap() {
   const [edges, , onEdgesChange] = useEdgesState(initialEdges);
 
   return (
-    <div className="relative h-[640px] w-full overflow-hidden rounded-[22px] border border-slate-700/55 bg-[#050a14] sm:h-[800px]">
+    <div className="relative h-[600px] w-full overflow-hidden rounded-xl border border-black/10 bg-[#000000] sm:h-[800px]">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(circle at 18% 14%, rgba(56,189,248,0.14), transparent 35%), radial-gradient(circle at 82% 24%, rgba(59,130,246,0.14), transparent 32%), linear-gradient(180deg, rgba(11,18,32,0.88), rgba(7,12,22,0.96))',
+            'radial-gradient(circle at 18% 14%, rgba(255,255,255,0.08), transparent 35%), radial-gradient(circle at 82% 24%, rgba(0,113,227,0.18), transparent 32%), linear-gradient(180deg, rgba(0,0,0,0.9), rgba(11,11,12,0.96))',
         }}
       />
 
-      <div className="pointer-events-none absolute left-5 top-5 z-10 rounded-xl border border-slate-500/45 bg-[#0b1220]/82 px-4 py-3 text-slate-100 backdrop-blur-sm">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-sky-300">Progress Graph</p>
-        <p className="mt-1 text-sm text-slate-300">左到右为深度推进 · 同列为并列能力</p>
+      <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-lg border border-white/20 bg-black/45 px-3 py-2 text-white backdrop-blur-sm sm:left-5 sm:top-5 sm:px-4 sm:py-3">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-[#2997ff]">Progress Graph</p>
+        <p className="mt-1 text-xs sm:text-sm text-white/76">左到右为深度推进，同列为并列能力</p>
       </div>
 
       <ReactFlow
@@ -174,27 +182,31 @@ export default function LearningMap() {
         onPaneClick={() => setSelectedNode(null)}
         nodeTypes={nodeTypes}
         nodesDraggable={false}
-        panOnDrag={false}
+        panOnDrag={isCompact}
         panOnScroll={false}
         zoomOnScroll={false}
-        zoomOnPinch={false}
+        zoomOnPinch={isCompact}
         zoomOnDoubleClick={false}
         fitView
-        fitViewOptions={{ padding: 0.18, minZoom: 0.35, maxZoom: 1.25 }}
-        minZoom={0.8}
-        maxZoom={1.05}
+        fitViewOptions={{
+          padding: isCompact ? 0.12 : 0.18,
+          minZoom: isCompact ? 0.26 : 0.35,
+          maxZoom: isCompact ? 1 : 1.25,
+        }}
+        minZoom={isCompact ? 0.26 : 0.45}
+        maxZoom={isCompact ? 1 : 1.05}
         proOptions={{ hideAttribution: true }}
         className="!bg-transparent"
       >
-        <Background variant={BackgroundVariant.Dots} gap={24} size={1.2} color="rgba(148,163,184,0.18)" />
+        <Background variant={BackgroundVariant.Dots} gap={24} size={1.1} color="rgba(210,210,215,0.16)" />
       </ReactFlow>
 
-      <div className="absolute bottom-5 right-5 z-10 rounded-xl border border-slate-500/45 bg-[#0b1220]/85 px-4 py-3 text-xs text-slate-300 backdrop-blur-sm">
+      <div className="absolute bottom-3 right-3 z-10 rounded-lg border border-white/20 bg-black/48 px-3 py-2 text-[11px] text-white/82 backdrop-blur-sm sm:bottom-5 sm:right-5 sm:px-4 sm:py-3 sm:text-xs">
         <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
-          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-emerald-400" />已完成</span>
-          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-sky-400" />进行中</span>
-          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-slate-300" />可开始</span>
-          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-zinc-500" />锁定</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-white" />已掌握</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-[#2997ff]" />进行中</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-[#d2d2d7]" />待开始</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-[#636366]" />锁定</span>
         </div>
       </div>
 
@@ -204,7 +216,7 @@ export default function LearningMap() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex items-center justify-center bg-black/55 p-6"
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/55 p-4 sm:p-6"
             onClick={() => setSelectedNode(null)}
           >
             <motion.div
@@ -213,32 +225,32 @@ export default function LearningMap() {
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 360, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-500/50 bg-[#0b1220] text-slate-100 shadow-2xl"
+              className="w-full max-w-2xl overflow-hidden rounded-xl border border-[#3a3a3c] bg-[#1d1d1f] text-[#f5f5f7] shadow-[rgba(0,0,0,0.22)_3px_5px_30px_0px]"
             >
-              <div className="flex items-start justify-between border-b border-slate-600/60 bg-[#10192c] px-6 py-5">
+              <div className="flex items-start justify-between border-b border-white/12 bg-[#242426] px-6 py-5">
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-sky-300">Node Detail</p>
-                  <h2 className="mt-2 text-2xl font-semibold tracking-tight">{selectedNode.title}</h2>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#2997ff]">Node Detail</p>
+                  <h2 className="mt-2 text-xl sm:text-2xl font-semibold tracking-tight">{selectedNode.title}</h2>
                 </div>
                 <button
                   onClick={() => setSelectedNode(null)}
-                  className="rounded-lg border border-slate-500/50 bg-slate-800/70 p-2 text-slate-300 transition-colors hover:text-white"
+                  className="rounded-lg border border-white/14 bg-white/6 p-2 text-white/72 transition-colors hover:border-[#2997ff]/45 hover:text-white"
                 >
                   <X size={18} />
                 </button>
               </div>
 
-              <div className="space-y-6 px-6 py-6">
-                <p className="leading-8 text-slate-300">{selectedNode.description}</p>
+              <div className="space-y-6 px-5 py-5 sm:px-6 sm:py-6">
+                <p className="leading-7 sm:leading-8 text-white/78">{selectedNode.description}</p>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="rounded-xl border border-slate-600/65 bg-slate-900/55 p-4">
-                    <div className="text-xs uppercase tracking-[0.16em] text-slate-400">XP</div>
-                    <div className="mt-2 text-2xl font-semibold text-slate-100">{selectedNode.xp || 0}</div>
+                  <div className="rounded-lg border border-white/12 bg-black/26 p-4">
+                    <div className="text-xs uppercase tracking-[0.16em] text-white/60">XP</div>
+                    <div className="mt-2 text-2xl font-semibold text-[#f5f5f7]">{selectedNode.xp || 0}</div>
                   </div>
-                  <div className="rounded-xl border border-slate-600/65 bg-slate-900/55 p-4">
-                    <div className="text-xs uppercase tracking-[0.16em] text-slate-400">前置任务</div>
-                    <div className="mt-2 text-2xl font-semibold text-slate-100">{selectedNode.dependsOn.length}</div>
+                  <div className="rounded-lg border border-white/12 bg-black/26 p-4">
+                    <div className="text-xs uppercase tracking-[0.16em] text-white/60">前置任务</div>
+                    <div className="mt-2 text-2xl font-semibold text-[#f5f5f7]">{selectedNode.dependsOn.length}</div>
                   </div>
                 </div>
               </div>

@@ -18,21 +18,21 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
     <main class="site-shell">
         <SiteHeader locale={locale} alternatePath={alternatePath} />
 
-        <section class="hero-particle-wrap mt-12 sm:mt-16" data-reveal>
+        <section class="hero-particle-wrap mt-10 sm:mt-12" data-reveal>
             <canvas id={`particle-canvas-${locale}`} class="hero-particle-canvas" aria-hidden="true"></canvas>
-            <div class="panel-strong hero-particle-panel mx-auto max-w-5xl p-8 sm:p-12">
-                <p class="soft-label mb-5">{copy.hero?.badge || 'HADMARD.GITHUB.IO'}</p>
-                <h1 class="max-w-4xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-6xl leading-tight">
+            <div class="hero-particle-panel mx-auto flex min-h-[480px] max-w-5xl flex-col items-center justify-center px-6 py-16 text-center sm:min-h-[560px] sm:px-10 sm:py-20">
+                <p class="soft-label mb-6">{copy.hero?.badge || 'YFCCCC.GITHUB.IO'}</p>
+                <h1 class="hero-title max-w-4xl font-semibold text-white">
                     {copy.hero?.title}
                 </h1>
-                <p class="mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+                <p class="hero-subtitle mt-5 max-w-3xl text-white/85">
                     {copy.hero?.description}
                 </p>
-                <div class="mt-8 flex flex-wrap items-center gap-3">
-                    <span class="inline-flex items-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white">
+                <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+                    <span class="inline-flex items-center rounded-full border border-white/22 bg-white/12 px-5 py-2.5 text-[14px] text-white">
                         {copy.hero?.primaryCta || (locale === 'zh-cn' ? '请使用右上角导航' : 'Use top-right navigation')}
                     </span>
-                    <span class="signal-pill">
+                    <span class="inline-flex items-center rounded-full bg-[#0071e3] px-5 py-2.5 text-[14px] text-white">
                         {copy.hero?.secondaryCta || (locale === 'zh-cn' ? '仅通过栏目进入子页面' : 'Open subpages from top navigation only')}
                     </span>
                 </div>
@@ -62,13 +62,14 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
             ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
 
             particles.length = 0;
-            for (let i = 0; i < 85; i += 1) {
+            const density = width < 640 ? 42 : 74;
+            for (let i = 0; i < density; i += 1) {
                 particles.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.35,
-                    vy: (Math.random() - 0.5) * 0.35,
-                    r: Math.random() * 1.6 + 0.6,
+                    vx: (Math.random() - 0.5) * 0.22,
+                    vy: (Math.random() - 0.5) * 0.22,
+                    r: Math.random() * 1.5 + 0.5,
                 });
             }
         };
@@ -84,7 +85,7 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(59,130,246,0.55)';
+                ctx.fillStyle = 'rgba(255,255,255,0.58)';
                 ctx.fill();
             }
 
@@ -95,11 +96,11 @@ const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
                     const dx = a.x - b.x;
                     const dy = a.y - b.y;
                     const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < 105) {
+                    if (d < 118) {
                         ctx.beginPath();
                         ctx.moveTo(a.x, a.y);
                         ctx.lineTo(b.x, b.y);
-                        ctx.strokeStyle = `rgba(96,165,250,${(1 - d / 105) * 0.26})`;
+                        ctx.strokeStyle = `rgba(255,255,255,${(1 - d / 118) * 0.15})`;
                         ctx.lineWidth = 0.8;
                         ctx.stroke();
                     }

@@ -18,28 +18,36 @@ const alternatePath = '/en/' + 'resume/';
     <main class="site-shell">
         <SiteHeader locale={locale} alternatePath={alternatePath} />
 
-        <section id="resume" class="mx-auto mt-12 mb-8 w-full max-w-5xl" data-reveal>
-            <div class="panel-strong p-8 sm:p-12">
-                <p class="soft-label mb-5">Apple Clean Layout · Google Friendly Colors</p>
-                <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">{copy['resume']?.title || 'resume'}</h1>
-                <p class="mt-4 max-w-3xl text-slate-600 leading-8">{copy['resume']?.intro || ''}</p>
-                <div class="mt-6 flex flex-wrap gap-2">
-                    <span class="signal-pill">视觉算法主线</span>
-                    <span class="signal-pill">工程与研究并行</span>
-                    <span class="signal-pill">跨学科学习</span>
+        <section id="resume" class="mx-auto mt-10 w-full max-w-6xl" data-reveal>
+            <div class="rounded-xl bg-black px-8 py-14 text-white sm:px-12 sm:py-20">
+                <p class="soft-label mb-5">Resume</p>
+                <h1 class="hero-title max-w-4xl font-semibold">{copy['resume']?.title || 'resume'}</h1>
+                <p class="mt-5 max-w-3xl text-[17px] leading-[1.47] text-white/82">{copy['resume']?.intro || ''}</p>
+                <div class="mt-8 flex flex-wrap gap-2">
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">视觉算法主线</span>
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">工程与研究并行</span>
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">跨学科训练</span>
                 </div>
             </div>
         </section>
 
-        <section class="mx-auto mb-24 w-full max-w-5xl" data-reveal>
-            <div class="panel p-8 sm:p-10">
-                <h2 class="text-xl font-semibold text-slate-900">页面说明</h2>
-                <p class="mt-3 text-slate-600 leading-8">
-                    这一版使用浅底、深字、低噪阴影和蓝色强调，让信息密度更易读，视觉上更接近你说的 Google 配色与 Apple 式简洁。
-                </p>
-                <p class="mt-3 text-slate-600 leading-8">
-                    下一步可以在此基础上补齐教育经历、研究方向、技能栈与成果条目，形成完整履历页面。
-                </p>
+        <section class="mx-auto mb-24 mt-6 w-full max-w-6xl" data-reveal>
+            <div class="rounded-xl bg-[#f5f5f7] p-8 sm:p-12">
+                <h2 class="section-title">简历结构</h2>
+                <div class="mt-8 border-t border-black/12">
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">教育底座</div>
+                        <div>浙江大学农业工程专业，建立工程问题理解与系统化分析能力。</div>
+                    </article>
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">研究主线</div>
+                        <div>以图像融合与视觉算法为核心方向，逐步走向可验证的研究与工程成果。</div>
+                    </article>
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">交叉扩展</div>
+                        <div>通过科技创业投资与金融训练补足技术落地、商业理解和长期策略视角。</div>
+                    </article>
+                </div>
                 </div>
         </section>
     </main>
