@@ -19,10 +19,13 @@ Open http://localhost:3000
 
 ## Structure
 
-- `app/`: app router entry, layout, global styles
-- `components/sections/`: reusable homepage sections
-- `components/ui/`: shared UI primitives
-- `data/site.ts`: typed content source for projects and version timeline
+- `app/`: App Router entry, layout, global styles
+- `components/layout/`: shared layout primitives (Container, SectionBlock, SectionHeading, SiteHeader)
+- `components/sections/`: reusable homepage sections and index exports
+- `components/ui/`: behavior primitives (SectionReveal)
+- `config/site.ts`: site metadata and navigation config
+- `data/`: section-level content sources (`projects`, `methodology`, `versionHistory`)
+- `types/content.ts`: shared content type definitions
 
 ## Design Constraints Implemented
 

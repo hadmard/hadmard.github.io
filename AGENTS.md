@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.18-next14-premium-personal-site.md`
+最新一期路径：`custom/notes/v1.20-quant-research-interface-refine.md`
 
 ## 1. 基本原则
 
