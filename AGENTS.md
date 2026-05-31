@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.30-liquid-glass-calendar-root.md`
+最新一期路径：`custom/notes/v1.32-calendar-real-todo-and-course-schedule.md`
 
 ## 1. 基本原则
 

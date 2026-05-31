@@ -19,6 +19,27 @@ interface ScheduleItem {
 	detail: string;
 }
 
+interface CourseItem {
+	weekday: number;
+	time: string;
+	title: string;
+	location: string;
+	weight: 1 | 2 | 3;
+}
+
+interface TaskBlock {
+	id: string;
+	title: string;
+	detail: string;
+	type: string;
+	weight: 1 | 2 | 3;
+	due?: string;
+	repeat?: 'daily' | 'weekly-twice';
+	until?: string;
+	blocks?: number;
+	preferredDays?: number[];
+}
+
 interface CalendarDay {
 	id: string;
 	date: Date;
@@ -40,35 +61,48 @@ const BUSY_COPY: Record<BusyLevel, string> = {
 	red: '日程密集，建议提前锁定核心事项并减少切换。',
 };
 
-const SAMPLE_SCHEDULES: Record<number, ScheduleItem[]> = {
-	0: [
-		{ time: '09:20', title: '晨间计划整理', type: 'Planning', weight: 1, detail: '快速确认今日任务、优先级与可延后事项。' },
-		{ time: '14:00', title: '图像融合实验记录', type: 'Research', weight: 2, detail: '整理 UV 与 white 双源融合实验的参数与观察。' },
-	],
-	1: [
-		{ time: '08:30', title: '算法论文阅读', type: 'Reading', weight: 2, detail: '阅读多源视觉融合相关论文，并摘出可复用模块。' },
-		{ time: '10:30', title: '模型实验窗口', type: 'Build', weight: 3, detail: '跑一轮关键实验，记录输入、输出和失败样例。' },
-		{ time: '19:30', title: '复盘与明日计划', type: 'Review', weight: 1, detail: '把有效结果整理进长期进度系统。' },
-	],
-	2: [
-		{ time: '11:00', title: '课程与金融阅读', type: 'Study', weight: 1, detail: '补充金融学辅修与技术投资相关笔记。' },
-	],
-	4: [
-		{ time: '09:00', title: '深度开发块', type: 'Focus', weight: 3, detail: '集中处理核心实现，不安排额外上下文切换。' },
-		{ time: '13:30', title: '实验结果对比', type: 'Analysis', weight: 2, detail: '对比不同融合策略下的视觉表现和稳定性。' },
-		{ time: '16:40', title: '项目材料整理', type: 'Portfolio', weight: 2, detail: '将可公开材料整理成后续项目展示结构。' },
-		{ time: '21:00', title: '轻量恢复', type: 'Recovery', weight: 1, detail: '做低刺激复盘，避免继续压高负荷。' },
-	],
-	7: [
-		{ time: '10:00', title: '周目标检查', type: 'Planning', weight: 2, detail: '确认本周主线是否仍围绕视觉算法推进。' },
-		{ time: '15:00', title: '交流准备', type: 'Communication', weight: 2, detail: '准备一页式说明，便于和导师或同学沟通。' },
-	],
-	11: [
-		{ time: '09:10', title: '高优先级实验', type: 'Research', weight: 3, detail: '完成最关键的一组实验验证，并保存过程日志。' },
-		{ time: '11:30', title: '问题定位', type: 'Debug', weight: 3, detail: '定位图像输出异常、边缘伪影或参数漂移。' },
-		{ time: '14:20', title: '材料更新', type: 'Writing', weight: 2, detail: '更新站点项目描述与阶段进展。' },
-	],
+const COURSE_SCHEDULE: CourseItem[] = [
+	{ weekday: 1, time: '13:25-16:15', title: '精细农业', location: '紫金港西1-518', weight: 3 },
+	{ weekday: 1, time: '18:50-20:30', title: '职业生涯与发展规划', location: '紫金港北2-225', weight: 2 },
+	{ weekday: 2, time: '08:00-09:40', title: '农业生物系统传输过程', location: '紫金港西1-309', weight: 2 },
+	{ weekday: 2, time: '10:00-11:40', title: '材料力学（乙）', location: '紫金港西2-517', weight: 2 },
+	{ weekday: 2, time: '13:25-16:15', title: '托福阅读', location: '紫金港东6-332', weight: 2 },
+	{ weekday: 3, time: '10:00-11:40', title: '农业物理学', location: '紫金港西2-519', weight: 2 },
+	{ weekday: 3, time: '13:25-15:05', title: '精细农业实验', location: '紫金港农生组团D-612', weight: 2 },
+	{ weekday: 3, time: '18:50-21:20', title: '金融学（投资）', location: '紫金港北3-219', weight: 2 },
+	{ weekday: 4, time: '08:00-09:40', title: '材料力学（乙）', location: '紫金港西2-517', weight: 2 },
+	{ weekday: 4, time: '10:00-11:40', title: '农业生物系统传输过程', location: '紫金港农生组团D-228', weight: 2 },
+	{ weekday: 4, time: '13:25-16:15', title: '机械制图及计算机辅助设计', location: '紫金港农生组团D-414', weight: 3 },
+	{ weekday: 4, time: '16:15-18:00', title: '材料力学实验', location: '紫金港西4-143', weight: 2 },
+	{ weekday: 5, time: '08:00-09:40', title: '农业物科学', location: '紫金港农生组团D-241', weight: 2 },
+	{ weekday: 5, time: '10:00-11:40', title: '篮球（初级）', location: '紫金港风雨操场', weight: 2 },
+];
+
+const TASK_BLOCK_TIMES: Record<number, string[]> = {
+	0: ['09:30', '10:25', '14:00', '14:55', '19:30', '20:25', '21:20'],
+	1: ['08:30', '09:25', '10:20', '17:00', '20:40', '21:35'],
+	2: ['06:55', '12:15', '16:45', '19:30', '20:25', '21:20'],
+	3: ['08:30', '12:15', '15:30', '16:25', '21:35'],
+	4: ['06:55', '12:15', '18:10', '19:30', '20:25', '21:20'],
+	5: ['12:15', '13:25', '14:20', '16:00', '19:30', '20:25'],
+	6: ['09:30', '10:25', '14:00', '14:55', '19:30', '20:25', '21:20'],
 };
+
+const TODO_BLOCKS: TaskBlock[] = [
+	{ id: 'cv', title: 'CV 项目完成', type: '项目', weight: 2, due: '7.15', until: '7.15', repeat: 'daily', detail: '每天 1 个 45min 时间块，持续推进 CV 项目。' },
+	{ id: 'cad', title: 'CAD 七个作业', type: '作业', weight: 2, due: '6.6', until: '6.6', repeat: 'daily', detail: 'ddl 6.6，每天 1 个 45min 时间块。' },
+	{ id: 'solidworks', title: 'SolidWorks 七个作业', type: '作业', weight: 2, due: '6.13', until: '6.13', repeat: 'daily', detail: 'ddl 6.13，每天 1 个 45min 时间块。' },
+	{ id: 'ai-math', title: 'AI 数学基础', type: '学习', weight: 2, due: '6.6', until: '6.6', repeat: 'daily', detail: 'ddl 6.6，8 个单元，按 1 个 45min 时间块/天推进。' },
+	{ id: 'toefl-words', title: '背托福单词', type: '英语', weight: 1, repeat: 'daily', detail: '每天 1 个 45min 时间块，保持连续记忆。' },
+	{ id: 'tutor-prep', title: '下周家教备课', type: '备课', weight: 2, due: '6.6', until: '6.6', repeat: 'weekly-twice', preferredDays: [2, 4], detail: 'ddl 6.6，本周安排 2 个 45min 时间块。' },
+	{ id: 'material-homework', title: '材料力学两次作业', type: '作业', weight: 2, due: '6.2', blocks: 2, detail: 'ddl 6.2，拆成 2 个 45min 时间块。' },
+	{ id: 'thermo-homework', title: '热力学两次作业', type: '作业', weight: 2, due: '6.2', blocks: 2, detail: 'ddl 6.2，拆成 2 个 45min 时间块。' },
+	{ id: 'srtp', title: 'SRTP 提交与实验', type: '实验', weight: 3, due: '6.6', blocks: 3, detail: '提交材料，qnd 跑一趟，顺便完成实验相关推进。' },
+	{ id: 'precision-online', title: '精细农业网课', type: '网课', weight: 1, due: '6.6', blocks: 1, detail: 'ddl 6.6，安排 1 个 45min 时间块。' },
+	{ id: 'boring-online', title: '无聊学网课', type: '网课', weight: 1, due: '6.6', blocks: 1, detail: 'ddl 6.6，安排 1 个 45min 时间块。' },
+	{ id: 'fluid-report', title: '流体力学实验报告 2', type: '报告', weight: 2, due: '6.9', blocks: 1, detail: 'ddl 6.9，安排 1 个 45min 时间块。' },
+	{ id: 'math-certificate', title: '拿数学竞赛证书', type: '事务', weight: 1, due: '6.9', blocks: 1, detail: 'ddl 6.9，安排 1 个 45min 时间块处理证书事项。' },
+];
 
 function toDateId(date: Date) {
 	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -82,10 +116,31 @@ function formatFullDate(date: Date) {
 	return new Intl.DateTimeFormat('zh-CN', { weekday: 'long', month: 'long', day: 'numeric' }).format(date);
 }
 
+function formatCompactDate(date: Date) {
+	return `${date.getMonth() + 1}.${date.getDate()}`;
+}
+
+function formatTaskTime(start: string) {
+	const [hour, minute] = start.split(':').map(Number);
+	const end = new Date(2026, 0, 1, hour, minute + 45);
+	return `${start}-${String(end.getHours()).padStart(2, '0')}:${String(end.getMinutes()).padStart(2, '0')}`;
+}
+
+function dateFromMonthDay(anchorYear: number, monthDay?: string) {
+	if (!monthDay) return undefined;
+	const [month, day] = monthDay.split('.').map(Number);
+	return new Date(anchorYear, month - 1, day, 23, 59, 59, 999);
+}
+
+function isSameOrBefore(date: Date, target?: Date) {
+	if (!target) return true;
+	return date.getTime() <= target.getTime();
+}
+
 function getBusyLevel(items: ScheduleItem[]): BusyLevel {
 	const score = items.reduce((sum, item) => sum + item.weight, 0);
-	if (score >= 7 || items.length >= 4) return 'red';
-	if (score >= 3 || items.length >= 2) return 'yellow';
+	if (score >= 12 || items.length >= 7) return 'red';
+	if (score >= 6 || items.length >= 4) return 'yellow';
 	return 'green';
 }
 
@@ -94,41 +149,90 @@ function createCalendarDays(anchorDate: Date) {
 	start.setHours(0, 0, 0, 0);
 	start.setDate(start.getDate() - 1);
 
-	return Array.from({ length: 30 }, (_, dayIndex) => {
+	const dayBlockIndex = new Map<number, number>();
+	const days = Array.from({ length: 30 }, (_, dayIndex) => {
 		const date = new Date(start);
 		date.setDate(start.getDate() + dayIndex);
-		const fallbackItems =
-			SAMPLE_SCHEDULES[dayIndex] ??
-			(dayIndex % 6 === 5
-				? []
-				: [
-						{
-							time: dayIndex % 3 === 0 ? '10:00' : '15:30',
-							title: dayIndex % 3 === 0 ? '专注推进块' : '整理与复盘',
-							type: dayIndex % 3 === 0 ? 'Focus' : 'Review',
-							weight: dayIndex % 3 === 0 ? 2 : 1,
-							detail: dayIndex % 3 === 0 ? '预留给当天最重要的一件事。' : '收束材料、记录结论并准备下一步。',
-						},
-					]);
+		const courseItems = COURSE_SCHEDULE.filter((course) => course.weekday === date.getDay()).map((course) => ({
+			time: course.time,
+			title: course.title,
+			type: '课程',
+			weight: course.weight,
+			detail: course.location,
+		}));
 
 		return {
 			id: toDateId(date),
 			date,
 			dayIndex,
-			busyLevel: getBusyLevel(fallbackItems),
-			items: fallbackItems,
+			busyLevel: 'green' as BusyLevel,
+			items: courseItems,
 		};
 	});
+
+	const addTaskBlock = (dayIndex: number, task: TaskBlock, copyIndex?: number) => {
+		const day = days[dayIndex];
+		if (!day) return;
+		const weekday = day.date.getDay();
+		const usedIndex = dayBlockIndex.get(dayIndex) ?? 0;
+		const slots = TASK_BLOCK_TIMES[weekday] ?? TASK_BLOCK_TIMES[0];
+		const fallbackHour = 22 + Math.floor(Math.max(usedIndex - slots.length, 0) / 2);
+		const fallbackMinute = Math.max(usedIndex - slots.length, 0) % 2 === 0 ? '05' : '55';
+		const startTime = slots[usedIndex] ?? `${String(Math.min(fallbackHour, 23)).padStart(2, '0')}:${fallbackMinute}`;
+		dayBlockIndex.set(dayIndex, usedIndex + 1);
+		day.items.push({
+			time: formatTaskTime(startTime),
+			title: copyIndex ? `${task.title} ${copyIndex}` : task.title,
+			type: task.type,
+			weight: task.weight,
+			detail: task.due ? `${task.detail} 截止：${task.due}` : task.detail,
+		});
+	};
+
+	for (const task of TODO_BLOCKS.filter((item) => item.repeat)) {
+		const until = dateFromMonthDay(start.getFullYear(), task.until);
+		for (const day of days) {
+			if (!isSameOrBefore(day.date, until)) continue;
+			if (task.repeat === 'weekly-twice' && !task.preferredDays?.includes(day.date.getDay())) continue;
+			addTaskBlock(day.dayIndex, task);
+		}
+	}
+
+	for (const task of TODO_BLOCKS.filter((item) => !item.repeat)) {
+		const due = dateFromMonthDay(start.getFullYear(), task.due);
+		const candidateDays = days.filter((day) => isSameOrBefore(day.date, due));
+		const blockCount = task.blocks ?? 1;
+		for (let blockIndex = 0; blockIndex < blockCount; blockIndex += 1) {
+			const targetDay =
+				candidateDays.reduce<CalendarDay | undefined>((bestDay, day) => {
+					if (!bestDay) return day;
+					const dayLoad = day.items.length + (dayBlockIndex.get(day.dayIndex) ?? 0);
+					const bestLoad = bestDay.items.length + (dayBlockIndex.get(bestDay.dayIndex) ?? 0);
+					if (dayLoad !== bestLoad) return dayLoad < bestLoad ? day : bestDay;
+					return day.dayIndex < bestDay.dayIndex ? day : bestDay;
+				}, undefined) ?? days[blockIndex];
+			addTaskBlock(targetDay.dayIndex, task, blockCount > 1 ? blockIndex + 1 : undefined);
+		}
+	}
+
+	for (const day of days) {
+		day.items.sort((a, b) => a.time.localeCompare(b.time, 'zh-CN', { numeric: true }));
+		day.busyLevel = getBusyLevel(day.items);
+	}
+
+	return days;
 }
 
 export default function CalendarExperience() {
 	const [days, setDays] = useState<CalendarDay[]>([]);
 	const [selectedId, setSelectedId] = useState<string>('');
+	const [ready, setReady] = useState(false);
 
 	useEffect(() => {
 		const generatedDays = createCalendarDays(new Date());
 		setDays(generatedDays);
 		setSelectedId(generatedDays[0]?.id ?? '');
+		window.requestAnimationFrame(() => setReady(true));
 	}, []);
 
 	const selectedDay = useMemo(() => days.find((day) => day.id === selectedId) ?? days[0], [days, selectedId]);
@@ -147,7 +251,7 @@ export default function CalendarExperience() {
 	}
 
 	return (
-		<div className="calendar-app">
+		<div className={`calendar-app${ready ? ' is-ready' : ''}`}>
 			<div className="calendar-ambient" aria-hidden="true">
 				<span className="ambient-dot dot-1" />
 				<span className="ambient-dot dot-2" />
@@ -168,22 +272,28 @@ export default function CalendarExperience() {
 			</header>
 
 			<main className="calendar-stage">
-				<section className="calendar-hero glass-panel">
-					<div>
+				<motion.section
+					className="calendar-hero glass-panel"
+					initial={{ opacity: 0, y: 18, scale: 0.985 }}
+					animate={{ opacity: 1, y: 0, scale: 1 }}
+					transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
+				>
+					<div className="calendar-hero-main">
 						<p className="calendar-kicker">
 							<CalendarDays size={16} />
 							从昨天开始 · 6 × 5
 						</p>
-						<h1>未来 30 天，被压进一块液态玻璃。</h1>
-						<p className="calendar-hero-copy">
-							点击任意一天查看详细日程。红、黄、绿只保留接口和视觉语义，后续可以交给 AI 根据事件数量与权重自动判定。
+						<h1>日程日历</h1>
+						<p className="calendar-hero-copy">点击日期查看当天安排，红黄绿用于标记忙碌程度。</p>
+						<p className="calendar-date-range">
+							{formatCompactDate(startDate)} - {formatCompactDate(endDate)}
 						</p>
 					</div>
 					<div className="hero-metrics">
 						<div>
-							<span>{formatMonth(startDate)}</span>
+							<span>日期范围</span>
 							<strong>
-								{startDate.getDate()} - {endDate.getDate()}
+								{formatCompactDate(startDate)} - {formatCompactDate(endDate)}
 							</strong>
 						</div>
 						<div>
@@ -195,10 +305,15 @@ export default function CalendarExperience() {
 							<strong>{redDays}</strong>
 						</div>
 					</div>
-				</section>
+				</motion.section>
 
 				<section className="calendar-layout">
-					<div className="calendar-board glass-panel">
+					<motion.div
+						className="calendar-board glass-panel"
+						initial={{ opacity: 0, y: 24, filter: 'blur(12px)' }}
+						animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+						transition={{ delay: 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+					>
 						<div className="calendar-board-head">
 							<div>
 								<p className="calendar-kicker">Calendar Matrix</p>
@@ -227,9 +342,11 @@ export default function CalendarExperience() {
 										layout
 										className={`day-card busy-${day.busyLevel}${isSelected ? ' is-selected' : ''}`}
 										onClick={() => setSelectedId(day.id)}
-										whileHover={{ y: -7, scale: 1.015 }}
-										whileTap={{ scale: 0.98 }}
-										transition={{ type: 'spring', stiffness: 430, damping: 34, mass: 0.8 }}
+										initial={{ opacity: 0, y: 18, scale: 0.96 }}
+										animate={{ opacity: 1, y: 0, scale: 1 }}
+										whileHover={{ y: -5, scale: 1.012 }}
+										whileTap={{ scale: 0.985 }}
+										transition={{ type: 'spring', stiffness: 360, damping: 30, mass: 0.72, delay: day.dayIndex * 0.012 }}
 										aria-label={`${formatFullDate(day.date)}，忙碌程度 ${BUSY_LABELS[day.busyLevel]}`}
 									>
 										<span className="day-card-glow" />
@@ -242,16 +359,22 @@ export default function CalendarExperience() {
 								);
 							})}
 						</div>
-					</div>
+					</motion.div>
 
-					<aside className="detail-panel glass-panel" aria-live="polite">
+					<motion.aside
+						className="detail-panel glass-panel"
+						aria-live="polite"
+						initial={{ opacity: 0, x: 22, filter: 'blur(12px)' }}
+						animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+						transition={{ delay: 0.14, duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+					>
 						<AnimatePresence mode="wait">
 							<motion.div
 								key={selectedDay.id}
-								initial={{ opacity: 0, y: 18, filter: 'blur(10px)' }}
+								initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
 								animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-								exit={{ opacity: 0, y: -12, filter: 'blur(8px)' }}
-								transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+								exit={{ opacity: 0, y: -8, filter: 'blur(6px)' }}
+								transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
 							>
 								<div className="detail-head">
 									<p className="calendar-kicker">
@@ -316,7 +439,7 @@ export default function CalendarExperience() {
 								</div>
 							</motion.div>
 						</AnimatePresence>
-					</aside>
+					</motion.aside>
 				</section>
 			</main>
 		</div>
