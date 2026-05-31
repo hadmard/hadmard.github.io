@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.33-gemini-liquid-glass-calendar-refactor.md`
+最新一期路径：`custom/notes/v1.34-calendar-weekday-fix-and-liquid-glass.md`
 
 ## 1. 基本原则
 

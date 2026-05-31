@@ -49,7 +49,6 @@ interface CalendarDay {
 	items: ScheduleItem[];
 }
 
-const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const BUSY_LABELS: Record<BusyLevel, string> = {
 	green: '轻量',
 	yellow: '中等',
@@ -335,12 +334,6 @@ export default function CalendarExperience() {
 							</div>
 						</div>
 
-						<div className="weekday-row">
-							{WEEKDAY_LABELS.map((label) => (
-								<span key={label}>{label}</span>
-							))}
-						</div>
-
 						<div className="day-grid" role="grid" aria-label="从昨天开始的 30 天日历">
 							{days.map((day) => {
 								const isSelected = day.id === selectedDay.id;
@@ -360,7 +353,10 @@ export default function CalendarExperience() {
 										aria-label={`${formatFullDate(day.date)}，忙碌程度 ${BUSY_LABELS[day.busyLevel]}`}
 									>
 										<span className="day-status-dot" />
-										<span className="day-index">D{String(day.dayIndex + 1).padStart(2, '0')}</span>
+										<div className="day-card-header">
+											<span className="day-index">D{String(day.dayIndex + 1).padStart(2, '0')}</span>
+											<span className="day-weekday">{day.date.toLocaleDateString('en-US', { weekday: 'short' })}</span>
+										</div>
 										<strong>{day.date.getDate()}</strong>
 										<span className="day-month">{day.date.toLocaleDateString('en-US', { month: 'short' })}</span>
 										<span className="day-load">{BUSY_LABELS[day.busyLevel]}</span>

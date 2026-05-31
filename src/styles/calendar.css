@@ -344,24 +344,10 @@
 	background: #28c840;
 }
 
-.weekday-row,
 .day-grid {
 	display: grid;
 	grid-template-columns: repeat(6, minmax(0, 1fr));
 	gap: 12px;
-}
-
-.weekday-row {
-	margin-bottom: 12px;
-}
-
-.weekday-row span {
-	color: rgba(29, 29, 31, 0.46);
-	font-size: 12px;
-	font-weight: 700;
-	letter-spacing: 0.05em;
-	text-align: center;
-	text-transform: uppercase;
 }
 
 .day-card {
@@ -369,15 +355,15 @@
 	isolation: isolate;
 	min-height: 118px;
 	overflow: hidden;
-	border: 1px solid rgba(255, 255, 255, 0.56);
-	border-radius: 28px;
-	background:
-		linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.22)),
-		rgba(255, 255, 255, 0.28);
+	border: 1px solid rgba(255, 255, 255, 0.8);
+	border-radius: 32px;
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.35));
+	backdrop-filter: blur(24px) saturate(160%);
+	-webkit-backdrop-filter: blur(24px) saturate(160%);
 	box-shadow:
-		inset 0 1px 0 rgba(255, 255, 255, 0.9),
-		inset 0 -1px 0 rgba(255, 255, 255, 0.18),
-		0 18px 40px rgba(31, 41, 55, 0.085);
+		inset 0 1px 1px rgba(255, 255, 255, 0.9),
+		inset 0 -1px 1px rgba(255, 255, 255, 0.3),
+		0 12px 32px rgba(31, 41, 55, 0.06);
 	color: #1d1d1f;
 	cursor: pointer;
 	padding: 14px;
@@ -441,6 +427,28 @@
 	box-shadow:
 		0 0 0 4px rgba(var(--busy-rgb), 0.12),
 		0 0 22px rgba(var(--busy-rgb), 0.34);
+}
+
+.day-card-header {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 4px;
+	padding-bottom: 6px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.day-weekday {
+	font-size: 12px;
+	font-weight: 700;
+	color: rgba(29, 29, 31, 0.6);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	background: linear-gradient(135deg, rgba(29, 29, 31, 0.8), rgba(29, 29, 31, 0.4));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 .day-index,
@@ -742,7 +750,6 @@
 		-webkit-overflow-scrolling: touch;
 	}
 
-	.weekday-row,
 	.day-grid {
 		min-width: 900px;
 		grid-template-columns: repeat(6, minmax(132px, 1fr));
