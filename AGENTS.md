@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.32-calendar-real-todo-and-course-schedule.md`
+最新一期路径：`custom/notes/v1.33-gemini-liquid-glass-calendar-refactor.md`
 
 ## 1. 基本原则
 

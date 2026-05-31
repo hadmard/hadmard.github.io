@@ -7,6 +7,7 @@
 //   第三部分：日历网格与详情面板渲染
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Clock3, Sparkles } from 'lucide-react';
+import type { PointerEvent } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
 type BusyLevel = 'green' | 'yellow' | 'red';
@@ -226,6 +227,7 @@ function createCalendarDays(anchorDate: Date) {
 export default function CalendarExperience() {
 	const [days, setDays] = useState<CalendarDay[]>([]);
 	const [selectedId, setSelectedId] = useState<string>('');
+	const [detailDirection, setDetailDirection] = useState(1);
 	const [ready, setReady] = useState(false);
 
 	useEffect(() => {
@@ -240,6 +242,17 @@ export default function CalendarExperience() {
 	const redDays = days.filter((day) => day.busyLevel === 'red').length;
 	const startDate = days[0]?.date;
 	const endDate = days[days.length - 1]?.date;
+
+	const selectDay = (day: CalendarDay) => {
+		setDetailDirection(day.dayIndex >= (selectedDay?.dayIndex ?? 0) ? 1 : -1);
+		setSelectedId(day.id);
+	};
+
+	const moveDaySpotlight = (event: PointerEvent<HTMLButtonElement>) => {
+		const rect = event.currentTarget.getBoundingClientRect();
+		event.currentTarget.style.setProperty('--pointer-x', `${event.clientX - rect.left}px`);
+		event.currentTarget.style.setProperty('--pointer-y', `${event.clientY - rect.top}px`);
+	};
 
 	if (!selectedDay || !startDate || !endDate) {
 		return (
@@ -273,23 +286,19 @@ export default function CalendarExperience() {
 
 			<main className="calendar-stage">
 				<motion.section
-					className="calendar-hero glass-panel"
+					className="calendar-command glass-panel"
 					initial={{ opacity: 0, y: 18, scale: 0.985 }}
 					animate={{ opacity: 1, y: 0, scale: 1 }}
-					transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
+					transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
 				>
-					<div className="calendar-hero-main">
+					<div className="calendar-command-main">
 						<p className="calendar-kicker">
 							<CalendarDays size={16} />
-							从昨天开始 · 6 × 5
+							从昨天开始 · 6 × 5 · 45min blocks
 						</p>
-						<h1>日程日历</h1>
-						<p className="calendar-hero-copy">点击日期查看当天安排，红黄绿用于标记忙碌程度。</p>
-						<p className="calendar-date-range">
-							{formatCompactDate(startDate)} - {formatCompactDate(endDate)}
-						</p>
+						<h1>日程中枢</h1>
 					</div>
-					<div className="hero-metrics">
+					<div className="command-metrics">
 						<div>
 							<span>日期范围</span>
 							<strong>
@@ -341,15 +350,16 @@ export default function CalendarExperience() {
 										key={day.id}
 										layout
 										className={`day-card busy-${day.busyLevel}${isSelected ? ' is-selected' : ''}`}
-										onClick={() => setSelectedId(day.id)}
+										onClick={() => selectDay(day)}
+										onPointerMove={moveDaySpotlight}
 										initial={{ opacity: 0, y: 18, scale: 0.96 }}
 										animate={{ opacity: 1, y: 0, scale: 1 }}
 										whileHover={{ y: -5, scale: 1.012 }}
-										whileTap={{ scale: 0.985 }}
-										transition={{ type: 'spring', stiffness: 360, damping: 30, mass: 0.72, delay: day.dayIndex * 0.012 }}
+										whileTap={{ scale: 0.96 }}
+										transition={{ type: 'spring', bounce: 0, duration: 0.4, delay: day.dayIndex * 0.01 }}
 										aria-label={`${formatFullDate(day.date)}，忙碌程度 ${BUSY_LABELS[day.busyLevel]}`}
 									>
-										<span className="day-card-glow" />
+										<span className="day-status-dot" />
 										<span className="day-index">D{String(day.dayIndex + 1).padStart(2, '0')}</span>
 										<strong>{day.date.getDate()}</strong>
 										<span className="day-month">{day.date.toLocaleDateString('en-US', { month: 'short' })}</span>
@@ -371,10 +381,11 @@ export default function CalendarExperience() {
 						<AnimatePresence mode="wait">
 							<motion.div
 								key={selectedDay.id}
-								initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
-								animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-								exit={{ opacity: 0, y: -8, filter: 'blur(6px)' }}
-								transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+								custom={detailDirection}
+								initial={(direction: number) => ({ opacity: 0, x: direction * 26, filter: 'blur(8px)' })}
+								animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+								exit={(direction: number) => ({ opacity: 0, x: direction * -20, filter: 'blur(6px)' })}
+								transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
 							>
 								<div className="detail-head">
 									<p className="calendar-kicker">
@@ -392,6 +403,7 @@ export default function CalendarExperience() {
 										type="button"
 										onClick={() => {
 											const previous = days[Math.max(selectedDay.dayIndex - 1, 0)];
+											setDetailDirection(-1);
 											setSelectedId(previous.id);
 										}}
 										disabled={selectedDay.dayIndex === 0}
@@ -405,6 +417,7 @@ export default function CalendarExperience() {
 										type="button"
 										onClick={() => {
 											const next = days[Math.min(selectedDay.dayIndex + 1, days.length - 1)];
+											setDetailDirection(1);
 											setSelectedId(next.id);
 										}}
 										disabled={selectedDay.dayIndex === days.length - 1}
