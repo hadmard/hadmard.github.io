@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.0.7"><meta name="description" content="Yfcccc 的个人主页：展示学习进度、项目目标、个人思考与长期迭代。"><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/"><title>Yfcccc | 个人研究主页</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DmQZLfuR.js"></script><link rel="stylesheet" href="/_astro/SiteHeader.Ckvjvw5j.css"></head> <body>  <main class="site-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <div class="space-y-1"> <p class="text-sm font-semibold text-white">Yfcccc</p> <p class="text-sm text-white/70">个人博客 · 长期研究与项目迭代</p> </div> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/progress"> 进度 </a><a class="nav-link" href="/projects"> 项目 </a><a class="nav-link" href="/thinking"> 思考 </a><a class="nav-link" href="/resume"> 简历 </a> </nav> <a href="/en/" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 shadow-[0_4px_12px_rgba(15,23,42,0.06)] transition duration-300 hover:border-slate-300 hover:bg-slate-50"> <span class="rounded-full px-2 py-1 text-[11px] bg-blue-50 text-blue-700">中</span> <span class="rounded-full px-2 py-1 text-[11px] text-slate-500">EN</span> </a> </div> </header> <section class="hero-particle-wrap mt-10 sm:mt-12" data-reveal> <canvas id="particle-canvas-zh-cn" class="hero-particle-canvas" aria-hidden="true"></canvas> <div class="hero-particle-panel mx-auto flex min-h-[480px] max-w-5xl flex-col items-center justify-center px-6 py-16 text-center sm:min-h-[560px] sm:px-10 sm:py-20"> <p class="soft-label mb-6">YFCCCC / ASTRO / GITHUB PAGES</p> <h1 class="hero-title max-w-4xl font-semibold text-white"> 欢迎来到 Yfcccc 的个人博客。 </h1> <p class="hero-subtitle mt-5 max-w-3xl text-white/85"> 这里是展示层首页：用于说明网站定位与方向。具体内容请通过右上角栏目进入对应子页面查看。 </p> <div class="mt-9 flex flex-wrap items-center justify-center gap-3"> <span class="inline-flex items-center rounded-full border border-white/22 bg-white/12 px-5 py-2.5 text-[14px] text-white"> 进入进度页 </span> <span class="inline-flex items-center rounded-full bg-[#0071e3] px-5 py-2.5 text-[14px] text-white"> 进入项目页 </span> </div> </div> </section> </main>  <script>
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.0.7"><meta name="description" content="从昨天开始排布 6x5 日期网格，点击每一天查看详细日程，并用红黄绿显示忙碌程度。"><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/old/en/"><title>Yfcccc | 日程日历</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DmQZLfuR.js"></script><link rel="stylesheet" href="/_astro/Layout.C54Ua4Sv.css">
+<link rel="stylesheet" href="/_astro/index@_@astro.MxLX76Ni.css"></head> <body>  <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>Number.POSITIVE_INFINITY*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="dAFkv" component-url="/_astro/CalendarExperience.9HUqQfOE.js" component-export="default" renderer-url="/_astro/client.Cd_35f1k.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CalendarExperience&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island>  <script>
 			const setupReveal = () => {
 				const items = document.querySelectorAll('[data-reveal]');
 				if (!items.length) return;
@@ -22,78 +23,4 @@
 
 			document.addEventListener('astro:page-load', setupReveal);
 			document.addEventListener('DOMContentLoaded', setupReveal);
-		</script> </body> </html> <script>
-    (() => {
-        const canvas = document.querySelector('.hero-particle-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        const particles = [];
-        let width = 0;
-        let height = 0;
-        let raf = 0;
-
-        const init = () => {
-            const rect = canvas.getBoundingClientRect();
-            width = rect.width;
-            height = rect.height;
-            canvas.width = Math.floor(width * window.devicePixelRatio);
-            canvas.height = Math.floor(height * window.devicePixelRatio);
-            ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-
-            particles.length = 0;
-            const density = width < 640 ? 42 : 74;
-            for (let i = 0; i < density; i += 1) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.22,
-                    vy: (Math.random() - 0.5) * 0.22,
-                    r: Math.random() * 1.5 + 0.5,
-                });
-            }
-        };
-
-        const draw = () => {
-            ctx.clearRect(0, 0, width, height);
-
-            for (const p of particles) {
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 0 || p.x > width) p.vx *= -1;
-                if (p.y < 0 || p.y > height) p.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255,255,255,0.58)';
-                ctx.fill();
-            }
-
-            for (let i = 0; i < particles.length; i += 1) {
-                for (let j = i + 1; j < particles.length; j += 1) {
-                    const a = particles[i];
-                    const b = particles[j];
-                    const dx = a.x - b.x;
-                    const dy = a.y - b.y;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < 118) {
-                        ctx.beginPath();
-                        ctx.moveTo(a.x, a.y);
-                        ctx.lineTo(b.x, b.y);
-                        ctx.strokeStyle = `rgba(255,255,255,${(1 - d / 118) * 0.15})`;
-                        ctx.lineWidth = 0.8;
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            raf = requestAnimationFrame(draw);
-        };
-
-        init();
-        draw();
-        window.addEventListener('resize', init);
-        window.addEventListener('beforeunload', () => cancelAnimationFrame(raf));
-    })();
-</script>
+		</script> </body> </html>

@@ -1,0 +1,54 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import { getCopy } from '../../../utils/i18n';
+
+const locale = 'en';
+const copy = getCopy(locale);
+const alternatePath = "/old/resume/";
+---
+
+<Layout
+    title={`${copy.nav.find((i) => i.id === 'resume')?.label || 'resume'} | ${copy.brand.name}`}
+    description={copy.seo.description}
+    lang={locale}
+    canonicalPath="/old/en/resume/"
+    alternatePath={alternatePath}
+>
+    <main class="site-shell">
+        <SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
+
+        <section id="resume" class="mx-auto mt-10 w-full max-w-6xl" data-reveal>
+            <div class="rounded-xl bg-black px-8 py-14 text-white sm:px-12 sm:py-20">
+                <p class="soft-label mb-5">Resume</p>
+                <h1 class="hero-title max-w-4xl font-semibold">{copy['resume']?.title || 'resume'}</h1>
+                <p class="mt-5 max-w-3xl text-[17px] leading-[1.47] text-white/82">{copy['resume']?.intro || ''}</p>
+                <div class="mt-8 flex flex-wrap gap-2">
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Visual Algorithms</span>
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Research + Engineering</span>
+                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Interdisciplinary Training</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="mx-auto mb-24 mt-6 w-full max-w-6xl" data-reveal>
+            <div class="rounded-xl bg-[#f5f5f7] p-8 sm:p-12">
+                <h2 class="section-title">Resume Structure</h2>
+                <div class="mt-8 border-t border-black/12">
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">Academic Base</div>
+                        <div>Agricultural Engineering at Zhejiang University, with strong systems and applied problem framing.</div>
+                    </article>
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">Research Thread</div>
+                        <div>Image fusion and visual algorithms as the core direction toward verifiable research and engineering output.</div>
+                    </article>
+                    <article class="data-row md:grid-cols-[1fr_2fr]">
+                        <div class="font-semibold text-[#1d1d1f]">Cross-disciplinary Layer</div>
+                        <div>Venture and finance training extends technical work with commercialization and long-horizon strategy perspectives.</div>
+                    </article>
+                </div>
+                </div>
+        </section>
+    </main>
+</Layout>

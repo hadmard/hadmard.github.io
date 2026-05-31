@@ -1,22 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from './SiteHeader.astro';
-import { getCopy, localePath } from '../utils/i18n';
+import { getCopy } from '../utils/i18n';
 
 const { locale } = Astro.props;
 const copy = getCopy(locale);
-const alternatePath = locale === 'zh-cn' ? '/en/' : '/';
+const { basePath = '' } = Astro.props;
+const normalizedBasePath = basePath ? `/${basePath.replace(/^\/+|\/+$/g, '')}` : '';
+const alternatePath = locale === 'zh-cn' ? `${normalizedBasePath}/en/` : `${normalizedBasePath || '/'}`;
+const canonicalPath = locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`;
 ---
 
 <Layout
     title={copy.seo.title}
     description={copy.seo.description}
     lang={locale}
-    canonicalPath={localePath(locale)}
+    canonicalPath={canonicalPath}
     alternatePath={alternatePath}
 >
     <main class="site-shell">
-        <SiteHeader locale={locale} alternatePath={alternatePath} />
+        <SiteHeader locale={locale} alternatePath={alternatePath} basePath={normalizedBasePath} />
 
         <section class="hero-particle-wrap mt-10 sm:mt-12" data-reveal>
             <canvas id={`particle-canvas-${locale}`} class="hero-particle-canvas" aria-hidden="true"></canvas>

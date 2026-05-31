@@ -1,0 +1,136 @@
+---
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { getCopy } from '../../utils/i18n';
+
+const locale = 'zh-cn';
+const copy = getCopy(locale);
+const alternatePath = '/old/en/investments/';
+
+type Cc98Post = {
+    id: number;
+    userName: string | null;
+    content: string;
+    time: string;
+    floor: number;
+    isDeleted: boolean;
+    isLZ: boolean;
+};
+
+type PostPage = {
+    items?: Cc98Post[];
+};
+
+type Summary = {
+    sourceUrl?: string;
+    topic?: {
+        title?: string;
+        authorName?: string;
+        replyCount?: number;
+        hitCount?: number;
+    };
+    postCount?: number;
+    crawledAt?: string;
+};
+
+const outputDir = resolve(process.cwd(), 'custom/cc98-investment-crawler/output/topic-6450962');
+
+let summary: Summary | null = null;
+let records: Cc98Post[] = [];
+
+try {
+    const [summaryRaw, postsRaw] = await Promise.all([
+        readFile(resolve(outputDir, 'records/investment-summary.json'), 'utf-8'),
+        readFile(resolve(outputDir, 'raw/posts.json'), 'utf-8'),
+    ]);
+
+    summary = JSON.parse(summaryRaw) as Summary;
+    const pages = JSON.parse(postsRaw) as PostPage[];
+    const allPosts = pages.flatMap((page) => page.items ?? []);
+
+    const cleanPosts = allPosts
+        .filter((post) => !post.isDeleted && post.content?.trim())
+        .sort((a, b) => a.floor - b.floor);
+
+    const authorName = summary?.topic?.authorName;
+    records = cleanPosts.filter((post) => post.isLZ || (authorName && post.userName === authorName));
+
+    if (!records.length) {
+        records = cleanPosts;
+    }
+} catch {
+    summary = null;
+    records = [];
+}
+
+const crawledAtText = summary?.crawledAt
+    ? new Date(summary.crawledAt).toLocaleString('zh-CN', { hour12: false })
+    : null;
+---
+
+<Layout
+    title={`${copy.nav.find((i) => i.id === 'investments')?.label || 'investments'} | ${copy.brand.name}`}
+    description={copy.seo.description}
+    lang={locale}
+    canonicalPath="/old/investments/"
+    alternatePath={alternatePath}
+>
+    <main class="site-shell">
+        <SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
+
+        <section id="investments" class="mx-auto mt-12 mb-20 w-full max-w-5xl" data-reveal>
+            <div class="panel-strong p-8 sm:p-12">
+                <p class="soft-label mb-5">来自 cc98.org 的本地同步记录</p>
+                <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+                    {summary?.topic?.title || '投资记录'}
+                </h1>
+                <p class="mt-4 max-w-3xl text-slate-600 leading-8">
+                    你在 CC98 的投资记录已经保存在本地，这里直接展示同步结果，不再留空。
+                </p>
+
+                <div class="mt-6 flex flex-wrap gap-2">
+                    <span class="signal-pill">记录条数：{records.length}</span>
+                    <span class="signal-pill">总楼层：{summary?.postCount ?? '-'}</span>
+                    <span class="signal-pill">回复数：{summary?.topic?.replyCount ?? '-'}</span>
+                    <span class="signal-pill">阅读数：{summary?.topic?.hitCount ?? '-'}</span>
+                </div>
+
+                <div class="mt-6 text-sm text-slate-500">
+                    <span>来源：</span>
+                    {summary?.sourceUrl ? (
+                        <a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:underline">
+                            {summary.sourceUrl}
+                        </a>
+                    ) : (
+                        <span>本地文件</span>
+                    )}
+                    {crawledAtText && <span class="ml-3">同步时间：{crawledAtText}</span>}
+                </div>
+            </div>
+        </section>
+
+        <section class="mx-auto mb-24 w-full max-w-5xl" data-reveal>
+            {records.length > 0 ? (
+                <div class="space-y-4">
+                    {records.map((record) => (
+                        <article class="story-card">
+                            <div class="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+                                <span class="signal-pill">#{record.floor} 楼</span>
+                                <span>{record.userName || '匿名用户'}</span>
+                                <span>{new Date(record.time).toLocaleString('zh-CN', { hour12: false })}</span>
+                                <span>ID: {record.id}</span>
+                            </div>
+                            <p class="mt-4 whitespace-pre-wrap text-slate-700 leading-8">{record.content}</p>
+                        </article>
+                    ))}
+                </div>
+            ) : (
+                <div class="panel p-8 text-slate-600">
+                    本地未读取到可展示的投资记录。请先运行 CC98 抓取脚本后再构建页面。
+                </div>
+            )}
+        </section>
+    </main>
+</Layout>

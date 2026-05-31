@@ -1,0 +1,42 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import { getCopy } from '../../../utils/i18n';
+
+const locale = 'en';
+const copy = getCopy(locale);
+const alternatePath = "/old/thinking/";
+---
+
+<Layout
+  title={`Thinking | ${copy.brand.name}`}
+  description={copy.seo.description}
+  lang={locale}
+  canonicalPath="/old/en/thinking/"
+  alternatePath={alternatePath}
+>
+  <main class="site-shell">
+    <SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
+
+    <section class="mx-auto mt-10 w-full max-w-6xl" data-reveal>
+      <div class="rounded-xl bg-black px-8 py-14 text-white sm:px-12 sm:py-20">
+        <p class="section-kicker">Thinking</p>
+        <h1 class="hero-title mt-3 max-w-4xl font-semibold">Thinking Notes</h1>
+        <p class="mt-5 max-w-3xl text-[17px] leading-[1.47] text-white/82">
+          This page captures long-horizon reasoning, decisions, and iterative reflections. For now, it keeps a minimal placeholder structure.
+        </p>
+      </div>
+    </section>
+
+    <section class="mx-auto mb-24 mt-6 w-full max-w-6xl" data-reveal>
+      <div class="rounded-xl bg-[#f5f5f7] p-8 sm:p-12">
+        <div class="mt-1 border-t border-black/12">
+          <article class="data-row md:grid-cols-[1fr_2.2fr]">
+            <div class="font-semibold text-[#1d1d1f]">test</div>
+            <div>Placeholder entry requested by you. It will be replaced with real notes later.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

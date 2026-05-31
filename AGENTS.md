@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.25-progress-tree-redesign-and-home-nav-constraint.md`
+最新一期路径：`custom/notes/v1.30-liquid-glass-calendar-root.md`
 
 ## 1. 基本原则
 
