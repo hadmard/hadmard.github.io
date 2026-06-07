@@ -15,8 +15,8 @@ const { currentLocale, href } = Astro.props;
 
 <a
 	href={href}
-	class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 shadow-[0_4px_12px_rgba(15,23,42,0.06)] transition duration-300 hover:border-slate-300 hover:bg-slate-50"
+	class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
 >
-	<span class:list={['rounded-full px-2 py-1 text-[11px]', currentLocale === 'zh-cn' ? 'bg-blue-50 text-blue-700' : 'text-slate-500']}>中</span>
-	<span class:list={['rounded-full px-2 py-1 text-[11px]', currentLocale === 'en' ? 'bg-blue-50 text-blue-700' : 'text-slate-500']}>EN</span>
+	<span class:list={['rounded-full px-2 py-1 text-[11px] font-medium transition-colors', currentLocale === 'zh-cn' ? 'bg-[#1d1d1f] text-white' : 'text-[#1d1d1f]/60 hover:text-[#1d1d1f]']}>中</span>
+	<span class:list={['rounded-full px-2 py-1 text-[11px] font-medium transition-colors', currentLocale === 'en' ? 'bg-[#1d1d1f] text-white' : 'text-[#1d1d1f]/60 hover:text-[#1d1d1f]']}>EN</span>
 </a>

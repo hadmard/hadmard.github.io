@@ -1,5 +1,5 @@
 /* 文件说明：该文件定义全站视觉基线与共享样式。 */
-/* 功能说明：导入 Tailwind 4，并提供 Apple 风格黑白节奏与单蓝强调。 */
+/* 功能说明：导入 Tailwind 4，并提供 Apple 风格黑白节奏、Liquid Glass (液态玻璃) 效果。 */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
@@ -7,17 +7,16 @@
 	--font-sans: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, "Noto Sans SC", sans-serif;
 	--font-display: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, "Noto Sans SC", sans-serif;
 	--color-ink: #1d1d1f;
-	--color-ink-soft: rgba(0, 0, 0, 0.8);
+	--color-ink-soft: #86868b;
 	--color-surface: #f5f5f7;
 	--color-surface-strong: #ffffff;
-	--color-line: rgba(29, 29, 31, 0.12);
+	--color-line: rgba(0, 0, 0, 0.08);
 	--color-accent: #0071e3;
 	--color-accent-strong: #0066cc;
 	--color-accent-soft: rgba(0, 113, 227, 0.1);
-	--color-dark-surface: #000000;
-	--color-dark-card: #272729;
-	--shadow-panel: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
-	--shadow-lift: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+	--shadow-panel: 0 4px 24px rgba(0, 0, 0, 0.04);
+	--shadow-lift: 0 10px 40px rgba(0, 0, 0, 0.08);
+	--shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.04);
 }
 
 @layer base {
@@ -33,11 +32,13 @@
 		font-family: var(--font-sans);
 		background: var(--color-surface);
 		overflow-x: hidden;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 
 	::selection {
-		background: rgba(14, 165, 233, 0.2);
-		color: #0f172a;
+		background: rgba(0, 113, 227, 0.2);
+		color: var(--color-ink);
 	}
 
 	a {
@@ -51,14 +52,16 @@
 }
 
 @utility panel {
-	@apply rounded-lg border-none transition duration-300;
-	background: var(--color-surface);
-	box-shadow: none;
+	@apply rounded-2xl transition duration-500;
+	background: var(--color-surface-strong);
+	box-shadow: var(--shadow-panel);
+	border: 1px solid var(--color-line);
 }
 
 @utility panel-strong {
 	@apply panel;
 	background: var(--color-surface-strong);
+	box-shadow: var(--shadow-lift);
 }
 
 @utility soft-label {
@@ -76,151 +79,163 @@
 @utility section-title {
 	@apply font-semibold text-[34px] leading-[1.1] sm:text-[40px];
 	font-family: var(--font-display);
-	letter-spacing: -0.24px;
+	letter-spacing: -0.02em;
 	color: var(--color-ink);
 	text-wrap: balance;
 	max-width: 18ch;
 }
 
 @utility apple-link {
-	@apply inline-flex items-center text-[14px] font-normal;
-	color: var(--color-accent-strong);
-	letter-spacing: -0.224px;
-	line-height: 1.43;
+	@apply inline-flex items-center text-[14px] font-medium transition-colors duration-300;
+	color: var(--color-accent);
+	letter-spacing: -0.01em;
+
+	&:hover {
+		color: var(--color-accent-strong);
+	}
 }
 
 @utility hero-title {
 	font-family: var(--font-display);
-	font-size: clamp(2.25rem, 5.2vw, 3.5rem);
-	line-height: 1.07;
-	letter-spacing: -0.28px;
+	font-size: clamp(2.5rem, 6vw, 4.5rem);
+	line-height: 1.05;
+	letter-spacing: -0.03em;
+	text-wrap: balance;
 }
 
 @utility hero-subtitle {
 	font-family: var(--font-display);
-	font-size: clamp(1.1rem, 2.2vw, 1.31rem);
-	line-height: 1.19;
-	letter-spacing: 0.231px;
+	font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+	line-height: 1.3;
+	letter-spacing: -0.01em;
+	font-weight: 400;
 }
 
 @layer components {
-	/* XYFlow Canvas Overrides */
+	/* XYFlow Canvas 覆盖样式 */
 	.react-flow__bg {
 		background-color: transparent !important;
 	}
 
 	/* 共享组件：导航、卡片与条目 */
 	.glass-topbar {
-		@apply sticky top-3 z-20 px-4 py-3 transition-all;
+		@apply sticky top-3 z-50 px-4 py-3 transition-all duration-500;
 		border-radius: 999px;
-		background: rgba(0, 0, 0, 0.8);
-		backdrop-filter: saturate(180%) blur(20px);
-		box-shadow: none;
+		background: rgba(255, 255, 255, 0.65);
+		backdrop-filter: saturate(180%) blur(24px);
+		-webkit-backdrop-filter: saturate(180%) blur(24px);
+		border: 1px solid rgba(255, 255, 255, 0.8);
+		box-shadow: var(--shadow-panel);
 	}
 
 	.nav-link {
-		@apply rounded-full px-3 py-2 text-[12px] transition duration-300;
-		color: rgba(255, 255, 255, 0.92);
-		letter-spacing: -0.12px;
-		line-height: 1.33;
+		@apply rounded-full px-3 py-2 text-[13px] font-medium transition duration-300;
+		color: var(--color-ink-soft);
+		letter-spacing: -0.01em;
 	}
 
 	.nav-link:hover {
-		background: rgba(255, 255, 255, 0.08);
-		color: #ffffff;
+		background: rgba(0, 0, 0, 0.04);
+		color: var(--color-ink);
 	}
 
 	.nav-link.active {
-		background: rgba(255, 255, 255, 0.14);
+		background: var(--color-ink);
 		color: #ffffff;
-		font-weight: 600;
 	}
 
 	.signal-pill {
 		@apply inline-flex items-center rounded-full border px-4 py-1.5 text-[12px] transition duration-300;
-		border-color: rgba(29, 29, 31, 0.14);
-		background: rgba(255, 255, 255, 0.78);
-		color: rgba(0, 0, 0, 0.8);
-		letter-spacing: -0.12px;
+		border-color: var(--color-line);
+		background: var(--color-surface-strong);
+		color: var(--color-ink);
+		letter-spacing: -0.01em;
 	}
 
 	.signal-pill:hover {
 		transform: translateY(-1px);
-		background: rgba(0, 113, 227, 0.08);
+		background: var(--color-accent-soft);
 		border-color: rgba(0, 113, 227, 0.24);
 		color: var(--color-accent-strong);
 	}
 
 	.story-card {
-		@apply rounded-lg p-6 transition duration-300;
+		@apply rounded-2xl p-6 transition duration-500 border;
 		background: var(--color-surface-strong);
-		box-shadow: none;
+		border-color: var(--color-line);
+		box-shadow: var(--shadow-panel);
 	}
 
 	.story-card:hover {
-		transform: translateY(-2px);
+		transform: translateY(-4px) scale(1.01);
 		box-shadow: var(--shadow-lift);
 	}
 
+	/* 液态玻璃 Hero 容器 */
 	.hero-particle-wrap {
-		@apply relative overflow-hidden rounded-none sm:rounded-xl;
+		@apply relative overflow-hidden rounded-[2rem] sm:rounded-[3rem] transition-all duration-700;
 		min-height: clamp(460px, 66vh, 760px);
-		background: var(--color-dark-surface);
+		background: #ffffff;
+		border: 1px solid rgba(0, 0, 0, 0.03);
+		box-shadow: inset 0 0 0 1px rgba(255,255,255,0.8), var(--shadow-panel);
 	}
 
 	.hero-particle-canvas {
 		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
+		inset: -10%;
+		width: 120%;
+		height: 120%;
 		z-index: 0;
 		pointer-events: none;
+		filter: blur(80px) saturate(150%);
+		opacity: 0.7;
 	}
 
 	.hero-particle-panel {
 		position: relative;
 		z-index: 1;
-		background: transparent;
-		color: #ffffff;
-	}
-
-	.hero-particle-wrap::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		background: radial-gradient(1000px 500px at 50% -12%, rgba(255, 255, 255, 0.12), transparent 62%);
-		pointer-events: none;
+		background: rgba(255, 255, 255, 0.3);
+		backdrop-filter: saturate(180%) blur(30px);
+		-webkit-backdrop-filter: saturate(180%) blur(30px);
+		color: var(--color-ink);
+		border-radius: inherit;
+		box-shadow: inset 0 1px 1px rgba(255,255,255,0.8);
 	}
 
 	.data-row {
-		@apply grid gap-4 border-t py-4 text-sm md:grid-cols-[1.2fr_1fr_1.4fr_1fr];
-		border-color: rgba(29, 29, 31, 0.12);
+		@apply grid gap-4 border-t py-4 text-sm md:grid-cols-[1.2fr_1fr_1.4fr_1fr] transition-colors duration-300;
+		border-color: var(--color-line);
 		color: var(--color-ink-soft);
-		letter-spacing: -0.224px;
-		line-height: 1.43;
+		letter-spacing: -0.01em;
+	}
+
+	.data-row:hover {
+		background: rgba(0,0,0,0.01);
 	}
 
 	.data-row:first-of-type {
 		@apply border-t-0 pt-0;
 	}
 
+	/* 丝滑的 Reveal 动画 */
 	[data-reveal] {
 		opacity: 0;
-		transform: translateY(18px);
+		transform: translateY(24px) scale(0.98);
 		transition:
-			opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-			transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+			opacity 0.8s cubic-bezier(0.25, 1, 0.2, 1),
+			transform 0.8s cubic-bezier(0.25, 1, 0.2, 1);
+		will-change: opacity, transform;
 	}
 
 	[data-reveal].is-visible {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 
 @media (max-width: 640px) {
 	.glass-topbar {
-		border-radius: 16px;
+		border-radius: 24px;
 	}
 }
 
@@ -241,4 +256,3 @@
 		transform: none !important;
 	}
 }
-

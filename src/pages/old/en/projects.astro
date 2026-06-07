@@ -19,14 +19,14 @@ const alternatePath = "/old/projects/";
         <SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
 
         <section id="projects" class="mx-auto mt-10 w-full max-w-6xl" data-reveal>
-            <div class="rounded-xl bg-black px-8 py-14 text-white sm:px-12 sm:py-20">
+            <div class="rounded-[2.5rem] bg-gradient-to-br from-white/90 to-white/50 backdrop-blur-3xl border border-white shadow-xl px-8 py-14 text-[#1d1d1f] sm:px-12 sm:py-20 relative overflow-hidden transition-all duration-700 hover:shadow-2xl">
                 <p class="soft-label mb-5">Projects</p>
                 <h1 class="hero-title max-w-4xl font-semibold">{copy['projects']?.title || 'projects'}</h1>
-                <p class="mt-5 max-w-3xl text-[17px] leading-[1.47] text-white/82">{copy['projects']?.intro || ''}</p>
+                <p class="mt-5 max-w-3xl text-[17px] leading-[1.47] text-[#1d1d1f]/70">{copy['projects']?.intro || ''}</p>
                 <div class="mt-8 flex flex-wrap gap-2">
-                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Structured Cases</span>
-                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Method Replayable</span>
-                    <span class="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-1.5 text-[12px] text-white">Results Verifiable</span>
+                    <span class="inline-flex items-center rounded-full border border-black/10 bg-white/60 backdrop-blur-md px-4 py-1.5 text-[12px] text-[#1d1d1f]">Structured Cases</span>
+                    <span class="inline-flex items-center rounded-full border border-black/10 bg-white/60 backdrop-blur-md px-4 py-1.5 text-[12px] text-[#1d1d1f]">Method Replayable</span>
+                    <span class="inline-flex items-center rounded-full border border-black/10 bg-white/60 backdrop-blur-md px-4 py-1.5 text-[12px] text-[#1d1d1f]">Results Verifiable</span>
                 </div>
             </div>
         </section>

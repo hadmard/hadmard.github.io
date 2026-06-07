@@ -22,21 +22,21 @@ const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normaliz
     <main class="site-shell">
         <SiteHeader locale={locale} alternatePath={alternatePath} basePath={normalizedNavBasePath} />
 
-        <section class="hero-particle-wrap mt-10 sm:mt-12" data-reveal>
+        <section class="hero-particle-wrap mt-6 sm:mt-10" data-reveal>
             <canvas id={`particle-canvas-${locale}`} class="hero-particle-canvas" aria-hidden="true"></canvas>
-            <div class="hero-particle-panel mx-auto flex min-h-[480px] max-w-5xl flex-col items-center justify-center px-6 py-16 text-center sm:min-h-[560px] sm:px-10 sm:py-20">
-                <p class="soft-label mb-6">{copy.hero?.badge || 'YFCCCC.GITHUB.IO'}</p>
-                <h1 class="hero-title max-w-4xl font-semibold text-white">
+            <div class="hero-particle-panel mx-auto flex min-h-[500px] max-w-5xl flex-col items-center justify-center px-6 py-20 text-center sm:min-h-[640px] sm:px-10">
+                <p class="soft-label mb-8 shadow-sm bg-white/60 backdrop-blur-md border-white/80">{copy.hero?.badge || 'YFCCCC.GITHUB.IO'}</p>
+                <h1 class="hero-title max-w-4xl text-[#1d1d1f]">
                     {copy.hero?.title}
                 </h1>
-                <p class="hero-subtitle mt-5 max-w-3xl text-white/85">
+                <p class="hero-subtitle mt-6 max-w-3xl text-[#1d1d1f]/70">
                     {copy.hero?.description}
                 </p>
-                <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
-                    <span class="inline-flex items-center rounded-full border border-white/22 bg-white/12 px-5 py-2.5 text-[14px] text-white">
+                <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                    <span class="inline-flex items-center rounded-full bg-[#1d1d1f] px-6 py-3 text-[15px] font-medium text-white shadow-md transition-transform hover:scale-105 duration-300">
                         {copy.hero?.primaryCta || (locale === 'zh-cn' ? '请使用右上角导航' : 'Use top-right navigation')}
                     </span>
-                    <span class="inline-flex items-center rounded-full bg-[#0071e3] px-5 py-2.5 text-[14px] text-white">
+                    <span class="inline-flex items-center rounded-full bg-white/50 backdrop-blur-md border border-white/60 px-6 py-3 text-[15px] font-medium text-[#1d1d1f] shadow-sm transition-transform hover:scale-105 duration-300">
                         {copy.hero?.secondaryCta || (locale === 'zh-cn' ? '仅通过栏目进入子页面' : 'Open subpages from top navigation only')}
                     </span>
                 </div>
@@ -52,7 +52,16 @@ const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normaliz
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const particles = [];
+        // Apple 液态玻璃调色板
+        const colors = [
+            'rgba(0, 113, 227, 0.4)',   // 苹果蓝
+            'rgba(88, 86, 214, 0.3)',   // 紫色
+            'rgba(255, 45, 85, 0.25)',  // 粉色
+            'rgba(90, 200, 250, 0.4)',  // 青色
+            'rgba(255, 149, 0, 0.2)'    // 橙色
+        ];
+
+        const orbs = [];
         let width = 0;
         let height = 0;
         let raf = 0;
@@ -65,15 +74,17 @@ const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normaliz
             canvas.height = Math.floor(height * window.devicePixelRatio);
             ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
 
-            particles.length = 0;
-            const density = width < 640 ? 42 : 74;
-            for (let i = 0; i < density; i += 1) {
-                particles.push({
+            orbs.length = 0;
+            const count = width < 640 ? 4 : 6;
+            for (let i = 0; i < count; i += 1) {
+                const radius = (Math.random() * 150) + 150; // 大型球体 150-300px
+                orbs.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.22,
-                    vy: (Math.random() - 0.5) * 0.22,
-                    r: Math.random() * 1.5 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8,
+                    r: radius,
+                    color: colors[i % colors.length]
                 });
             }
         };
@@ -81,34 +92,19 @@ const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normaliz
         const draw = () => {
             ctx.clearRect(0, 0, width, height);
 
-            for (const p of particles) {
+            for (const p of orbs) {
                 p.x += p.vx;
                 p.y += p.vy;
-                if (p.x < 0 || p.x > width) p.vx *= -1;
-                if (p.y < 0 || p.y > height) p.vy *= -1;
 
+                // 柔和反弹
+                if (p.x < -p.r || p.x > width + p.r) p.vx *= -1;
+                if (p.y < -p.r || p.y > height + p.r) p.vy *= -1;
+
+                // 绘制球体
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255,255,255,0.58)';
+                ctx.fillStyle = p.color;
                 ctx.fill();
-            }
-
-            for (let i = 0; i < particles.length; i += 1) {
-                for (let j = i + 1; j < particles.length; j += 1) {
-                    const a = particles[i];
-                    const b = particles[j];
-                    const dx = a.x - b.x;
-                    const dy = a.y - b.y;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < 118) {
-                        ctx.beginPath();
-                        ctx.moveTo(a.x, a.y);
-                        ctx.lineTo(b.x, b.y);
-                        ctx.strokeStyle = `rgba(255,255,255,${(1 - d / 118) * 0.15})`;
-                        ctx.lineWidth = 0.8;
-                        ctx.stroke();
-                    }
-                }
             }
 
             raf = requestAnimationFrame(draw);
