@@ -10,109 +10,159 @@ const normalizedBasePath = basePath ? `/${basePath.replace(/^\/+|\/+$/g, '')}` :
 const normalizedNavBasePath = navBasePath ? `/${navBasePath.replace(/^\/+|\/+$/g, '')}` : normalizedBasePath;
 const alternatePath = alternatePathOverride ?? (locale === 'zh-cn' ? `${normalizedBasePath}/en/` : `${normalizedBasePath || '/'}`);
 const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`);
+
+const hrefFor = (id: string) => locale === 'zh-cn' ? `${normalizedNavBasePath}/${id}/` : `${normalizedNavBasePath}/en/${id}/`;
+const moduleDescriptions = locale === 'zh-cn'
+	? {
+			progress: '数学、系统、算法和机器人能力被重新排成一张浅色路线图。',
+			investments: '把 CC98 本地同步日志拆成资产、操作、风险和复盘。',
+			thinking: '保留长期判断、阶段复盘和方法论笔记的安静空间。',
+			resume: '教育、研究、项目和跨学科训练收束到一个页面。',
+		}
+	: {
+			progress: 'Math, systems, algorithms, and robotics are arranged as a light technical map.',
+			investments: 'CC98 logs are turned into assets, actions, risk notes, and reviews.',
+			thinking: 'A calm space for long-horizon reasoning and periodic reflection.',
+			resume: 'Education, research, projects, and interdisciplinary training in one page.',
+		};
+const moduleDeck = copy.nav.map((item, index) => ({
+	...item,
+	href: hrefFor(item.id),
+	description: moduleDescriptions[item.id as keyof typeof moduleDescriptions],
+	index: String(index + 1).padStart(2, '0'),
+}));
 ---
 
 <Layout
-    title={copy.seo.title}
-    description={copy.seo.description}
-    lang={locale}
-    canonicalPath={canonicalPath}
-    alternatePath={alternatePath}
+	title={copy.seo.title}
+	description={copy.seo.description}
+	lang={locale}
+	canonicalPath={canonicalPath}
+	alternatePath={alternatePath}
 >
-    <main class="site-shell">
-        <SiteHeader locale={locale} alternatePath={alternatePath} basePath={normalizedNavBasePath} />
+	<main class="site-shell">
+		<SiteHeader locale={locale} alternatePath={alternatePath} basePath={normalizedNavBasePath} />
 
-        <section class="hero-particle-wrap mt-6 sm:mt-10" data-reveal>
-            <canvas id={`particle-canvas-${locale}`} class="hero-particle-canvas" aria-hidden="true"></canvas>
-            <div class="hero-particle-panel mx-auto flex min-h-[500px] max-w-5xl flex-col items-center justify-center px-6 py-20 text-center sm:min-h-[640px] sm:px-10">
-                <p class="soft-label mb-8 shadow-sm bg-white/60 backdrop-blur-md border-white/80">{copy.hero?.badge || 'YFCCCC.GITHUB.IO'}</p>
-                <h1 class="hero-title max-w-4xl text-[#1d1d1f]">
-                    {copy.hero?.title}
-                </h1>
-                <p class="hero-subtitle mt-6 max-w-3xl text-[#1d1d1f]/70">
-                    {copy.hero?.description}
-                </p>
-                <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-                    <a href={locale === 'zh-cn' ? `${normalizedNavBasePath}/progress/` : `${normalizedNavBasePath}/en/progress/`} class="inline-flex items-center rounded-full bg-[#1d1d1f] px-6 py-3 text-[15px] font-medium text-white shadow-md transition-transform hover:scale-105 duration-300">
-                        {copy.hero?.primaryCta || (locale === 'zh-cn' ? '请使用右上角导航' : 'Use top-right navigation')}
-                    </a>
-                    <a href={locale === 'zh-cn' ? `${normalizedNavBasePath}/investments/` : `${normalizedNavBasePath}/en/investments/`} class="inline-flex items-center rounded-full bg-white/50 backdrop-blur-md border border-white/60 px-6 py-3 text-[15px] font-medium text-[#1d1d1f] shadow-sm transition-transform hover:scale-105 duration-300">
-                        {copy.hero?.secondaryCta || (locale === 'zh-cn' ? '仅通过栏目进入子页面' : 'Open subpages from top navigation only')}
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
+		<section class="apple-hero mt-6 sm:mt-10" data-reveal>
+			<canvas id={`hero-canvas-${locale}`} class="apple-hero-canvas" aria-hidden="true"></canvas>
+			<div class="apple-hero-copy">
+				<p class="soft-label bg-white/60 shadow-sm backdrop-blur-md">{copy.hero.badge}</p>
+				<h1 class="hero-title mt-7 max-w-5xl text-[#1d1d1f]">
+					{copy.hero.title}
+				</h1>
+				<p class="hero-subtitle mt-6 max-w-3xl text-[#1d1d1f]/72">
+					{copy.hero.description}
+				</p>
+				<div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+					<a href={hrefFor('progress')} class="apple-button apple-button-dark">{copy.hero.primaryCta}</a>
+					<a href={hrefFor('investments')} class="apple-button apple-button-light">{copy.hero.secondaryCta}</a>
+				</div>
+			</div>
+
+			<div class="module-console" aria-label={locale === 'zh-cn' ? '四个核心模块' : 'Four core modules'}>
+				<div class="module-console-header">
+					<div>
+						<p>{locale === 'zh-cn' ? 'FOUR SPACES' : 'FOUR SPACES'}</p>
+						<strong>{locale === 'zh-cn' ? '一屏进入核心内容' : 'One screen, four directions'}</strong>
+					</div>
+					<span>{locale === 'zh-cn' ? 'Live' : 'Live'}</span>
+				</div>
+				<div class="module-grid">
+					{moduleDeck.map((item) => (
+						<a class="module-tile" href={item.href}>
+							<span>{item.index}</span>
+							<strong>{item.label}</strong>
+							<p>{item.description}</p>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="apple-section mx-auto mt-10 w-full max-w-6xl" data-reveal>
+			<div class="apple-section-intro">
+				<p class="section-kicker">{locale === 'zh-cn' ? 'Current Snapshot' : 'Current Snapshot'}</p>
+				<h2 class="section-title mt-3">{locale === 'zh-cn' ? '不是空壳首页，而是四个真实工作面的入口。' : 'Not a shell homepage, but a launch surface for real work.'}</h2>
+			</div>
+			<div class="snapshot-grid">
+				{copy.hero.metrics.map((metric) => (
+					<article class="snapshot-card">
+						<p>{metric.label}</p>
+						<strong>{metric.value}</strong>
+						<span>{metric.note}</span>
+					</article>
+				))}
+			</div>
+		</section>
+	</main>
 </Layout>
 
 <script is:inline>
-    (() => {
-        const canvas = document.querySelector('.hero-particle-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+	(() => {
+		const canvas = document.querySelector('.apple-hero-canvas');
+		if (!canvas) return;
+		const ctx = canvas.getContext('2d');
+		if (!ctx) return;
 
-        // Apple 液态玻璃调色板
-        const colors = [
-            'rgba(0, 113, 227, 0.4)',   // 苹果蓝
-            'rgba(88, 86, 214, 0.3)',   // 紫色
-            'rgba(255, 45, 85, 0.25)',  // 粉色
-            'rgba(90, 200, 250, 0.4)',  // 青色
-            'rgba(255, 149, 0, 0.2)'    // 橙色
-        ];
+		const bands = [
+			{ color: 'rgba(0, 113, 227, 0.22)', offset: 0, speed: 0.00018 },
+			{ color: 'rgba(88, 86, 214, 0.16)', offset: 1.8, speed: 0.00014 },
+			{ color: 'rgba(52, 199, 89, 0.12)', offset: 3.2, speed: 0.00011 },
+		];
+		let width = 0;
+		let height = 0;
+		let raf = 0;
+		let start = performance.now();
 
-        const orbs = [];
-        let width = 0;
-        let height = 0;
-        let raf = 0;
+		const resize = () => {
+			const rect = canvas.getBoundingClientRect();
+			width = rect.width;
+			height = rect.height;
+			canvas.width = Math.floor(width * window.devicePixelRatio);
+			canvas.height = Math.floor(height * window.devicePixelRatio);
+			ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+		};
 
-        const init = () => {
-            const rect = canvas.getBoundingClientRect();
-            width = rect.width;
-            height = rect.height;
-            canvas.width = Math.floor(width * window.devicePixelRatio);
-            canvas.height = Math.floor(height * window.devicePixelRatio);
-            ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+		const drawRibbon = (time, band, index) => {
+			const phase = time * band.speed + band.offset;
+			const top = height * (0.22 + index * 0.16);
+			const amplitude = height * (0.12 + index * 0.025);
+			ctx.beginPath();
+			ctx.moveTo(-80, top);
+			for (let x = -80; x <= width + 80; x += 40) {
+				const y = top + Math.sin(x * 0.005 + phase) * amplitude + Math.cos(x * 0.009 - phase * 0.7) * amplitude * 0.42;
+				ctx.lineTo(x, y);
+			}
+			for (let x = width + 80; x >= -80; x -= 40) {
+				const y = top + height * 0.22 + Math.sin(x * 0.004 + phase + 1.7) * amplitude * 0.7;
+				ctx.lineTo(x, y);
+			}
+			ctx.closePath();
+			ctx.fillStyle = band.color;
+			ctx.fill();
+		};
 
-            orbs.length = 0;
-            const count = width < 640 ? 4 : 6;
-            for (let i = 0; i < count; i += 1) {
-                const radius = (Math.random() * 150) + 150; // 大型球体 150-300px
-                orbs.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.8,
-                    vy: (Math.random() - 0.5) * 0.8,
-                    r: radius,
-                    color: colors[i % colors.length]
-                });
-            }
-        };
+		const draw = () => {
+			const time = performance.now() - start;
+			ctx.clearRect(0, 0, width, height);
 
-        const draw = () => {
-            ctx.clearRect(0, 0, width, height);
+			const gradient = ctx.createLinearGradient(0, 0, width, height);
+			gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+			gradient.addColorStop(0.45, 'rgba(244, 248, 255, 0.84)');
+			gradient.addColorStop(1, 'rgba(255, 255, 255, 0.92)');
+			ctx.fillStyle = gradient;
+			ctx.fillRect(0, 0, width, height);
 
-            for (const p of orbs) {
-                p.x += p.vx;
-                p.y += p.vy;
+			for (let i = 0; i < bands.length; i += 1) {
+				drawRibbon(time, bands[i], i);
+			}
 
-                // 柔和反弹
-                if (p.x < -p.r || p.x > width + p.r) p.vx *= -1;
-                if (p.y < -p.r || p.y > height + p.r) p.vy *= -1;
+			raf = requestAnimationFrame(draw);
+		};
 
-                // 绘制球体
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = p.color;
-                ctx.fill();
-            }
-
-            raf = requestAnimationFrame(draw);
-        };
-
-        init();
-        draw();
-        window.addEventListener('resize', init);
-        window.addEventListener('beforeunload', () => cancelAnimationFrame(raf));
-    })();
+		resize();
+		draw();
+		window.addEventListener('resize', resize);
+		window.addEventListener('beforeunload', () => cancelAnimationFrame(raf));
+	})();
 </script>

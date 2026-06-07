@@ -23,7 +23,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 200,
     dependsOn: [],
-    position: { x: 180, y: 100 },
+    position: { x: 60, y: 100 },
   },
   {
     id: 'math-linear-algebra-3b1b',
@@ -33,7 +33,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 220,
     dependsOn: ['math-calculus'],
-    position: { x: 180, y: 230 },
+    position: { x: 60, y: 230 },
   },
   {
     id: 'math-probability-statistics',
@@ -43,7 +43,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 300,
     dependsOn: ['math-linear-algebra-3b1b'],
-    position: { x: 180, y: 360 },
+    position: { x: 60, y: 360 },
   },
   {
     id: 'math-convex-optimization-ee364a',
@@ -53,7 +53,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 420,
     dependsOn: ['math-probability-statistics'],
-    position: { x: 180, y: 490 },
+    position: { x: 60, y: 490 },
   },
 
   // ==========================================
@@ -67,7 +67,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 260,
     dependsOn: [],
-    position: { x: 500, y: 100 },
+    position: { x: 330, y: 100 },
   },
   {
     id: 'cs-c-foundation',
@@ -77,7 +77,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 240,
     dependsOn: ['cs-python-cs61a'],
-    position: { x: 500, y: 230 },
+    position: { x: 330, y: 230 },
   },
   {
     id: 'cs-cpp-cs106l',
@@ -87,7 +87,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 320,
     dependsOn: ['cs-c-foundation'],
-    position: { x: 500, y: 360 },
+    position: { x: 330, y: 360 },
   },
 
   // ==========================================
@@ -101,7 +101,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 380,
     dependsOn: ['cs-cpp-cs106l'],
-    position: { x: 820, y: 100 },
+    position: { x: 600, y: 100 },
   },
   {
     id: 'systems-csapp',
@@ -111,7 +111,7 @@ export const learningMapData: LearningNode[] = [
     type: 'main',
     xp: 520,
     dependsOn: ['algo-data-structures-cs61b'],
-    position: { x: 820, y: 230 },
+    position: { x: 600, y: 230 },
   },
 
   // ==========================================
@@ -125,7 +125,7 @@ export const learningMapData: LearningNode[] = [
     type: 'side',
     xp: 520,
     dependsOn: ['math-probability-statistics', 'cs-python-cs61a'],
-    position: { x: 1140, y: 100 },
+    position: { x: 870, y: 100 },
   },
   {
     id: 'dl-nlp-cs224n',
@@ -135,7 +135,7 @@ export const learningMapData: LearningNode[] = [
     type: 'side',
     xp: 540,
     dependsOn: ['dl-cv-cs231n'],
-    position: { x: 1140, y: 230 },
+    position: { x: 870, y: 230 },
   },
   {
     id: 'dl-reinforcement-learning',
@@ -145,7 +145,7 @@ export const learningMapData: LearningNode[] = [
     type: 'side',
     xp: 620,
     dependsOn: ['dl-nlp-cs224n', 'math-convex-optimization-ee364a'],
-    position: { x: 1140, y: 360 },
+    position: { x: 870, y: 360 },
   },
 
   // ==========================================
@@ -159,7 +159,7 @@ export const learningMapData: LearningNode[] = [
     type: 'side',
     xp: 900,
     dependsOn: ['systems-csapp', 'dl-reinforcement-learning'],
-    position: { x: 1460, y: 230 },
+    position: { x: 1140, y: 230 },
   },
 
   // ==========================================
@@ -173,7 +173,7 @@ export const learningMapData: LearningNode[] = [
     type: 'side',
     xp: 800,
     dependsOn: ['math-convex-optimization-ee364a', 'dl-nlp-cs224n'],
-    position: { x: 500, y: 590 },
+    position: { x: 330, y: 590 },
   },
   {
     id: 'project-systems-engineering',
@@ -183,7 +183,7 @@ export const learningMapData: LearningNode[] = [
     type: 'side',
     xp: 760,
     dependsOn: ['systems-csapp'],
-    position: { x: 840, y: 590 },
+    position: { x: 600, y: 590 },
   },
   {
     id: 'project-robotics-integration',
@@ -193,6 +193,6 @@ export const learningMapData: LearningNode[] = [
     type: 'side',
     xp: 980,
     dependsOn: ['robotics-foundation', 'project-ml-system', 'project-systems-engineering'],
-    position: { x: 1220, y: 590 },
+    position: { x: 870, y: 590 },
   }
 ];

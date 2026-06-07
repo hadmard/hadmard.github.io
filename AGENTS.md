@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.37-four-module-site-structure.md`
+最新一期路径：`custom/notes/v1.38-apple-official-polish-and-investment-analysis.md`
 
 ## 1. 基本原则
 

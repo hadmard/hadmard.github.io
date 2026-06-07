@@ -123,9 +123,9 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		hero: {
 			badge: 'YFCCCC / ASTRO / GITHUB PAGES',
 			eyebrow: '一个面向长期主义的个人研究与项目迭代界面',
-			title: '欢迎来到 Yfcccc 的个人博客。',
+			title: 'Yfcccc 的研究、交易与工程界面。',
 			description:
-				'这里是展示层首页：用于说明网站定位与方向。具体内容请通过右上角栏目进入对应子页面查看。',
+				'把技术栈、投资复盘、个人思考和简历项目放在同一套清爽的 Apple 风界面里。不是装饰首页，而是可以继续长出来的个人操作台。',
 			primaryCta: '进入个人技术栈',
 			secondaryCta: '进入投资记录分析',
 			modes: ['Vision Algorithms', 'Image Fusion', 'AI+X', 'Tech Venture', 'Finance Minor'],
@@ -141,7 +141,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			terminal: [
 				{ label: 'Current Work', value: 'UV & white 双源图像融合算法开发', note: '以视觉感知与算法落地为当前主线' },
 				{ label: 'Education', value: 'Zhejiang University', note: '农业工程主专业，延伸到金融与科技创业投资' },
-				{ label: 'Site Status', value: '真实信息正在持续补全', note: '项目、投资与文章模块会按阶段继续填充' },
+				{ label: 'Site Status', value: '四模块已收束', note: '技术路线、投资日志、思考与简历各自进入独立页面' },
 			],
 		},
 		progress: {
@@ -225,9 +225,9 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		hero: {
 			badge: 'YFCCCC / ASTRO / GITHUB PAGES',
 			eyebrow: 'A long-horizon interface for research, projects, and iteration',
-			title: 'Welcome to Yfcccc\'s personal blog.',
+			title: 'Yfcccc\'s research, trading, and engineering interface.',
 			description:
-				'This homepage is a showcase layer that explains what the site is for. Use the top-right navigation to open focused subpages for details.',
+				'Tech stack, investment reviews, reflections, and resume projects now live inside one polished Apple-inspired workspace.',
 			primaryCta: 'Open Tech Stack',
 			secondaryCta: 'Open Investment Analysis',
 			modes: ['Vision Algorithms', 'Image Fusion', 'AI+X', 'Tech Venture', 'Finance Minor'],
@@ -243,7 +243,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			terminal: [
 				{ label: 'Current Work', value: 'UV and white dual-source image fusion', note: 'Visual perception and algorithmic usability are the current center of gravity' },
 				{ label: 'Education', value: 'Zhejiang University', note: 'Engineering training extended with finance and venture perspectives' },
-				{ label: 'Site Status', value: 'Real material is being added', note: 'Projects, investments, and essays will be published in stages' },
+				{ label: 'Site Status', value: 'Four modules aligned', note: 'Technical route, investment log, reflections, and resume now have focused pages' },
 			],
 		},
 		progress: {

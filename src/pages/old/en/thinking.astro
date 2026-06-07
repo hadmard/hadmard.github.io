@@ -18,22 +18,48 @@ const alternatePath = "/old/thinking/";
   <main class="site-shell">
     <SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
 
-    <section class="mx-auto mt-10 w-full max-w-6xl" data-reveal>
-      <div class="rounded-[2.5rem] bg-gradient-to-br from-white/90 to-white/50 backdrop-blur-3xl border border-white shadow-xl px-8 py-14 text-[#1d1d1f] sm:px-12 sm:py-20 relative overflow-hidden transition-all duration-700 hover:shadow-2xl">
+    <section class="feature-hero mx-auto mt-10 w-full max-w-6xl" data-reveal>
+      <div class="feature-hero-copy">
         <p class="soft-label mb-5">{copy.thinking.kicker}</p>
         <h1 class="hero-title max-w-4xl font-semibold">{copy.thinking.title}</h1>
-        <p class="mt-5 max-w-3xl text-[17px] leading-[1.47] text-[#1d1d1f]/70">
+        <p class="mt-5 max-w-3xl text-[17px] leading-[1.55] text-[#1d1d1f]/70">
           {copy.thinking.intro}
         </p>
+      </div>
+      <div class="feature-hero-panel">
+        <div class="feature-stat">
+          <span>Format</span>
+          <strong>Notes</strong>
+          <p>Future posts can hold stage reviews, research judgments, and cognitive notes.</p>
+        </div>
+        <div class="feature-stat">
+          <span>Status</span>
+          <strong>Ready</strong>
+          <p>The page structure is ready for the first real essays.</p>
+        </div>
       </div>
     </section>
 
     <section class="mx-auto mb-24 mt-6 w-full max-w-6xl" data-reveal>
-      <div class="rounded-xl bg-[#f5f5f7] p-8 sm:p-12">
-        <div class="mt-1 border-t border-black/12">
-          <article class="data-row md:grid-cols-[1fr_2.2fr]">
-            <div class="font-semibold text-[#1d1d1f]">{copy.thinking.emptyTitle}</div>
-            <div>{copy.thinking.emptyDescription}</div>
+      <div class="analysis-panel p-8 sm:p-12">
+        <p class="section-kicker">Editorial Queue</p>
+        <h2 class="section-title mt-3">{copy.thinking.emptyTitle}</h2>
+        <p class="mt-5 max-w-2xl text-[15px] leading-8 text-[#1d1d1f]/64">{copy.thinking.emptyDescription}</p>
+        <div class="mt-8 grid gap-3 sm:grid-cols-3">
+          <article class="snapshot-card">
+            <p>01</p>
+            <strong>Research reviews</strong>
+            <span>Algorithm learning, experiment logs, and stage judgments.</span>
+          </article>
+          <article class="snapshot-card">
+            <p>02</p>
+            <strong>Investment memo</strong>
+            <span>Turning trading logs into rules and operating discipline.</span>
+          </article>
+          <article class="snapshot-card">
+            <p>03</p>
+            <strong>Long questions</strong>
+            <span>Questions that remain worth revisiting even before they are solved.</span>
           </article>
         </div>
       </div>

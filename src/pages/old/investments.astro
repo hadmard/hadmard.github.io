@@ -10,29 +10,29 @@ const copy = getCopy(locale);
 const alternatePath = '/old/en/investments/';
 
 type Cc98Post = {
-    id: number;
-    userName: string | null;
-    content: string;
-    time: string;
-    floor: number;
-    isDeleted: boolean;
-    isLZ: boolean;
+	id: number;
+	userName: string | null;
+	content: string;
+	time: string;
+	floor: number;
+	isDeleted: boolean;
+	isLZ: boolean;
 };
 
 type PostPage = {
-    items?: Cc98Post[];
+	items?: Cc98Post[];
 };
 
 type Summary = {
-    sourceUrl?: string;
-    topic?: {
-        title?: string;
-        authorName?: string;
-        replyCount?: number;
-        hitCount?: number;
-    };
-    postCount?: number;
-    crawledAt?: string;
+	sourceUrl?: string;
+	topic?: {
+		title?: string;
+		authorName?: string;
+		replyCount?: number;
+		hitCount?: number;
+	};
+	postCount?: number;
+	crawledAt?: string;
 };
 
 const outputDir = resolve(process.cwd(), 'custom/cc98-investment-crawler/output/topic-6450962');
@@ -41,97 +41,242 @@ let summary: Summary | null = null;
 let records: Cc98Post[] = [];
 
 try {
-    const [summaryRaw, postsRaw] = await Promise.all([
-        readFile(resolve(outputDir, 'records/investment-summary.json'), 'utf-8'),
-        readFile(resolve(outputDir, 'raw/posts.json'), 'utf-8'),
-    ]);
+	const [summaryRaw, postsRaw] = await Promise.all([
+		readFile(resolve(outputDir, 'records/investment-summary.json'), 'utf-8'),
+		readFile(resolve(outputDir, 'raw/posts.json'), 'utf-8'),
+	]);
 
-    summary = JSON.parse(summaryRaw) as Summary;
-    const pages = JSON.parse(postsRaw) as PostPage[];
-    const allPosts = pages.flatMap((page) => page.items ?? []);
+	summary = JSON.parse(summaryRaw) as Summary;
+	const pages = JSON.parse(postsRaw) as PostPage[];
+	const allPosts = pages.flatMap((page) => page.items ?? []);
 
-    const cleanPosts = allPosts
-        .filter((post) => !post.isDeleted && post.content?.trim())
-        .sort((a, b) => a.floor - b.floor);
+	const cleanPosts = allPosts
+		.filter((post) => !post.isDeleted && post.content?.trim())
+		.sort((a, b) => a.floor - b.floor);
 
-    const authorName = summary?.topic?.authorName;
-    records = cleanPosts.filter((post) => post.isLZ || (authorName && post.userName === authorName));
+	const authorName = summary?.topic?.authorName;
+	records = cleanPosts.filter((post) => post.isLZ || (authorName && post.userName === authorName));
 
-    if (!records.length) {
-        records = cleanPosts;
-    }
+	if (!records.length) {
+		records = cleanPosts;
+	}
 } catch {
-    summary = null;
-    records = [];
+	summary = null;
+	records = [];
 }
 
+const formatDate = (value: string) => new Date(value).toLocaleString('zh-CN', {
+	month: '2-digit',
+	day: '2-digit',
+	hour: '2-digit',
+	minute: '2-digit',
+	hour12: false,
+});
+
+const cleanText = (content: string) => content
+	.replace(/\[img\][\s\S]*?\[\/img\]/g, ' ')
+	.replace(/\[[^\]]+\]/g, '')
+	.replace(/\s+/g, ' ')
+	.trim();
+
+const imageCount = (content: string) => (content.match(/\[img\]/g) ?? []).length;
+const assetPatterns = [
+	{ label: 'BTC', pattern: /btc|大饼/i },
+	{ label: 'ETH', pattern: /eth|二饼/i },
+	{ label: 'XAU', pattern: /xau|黄金/i },
+	{ label: 'XAG', pattern: /xag|白银/i },
+	{ label: 'CRCL', pattern: /crcl|circle/i },
+	{ label: 'VVV', pattern: /vvv/i },
+	{ label: 'TAO', pattern: /tao/i },
+	{ label: '美股', pattern: /美股|1011|支撑位/i },
+];
+
+const meaningfulRecords = records
+	.map((record) => ({
+		...record,
+		cleanContent: cleanText(record.content),
+		imageCount: imageCount(record.content),
+	}))
+	.filter((record) => record.cleanContent.length > 18 && record.cleanContent !== '记录投资日常' && record.cleanContent !== 'test');
+
+const recordDateRange = meaningfulRecords.length
+	? `${formatDate(meaningfulRecords[0].time)} - ${formatDate(meaningfulRecords[meaningfulRecords.length - 1].time)}`
+	: '暂无';
+
+const assets = assetPatterns
+	.map((asset) => {
+		const matched = meaningfulRecords.filter((record) => asset.pattern.test(record.content));
+		return {
+			label: asset.label,
+			count: matched.length,
+			floors: matched.map((record) => `#${record.floor}`).slice(0, 4).join(' / '),
+		};
+	})
+	.filter((asset) => asset.count > 0);
+
+const recordTitles: Record<number, string> = {
+	5: '利率决议后分批止盈，同时暴露 CRCL / VVV 风险控制问题',
+	6: '频繁交易与保本止损：拿不到好位置就不急着入场',
+	8: '黄金回撤复盘：盈利后没有减仓，牛市惯性伤到本金',
+	9: '黄金白银接针、BTC/ETH 空单对冲与基本面再判断',
+	11: '黄金反弹减仓、TAO 压力位冲动开空与失效条件',
+	12: '宏观脚本：美股支撑、加息预期、黄金与加密同向风险',
+	13: 'BTC/ETH 空单带来账户新高，同时黄金跌破逻辑被清仓',
+	16: '三笔错单复盘：TAO、BTC、XAU 与市价单纪律',
+	17: 'XAU / XAG 操作框架：战争、流动性、双顶结构',
+	18: '操作变形后的收束：回到趋势主线，继续 BTC/ETH 空头',
+};
+
+const investmentLessons = [
+	{
+		kicker: 'Main Bias',
+		title: '主线是高空 BTC / ETH，用趋势判断压住噪音。',
+		body: '多条记录都在反复确认熊市或流动性压力下的空头主线，并把 BTC / ETH 空单作为黄金多单或宏观波动的对冲工具。',
+	},
+	{
+		kicker: 'Risk',
+		title: '亏损更多来自节奏，而不是完全看错方向。',
+		body: '反复出现的问题是市价追单、过于频繁、盈利后没有及时保本或减仓，尤其在 CRCL、TAO、XAU 上很明显。',
+	},
+	{
+		kicker: 'Rule',
+		title: '强势标的不能被简单套进熊市模板。',
+		body: 'CRCL、VVV、TAO 这类局部强势资产提醒：方向判断正确也要尊重个体强弱和突破失效条件。',
+	},
+	{
+		kicker: 'Macro',
+		title: '黄金逻辑从避险转向流动性与利率压力。',
+		body: 'XAU / XAG 记录把战争、Fed、支撑位和降息预期拆开看，最终形成“少吃可以，不能伤本金”的操作约束。',
+	},
+];
+
 const crawledAtText = summary?.crawledAt
-    ? new Date(summary.crawledAt).toLocaleString('zh-CN', { hour12: false })
-    : null;
+	? new Date(summary.crawledAt).toLocaleString('zh-CN', { hour12: false })
+	: null;
 ---
 
 <Layout
-    title={`${copy.nav.find((i) => i.id === 'investments')?.label || 'investments'} | ${copy.brand.name}`}
-    description={copy.seo.description}
-    lang={locale}
-    canonicalPath="/old/investments/"
-    alternatePath={alternatePath}
+	title={`${copy.nav.find((i) => i.id === 'investments')?.label || 'investments'} | ${copy.brand.name}`}
+	description={copy.seo.description}
+	lang={locale}
+	canonicalPath="/old/investments/"
+	alternatePath={alternatePath}
 >
-    <main class="site-shell">
-        <SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
+	<main class="site-shell">
+		<SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
 
-        <section id="investments" class="mx-auto mt-12 mb-20 w-full max-w-5xl" data-reveal>
-            <div class="panel-strong p-8 sm:p-12">
-                <p class="soft-label mb-5">{copy.investments.kicker}</p>
-                <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
-                    {copy.investments.title}
-                </h1>
-                <p class="mt-4 max-w-3xl text-slate-600 leading-8">
-                    {copy.investments.intro}
-                </p>
+		<section id="investments" class="feature-hero mx-auto mt-10 w-full max-w-6xl" data-reveal>
+			<div class="feature-hero-copy">
+				<p class="soft-label mb-5">{copy.investments.kicker}</p>
+				<h1 class="hero-title max-w-4xl font-semibold">{copy.investments.title}</h1>
+				<p class="mt-5 max-w-3xl text-[17px] leading-[1.55] text-[#1d1d1f]/70">
+					{copy.investments.intro}
+				</p>
+				<div class="mt-7 flex flex-wrap gap-2">
+					{summary?.topic?.title && <span class="signal-pill">原帖：{summary.topic.title}</span>}
+					<span class="signal-pill">有效记录：{meaningfulRecords.length}</span>
+					<span class="signal-pill">观察周期：{recordDateRange}</span>
+					<span class="signal-pill">阅读数：{summary?.topic?.hitCount ?? '-'}</span>
+				</div>
+			</div>
+			<div class="feature-hero-panel">
+				<div class="feature-stat">
+					<span>Records</span>
+					<strong>{meaningfulRecords.length}</strong>
+					<p>剔除 test 与普通互动后保留真实复盘楼层。</p>
+				</div>
+				<div class="feature-stat">
+					<span>Assets</span>
+					<strong>{assets.length}</strong>
+					<p>覆盖加密、贵金属、美股与局部强势标的。</p>
+				</div>
+			</div>
+		</section>
 
-                <div class="mt-6 flex flex-wrap gap-2">
-                    {summary?.topic?.title && <span class="signal-pill">原帖：{summary.topic.title}</span>}
-                    <span class="signal-pill">记录条数：{records.length}</span>
-                    <span class="signal-pill">总楼层：{summary?.postCount ?? '-'}</span>
-                    <span class="signal-pill">回复数：{summary?.topic?.replyCount ?? '-'}</span>
-                    <span class="signal-pill">阅读数：{summary?.topic?.hitCount ?? '-'}</span>
-                </div>
+		<section class="apple-section mx-auto w-full max-w-6xl" data-reveal>
+			<div class="apple-section-intro">
+				<p class="section-kicker">Analysis</p>
+				<h2 class="section-title mt-3">先看复盘结论，再进入原始交易日志。</h2>
+			</div>
+			<div class="snapshot-grid">
+				{investmentLessons.slice(0, 3).map((lesson) => (
+					<article class="snapshot-card">
+						<p>{lesson.kicker}</p>
+						<strong>{lesson.title}</strong>
+						<span>{lesson.body}</span>
+					</article>
+				))}
+			</div>
+		</section>
 
-                <div class="mt-6 text-sm text-slate-500">
-                    <span>来源：</span>
-                    {summary?.sourceUrl ? (
-                        <a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:underline">
-                            {summary.sourceUrl}
-                        </a>
-                    ) : (
-                        <span>本地文件</span>
-                    )}
-                    {crawledAtText && <span class="ml-3">同步时间：{crawledAtText}</span>}
-                </div>
-            </div>
-        </section>
+		<section class="mx-auto mb-16 w-full max-w-6xl" data-reveal>
+			<div class="analysis-panel p-6 sm:p-8">
+				<div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+					<div>
+						<p class="section-kicker">Asset Surface</p>
+						<h2 class="section-title mt-3">记录里真正反复出现的标的。</h2>
+					</div>
+					<p class="max-w-md text-[14px] leading-7 text-[#1d1d1f]/62">
+						这里不是随便摆标签，而是从同步正文中按关键词提取，帮助你快速看到这段时间的注意力分布。
+					</p>
+				</div>
+				<div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+					{assets.map((asset) => (
+						<article class="asset-card">
+							<span>{asset.label}</span>
+							<strong>{asset.count}</strong>
+							<p>{asset.floors}</p>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
 
-        <section class="mx-auto mb-24 w-full max-w-5xl" data-reveal>
-            {records.length > 0 ? (
-                <div class="space-y-4">
-                    {records.map((record) => (
-                        <article class="story-card">
-                            <div class="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-                                <span class="signal-pill">#{record.floor} 楼</span>
-                                <span>{record.userName || '匿名用户'}</span>
-                                <span>{new Date(record.time).toLocaleString('zh-CN', { hour12: false })}</span>
-                                <span>ID: {record.id}</span>
-                            </div>
-                            <p class="mt-4 whitespace-pre-wrap text-slate-700 leading-8">{record.content}</p>
-                        </article>
-                    ))}
-                </div>
-            ) : (
-                <div class="panel p-8 text-slate-600">
-                    本地未读取到可展示的投资记录。请先运行 CC98 抓取脚本后再构建页面。
-                </div>
-            )}
-        </section>
-    </main>
+		<section class="mx-auto mb-24 w-full max-w-6xl" data-reveal>
+			<div class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+				<div>
+					<p class="section-kicker">Timeline</p>
+					<h2 class="section-title mt-3">具体记录，没有再空着。</h2>
+				</div>
+				<div class="text-sm leading-7 text-[#1d1d1f]/58">
+					{summary?.sourceUrl ? (
+						<a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer" class="apple-link">
+							CC98 原帖来源
+						</a>
+					) : (
+						<span>来源：本地同步文件</span>
+					)}
+					{crawledAtText && <span class="ml-3">同步：{crawledAtText}</span>}
+				</div>
+			</div>
+
+			{meaningfulRecords.length > 0 ? (
+				<div class="investment-timeline">
+					{meaningfulRecords.map((record) => {
+						const tags = assetPatterns.filter((asset) => asset.pattern.test(record.content)).map((asset) => asset.label);
+						return (
+							<article class="investment-entry">
+								<div class="investment-entry-meta">
+									<span>#{record.floor}</span>
+									<time>{formatDate(record.time)}</time>
+								</div>
+								<div class="investment-entry-body">
+									<h3>{recordTitles[record.floor] ?? '投资日志复盘'}</h3>
+									<div class="mt-3 flex flex-wrap gap-2">
+										{tags.map((tag) => <span class="signal-pill">{tag}</span>)}
+										{record.imageCount > 0 && <span class="signal-pill">图表 {record.imageCount} 张</span>}
+									</div>
+									<p>{record.cleanContent}</p>
+								</div>
+							</article>
+						);
+					})}
+				</div>
+			) : (
+				<div class="analysis-panel p-8 text-[#1d1d1f]/62">
+					本地未读取到可展示的投资记录。请先运行 CC98 抓取脚本后再构建页面。
+				</div>
+			)}
+		</section>
+	</main>
 </Layout>
