@@ -5,10 +5,11 @@ import { getCopy } from '../utils/i18n';
 
 const { locale } = Astro.props;
 const copy = getCopy(locale);
-const { basePath = '' } = Astro.props;
+const { basePath = '', navBasePath = basePath, canonicalPath: canonicalPathOverride, alternatePath: alternatePathOverride } = Astro.props;
 const normalizedBasePath = basePath ? `/${basePath.replace(/^\/+|\/+$/g, '')}` : '';
-const alternatePath = locale === 'zh-cn' ? `${normalizedBasePath}/en/` : `${normalizedBasePath || '/'}`;
-const canonicalPath = locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`;
+const normalizedNavBasePath = navBasePath ? `/${navBasePath.replace(/^\/+|\/+$/g, '')}` : normalizedBasePath;
+const alternatePath = alternatePathOverride ?? (locale === 'zh-cn' ? `${normalizedBasePath}/en/` : `${normalizedBasePath || '/'}`);
+const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`);
 ---
 
 <Layout
@@ -19,7 +20,7 @@ const canonicalPath = locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${n
     alternatePath={alternatePath}
 >
     <main class="site-shell">
-        <SiteHeader locale={locale} alternatePath={alternatePath} basePath={normalizedBasePath} />
+        <SiteHeader locale={locale} alternatePath={alternatePath} basePath={normalizedNavBasePath} />
 
         <section class="hero-particle-wrap mt-10 sm:mt-12" data-reveal>
             <canvas id={`particle-canvas-${locale}`} class="hero-particle-canvas" aria-hidden="true"></canvas>

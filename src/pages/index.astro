@@ -1,21 +1,17 @@
 ---
-// 文件说明：该文件是新的站点根首页。
-// 功能说明：让 hadmard.github.io 直接进入交互式日历，并把旧版完整内容继续保留在 /old/。
+// 文件说明：该文件是站点根首页。
+// 功能说明：让 hadmard.github.io 回到老站首页内容，具体栏目继续复用 /old/ 下的既有页面。
 //
 // 结构概览：
-//   第一部分：导入布局、日历组件与样式
-//   第二部分：输出客户端日历应用
-import CalendarExperience from '../components/CalendarExperience';
-import Layout from '../layouts/Layout.astro';
-import '../styles/calendar.css';
+//   第一部分：加载中文文章
+//   第二部分：渲染共享首页组件
+import { getCollection } from 'astro:content';
+
+import HomePage from '../components/HomePage.astro';
+
+const thoughts = (await getCollection('thoughts', ({ data }) => data.lang === 'zh-cn')).sort(
+	(a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
 ---
 
-<Layout
-	title="Yfcccc | 日程日历"
-	description="从昨天开始排布 6x5 日期网格，点击每一天查看详细日程，并用红黄绿显示忙碌程度。"
-	lang="zh-cn"
-	canonicalPath="/"
-	alternatePath="/old/en/"
->
-	<CalendarExperience client:only="react" />
-</Layout>
+<HomePage locale="zh-cn" thoughts={thoughts} basePath="" navBasePath="/old" canonicalPath="/" alternatePath="/old/en/" />

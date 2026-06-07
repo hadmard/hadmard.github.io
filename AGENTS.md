@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.34-calendar-weekday-fix-and-liquid-glass.md`
+最新一期路径：`custom/notes/v1.35-root-homepage-restore-old-site.md`
 
 ## 1. 基本原则
 
