@@ -48,6 +48,11 @@ interface SiteCopy {
 			note: string;
 		}>;
 	};
+	progress: {
+		kicker: string;
+		title: string;
+		intro: string;
+	};
 	resume: {
 		kicker: string;
 		title: string;
@@ -58,20 +63,10 @@ interface SiteCopy {
 			title: string;
 			description: string;
 		}>;
-	};
-	projects: {
-		kicker: string;
-		title: string;
-		intro: string;
-		emptyTitle: string;
-		emptyDescription: string;
-		items: Array<{
-			name: string;
-			role: string;
-			summary: string;
-			stack: string[];
-			impact: string;
-		}>;
+		projectsTitle: string;
+		projectsIntro: string;
+		projectsEmptyTitle: string;
+		projectsEmptyDescription: string;
 	};
 	investments: {
 		kicker: string;
@@ -117,13 +112,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		},
 		seo: {
 			title: 'Yfcccc | 个人研究主页',
-			description: 'Yfcccc 的个人主页：展示学习进度、项目目标、个人思考与长期迭代。',
+			description: 'Yfcccc 的个人主页：展示技术栈、投资分析、思考感悟与简历。',
 		},
 		nav: [
-			{ id: 'progress', label: '进度' },
-			{ id: 'projects', label: '项目' },
-			{ id: 'thinking', label: '思考' },
-			{ id: 'resume', label: '简历' },
+			{ id: 'progress', label: '个人技术栈' },
+			{ id: 'investments', label: '投资记录分析' },
+			{ id: 'thinking', label: '个人思考感悟' },
+			{ id: 'resume', label: '个人简历（含项目）' },
 		],
 		hero: {
 			badge: 'YFCCCC / ASTRO / GITHUB PAGES',
@@ -131,8 +126,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			title: '欢迎来到 Yfcccc 的个人博客。',
 			description:
 				'这里是展示层首页：用于说明网站定位与方向。具体内容请通过右上角栏目进入对应子页面查看。',
-			primaryCta: '进入进度页',
-			secondaryCta: '进入项目页',
+			primaryCta: '进入个人技术栈',
+			secondaryCta: '进入投资记录分析',
 			modes: ['Vision Algorithms', 'Image Fusion', 'AI+X', 'Tech Venture', 'Finance Minor'],
 			contacts: [
 				{ label: 'Personal', value: 'arcsin4130@gmail.com', href: 'mailto:arcsin4130@gmail.com' },
@@ -149,8 +144,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 				{ label: 'Site Status', value: '真实信息正在持续补全', note: '项目、投资与文章模块会按阶段继续填充' },
 			],
 		},
+		progress: {
+			kicker: 'Tech Stack',
+			title: '个人技术栈',
+			intro: '结构按知识深度横向展开，同一列是并列能力，列与列之间是清晰的递进关系。',
+		},
 		resume: {
-			kicker: '个人简历',
+			kicker: '个人简历（含项目）',
 			title: '一条以视觉算法为主轴，同时向金融与创业视角展开的成长路径。',
 			intro:
 				'当前信息还在逐步补全，所以这一版简历更强调“真实起点”而不是堆砌结果。先把研究方向、专业结构和交叉训练明确下来，后续再继续补项目、论文、比赛与成果。',
@@ -172,33 +172,29 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 					description: '在算法之外持续补足商业、资本与技术扩散的视角，让研究不只停留在模型层，而能理解技术进入现实世界的路径。',
 				},
 			],
-		},
-		projects: {
-			kicker: '项目经历',
-			title: '项目模块先保持诚实，等代表作成熟后再集中展示。',
-			intro: '你目前提到的核心在于 UV & white 双源图像融合算法开发，但还没有想公开成完整 case 的项目。我先把这里设计成具有审美的空态，而不是用虚构案例填满。',
-			emptyTitle: '项目经历建设中',
-			emptyDescription: '后续你有了完整项目、论文、比赛、实验平台或 Demo，我会把这里升级成高密度 case file 展示区。',
-			items: [],
+			projectsTitle: '项目经历',
+			projectsIntro: '将项目经历并入简历模块，作为研究、工程与复盘能力的直接佐证。',
+			projectsEmptyTitle: '项目经历建设中',
+			projectsEmptyDescription: '后续有了完整项目、论文、比赛、实验平台或 Demo，我会把这里升级成高密度 case file 展示区。',
 		},
 		investments: {
-			kicker: '投资记录',
-			title: '投资模块先留白，等你愿意公开时再建立自己的方法论界面。',
-			intro: '你已经有科技创业投资与金融学的训练背景，但当前不打算公开投资记录。我先保留这个模块的位置感，避免站点结构以后重做。',
+			kicker: '投资记录分析',
+			title: '投资记录分析',
+			intro: '把公开与本地同步的投资记录整理成结构化的分析视图，沉淀科技创业投资与金融学训练中的判断框架。',
 			principles: [],
 			records: [],
 			emptyTitle: '投资记录暂未公开',
 			emptyDescription: '后续可以选择只写方法论、研究方向，或写可公开的标的观察，不一定要暴露完整仓位。',
 		},
 		thinking: {
-			kicker: '个人思考',
-			title: '思考模块保留为空白页边，等待真正值得发表的第一批文章。',
-			intro: '你暂时还没有提供文章主题或已有标题，所以我先把这个区域处理成“即将上线”的编辑部状态，而不是继续放示例文章冒充你的表达。',
+			kicker: '个人思考感悟',
+			title: '个人思考感悟',
+			intro: '这一页用于沉淀长期研究中的推理、判断与阶段性复盘，当前先保留最小占位结构。',
 			readMore: '阅读全文',
 			emptyTitle: '文章内容即将补充',
-			emptyDescription: '等你给出主题方向后，我可以继续帮你把首批文章标题、摘要甚至正文都搭出来，并保持中英文同步结构。',
+			emptyDescription: '这里将陆续更新思考笔记与长文，作为个人的认知存档与交流空间。',
 			commentTitle: '评论区',
-			commentNote: '评论功能已经接好，但会主要出现在后续的文章详情页里。当前如果没有文章，评论模块就暂时不会成为主角。',
+			commentNote: '评论功能已经接好，但会主要出现在后续的文章详情页里。',
 		},
 		post: {
 			backLabel: '返回首页',
@@ -218,13 +214,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		},
 		seo: {
 			title: 'Yfcccc | Personal Research Homepage',
-			description: 'A personal homepage for learning progress, project targets, thinking notes, and long-term iteration.',
+			description: 'A personal homepage for tech stack, investment analysis, reflections, and resume.',
 		},
 		nav: [
-			{ id: 'progress', label: 'Progress' },
-			{ id: 'projects', label: 'Projects' },
-			{ id: 'thinking', label: 'Thinking' },
-			{ id: 'resume', label: 'Resume' },
+			{ id: 'progress', label: 'Tech Stack' },
+			{ id: 'investments', label: 'Investment Analysis' },
+			{ id: 'thinking', label: 'Reflections' },
+			{ id: 'resume', label: 'Resume & Projects' },
 		],
 		hero: {
 			badge: 'YFCCCC / ASTRO / GITHUB PAGES',
@@ -232,8 +228,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			title: 'Welcome to Yfcccc\'s personal blog.',
 			description:
 				'This homepage is a showcase layer that explains what the site is for. Use the top-right navigation to open focused subpages for details.',
-			primaryCta: 'Open Progress',
-			secondaryCta: 'Open Projects',
+			primaryCta: 'Open Tech Stack',
+			secondaryCta: 'Open Investment Analysis',
 			modes: ['Vision Algorithms', 'Image Fusion', 'AI+X', 'Tech Venture', 'Finance Minor'],
 			contacts: [
 				{ label: 'Personal', value: 'arcsin4130@gmail.com', href: 'mailto:arcsin4130@gmail.com' },
@@ -250,8 +246,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 				{ label: 'Site Status', value: 'Real material is being added', note: 'Projects, investments, and essays will be published in stages' },
 			],
 		},
+		progress: {
+			kicker: 'Tech Stack',
+			title: 'Tech Stack',
+			intro: 'Structured horizontally by depth, parallel skills in the same column, and clear progression between columns.',
+		},
 		resume: {
-			kicker: 'Resume',
+			kicker: 'Resume & Projects',
 			title: 'A path centered on visual algorithms, expanding into finance and venture perspectives.',
 			intro:
 				'The profile is still being filled in, so this version emphasizes an honest starting point instead of inflated outcomes. The current goal is to make the direction, academic structure, and interdisciplinary training visible first.',
@@ -273,31 +274,27 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 					description: 'Extending beyond algorithms to understand how technology interacts with business, capital, and real-world adoption.',
 				},
 			],
-		},
-		projects: {
-			kicker: 'Projects',
-			title: 'The project layer stays honest for now, waiting for stronger public case studies.',
-			intro: 'You mentioned UV and white dual-source image fusion algorithm development as the main active thread, but there are no finished projects you want to present yet. I am preserving the space without filling it with fake case studies.',
-			emptyTitle: 'Project section in progress',
-			emptyDescription: 'Once you have completed projects, papers, competitions, demos, or experimental platforms, this area can evolve into a dense case-file presentation layer.',
-			items: [],
+			projectsTitle: 'Projects',
+			projectsIntro: 'Projects are folded into the resume as direct evidence of research, engineering, and reflection ability.',
+			projectsEmptyTitle: 'Project section in progress',
+			projectsEmptyDescription: 'Once you have completed projects, papers, competitions, demos, or experimental platforms, this area can evolve into a dense case-file presentation layer.',
 		},
 		investments: {
-			kicker: 'Investments',
-			title: 'The investment layer is intentionally left blank until you want it public.',
-			intro: 'You already have exposure to tech venture investing and finance, but you do not want to publish investment records yet. Keeping the section in place now makes future expansion much easier.',
+			kicker: 'Investment Analysis',
+			title: 'Investment Analysis',
+			intro: 'Public and locally synced investment records are organized into a structured analysis view, preserving judgment patterns from venture and finance training.',
 			principles: [],
 			records: [],
 			emptyTitle: 'Investment records not public yet',
 			emptyDescription: 'Later, this can hold principles, research directions, or selected public-safe observations instead of full position disclosure.',
 		},
 		thinking: {
-			kicker: 'Thinking',
-			title: 'The writing layer stays open, waiting for the first essays that truly sound like you.',
-			intro: 'Since you have not shared topics or titles yet, I turned this area into an editorial placeholder instead of keeping sample essays that would misrepresent your voice.',
+			kicker: 'Reflections',
+			title: 'Reflections',
+			intro: 'This page captures reasoning, judgments, and periodic reviews from long-term research.',
 			readMore: 'Read full essay',
 			emptyTitle: 'Essays coming soon',
-			emptyDescription: 'Once you give me themes, I can help you shape the first batch of titles, summaries, and even full drafts in both Chinese and English.',
+			emptyDescription: 'This space will gradually update with thinking notes and essays as a personal cognitive archive and exchange medium.',
 			commentTitle: 'Comments',
 			commentNote: 'The comment system is already wired in, but it will matter most once the article layer is populated.',
 		},

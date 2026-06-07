@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.36-gemini-apple-liquid-glass-site-redesign.md`
+最新一期路径：`custom/notes/v1.37-four-module-site-structure.md`
 
 ## 1. 基本原则
 

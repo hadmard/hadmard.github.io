@@ -33,12 +33,12 @@ const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normaliz
                     {copy.hero?.description}
                 </p>
                 <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-                    <span class="inline-flex items-center rounded-full bg-[#1d1d1f] px-6 py-3 text-[15px] font-medium text-white shadow-md transition-transform hover:scale-105 duration-300">
+                    <a href={locale === 'zh-cn' ? `${normalizedNavBasePath}/progress/` : `${normalizedNavBasePath}/en/progress/`} class="inline-flex items-center rounded-full bg-[#1d1d1f] px-6 py-3 text-[15px] font-medium text-white shadow-md transition-transform hover:scale-105 duration-300">
                         {copy.hero?.primaryCta || (locale === 'zh-cn' ? '请使用右上角导航' : 'Use top-right navigation')}
-                    </span>
-                    <span class="inline-flex items-center rounded-full bg-white/50 backdrop-blur-md border border-white/60 px-6 py-3 text-[15px] font-medium text-[#1d1d1f] shadow-sm transition-transform hover:scale-105 duration-300">
+                    </a>
+                    <a href={locale === 'zh-cn' ? `${normalizedNavBasePath}/investments/` : `${normalizedNavBasePath}/en/investments/`} class="inline-flex items-center rounded-full bg-white/50 backdrop-blur-md border border-white/60 px-6 py-3 text-[15px] font-medium text-[#1d1d1f] shadow-sm transition-transform hover:scale-105 duration-300">
                         {copy.hero?.secondaryCta || (locale === 'zh-cn' ? '仅通过栏目进入子页面' : 'Open subpages from top navigation only')}
-                    </span>
+                    </a>
                 </div>
             </div>
         </section>

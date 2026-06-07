@@ -82,15 +82,16 @@ const crawledAtText = summary?.crawledAt
 
         <section id="investments" class="mx-auto mt-12 mb-20 w-full max-w-5xl" data-reveal>
             <div class="panel-strong p-8 sm:p-12">
-                <p class="soft-label mb-5">来自 cc98.org 的本地同步记录</p>
+                <p class="soft-label mb-5">{copy.investments.kicker}</p>
                 <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
-                    {summary?.topic?.title || '投资记录'}
+                    {copy.investments.title}
                 </h1>
                 <p class="mt-4 max-w-3xl text-slate-600 leading-8">
-                    你在 CC98 的投资记录已经保存在本地，这里直接展示同步结果，不再留空。
+                    {copy.investments.intro}
                 </p>
 
                 <div class="mt-6 flex flex-wrap gap-2">
+                    {summary?.topic?.title && <span class="signal-pill">原帖：{summary.topic.title}</span>}
                     <span class="signal-pill">记录条数：{records.length}</span>
                     <span class="signal-pill">总楼层：{summary?.postCount ?? '-'}</span>
                     <span class="signal-pill">回复数：{summary?.topic?.replyCount ?? '-'}</span>

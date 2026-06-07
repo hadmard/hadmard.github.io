@@ -82,15 +82,16 @@ const crawledAtText = summary?.crawledAt
 
         <section id="investments" class="mx-auto mt-12 mb-20 w-full max-w-5xl" data-reveal>
             <div class="panel-strong p-8 sm:p-12">
-                <p class="soft-label mb-5">Locally synced from cc98.org</p>
+                <p class="soft-label mb-5">{copy.investments.kicker}</p>
                 <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
-                    {summary?.topic?.title || 'Investment Notes'}
+                    {copy.investments.title}
                 </h1>
                 <p class="mt-4 max-w-3xl text-slate-600 leading-8">
-                    Your CC98 investment records exist locally. This page now renders those synced entries directly instead of a placeholder.
+                    {copy.investments.intro}
                 </p>
 
                 <div class="mt-6 flex flex-wrap gap-2">
+                    {summary?.topic?.title && <span class="signal-pill">Topic: {summary.topic.title}</span>}
                     <span class="signal-pill">Entries: {records.length}</span>
                     <span class="signal-pill">Total floors: {summary?.postCount ?? '-'}</span>
                     <span class="signal-pill">Replies: {summary?.topic?.replyCount ?? '-'}</span>
