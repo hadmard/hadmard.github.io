@@ -15,54 +15,18 @@ const alternatePath = '/old/en/thinking/';
   canonicalPath="/old/thinking/"
   alternatePath={alternatePath}
 >
-  <main class="site-shell">
+  <main class="site-shell reading-shell">
     <SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
 
-    <section class="feature-hero mx-auto mt-10 w-full max-w-6xl" data-reveal>
-      <div class="feature-hero-copy">
-        <p class="soft-label mb-5">{copy.thinking.kicker}</p>
-        <h1 class="hero-title max-w-4xl font-semibold">{copy.thinking.title}</h1>
-        <p class="mt-5 max-w-3xl text-[17px] leading-[1.55] text-[#1d1d1f]/70">
-          {copy.thinking.intro}
-        </p>
-      </div>
-      <div class="feature-hero-panel">
-        <div class="feature-stat">
-          <span>Format</span>
-          <strong>Notes</strong>
-          <p>未来适合放阶段复盘、研究判断和认知备忘。</p>
-        </div>
-        <div class="feature-stat">
-          <span>Status</span>
-          <strong>Ready</strong>
-          <p>页面结构已准备好，等待第一批真实文章。</p>
-        </div>
-      </div>
+    <section class="reading-hero" data-reveal>
+      <p class="soft-label">{copy.thinking.kicker}</p>
+      <h1>{copy.thinking.title}</h1>
+      <p>{copy.thinking.intro}</p>
     </section>
 
-    <section class="mx-auto mb-24 mt-6 w-full max-w-6xl" data-reveal>
-      <div class="analysis-panel p-8 sm:p-12">
-        <p class="section-kicker">Editorial Queue</p>
-        <h2 class="section-title mt-3">{copy.thinking.emptyTitle}</h2>
-        <p class="mt-5 max-w-2xl text-[15px] leading-8 text-[#1d1d1f]/64">{copy.thinking.emptyDescription}</p>
-        <div class="mt-8 grid gap-3 sm:grid-cols-3">
-          <article class="snapshot-card">
-            <p>01</p>
-            <strong>研究复盘</strong>
-            <span>记录算法学习、实验过程和阶段判断。</span>
-          </article>
-          <article class="snapshot-card">
-            <p>02</p>
-            <strong>投资备忘</strong>
-            <span>把交易日志背后的规则沉淀为方法论。</span>
-          </article>
-          <article class="snapshot-card">
-            <p>03</p>
-            <strong>长期问题</strong>
-            <span>保留那些暂时没有答案但值得反复追问的问题。</span>
-          </article>
-        </div>
-      </div>
+    <section class="raw-empty" data-reveal>
+      <h2>{copy.thinking.emptyTitle}</h2>
+      <p>{copy.thinking.emptyDescription}</p>
     </section>
   </main>
 </Layout>

@@ -12,25 +12,15 @@ const alternatePath = alternatePathOverride ?? (locale === 'zh-cn' ? `${normaliz
 const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`);
 
 const hrefFor = (id: string) => locale === 'zh-cn' ? `${normalizedNavBasePath}/${id}/` : `${normalizedNavBasePath}/en/${id}/`;
-const moduleDescriptions = locale === 'zh-cn'
-	? {
-			progress: '数学、系统、算法和机器人能力被重新排成一张浅色路线图。',
-			investments: '把 CC98 本地同步日志拆成资产、操作、风险和复盘。',
-			thinking: '保留长期判断、阶段复盘和方法论笔记的安静空间。',
-			resume: '教育、研究、项目和跨学科训练收束到一个页面。',
-		}
-	: {
-			progress: 'Math, systems, algorithms, and robotics are arranged as a light technical map.',
-			investments: 'CC98 logs are turned into assets, actions, risk notes, and reviews.',
-			thinking: 'A calm space for long-horizon reasoning and periodic reflection.',
-			resume: 'Education, research, projects, and interdisciplinary training in one page.',
-		};
-const moduleDeck = copy.nav.map((item, index) => ({
-	...item,
-	href: hrefFor(item.id),
-	description: moduleDescriptions[item.id as keyof typeof moduleDescriptions],
-	index: String(index + 1).padStart(2, '0'),
-}));
+const cards = copy.nav.map((item) => {
+	const metric = copy.hero.metrics.find((entry) => entry.label === item.label);
+	return {
+		...item,
+		href: hrefFor(item.id),
+		value: metric?.value ?? item.label,
+		note: metric?.note ?? '',
+	};
+});
 ---
 
 <Layout
@@ -40,133 +30,27 @@ const moduleDeck = copy.nav.map((item, index) => ({
 	canonicalPath={canonicalPath}
 	alternatePath={alternatePath}
 >
-	<main class="site-shell">
+	<main class="site-shell blog-shell">
 		<SiteHeader locale={locale} alternatePath={alternatePath} basePath={normalizedNavBasePath} />
 
-		<section class="apple-hero mt-6 sm:mt-10" data-reveal>
-			<canvas id={`hero-canvas-${locale}`} class="apple-hero-canvas" aria-hidden="true"></canvas>
-			<div class="apple-hero-copy">
-				<p class="soft-label bg-white/60 shadow-sm backdrop-blur-md">{copy.hero.badge}</p>
-				<h1 class="hero-title mt-7 max-w-5xl text-[#1d1d1f]">
-					{copy.hero.title}
-				</h1>
-				<p class="hero-subtitle mt-6 max-w-3xl text-[#1d1d1f]/72">
-					{copy.hero.description}
-				</p>
-				<div class="mt-9 flex flex-wrap items-center justify-center gap-3">
-					<a href={hrefFor('progress')} class="apple-button apple-button-dark">{copy.hero.primaryCta}</a>
-					<a href={hrefFor('investments')} class="apple-button apple-button-light">{copy.hero.secondaryCta}</a>
-				</div>
-			</div>
-
-			<div class="module-console" aria-label={locale === 'zh-cn' ? '四个核心模块' : 'Four core modules'}>
-				<div class="module-console-header">
-					<div>
-						<p>{locale === 'zh-cn' ? 'FOUR SPACES' : 'FOUR SPACES'}</p>
-						<strong>{locale === 'zh-cn' ? '一屏进入核心内容' : 'One screen, four directions'}</strong>
-					</div>
-					<span>{locale === 'zh-cn' ? 'Live' : 'Live'}</span>
-				</div>
-				<div class="module-grid">
-					{moduleDeck.map((item) => (
-						<a class="module-tile" href={item.href}>
-							<span>{item.index}</span>
-							<strong>{item.label}</strong>
-							<p>{item.description}</p>
-						</a>
-					))}
-				</div>
+		<section class="blog-hero" data-reveal>
+			<p class="soft-label">{copy.hero.badge}</p>
+			<h1>{copy.hero.title}</h1>
+			<p>{copy.hero.description}</p>
+			<div class="blog-actions">
+				<a href={hrefFor('investments')} class="apple-button apple-button-dark">{copy.hero.primaryCta}</a>
+				<a href={hrefFor('thinking')} class="apple-button apple-button-light">{copy.hero.secondaryCta}</a>
 			</div>
 		</section>
 
-		<section class="apple-section mx-auto mt-10 w-full max-w-6xl" data-reveal>
-			<div class="apple-section-intro">
-				<p class="section-kicker">{locale === 'zh-cn' ? 'Current Snapshot' : 'Current Snapshot'}</p>
-				<h2 class="section-title mt-3">{locale === 'zh-cn' ? '不是空壳首页，而是四个真实工作面的入口。' : 'Not a shell homepage, but a launch surface for real work.'}</h2>
-			</div>
-			<div class="snapshot-grid">
-				{copy.hero.metrics.map((metric) => (
-					<article class="snapshot-card">
-						<p>{metric.label}</p>
-						<strong>{metric.value}</strong>
-						<span>{metric.note}</span>
-					</article>
-				))}
-			</div>
+		<section class="blog-list" aria-label={locale === 'zh-cn' ? '博客入口' : 'Blog entries'} data-reveal>
+			{cards.map((card) => (
+				<a class="blog-card" href={card.href}>
+					<span>{card.label}</span>
+					<strong>{card.value}</strong>
+					<p>{card.note}</p>
+				</a>
+			))}
 		</section>
 	</main>
 </Layout>
-
-<script is:inline>
-	(() => {
-		const canvas = document.querySelector('.apple-hero-canvas');
-		if (!canvas) return;
-		const ctx = canvas.getContext('2d');
-		if (!ctx) return;
-
-		const bands = [
-			{ color: 'rgba(0, 113, 227, 0.26)', offset: 0, speed: 0.00018 },
-			{ color: 'rgba(90, 200, 250, 0.18)', offset: 1.2, speed: 0.00015 },
-			{ color: 'rgba(162, 132, 255, 0.18)', offset: 2.1, speed: 0.00013 },
-			{ color: 'rgba(255, 107, 138, 0.15)', offset: 3.4, speed: 0.00012 },
-			{ color: 'rgba(255, 159, 10, 0.13)', offset: 4.6, speed: 0.0001 },
-			{ color: 'rgba(52, 199, 89, 0.12)', offset: 5.4, speed: 0.00009 },
-		];
-		let width = 0;
-		let height = 0;
-		let raf = 0;
-		let start = performance.now();
-
-		const resize = () => {
-			const rect = canvas.getBoundingClientRect();
-			width = rect.width;
-			height = rect.height;
-			canvas.width = Math.floor(width * window.devicePixelRatio);
-			canvas.height = Math.floor(height * window.devicePixelRatio);
-			ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-		};
-
-		const drawRibbon = (time, band, index) => {
-			const phase = time * band.speed + band.offset;
-			const top = height * (0.12 + index * 0.115);
-			const amplitude = height * (0.095 + index * 0.012);
-			ctx.beginPath();
-			ctx.moveTo(-80, top);
-			for (let x = -80; x <= width + 80; x += 40) {
-				const y = top + Math.sin(x * 0.005 + phase) * amplitude + Math.cos(x * 0.009 - phase * 0.7) * amplitude * 0.42;
-				ctx.lineTo(x, y);
-			}
-			for (let x = width + 80; x >= -80; x -= 40) {
-				const y = top + height * 0.22 + Math.sin(x * 0.004 + phase + 1.7) * amplitude * 0.7;
-				ctx.lineTo(x, y);
-			}
-			ctx.closePath();
-			ctx.fillStyle = band.color;
-			ctx.fill();
-		};
-
-		const draw = () => {
-			const time = performance.now() - start;
-			ctx.clearRect(0, 0, width, height);
-
-			const gradient = ctx.createLinearGradient(0, 0, width, height);
-			gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-			gradient.addColorStop(0.28, 'rgba(240, 248, 255, 0.86)');
-			gradient.addColorStop(0.62, 'rgba(255, 246, 250, 0.82)');
-			gradient.addColorStop(1, 'rgba(255, 251, 243, 0.9)');
-			ctx.fillStyle = gradient;
-			ctx.fillRect(0, 0, width, height);
-
-			for (let i = 0; i < bands.length; i += 1) {
-				drawRibbon(time, bands[i], i);
-			}
-
-			raf = requestAnimationFrame(draw);
-		};
-
-		resize();
-		draw();
-		window.addEventListener('resize', resize);
-		window.addEventListener('beforeunload', () => cancelAnimationFrame(raf));
-	})();
-</script>

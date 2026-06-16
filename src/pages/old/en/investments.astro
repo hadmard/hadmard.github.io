@@ -7,7 +7,7 @@ import { getCopy } from '../../../utils/i18n';
 
 const locale = 'en';
 const copy = getCopy(locale);
-const alternatePath = "/old/investments/";
+const alternatePath = '/old/investments/';
 
 type Cc98Post = {
 	id: number;
@@ -28,10 +28,8 @@ type Summary = {
 	topic?: {
 		title?: string;
 		authorName?: string;
-		replyCount?: number;
 		hitCount?: number;
 	};
-	postCount?: number;
 	crawledAt?: string;
 };
 
@@ -74,76 +72,24 @@ const formatDate = (value: string) => new Date(value).toLocaleString('en-US', {
 });
 
 const cleanText = (content: string) => content
-	.replace(/\[img\][\s\S]*?\[\/img\]/g, ' ')
-	.replace(/\[[^\]]+\]/g, '')
-	.replace(/\s+/g, ' ')
+	.replace(/\[img\][\s\S]*?\[\/img\]/gi, '\n')
+	.replace(/\[[^\]\n]{1,80}\]/g, '')
+	.replace(/\p{Extended_Pictographic}/gu, '')
+	.replace(/[\uFE0F\u200D]/g, '')
+	.replace(/\r\n?/g, '\n')
+	.split('\n')
+	.map((line) => line.replace(/[ \t]+/g, ' ').trim())
+	.join('\n')
+	.replace(/\n{3,}/g, '\n\n')
 	.trim();
 
-const imageCount = (content: string) => (content.match(/\[img\]/g) ?? []).length;
-const assetPatterns = [
-	{ label: 'BTC', pattern: /btc|大饼/i },
-	{ label: 'ETH', pattern: /eth|二饼/i },
-	{ label: 'XAU', pattern: /xau|黄金/i },
-	{ label: 'XAG', pattern: /xag|白银/i },
-	{ label: 'CRCL', pattern: /crcl|circle/i },
-	{ label: 'VVV', pattern: /vvv/i },
-	{ label: 'TAO', pattern: /tao/i },
-	{ label: 'US Stocks', pattern: /美股|1011|支撑位/i },
-];
-
-const meaningfulRecords = records
+const placeholderTexts = new Set(['记录投资日常', 'test']);
+const visibleRecords = records
 	.map((record) => ({
 		...record,
 		cleanContent: cleanText(record.content),
-		imageCount: imageCount(record.content),
 	}))
-	.filter((record) => record.cleanContent.length > 18 && record.cleanContent !== '记录投资日常' && record.cleanContent !== 'test');
-
-const recordDateRange = meaningfulRecords.length
-	? `${formatDate(meaningfulRecords[0].time)} - ${formatDate(meaningfulRecords[meaningfulRecords.length - 1].time)}`
-	: 'No records';
-
-const assets = assetPatterns
-	.map((asset) => {
-		const matched = meaningfulRecords.filter((record) => asset.pattern.test(record.content));
-		return {
-			label: asset.label,
-			count: matched.length,
-			floors: matched.map((record) => `#${record.floor}`).slice(0, 4).join(' / '),
-		};
-	})
-	.filter((asset) => asset.count > 0);
-
-const recordTitles: Record<number, string> = {
-	5: 'Rate-decision take-profit, with CRCL / VVV risk control issues exposed',
-	6: 'Over-trading and breakeven stops: no good entry, no forced entry',
-	8: 'Gold drawdown review: profit was not protected in time',
-	9: 'Gold, silver, and BTC / ETH hedge logic after a new selloff',
-	11: 'Gold reduction, TAO impulse short, and invalidation condition',
-	12: 'Macro script: equity support, rate pressure, gold, and crypto risk',
-	13: 'BTC / ETH shorts lift the account while gold logic breaks',
-	16: 'Three messy trades: TAO, BTC, XAU, and market-order discipline',
-	17: 'XAU / XAG framework: war, liquidity, and double-top structure',
-	18: 'Back to the main trend after execution drift',
-};
-
-const investmentLessons = [
-	{
-		kicker: 'Main Bias',
-		title: 'The main line is short BTC / ETH, using trend judgment to reduce noise.',
-		body: 'The notes repeatedly return to a bearish liquidity view, with BTC / ETH shorts used as hedges against gold exposure and macro volatility.',
-	},
-	{
-		kicker: 'Risk',
-		title: 'Losses came more from rhythm than from being entirely wrong.',
-		body: 'The recurring errors are market-order chasing, high frequency, and not protecting profits with timely take-profit or breakeven stops.',
-	},
-	{
-		kicker: 'Rule',
-		title: 'Strong outliers cannot be forced into a generic bear-market template.',
-		body: 'CRCL, VVV, and TAO all show that even a correct macro direction must respect relative strength and invalidation levels.',
-	},
-];
+	.filter((record) => record.cleanContent && !placeholderTexts.has(record.cleanContent));
 
 const crawledAtText = summary?.crawledAt
 	? new Date(summary.crawledAt).toLocaleString('en-US', { hour12: false })
@@ -151,127 +97,50 @@ const crawledAtText = summary?.crawledAt
 ---
 
 <Layout
-	title={`${copy.nav.find((i) => i.id === 'investments')?.label || 'investments'} | ${copy.brand.name}`}
+	title={`${copy.investments.title} | ${copy.brand.name}`}
 	description={copy.seo.description}
 	lang={locale}
 	canonicalPath="/old/en/investments/"
 	alternatePath={alternatePath}
 >
-	<main class="site-shell">
+	<main class="site-shell reading-shell">
 		<SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
 
-		<section id="investments" class="feature-hero mx-auto mt-10 w-full max-w-6xl" data-reveal>
-			<div class="feature-hero-copy">
-				<p class="soft-label mb-5">{copy.investments.kicker}</p>
-				<h1 class="hero-title max-w-4xl font-semibold">{copy.investments.title}</h1>
-				<p class="mt-5 max-w-3xl text-[17px] leading-[1.55] text-[#1d1d1f]/70">
-					{copy.investments.intro}
-				</p>
-				<div class="mt-7 flex flex-wrap gap-2">
-					{summary?.topic?.title && <span class="signal-pill">Topic: {summary.topic.title}</span>}
-					<span class="signal-pill">Useful records: {meaningfulRecords.length}</span>
-					<span class="signal-pill">Window: {recordDateRange}</span>
-					<span class="signal-pill">Views: {summary?.topic?.hitCount ?? '-'}</span>
-				</div>
-			</div>
-			<div class="feature-hero-panel">
-				<div class="feature-stat">
-					<span>Records</span>
-					<strong>{meaningfulRecords.length}</strong>
-					<p>Placeholder and casual replies are removed from the analysis surface.</p>
-				</div>
-				<div class="feature-stat">
-					<span>Assets</span>
-					<strong>{assets.length}</strong>
-					<p>Crypto, precious metals, equities, and strong outliers all appear.</p>
-				</div>
+		<section class="reading-hero" data-reveal>
+			<p class="soft-label">{copy.investments.kicker}</p>
+			<h1>{copy.investments.title}</h1>
+			<p>{copy.investments.intro}</p>
+			<div class="reading-meta">
+				{summary?.topic?.title && <span>{summary.topic.title}</span>}
+				<span>{visibleRecords.length} entries</span>
+				{summary?.sourceUrl && (
+					<a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer">source</a>
+				)}
+				{crawledAtText && <span>{crawledAtText}</span>}
 			</div>
 		</section>
 
-		<section class="apple-section mx-auto w-full max-w-6xl" data-reveal>
-			<div class="apple-section-intro">
-				<p class="section-kicker">Analysis</p>
-				<h2 class="section-title mt-3">Read the conclusions before the raw log.</h2>
-			</div>
-			<div class="snapshot-grid">
-				{investmentLessons.map((lesson) => (
-					<article class="snapshot-card">
-						<p>{lesson.kicker}</p>
-						<strong>{lesson.title}</strong>
-						<span>{lesson.body}</span>
+		{visibleRecords.length > 0 ? (
+			<section class="raw-log" aria-label="Raw investment records">
+				{visibleRecords.map((record) => (
+					<article class="raw-entry">
+						<div class="raw-entry-meta">
+							<span>#{record.floor}</span>
+							<time>{formatDate(record.time)}</time>
+						</div>
+						<div class="raw-entry-body">
+							{record.cleanContent.split(/\n{2,}/).map((paragraph) => (
+								<p>{paragraph}</p>
+							))}
+						</div>
 					</article>
 				))}
-			</div>
-		</section>
-
-		<section class="mx-auto mb-16 w-full max-w-6xl" data-reveal>
-			<div class="analysis-panel p-6 sm:p-8">
-				<div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-					<div>
-						<p class="section-kicker">Asset Surface</p>
-						<h2 class="section-title mt-3">The assets that actually recur in the log.</h2>
-					</div>
-					<p class="max-w-md text-[14px] leading-7 text-[#1d1d1f]/62">
-						These labels are extracted from the synchronized Chinese source text so the page shows where attention was actually spent.
-					</p>
-				</div>
-				<div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-					{assets.map((asset) => (
-						<article class="asset-card">
-							<span>{asset.label}</span>
-							<strong>{asset.count}</strong>
-							<p>{asset.floors}</p>
-						</article>
-					))}
-				</div>
-			</div>
-		</section>
-
-		<section class="mx-auto mb-24 w-full max-w-6xl" data-reveal>
-			<div class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-				<div>
-					<p class="section-kicker">Timeline</p>
-					<h2 class="section-title mt-3">Concrete records, not an empty section.</h2>
-				</div>
-				<div class="text-sm leading-7 text-[#1d1d1f]/58">
-					{summary?.sourceUrl ? (
-						<a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer" class="apple-link">
-							CC98 source topic
-						</a>
-					) : (
-						<span>Source: local files</span>
-					)}
-					{crawledAtText && <span class="ml-3">Synced: {crawledAtText}</span>}
-				</div>
-			</div>
-
-			{meaningfulRecords.length > 0 ? (
-				<div class="investment-timeline">
-					{meaningfulRecords.map((record) => {
-						const tags = assetPatterns.filter((asset) => asset.pattern.test(record.content)).map((asset) => asset.label);
-						return (
-							<article class="investment-entry">
-								<div class="investment-entry-meta">
-									<span>#{record.floor}</span>
-									<time>{formatDate(record.time)}</time>
-								</div>
-								<div class="investment-entry-body">
-									<h3>{recordTitles[record.floor] ?? 'Investment log review'}</h3>
-									<div class="mt-3 flex flex-wrap gap-2">
-										{tags.map((tag) => <span class="signal-pill">{tag}</span>)}
-										{record.imageCount > 0 && <span class="signal-pill">{record.imageCount} chart images</span>}
-									</div>
-									<p>{record.cleanContent}</p>
-								</div>
-							</article>
-						);
-					})}
-				</div>
-			) : (
-				<div class="analysis-panel p-8 text-[#1d1d1f]/62">
-					No local investment records were found. Run the CC98 crawler before building this page.
-				</div>
-			)}
-		</section>
+			</section>
+		) : (
+			<section class="raw-empty" data-reveal>
+				<h2>{copy.investments.emptyTitle}</h2>
+				<p>{copy.investments.emptyDescription}</p>
+			</section>
+		)}
 	</main>
 </Layout>
