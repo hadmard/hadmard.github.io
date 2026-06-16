@@ -23,6 +23,7 @@ const statusConfig = {
     chip: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     ring: 'border-emerald-200',
     dot: 'bg-emerald-500',
+    surface: 'linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.66)), linear-gradient(135deg, rgba(52,199,89,0.13), transparent 72%)',
     icon: <Check size={16} />,
     label: '已掌握',
   },
@@ -30,20 +31,23 @@ const statusConfig = {
     chip: 'bg-[#0071e3]/10 text-[#0066cc] border-[#0071e3]/24',
     ring: 'border-[#0071e3]/30',
     dot: 'bg-[#0071e3]',
+    surface: 'linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.66)), linear-gradient(135deg, rgba(0,113,227,0.14), rgba(162,132,255,0.08) 72%)',
     icon: <Play size={14} fill="currentColor" />,
     label: '进行中',
   },
   available: {
-    chip: 'bg-white/80 text-[#424245] border-black/10',
-    ring: 'border-black/10',
-    dot: 'bg-[#86868b]',
+    chip: 'bg-orange-50 text-orange-700 border-orange-200',
+    ring: 'border-orange-200',
+    dot: 'bg-orange-400',
+    surface: 'linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.66)), linear-gradient(135deg, rgba(255,159,10,0.13), transparent 72%)',
     icon: <Circle size={14} />,
     label: '待开始',
   },
   locked: {
-    chip: 'bg-[#f5f5f7] text-[#86868b] border-black/8',
+    chip: 'bg-slate-50 text-[#86868b] border-black/8',
     ring: 'border-black/8',
     dot: 'bg-[#d2d2d7]',
+    surface: 'linear-gradient(180deg, rgba(255,255,255,0.78), rgba(245,245,247,0.72)), linear-gradient(135deg, rgba(162,132,255,0.07), transparent 72%)',
     icon: <Lock size={14} />,
     label: '锁定',
   },
@@ -67,6 +71,7 @@ const BaseNode = ({ data, selected }: NodeProps<CustomNodeType>) => {
           cfg.ring,
           selected ? 'ring-2 ring-[#0071e3]/55' : 'hover:-translate-y-0.5 hover:border-[#0071e3]/24 hover:bg-white/92',
         ].join(' ')}
+        style={{ background: cfg.surface }}
       >
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -129,7 +134,13 @@ export default function LearningMap() {
       node.dependsOn.forEach((depId) => {
         const sourceStatus = learningMapData.find((item) => item.id === depId)?.status;
         const active = sourceStatus === 'completed' || sourceStatus === 'in-progress';
-        const color = active ? '#0071e3' : '#b8bdc7';
+        const color = sourceStatus === 'completed'
+          ? '#34c759'
+          : sourceStatus === 'in-progress'
+            ? '#0071e3'
+            : sourceStatus === 'available'
+              ? '#ff9f0a'
+              : '#b8bdc7';
 
         edges.push({
           id: `e-${depId}-${node.id}`,
@@ -164,12 +175,12 @@ export default function LearningMap() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'linear-gradient(135deg, rgba(0,113,227,0.08), transparent 34%), linear-gradient(225deg, rgba(90,200,250,0.10), transparent 36%), linear-gradient(180deg, rgba(255,255,255,0.92), rgba(245,245,247,0.82))',
+            'linear-gradient(130deg, rgba(0,113,227,0.12), transparent 34%), linear-gradient(232deg, rgba(255,107,138,0.10), transparent 38%), linear-gradient(42deg, rgba(52,199,89,0.10), transparent 44%), linear-gradient(180deg, rgba(255,255,255,0.92), rgba(245,245,247,0.82))',
         }}
       />
 
       <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-2xl border border-white/80 bg-white/72 px-3 py-2 text-[#1d1d1f] shadow-[0_12px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl sm:left-5 sm:top-5 sm:px-4 sm:py-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0071e3]">Skill Route</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0066cc]">Skill Route</p>
         <p className="mt-1 text-xs text-[#1d1d1f]/64 sm:text-sm">从基础能力滑向研究与工程汇合点</p>
       </div>
 
@@ -205,7 +216,7 @@ export default function LearningMap() {
         <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
           <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-emerald-500" />已掌握</span>
           <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-[#0071e3]" />进行中</span>
-          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-[#86868b]" />待开始</span>
+          <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-orange-400" />待开始</span>
           <span className="inline-flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-[#d2d2d7]" />锁定</span>
         </div>
       </div>

@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.38-apple-official-polish-and-investment-analysis.md`
+最新一期路径：`custom/notes/v1.39-apple-color-simplification.md`
 
 ## 1. 基本原则
 

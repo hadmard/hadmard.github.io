@@ -105,9 +105,12 @@ const moduleDeck = copy.nav.map((item, index) => ({
 		if (!ctx) return;
 
 		const bands = [
-			{ color: 'rgba(0, 113, 227, 0.22)', offset: 0, speed: 0.00018 },
-			{ color: 'rgba(88, 86, 214, 0.16)', offset: 1.8, speed: 0.00014 },
-			{ color: 'rgba(52, 199, 89, 0.12)', offset: 3.2, speed: 0.00011 },
+			{ color: 'rgba(0, 113, 227, 0.26)', offset: 0, speed: 0.00018 },
+			{ color: 'rgba(90, 200, 250, 0.18)', offset: 1.2, speed: 0.00015 },
+			{ color: 'rgba(162, 132, 255, 0.18)', offset: 2.1, speed: 0.00013 },
+			{ color: 'rgba(255, 107, 138, 0.15)', offset: 3.4, speed: 0.00012 },
+			{ color: 'rgba(255, 159, 10, 0.13)', offset: 4.6, speed: 0.0001 },
+			{ color: 'rgba(52, 199, 89, 0.12)', offset: 5.4, speed: 0.00009 },
 		];
 		let width = 0;
 		let height = 0;
@@ -125,8 +128,8 @@ const moduleDeck = copy.nav.map((item, index) => ({
 
 		const drawRibbon = (time, band, index) => {
 			const phase = time * band.speed + band.offset;
-			const top = height * (0.22 + index * 0.16);
-			const amplitude = height * (0.12 + index * 0.025);
+			const top = height * (0.12 + index * 0.115);
+			const amplitude = height * (0.095 + index * 0.012);
 			ctx.beginPath();
 			ctx.moveTo(-80, top);
 			for (let x = -80; x <= width + 80; x += 40) {
@@ -148,8 +151,9 @@ const moduleDeck = copy.nav.map((item, index) => ({
 
 			const gradient = ctx.createLinearGradient(0, 0, width, height);
 			gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-			gradient.addColorStop(0.45, 'rgba(244, 248, 255, 0.84)');
-			gradient.addColorStop(1, 'rgba(255, 255, 255, 0.92)');
+			gradient.addColorStop(0.28, 'rgba(240, 248, 255, 0.86)');
+			gradient.addColorStop(0.62, 'rgba(255, 246, 250, 0.82)');
+			gradient.addColorStop(1, 'rgba(255, 251, 243, 0.9)');
 			ctx.fillStyle = gradient;
 			ctx.fillRect(0, 0, width, height);
 
