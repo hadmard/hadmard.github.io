@@ -102,7 +102,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			commentNote: '文章页再显示评论。',
 		},
 		post: {
-			backLabel: '返回首页',
+			backLabel: '返回随笔',
 			otherLocaleLabel: '切换到英文版',
 			relatedTitle: '继续阅读',
 		},
@@ -154,7 +154,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			commentNote: 'Comments belong on article pages.',
 		},
 		post: {
-			backLabel: 'Back home',
+			backLabel: 'Back to Notes',
 			otherLocaleLabel: 'Switch to Chinese',
 			relatedTitle: 'More',
 		},

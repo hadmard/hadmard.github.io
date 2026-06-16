@@ -1,39 +1,24 @@
 # hadmard.github.io
 
-这是一个基于 `Astro 6 + Tailwind CSS 4 + MDX + Astro i18n` 的双语个人站点仓库，当前按 GitHub Pages 官方“从分支部署”的方式组织。
+这是一个基于 `Astro 6 + Tailwind CSS 4 + MDX` 的个人博客站点。当前只保留两个栏目：
 
-## 部署口径（重要）
+- 投资记录：展示本地原始记录，只清理图片、表情和格式标签。
+- 随笔：放个人思考文章，适合长文阅读。
 
-- 线上发布**只使用 Astro 主站**。
-- GitHub Pages 读取的是仓库根目录构建产物 `docs/`。
-- `next-premium-site/` 是历史实验目录，不参与当前线上发布。
+## 目录结构
 
-## 当前部署方式
-
-本仓库现在按下面这条路径部署：
-
-1. 本地修改源码
-2. 运行 `npm run build`
-3. Astro 把静态产物输出到 `docs/`
-4. 将源码和 `docs/` 一起提交到 `main`
-5. GitHub Pages 从 `main` 分支的 `/docs` 目录发布
-
-这和 GitHub 文档里的“Deploy from a branch”方式一致。
-
-## 你需要在 GitHub 页面里确认的设置
-
-打开仓库：
-
-- `Settings`
-- `Pages`
-
-然后设置为：
-
-- `Source`: `Deploy from a branch`
-- `Branch`: `main`
-- `Folder`: `/docs`
-
-如果你之前已经启用了 GitHub Actions 部署，现在请切回这里的分支部署方式。
+```text
+src/
+  components/           共享组件
+  content/thoughts/     随笔 MDX 内容
+  data/site.ts          首页、导航和基础文案
+  pages/                页面路由
+  styles/global.css     全站 Apple material 风格样式
+custom/
+  cc98-investment-crawler/  投资记录抓取脚本和输出
+  notes/                    每轮修改记录
+docs/                       GitHub Pages 发布产物
+```
 
 ## 本地开发
 
@@ -42,23 +27,63 @@ npm install
 npm run dev
 ```
 
-## 生成线上页面
+## 发布
 
 ```bash
 npm run build
+git add .
+git commit -m "你的提交说明"
+git push
 ```
 
-运行后，静态页面会生成到 `docs/`，这部分内容需要一起提交到 GitHub，GitHub Pages 才会更新。
+GitHub Pages 使用 `main` 分支的 `/docs` 目录发布，所以 `docs/` 构建产物需要一起提交。
 
-## 当前站点内容入口
+## 添加随笔
 
-- 主页结构数据：[src/data/site.ts](./src/data/site.ts)
-- 全局样式：[src/styles/global.css](./src/styles/global.css)
-- 中文首页：[src/pages/index.astro](./src/pages/index.astro)
-- 英文首页：[src/pages/en/index.astro](./src/pages/en/index.astro)
+在 `src/content/thoughts/` 下新建 MDX 文件。建议按语言分目录：
 
-## 备注
+```text
+src/content/thoughts/zh-cn/my-note.mdx
+src/content/thoughts/en/my-note.mdx
+```
 
-- 目前项目经历、投资记录、个人思考仍然是空态展示
-- 评论基础组件还在，但当前文章页未启用
-- 仓库目标站点为 [https://hadmard.github.io](https://hadmard.github.io)
+中文示例：
+
+```mdx
+---
+title: "文章标题"
+excerpt: "一句话摘要。"
+publishedAt: "2026-06-16"
+lang: "zh-cn"
+translationKey: "my-note"
+readingTime: "3 min"
+tags: ["思考"]
+featured: false
+---
+
+正文写在这里。
+```
+
+英文版本把 `lang` 改成 `en`，`translationKey` 保持一致，就能在文章页互相切换。
+
+生成路径：
+
+- 中文：`/old/thinking/my-note/`
+- 英文：`/old/en/thinking/my-note/`
+
+## 添加投资记录
+
+投资页读取：
+
+```text
+custom/cc98-investment-crawler/output/topic-6450962/raw/posts.json
+custom/cc98-investment-crawler/output/topic-6450962/records/investment-summary.json
+```
+
+想刷新数据时，优先运行爬虫：
+
+```bash
+node custom/cc98-investment-crawler/crawl-cc98-topic.mjs --topic 6450962
+```
+
+如果只是手动补一条记录，可以编辑 `raw/posts.json`。页面会自动过滤图片、表情和常见格式标签，不会再做二次加工。

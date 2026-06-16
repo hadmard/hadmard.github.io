@@ -1,0 +1,42 @@
+---
+// 文件说明：英文随笔详情页路由。
+// 功能说明：根据 src/content/thoughts 下的英文 MDX 自动生成 /old/en/thinking/<slug>/ 页面。
+import { getCollection, render } from 'astro:content';
+
+import ThoughtPostPage from '../../../../components/ThoughtPostPage.astro';
+import { getThoughtSlug } from '../../../../utils/i18n';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('thoughts', ({ data }) => data.lang === 'en');
+
+	return posts.map((post) => ({
+		params: { slug: getThoughtSlug(post) },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const allPosts = await getCollection('thoughts');
+const related = allPosts
+	.filter((entry) => entry.data.lang === 'en' && entry.id !== post.id)
+	.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+	.slice(0, 3);
+const alternatePost = allPosts.find((entry) => (
+	entry.data.lang === 'zh-cn' && entry.data.translationKey === post.data.translationKey
+));
+const slug = getThoughtSlug(post);
+const alternateHref = alternatePost
+	? `/old/thinking/${getThoughtSlug(alternatePost)}/`
+	: '/old/thinking/';
+---
+
+<ThoughtPostPage
+	locale="en"
+	post={post}
+	Content={Content}
+	related={related}
+	alternateHref={alternateHref}
+	canonicalPath={`/old/en/thinking/${slug}/`}
+	basePath="/old"
+/>

@@ -1,11 +1,20 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
-import { getCopy } from '../../utils/i18n';
+import { getCopy, getThoughtSlug } from '../../utils/i18n';
 
 const locale = 'zh-cn';
 const copy = getCopy(locale);
 const alternatePath = '/old/en/thinking/';
+const posts = (await getCollection('thoughts', ({ data }) => data.lang === locale)).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+const formatDate = (date: Date) => date.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
 ---
 
 <Layout
@@ -24,9 +33,21 @@ const alternatePath = '/old/en/thinking/';
       <p>{copy.thinking.intro}</p>
     </section>
 
-    <section class="raw-empty" data-reveal>
-      <h2>{copy.thinking.emptyTitle}</h2>
-      <p>{copy.thinking.emptyDescription}</p>
-    </section>
+    {posts.length > 0 ? (
+      <section class="thought-list" aria-label="随笔列表">
+        {posts.map((post) => (
+          <a class="thought-card block" href={`/old/thinking/${getThoughtSlug(post)}/`} data-reveal>
+            <span>{formatDate(post.data.publishedAt)} · {post.data.readingTime}</span>
+            <strong>{post.data.title}</strong>
+            <p>{post.data.excerpt}</p>
+          </a>
+        ))}
+      </section>
+    ) : (
+      <section class="raw-empty" data-reveal>
+        <h2>{copy.thinking.emptyTitle}</h2>
+        <p>{copy.thinking.emptyDescription}</p>
+      </section>
+    )}
   </main>
 </Layout>
