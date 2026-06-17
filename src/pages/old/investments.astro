@@ -109,7 +109,14 @@ const crawledAtText = summary?.crawledAt
 		<section class="reading-hero" data-reveal>
 			<p class="soft-label">{copy.investments.kicker}</p>
 			<h1>{copy.investments.title}</h1>
-			<p>{copy.investments.intro}</p>
+			{copy.investments.intro && <p>{copy.investments.intro}</p>}
+			<div class="hero-material-stack" aria-hidden="true">
+				<span class="hero-symbol hero-symbol-primary">¥</span>
+				<span class="hero-symbol">↗</span>
+				<span class="hero-symbol">14</span>
+				<span class="hero-slab hero-slab-a"></span>
+				<span class="hero-slab hero-slab-b"></span>
+			</div>
 			<div class="reading-meta">
 				{summary?.topic?.title && <span>{summary.topic.title}</span>}
 				<span>{visibleRecords.length} 条</span>

@@ -1,8 +1,8 @@
 # hadmard.github.io
 
-这是一个基于 `Astro 6 + Tailwind CSS 4 + MDX` 的个人博客站点。当前只保留两个栏目：
+这是一个基于 `Astro 6 + Tailwind CSS 4 + MDX` 的个人博客站点。当前保留两个栏目：
 
-- 投资记录：展示本地原始记录，只清理图片、表情和格式标签。
+- 投资记录：展示本地记录。
 - 随笔：放个人思考文章，适合长文阅读。
 
 ## 目录结构
@@ -16,7 +16,6 @@ src/
   styles/global.css     全站 Apple material 风格样式
 custom/
   cc98-investment-crawler/  投资记录抓取脚本和输出
-  notes/                    每轮修改记录
 docs/                       GitHub Pages 发布产物
 ```
 
@@ -27,15 +26,12 @@ npm install
 npm run dev
 ```
 
-## 视觉口径
-
-当前样式参考 Apple 官方 Human Interface Guidelines 与 Apple Design Resources：
+## 视觉
 
 - 字体：使用 Apple 平台系统字体栈，优先走 SF Pro，不在仓库内分发字体文件。
 - 颜色：使用接近系统色的蓝、粉、橙、绿、青、紫，避免只剩黑白。
-- 材质：用 `backdrop-filter`、透明层、内高光和柔和阴影模拟 Apple material / Liquid Glass。
-- 动效：使用短距离、错峰、低阻尼感的 reveal 和 hover，保留 `prefers-reduced-motion` 降级。
-- 资源边界：不直接复制 Apple logo、产品图或受限制营销素材，避免个人站变成品牌仿冒。
+- 材质：使用 `backdrop-filter`、透明层、内高光和柔和阴影。
+- 动效：保留 reveal、hover、pointer parallax 和 `prefers-reduced-motion` 降级。
 
 ## 发布
 
@@ -96,4 +92,4 @@ custom/cc98-investment-crawler/output/topic-6450962/records/investment-summary.j
 node custom/cc98-investment-crawler/crawl-cc98-topic.mjs --topic 6450962
 ```
 
-如果只是手动补一条记录，可以编辑 `raw/posts.json`。页面会自动过滤图片、表情和常见格式标签，不会再做二次加工。
+如果只是手动补一条记录，可以编辑 `raw/posts.json`。

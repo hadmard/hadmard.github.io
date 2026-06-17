@@ -51,9 +51,10 @@ const cards = copy.nav.map((item) => {
 		<section class="blog-list" aria-label={locale === 'zh-cn' ? '博客入口' : 'Blog entries'} data-reveal>
 			{cards.map((card) => (
 				<a class="blog-card" href={card.href}>
+					<i aria-hidden="true"></i>
 					<span>{card.label}</span>
 					<strong>{card.value}</strong>
-					<p>{card.note}</p>
+					{card.note && <p>{card.note}</p>}
 				</a>
 			))}
 		</section>

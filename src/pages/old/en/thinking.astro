@@ -30,7 +30,14 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
     <section class="reading-hero" data-reveal>
       <p class="soft-label">{copy.thinking.kicker}</p>
       <h1>{copy.thinking.title}</h1>
-      <p>{copy.thinking.intro}</p>
+      {copy.thinking.intro && <p>{copy.thinking.intro}</p>}
+      <div class="hero-material-stack" aria-hidden="true">
+        <span class="hero-symbol hero-symbol-primary">✎</span>
+        <span class="hero-symbol">⌁</span>
+        <span class="hero-symbol">···</span>
+        <span class="hero-slab hero-slab-a"></span>
+        <span class="hero-slab hero-slab-b"></span>
+      </div>
     </section>
 
     {posts.length > 0 ? (

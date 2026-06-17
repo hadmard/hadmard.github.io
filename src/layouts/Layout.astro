@@ -67,8 +67,59 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 				}
 			};
 
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const roots = document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty',
+				);
+
+				for (const root of roots) {
+					if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') continue;
+					root.dataset.motionReady = 'true';
+
+					const children = root.querySelectorAll('.material-layer, .hero-symbol, .hero-slab, .blog-card i');
+					let frame = 0;
+					let nextX = 0;
+					let nextY = 0;
+
+					const applyMotion = () => {
+						frame = 0;
+						root.style.setProperty('--spotlight-x', `${50 + nextX * 34}%`);
+						root.style.setProperty('--spotlight-y', `${48 + nextY * 28}%`);
+
+						children.forEach((child, index) => {
+							if (!(child instanceof HTMLElement)) return;
+							const depth = Number.parseFloat(getComputedStyle(child).getPropertyValue('--motion-depth')) || (index + 1) * 7;
+							child.style.setProperty('--parallax-x', `${nextX * depth}px`);
+							child.style.setProperty('--parallax-y', `${nextY * depth * 0.72}px`);
+							child.style.setProperty('--parallax-rx', `${nextY * -2.6}deg`);
+							child.style.setProperty('--parallax-ry', `${nextX * 3.4}deg`);
+						});
+					};
+
+					const schedule = (event) => {
+						const rect = root.getBoundingClientRect();
+						nextX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+						nextY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+						if (!frame) frame = window.requestAnimationFrame(applyMotion);
+					};
+
+					const reset = () => {
+						nextX = 0;
+						nextY = 0;
+						if (!frame) frame = window.requestAnimationFrame(applyMotion);
+					};
+
+					root.addEventListener('pointermove', schedule);
+					root.addEventListener('pointerleave', reset);
+				}
+			};
+
 			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
 			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
 		</script>
 	</body>
 </html>
