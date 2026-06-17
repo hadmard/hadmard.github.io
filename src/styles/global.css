@@ -3,8 +3,9 @@
 @import "tailwindcss";
 
 @theme {
-	--font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, "Noto Sans SC", sans-serif;
-	--font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, "Noto Sans SC", sans-serif;
+	--font-sans: "SF Pro Text", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
+	--font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
+	--font-reading: "SF Pro Text", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
 	--color-ink: #1d1d1f;
 	--color-ink-soft: #6e6e73;
 	--color-paper: #f5f5f7;
@@ -22,6 +23,7 @@
 	--material-line: rgba(255, 255, 255, 0.82);
 	--motion-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 	--motion-spring: cubic-bezier(0.16, 1, 0.3, 1);
+	--motion-fluid: cubic-bezier(0.18, 0.9, 0.2, 1);
 	--shadow-material: 0 22px 70px rgba(62, 82, 119, 0.12);
 	--shadow-material-hover: 0 30px 90px rgba(62, 82, 119, 0.18);
 }
@@ -74,6 +76,9 @@
 		min-height: 100vh;
 		color: var(--color-ink);
 		font-family: var(--font-sans);
+		font-optical-sizing: auto;
+		font-feature-settings: "kern";
+		text-rendering: optimizeLegibility;
 		background:
 			linear-gradient(128deg, rgba(90, 200, 250, 0.28), transparent 38%),
 			linear-gradient(246deg, rgba(255, 55, 95, 0.20), transparent 34%),
@@ -112,8 +117,45 @@
 
 	::view-transition-old(root),
 	::view-transition-new(root) {
-		animation-duration: 0.42s;
-		animation-timing-function: var(--motion-smooth);
+		animation-duration: 0.56s;
+		animation-timing-function: var(--motion-fluid);
+		mix-blend-mode: normal;
+	}
+
+	::view-transition-old(root) {
+		animation-name: page-out;
+	}
+
+	::view-transition-new(root) {
+		animation-name: page-in;
+	}
+}
+
+@keyframes page-in {
+	from {
+		opacity: 0;
+		filter: blur(14px) saturate(1.08);
+		transform: translate3d(0, 18px, 0) scale(0.992);
+	}
+
+	to {
+		opacity: 1;
+		filter: blur(0) saturate(1);
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+}
+
+@keyframes page-out {
+	from {
+		opacity: 1;
+		filter: blur(0) saturate(1);
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+
+	to {
+		opacity: 0;
+		filter: blur(10px) saturate(1.04);
+		transform: translate3d(0, -10px, 0) scale(0.996);
 	}
 }
 
@@ -188,16 +230,34 @@
 			inset 0 1px rgba(255, 255, 255, 0.84),
 			0 16px 50px rgba(62, 82, 119, 0.10);
 		--tw-backdrop-saturate: saturate(210%);
+		transform: translateZ(0);
+		backface-visibility: hidden;
+	}
+
+	.brand-lockup {
+		display: block;
+		border-radius: 18px;
+		transition:
+			transform 0.42s var(--motion-fluid),
+			opacity 0.42s var(--motion-smooth);
+	}
+
+	.brand-lockup:hover {
+		opacity: 0.82;
+		transform: translate3d(2px, 0, 0);
 	}
 
 	.nav-link {
 		@apply rounded-full px-3 py-2 text-[13px] font-medium transition duration-300;
 		color: rgba(29, 29, 31, 0.62);
+		transition-property: background-color, color, box-shadow, transform;
+		transition-timing-function: var(--motion-fluid);
 	}
 
 	.nav-link:hover {
 		background: rgba(255, 255, 255, 0.56);
 		color: var(--color-ink);
+		transform: translateY(-1px);
 	}
 
 	.nav-link.active {
@@ -255,6 +315,9 @@
 		box-shadow: inset 0 1px rgba(255, 255, 255, 0.86), var(--shadow-material);
 		--tw-backdrop-saturate: saturate(210%);
 		transform-style: preserve-3d;
+		contain: layout paint style;
+		transform: translateZ(0);
+		backface-visibility: hidden;
 	}
 
 	.reading-hero {
@@ -273,7 +336,10 @@
 			linear-gradient(105deg, transparent 16%, rgba(255, 255, 255, 0.46) 34%, transparent 62%),
 			linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
 		opacity: 0.82;
-		transition: background-position 0.8s var(--motion-smooth), opacity 0.8s var(--motion-smooth);
+		transition:
+			--spotlight-x 0.7s var(--motion-fluid),
+			--spotlight-y 0.7s var(--motion-fluid),
+			opacity 0.8s var(--motion-smooth);
 	}
 
 	.blog-hero::after,
@@ -319,6 +385,7 @@
 		margin-top: clamp(2rem, 5vw, 4rem);
 		perspective: 900px;
 		transform-style: preserve-3d;
+		contain: layout paint style;
 	}
 
 	.material-layer {
@@ -344,10 +411,11 @@
 		transform-style: preserve-3d;
 		transition:
 			opacity 1.05s var(--motion-smooth),
-			transform 1.18s var(--motion-spring),
+			transform 0.72s var(--motion-fluid),
 			box-shadow 0.7s var(--motion-smooth),
 			background 0.7s var(--motion-smooth);
 		will-change: transform, opacity;
+		backface-visibility: hidden;
 	}
 
 	.blog-hero.is-visible .material-layer {
@@ -373,6 +441,7 @@
 		--layer-z: 18px;
 		--layer-tilt: -4deg;
 		--motion-depth: 16;
+		--scroll-depth: -8;
 		inset: 12% 29% 8% 0;
 	}
 
@@ -383,6 +452,7 @@
 		--layer-z: 38px;
 		--layer-tilt: 3deg;
 		--motion-depth: 24;
+		--scroll-depth: -14;
 		inset: 0 9% 24% 36%;
 	}
 
@@ -393,7 +463,8 @@
 		--layer-z: 58px;
 		--layer-tilt: -1deg;
 		--motion-depth: 32;
-		inset: 34% 0 0 48%;
+		--scroll-depth: -20;
+		inset: 34% 2% 0 45%;
 	}
 
 	.blog-list {
@@ -417,12 +488,14 @@
 		box-shadow: inset 0 1px rgba(255, 255, 255, 0.78), 0 12px 42px rgba(62, 82, 119, 0.08);
 		--tw-backdrop-saturate: saturate(205%);
 		transform: translate3d(0, var(--lift-y), 0);
+		contain: layout paint style;
 		transition:
-			transform 0.72s var(--motion-spring),
+			transform 0.48s var(--motion-fluid),
 			box-shadow 0.72s var(--motion-smooth),
 			background 0.72s var(--motion-smooth),
 			border-color 0.72s var(--motion-smooth);
 		will-change: transform;
+		backface-visibility: hidden;
 	}
 
 	.blog-card::before,
@@ -476,7 +549,7 @@
 			rotateX(var(--parallax-rx))
 			rotateY(var(--parallax-ry));
 		transition:
-			transform 0.72s var(--motion-spring),
+			transform 0.42s var(--motion-fluid),
 			box-shadow 0.72s var(--motion-smooth),
 			background 0.72s var(--motion-smooth);
 		will-change: transform;
@@ -622,10 +695,11 @@
 			scale(0.9);
 		transition:
 			opacity 0.96s var(--motion-smooth),
-			transform 1.08s var(--motion-spring),
+			transform 0.64s var(--motion-fluid),
 			box-shadow 0.72s var(--motion-smooth),
 			background 0.72s var(--motion-smooth);
 		will-change: transform, opacity;
+		backface-visibility: hidden;
 	}
 
 	.reading-hero.is-visible .hero-symbol,
@@ -661,6 +735,7 @@
 		--layer-z: 58px;
 		--layer-tilt: -7deg;
 		--motion-depth: 28;
+		--scroll-depth: -15;
 		left: 12%;
 		top: 0;
 		color: #ffffff;
@@ -674,6 +749,7 @@
 		--layer-z: 42px;
 		--layer-tilt: 5deg;
 		--motion-depth: 22;
+		--scroll-depth: -10;
 		right: 12%;
 		top: 28%;
 	}
@@ -683,6 +759,7 @@
 		--layer-z: 30px;
 		--layer-tilt: -2deg;
 		--motion-depth: 16;
+		--scroll-depth: -6;
 		left: 32%;
 		bottom: 0;
 	}
@@ -698,6 +775,7 @@
 	.hero-slab-a {
 		--enter-x: -18px;
 		--motion-depth: 12;
+		--scroll-depth: -5;
 		left: 3%;
 		right: 44%;
 		bottom: 32%;
@@ -709,6 +787,7 @@
 	.hero-slab-b {
 		--enter-x: 20px;
 		--motion-depth: 18;
+		--scroll-depth: -9;
 		left: 48%;
 		right: 2%;
 		top: 12%;

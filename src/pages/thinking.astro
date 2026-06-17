@@ -1,16 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../../../layouts/Layout.astro';
-import SiteHeader from '../../../components/SiteHeader.astro';
-import { getCopy, getThoughtSlug } from '../../../utils/i18n';
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { getCopy, getThoughtSlug } from '../utils/i18n';
 
-const locale = 'en';
+const locale = 'zh-cn';
 const copy = getCopy(locale);
-const alternatePath = '/old/thinking/';
+const alternatePath = '/en/thinking/';
 const posts = (await getCollection('thoughts', ({ data }) => data.lang === locale)).sort(
   (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
 );
-const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
+const formatDate = (date: Date) => date.toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: '2-digit',
   day: '2-digit',
@@ -21,11 +21,11 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   title={`${copy.thinking.title} | ${copy.brand.name}`}
   description={copy.seo.description}
   lang={locale}
-  canonicalPath="/old/en/thinking/"
+  canonicalPath="/thinking/"
   alternatePath={alternatePath}
 >
   <main class="site-shell reading-shell">
-    <SiteHeader locale={locale} alternatePath={alternatePath} basePath="/old" />
+    <SiteHeader locale={locale} alternatePath={alternatePath} />
 
     <section class="reading-hero" data-reveal>
       <p class="soft-label">{copy.thinking.kicker}</p>
@@ -41,9 +41,9 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
     </section>
 
     {posts.length > 0 ? (
-      <section class="thought-list" aria-label="Notes">
+      <section class="thought-list" aria-label="随笔列表">
         {posts.map((post) => (
-          <a class="thought-card block" href={`/old/en/thinking/${getThoughtSlug(post)}/`} data-reveal>
+          <a class="thought-card block" href={`/thinking/${getThoughtSlug(post)}/`} data-reveal>
             <span>{formatDate(post.data.publishedAt)} · {post.data.readingTime}</span>
             <strong>{post.data.title}</strong>
             <p>{post.data.excerpt}</p>

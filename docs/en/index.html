@@ -1,45 +1,4 @@
----
-// 文件说明：该文件是全站通用布局。
-// 功能说明：统一处理 SEO 元信息、全局样式、视图切换与页面外层结构。
-//
-// 结构概览：
-//   第一部分：导入依赖与解析页面参数
-//   第二部分：生成 canonical 与 alternate 元信息
-//   第三部分：输出页面框架
-import '../styles/global.css';
-
-import { ClientRouter } from 'astro:transitions';
-
-interface Props {
-	title: string;
-	description: string;
-	lang: string;
-	canonicalPath: string;
-	alternatePath?: string;
-}
-
-const { title, description, lang, canonicalPath, alternatePath } = Astro.props;
-const canonical = Astro.site ? new URL(canonicalPath, Astro.site).toString() : undefined;
-const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.site).toString() : undefined;
----
-
-<!doctype html>
-<html lang={lang}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
-		<meta name="theme-color" content="#f8fafc" />
-		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
-		{canonical && <link rel="canonical" href={canonical} />}
-		{alternate && <link rel="alternate" hreflang={lang === 'zh-cn' ? 'en' : 'zh-CN'} href={alternate} />}
-		<title>{title}</title>
-		<ClientRouter />
-	</head>
-	<body>
-		<slot />
-		<script is:inline>
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="A personal blog for investment notes and essays."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/"><title>Yfcccc | Personal Blog</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.BYrpvK6h.css"></head> <body>  <main class="site-shell blog-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup space-y-1" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> <p class="text-[13px] text-[#1d1d1f]/60">Personal Blog</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link active" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Notes </a> </nav> <a href="/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <section class="blog-hero" data-reveal> <p class="soft-label">Blog</p> <h1>Yfcccc</h1> <p>Notes for later.</p> <div class="blog-actions"> <a href="/en/investments/" class="apple-button apple-button-dark">Investments</a> <a href="/en/thinking/" class="apple-button apple-button-light">Notes</a> </div> <div class="material-stage" aria-hidden="true"> <span class="material-layer material-layer-blue"></span> <span class="material-layer material-layer-pink"></span> <span class="material-layer material-layer-green"></span> </div> </section> <section class="blog-list" aria-label="Blog entries" data-reveal> <a class="blog-card" href="/en/investments/"> <i aria-hidden="true"></i> <span>Investments</span> <strong>Market Notes</strong> <p>14 entries</p> </a><a class="blog-card" href="/en/thinking/"> <i aria-hidden="true"></i> <span>Notes</span> <strong>Thoughts</strong>  </a> </section> </main>  <script>
 			const setupReveal = () => {
 				const items = document.querySelectorAll('[data-reveal]');
 				if (!items.length) return;
@@ -191,6 +150,4 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 			document.addEventListener('astro:page-load', setupMaterialMotion);
 			document.addEventListener('DOMContentLoaded', setupReveal);
 			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
-		</script>
-	</body>
-</html>
+		</script> </body> </html>

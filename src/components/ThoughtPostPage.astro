@@ -14,7 +14,7 @@ import { getCopy, getThoughtSlug } from '../utils/i18n';
 import Comments from './Comments.astro';
 import LocaleSwitch from './LocaleSwitch.astro';
 
-const { locale, post, Content, related, alternateHref, canonicalPath, basePath = '/old' } = Astro.props as {
+const { locale, post, Content, related, alternateHref, canonicalPath, basePath = '' } = Astro.props as {
 	locale: Locale;
 	post: CollectionEntry<'thoughts'>;
 	Content: any;
@@ -28,6 +28,8 @@ const normalizedBasePath = basePath ? `/${basePath.replace(/^\/+|\/+$/g, '')}` :
 const thinkingHref = locale === 'zh-cn'
 	? `${normalizedBasePath}/thinking/`
 	: `${normalizedBasePath}/en/thinking/`;
+const homeHref = locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`;
+const homeLabel = locale === 'zh-cn' ? '首页' : 'Home';
 const relatedHref = (entry: CollectionEntry<'thoughts'>) => locale === 'zh-cn'
 	? `${normalizedBasePath}/thinking/${getThoughtSlug(entry)}/`
 	: `${normalizedBasePath}/en/thinking/${getThoughtSlug(entry)}/`;
@@ -43,6 +45,8 @@ const relatedHref = (entry: CollectionEntry<'thoughts'>) => locale === 'zh-cn'
 	<main class="site-shell reading-shell">
 		<header class="glass-topbar flex flex-wrap items-center justify-between gap-4">
 			<div class="flex min-w-0 items-center gap-3 text-sm text-[#1d1d1f]/62">
+				<a class="nav-link" href={homeHref}>{homeLabel}</a>
+				<span class="hidden sm:inline">/</span>
 				<a class="nav-link active" href={thinkingHref}>{copy.post.backLabel}</a>
 				<span class="hidden sm:inline">/</span>
 				<span class="truncate">{post.data.title}</span>

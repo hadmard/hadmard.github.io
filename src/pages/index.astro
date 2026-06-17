@@ -1,10 +1,10 @@
 ---
 // 文件说明：该文件是站点根首页。
-// 功能说明：让 hadmard.github.io 回到老站首页内容，具体栏目继续复用 /old/ 下的既有页面。
+// 功能说明：渲染中文首页，栏目入口直接指向根级页面。
 //
 // 结构概览：
 //   第一部分：渲染共享首页组件
 import HomePage from '../components/HomePage.astro';
 ---
 
-<HomePage locale="zh-cn" basePath="" navBasePath="/old" canonicalPath="/" alternatePath="/old/en/" />
+<HomePage locale="zh-cn" basePath="" />

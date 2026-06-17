@@ -74,8 +74,8 @@ featured: false
 
 生成路径：
 
-- 中文：`/old/thinking/my-note/`
-- 英文：`/old/en/thinking/my-note/`
+- 中文：`/thinking/my-note/`
+- 英文：`/en/thinking/my-note/`
 
 ## 添加投资记录
 

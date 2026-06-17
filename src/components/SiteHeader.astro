@@ -4,6 +4,10 @@ import LocaleSwitch from './LocaleSwitch.astro';
 const { locale, alternatePath, basePath = '' } = Astro.props;
 const copy = getCopy(locale);
 const normalizedBasePath = basePath ? `/${basePath.replace(/^\/+|\/+$/g, '')}` : '';
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const homeHref = locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`;
+const normalizedHomePath = homeHref.replace(/\/$/, '') || '/';
+const homeLabel = locale === 'zh-cn' ? '首页' : 'Home';
 
 const getHref = (id: string) => {
     return locale === 'zh-cn' ? `${normalizedBasePath}/${id}/` : `${normalizedBasePath}/en/${id}/`;
@@ -11,22 +15,27 @@ const getHref = (id: string) => {
 ---
 
 <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4">
-    <div class="space-y-1">
+    <a class="brand-lockup space-y-1" href={homeHref} aria-label={homeLabel}>
         <p class="text-[15px] font-semibold text-[#1d1d1f]">{copy.brand.name}</p>
         <p class="text-[13px] text-[#1d1d1f]/60">{copy.brand.caption}</p>
-    </div>
+    </a>
     <div class="flex flex-wrap items-center gap-2 sm:gap-4">
         <nav class="flex flex-wrap items-center gap-1"> 
+            <a
+                class={currentPath === normalizedHomePath ? 'nav-link active' : 'nav-link'}
+                href={homeHref}
+            >
+                {homeLabel}
+            </a>
             {
                 copy.nav.map((item) => {
-                    const currentPath = Astro.url.pathname.replace(/\/$/, '');
                     const targetPath = getHref(item.id).replace(/\/$/, '');
-                    const isActive = currentPath === targetPath || (currentPath === '' && targetPath === '') || (currentPath === '/en' && targetPath === '/en');
+                    const isActive = currentPath === targetPath;
                     
                     return (
                         <a 
                             class={isActive ? 'nav-link active' : 'nav-link'} 
-                            href={targetPath || '/'}
+                            href={getHref(item.id)}
                         >
                             {item.label}
                         </a>
