@@ -41,6 +41,11 @@ const cards = copy.nav.map((item) => {
 				<a href={hrefFor('investments')} class="apple-button apple-button-dark">{copy.hero.primaryCta}</a>
 				<a href={hrefFor('thinking')} class="apple-button apple-button-light">{copy.hero.secondaryCta}</a>
 			</div>
+			<div class="material-stage" aria-hidden="true">
+				<span class="material-layer material-layer-blue"></span>
+				<span class="material-layer material-layer-pink"></span>
+				<span class="material-layer material-layer-green"></span>
+			</div>
 		</section>
 
 		<section class="blog-list" aria-label={locale === 'zh-cn' ? '博客入口' : 'Blog entries'} data-reveal>

@@ -44,6 +44,12 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 				const items = document.querySelectorAll('[data-reveal]');
 				if (!items.length) return;
 
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
 				const observer = new IntersectionObserver(
 					(entries) => {
 						for (const entry of entries) {

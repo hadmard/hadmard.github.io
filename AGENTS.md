@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-最新一期路径：`custom/notes/v1.40-blog-reading-and-raw-investment-notes.md`
+最新一期路径：`custom/notes/v1.41-repo-cleanup-apple-material-and-content-guide.md`
 
 ## 1. 基本原则
 

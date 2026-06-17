@@ -27,6 +27,16 @@ npm install
 npm run dev
 ```
 
+## 视觉口径
+
+当前样式参考 Apple 官方 Human Interface Guidelines 与 Apple Design Resources：
+
+- 字体：使用 Apple 平台系统字体栈，优先走 SF Pro，不在仓库内分发字体文件。
+- 颜色：使用接近系统色的蓝、粉、橙、绿、青、紫，避免只剩黑白。
+- 材质：用 `backdrop-filter`、透明层、内高光和柔和阴影模拟 Apple material / Liquid Glass。
+- 动效：使用短距离、错峰、低阻尼感的 reveal 和 hover，保留 `prefers-reduced-motion` 降级。
+- 资源边界：不直接复制 Apple logo、产品图或受限制营销素材，避免个人站变成品牌仿冒。
+
 ## 发布
 
 ```bash
