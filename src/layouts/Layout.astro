@@ -59,7 +59,7 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 							}
 						}
 					},
-					{ threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
 				);
 
 				for (const item of items) {
@@ -87,9 +87,9 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 						for (const state of states) {
 							if (!state.root.isConnected) continue;
 
-							state.x += (state.targetX - state.x) * 0.14;
-							state.y += (state.targetY - state.y) * 0.14;
-							state.scroll += (state.targetScroll - state.scroll) * 0.10;
+							state.x += (state.targetX - state.x) * 0.11;
+							state.y += (state.targetY - state.y) * 0.11;
+							state.scroll += (state.targetScroll - state.scroll) * 0.08;
 
 							const dx = Math.abs(state.targetX - state.x);
 							const dy = Math.abs(state.targetY - state.y);
@@ -138,7 +138,11 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
 							root.dataset.motionReady = 'true';
 
-							const children = [...root.querySelectorAll('.material-layer, .hero-symbol, .hero-slab, .blog-card i')]
+							const children = [
+								...root.querySelectorAll(
+									'.stage-device, .stage-chip, .product-halo, .hero-symbol, .hero-slab, .blog-card i',
+								),
+							]
 								.filter((child) => child instanceof HTMLElement)
 								.map((element, index) => {
 									const style = getComputedStyle(element);
