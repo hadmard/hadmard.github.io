@@ -87,25 +87,25 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 						for (const state of states) {
 							if (!state.root.isConnected) continue;
 
-							state.x += (state.targetX - state.x) * 0.11;
-							state.y += (state.targetY - state.y) * 0.11;
-							state.scroll += (state.targetScroll - state.scroll) * 0.08;
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
 
 							const dx = Math.abs(state.targetX - state.x);
 							const dy = Math.abs(state.targetY - state.y);
 							const ds = Math.abs(state.targetScroll - state.scroll);
-							moving ||= dx > 0.001 || dy > 0.001 || ds > 0.001;
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
 
-							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 34}%`);
-							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 28}%`);
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
 							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
 
 							for (const child of state.children) {
-								const y = state.y * child.depth * 0.72 + state.scroll * child.scrollDepth;
-								child.element.style.setProperty('--parallax-x', `${state.x * child.depth}px`);
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
 								child.element.style.setProperty('--parallax-y', `${y}px`);
-								child.element.style.setProperty('--parallax-rx', `${state.y * -2.6}deg`);
-								child.element.style.setProperty('--parallax-ry', `${state.x * 3.4}deg`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
 							}
 						}
 
@@ -146,8 +146,8 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 								.filter((child) => child instanceof HTMLElement)
 								.map((element, index) => {
 									const style = getComputedStyle(element);
-									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 7;
-									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.42;
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
 									return { element, depth, scrollDepth };
 								});
 
@@ -165,8 +165,8 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 
 							root.addEventListener('pointermove', (event) => {
 								const rect = root.getBoundingClientRect();
-								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 2, -1, 1);
-								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 2, -1, 1);
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
 								requestTick();
 							});
 
