@@ -5,7 +5,7 @@
 @theme {
 	--font-sans: "SF Pro Text", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
 	--font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
-	--font-reading: "SF Pro Text", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
+	--font-reading: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", "LXGW WenKai", "Kaiti SC", Georgia, serif;
 	--color-ink: #1d1d1f;
 	--color-ink-soft: #6e6e73;
 	--color-paper: #f5f5f7;
@@ -151,6 +151,32 @@
 		opacity: 0;
 		filter: blur(10px) saturate(1.04);
 		transform: translate3d(0, -10px, 0) scale(0.996);
+	}
+}
+
+@keyframes glyph-draw {
+	from {
+		stroke-dasharray: 1 42;
+		stroke-dashoffset: 16;
+		opacity: 0.58;
+	}
+
+	to {
+		stroke-dasharray: 42 0;
+		stroke-dashoffset: 0;
+		opacity: 1;
+	}
+}
+
+@keyframes timeline-breathe {
+	0%, 100% {
+		box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.16);
+		transform: scale(1);
+	}
+
+	50% {
+		box-shadow: 0 0 0 8px rgba(0, 113, 227, 0);
+		transform: scale(1.06);
 	}
 }
 
@@ -711,7 +737,7 @@
 	}
 
 	.blog-list {
-		@apply mx-auto mt-6 grid w-full gap-4 sm:grid-cols-2;
+		@apply mx-auto mt-6 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3;
 	}
 
 	.blog-card,
@@ -767,9 +793,75 @@
 		z-index: 1;
 	}
 
-	.blog-card i {
+	.module-glyph,
+	.card-arrow {
 		position: absolute;
 		z-index: 1;
+		display: grid;
+		place-items: center;
+	}
+
+	.module-glyph {
+		left: 1.35rem;
+		top: 1.25rem;
+		height: 52px;
+		width: 52px;
+		border-radius: 18px;
+		color: var(--color-blue);
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 253, 0.76)),
+			linear-gradient(135deg, rgba(0, 113, 227, 0.12), rgba(184, 190, 202, 0.10));
+		border: 1px solid rgba(226, 230, 238, 0.84);
+		box-shadow:
+			inset 0 1px rgba(255, 255, 255, 0.84),
+			0 14px 32px rgba(28, 39, 58, 0.09);
+		--tw-backdrop-saturate: saturate(150%);
+		-webkit-backdrop-filter: blur(16px) saturate(150%);
+		backdrop-filter: blur(16px) saturate(150%);
+		--motion-depth: 17;
+		transform:
+			translate3d(var(--parallax-x), var(--parallax-y), 20px)
+			rotateX(var(--parallax-rx))
+			rotateY(var(--parallax-ry));
+		transition:
+			transform 0.48s var(--motion-fluid),
+			box-shadow 0.72s var(--motion-smooth),
+			background 0.72s var(--motion-smooth),
+			color 0.5s var(--motion-smooth);
+		will-change: transform;
+	}
+
+	.module-glyph svg,
+	.hero-symbol svg {
+		height: 62%;
+		width: 62%;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2.15;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.module-glyph svg path,
+	.hero-symbol svg path {
+		vector-effect: non-scaling-stroke;
+	}
+
+	.module-glyph-thinking {
+		color: rgba(29, 29, 31, 0.72);
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 253, 0.76)),
+			linear-gradient(135deg, rgba(29, 29, 31, 0.07), rgba(184, 190, 202, 0.12));
+	}
+
+	.module-glyph-study-calendar {
+		color: #0a84ff;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 253, 0.76)),
+			linear-gradient(135deg, rgba(0, 113, 227, 0.13), rgba(52, 199, 89, 0.08));
+	}
+
+	.card-arrow {
 		right: 1.35rem;
 		top: 1.25rem;
 		height: 44px;
@@ -785,9 +877,9 @@
 		--tw-backdrop-saturate: saturate(150%);
 		-webkit-backdrop-filter: blur(16px) saturate(150%);
 		backdrop-filter: blur(16px) saturate(150%);
-		--motion-depth: 15;
+		--motion-depth: 12;
 		transform:
-			translate3d(var(--parallax-x), var(--parallax-y), 18px)
+			translate3d(var(--parallax-x), var(--parallax-y), 16px)
 			rotateX(var(--parallax-rx))
 			rotateY(var(--parallax-ry));
 		transition:
@@ -797,8 +889,8 @@
 		will-change: transform;
 	}
 
-	.blog-card i::before,
-	.blog-card i::after {
+	.card-arrow::before,
+	.card-arrow::after {
 		content: "";
 		position: absolute;
 		background: rgba(0, 113, 227, 0.74);
@@ -807,7 +899,7 @@
 			background-color 0.46s var(--motion-smooth);
 	}
 
-	.blog-card i::before {
+	.card-arrow::before {
 		top: 21px;
 		right: 13px;
 		height: 2px;
@@ -815,7 +907,7 @@
 		border-radius: 999px;
 	}
 
-	.blog-card i::after {
+	.card-arrow::after {
 		top: 16px;
 		right: 13px;
 		height: 10px;
@@ -826,7 +918,7 @@
 		transform: rotate(45deg);
 	}
 
-	.blog-card:nth-child(2) i {
+	.blog-card:nth-child(2) .card-arrow {
 		background:
 			linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 253, 0.78)),
 			linear-gradient(135deg, rgba(29, 29, 31, 0.06), rgba(184, 190, 202, 0.12));
@@ -856,27 +948,52 @@
 		opacity: 1;
 	}
 
-	.blog-card:hover i {
+	.blog-card:hover .module-glyph,
+	.blog-card:hover .card-arrow {
 		box-shadow:
 			inset 0 1px rgba(255, 255, 255, 0.9),
 			0 18px 42px rgba(28, 39, 58, 0.13);
 	}
 
-	.blog-card:hover i::before {
+	.blog-card:hover .module-glyph {
+		transform:
+			translate3d(var(--parallax-x), calc(var(--parallax-y) - 4px), 28px)
+			rotateX(var(--parallax-rx))
+			rotateY(var(--parallax-ry))
+			scale(1.04);
+	}
+
+	.blog-card:hover .module-glyph svg path {
+		animation: glyph-draw 0.82s var(--motion-fluid) both;
+	}
+
+	.blog-card:hover .card-arrow::before {
 		transform: translateX(2px);
 	}
 
-	.blog-card:hover i::after {
+	.blog-card:hover .card-arrow::after {
 		transform: translateX(2px) rotate(45deg);
 	}
 
-	.blog-card span,
+	.blog-card > span:not(.card-arrow),
 	.thought-card span {
 		@apply text-[13px] font-semibold;
 		color: var(--color-blue-deep);
 	}
 
-	.blog-card strong,
+	.blog-card > span:not(.card-arrow) {
+		display: block;
+		min-height: 52px;
+		padding-left: 4.35rem;
+		padding-top: 0.35rem;
+	}
+
+	.blog-card strong {
+		@apply mt-6 block text-[26px] font-semibold leading-tight text-[#1d1d1f];
+		font-family: var(--font-display);
+		text-wrap: balance;
+	}
+
 	.thought-card strong {
 		@apply mt-5 block text-[26px] font-semibold leading-tight text-[#1d1d1f];
 		font-family: var(--font-display);
@@ -908,6 +1025,107 @@
 	.raw-log,
 	.thought-list {
 		@apply mx-auto mt-8 w-full space-y-5;
+	}
+
+	.study-timeline {
+		position: relative;
+		margin-top: 2rem;
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.study-timeline::before {
+		content: "";
+		position: absolute;
+		left: 118px;
+		top: 1rem;
+		bottom: 1rem;
+		width: 1px;
+		background: linear-gradient(180deg, transparent, rgba(0, 113, 227, 0.24), rgba(29, 29, 31, 0.10), transparent);
+		transform-origin: top;
+	}
+
+	.study-entry {
+		position: relative;
+		display: grid;
+		grid-template-columns: 92px 32px minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+	}
+
+	.study-date-chip {
+		position: sticky;
+		top: 5.6rem;
+		display: grid;
+		justify-items: end;
+		gap: 0.2rem;
+		padding-top: 0.6rem;
+		color: rgba(29, 29, 31, 0.58);
+		--motion-depth: 8;
+		--scroll-depth: -4;
+		transform:
+			translate3d(var(--parallax-x), var(--parallax-y), 8px)
+			rotateX(var(--parallax-rx))
+			rotateY(var(--parallax-ry));
+		transition: transform 0.52s var(--motion-fluid);
+	}
+
+	.study-date-chip span {
+		font-family: var(--font-display);
+		font-size: 13px;
+		font-weight: 650;
+		color: rgba(29, 29, 31, 0.78);
+	}
+
+	.study-date-chip time {
+		font-size: 12px;
+	}
+
+	.timeline-node {
+		position: sticky;
+		top: 6.25rem;
+		display: grid;
+		place-items: center;
+		height: 32px;
+		width: 32px;
+		--motion-depth: 14;
+		--scroll-depth: -8;
+		transform:
+			translate3d(var(--parallax-x), var(--parallax-y), 16px)
+			rotateX(var(--parallax-rx))
+			rotateY(var(--parallax-ry));
+		transition: transform 0.52s var(--motion-fluid);
+	}
+
+	.timeline-node span {
+		display: block;
+		height: 12px;
+		width: 12px;
+		border: 3px solid #ffffff;
+		border-radius: 999px;
+		background: var(--color-blue);
+		box-shadow: 0 8px 22px rgba(0, 113, 227, 0.24);
+		animation: timeline-breathe 3.8s var(--motion-smooth) infinite;
+		animation-delay: calc(var(--timeline-index, 0) * 130ms);
+	}
+
+	.study-entry-card {
+		@apply relative overflow-hidden rounded-[24px] border p-6 transition duration-500 sm:p-7;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(250, 251, 254, 0.88)),
+			linear-gradient(135deg, rgba(0, 113, 227, 0.028), rgba(29, 29, 31, 0.012));
+		border-color: rgba(226, 230, 238, 0.84);
+		box-shadow: inset 0 1px rgba(255, 255, 255, 0.82), 0 12px 34px rgba(28, 39, 58, 0.07);
+		transition:
+			transform 0.52s var(--motion-fluid),
+			box-shadow 0.72s var(--motion-smooth),
+			border-color 0.72s var(--motion-smooth);
+	}
+
+	.study-entry:hover .study-entry-card {
+		transform: translate3d(0, -4px, 0);
+		border-color: rgba(0, 113, 227, 0.18);
+		box-shadow: var(--shadow-material-hover);
 	}
 
 	.hero-material-stack {
@@ -991,6 +1209,10 @@
 		font-weight: 650;
 	}
 
+	.hero-symbol:has(svg) {
+		color: rgba(29, 29, 31, 0.70);
+	}
+
 	.hero-symbol-primary {
 		--enter-x: -18px;
 		--layer-z: 58px;
@@ -1071,8 +1293,11 @@
 
 	.raw-entry-body {
 		@apply space-y-5 text-[#1d1d1f]/78;
+		font-family: var(--font-reading);
 		font-size: 17px;
-		line-height: 1.92;
+		line-height: 2;
+		font-kerning: normal;
+		text-wrap: pretty;
 	}
 
 	.raw-entry-body p {
@@ -1092,18 +1317,36 @@
 		@apply mt-6 grid gap-6 lg:grid-cols-[1fr_280px];
 	}
 
+	.article-layout > * {
+		min-width: 0;
+	}
+
 	.article-body {
 		@apply px-6 py-8 sm:px-9 lg:px-11;
+		min-width: 0;
 	}
 
 	.prose-thought {
 		@apply mx-auto max-w-[680px] text-[#1d1d1f]/82;
-		font-size: 18px;
-		line-height: 1.92;
+		font-family: var(--font-reading);
+		font-size: 19px;
+		line-height: 2.02;
+		font-kerning: normal;
+		max-width: 100%;
+		overflow-wrap: anywhere;
+		text-wrap: pretty;
 	}
 
 	.prose-thought :where(p, ul, ol, blockquote, pre, table) {
 		margin-top: 1.2rem;
+	}
+
+	.prose-thought :where(ul, ol) {
+		padding-left: 1.35rem;
+	}
+
+	.prose-thought li + li {
+		margin-top: 0.38rem;
 	}
 
 	.prose-thought :where(h2, h3) {
@@ -1373,10 +1616,55 @@
 	.raw-entry,
 	.raw-empty,
 	.thought-card,
+	.study-entry-card,
 	.side-panel,
 	.related-card {
 		border-radius: 24px;
 		padding: 1.35rem;
+	}
+
+	.module-glyph {
+		height: 46px;
+		width: 46px;
+		border-radius: 16px;
+	}
+
+	.blog-card > span:not(.card-arrow) {
+		min-height: 46px;
+		padding-left: 3.85rem;
+	}
+
+	.study-timeline {
+		gap: 1rem;
+	}
+
+	.study-timeline::before {
+		left: 15px;
+	}
+
+	.study-entry {
+		grid-template-columns: 32px minmax(0, 1fr);
+		gap: 0.85rem;
+	}
+
+	.study-date-chip {
+		grid-column: 2;
+		grid-row: 1;
+		position: relative;
+		top: auto;
+		justify-items: start;
+		padding-top: 0;
+	}
+
+	.timeline-node {
+		grid-column: 1;
+		grid-row: 1 / span 2;
+		position: relative;
+		top: auto;
+	}
+
+	.study-entry-card {
+		grid-column: 2;
 	}
 
 	.raw-entry-body,

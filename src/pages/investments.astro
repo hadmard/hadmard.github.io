@@ -112,8 +112,13 @@ const crawledAtText = summary?.crawledAt
 			{copy.investments.intro && <p>{copy.investments.intro}</p>}
 			<div class="hero-material-stack" aria-hidden="true">
 				<span class="hero-symbol hero-symbol-primary">¥</span>
-				<span class="hero-symbol">↗</span>
-				<span class="hero-symbol">14</span>
+				<span class="hero-symbol">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M5 22.5h18M7 20.2l5.1-5.4 3.9 3.5 6-8.6" />
+						<path d="M18.2 9.7H22v3.8" />
+					</svg>
+				</span>
+				<span class="hero-symbol">{visibleRecords.length}</span>
 				<span class="hero-slab hero-slab-a"></span>
 				<span class="hero-slab hero-slab-b"></span>
 			</div>

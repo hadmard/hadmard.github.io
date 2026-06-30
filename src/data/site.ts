@@ -37,6 +37,15 @@ interface SiteCopy {
 		emptyTitle: string;
 		emptyDescription: string;
 	};
+	studyCalendar: {
+		kicker: string;
+		title: string;
+		intro: string;
+		emptyTitle: string;
+		emptyDescription: string;
+		sourceLabel: string;
+		entryLabel: string;
+	};
 	thinking: {
 		kicker: string;
 		title: string;
@@ -67,21 +76,23 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		},
 		seo: {
 			title: 'Yfcccc | 个人博客',
-			description: 'Yfcccc 的个人博客：投资记录与随笔。',
+			description: 'Yfcccc 的个人博客：投资记录、个人思考与学习日历。',
 		},
 		nav: [
 			{ id: 'investments', label: '投资记录' },
-			{ id: 'thinking', label: '随笔' },
+			{ id: 'thinking', label: '个人思考' },
+			{ id: 'study-calendar', label: '学习日历' },
 		],
 		hero: {
 			badge: 'Blog',
 			title: 'Yfcccc',
 			description: '写点记录，留给以后看。',
 			primaryCta: '投资记录',
-			secondaryCta: '随笔',
+			secondaryCta: '个人思考',
 			metrics: [
-				{ label: '投资记录', value: '小散的破产之路', note: '14 条手记' },
-				{ label: '随笔', value: '想法', note: '' },
+				{ label: '投资记录', value: '小散的破产之路', note: '同步自 CC98' },
+				{ label: '个人思考', value: '四篇短记', note: '期末周 / 专业 / 休息 / 心气' },
+				{ label: '学习日历', value: 'chmod +x life', note: '学习日记同步' },
 			],
 		},
 		investments: {
@@ -91,10 +102,19 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			emptyTitle: '还没有记录',
 			emptyDescription: '暂时空着。',
 		},
+		studyCalendar: {
+			kicker: '学习日历',
+			title: '学习日历',
+			intro: '把复习节奏、待办和阶段记录放在同一条时间线上。',
+			emptyTitle: '还没有学习记录',
+			emptyDescription: '同步源暂时没有可展示内容。',
+			sourceLabel: '原帖',
+			entryLabel: '条记录',
+		},
 		thinking: {
-			kicker: '随笔',
-			title: '随笔',
-			intro: '',
+			kicker: '个人思考',
+			title: '个人思考',
+			intro: '一些阶段性的判断、反思和自我校准。',
 			readMore: '阅读',
 			emptyTitle: '还没写',
 			emptyDescription: '先空着。',
@@ -119,21 +139,23 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		},
 		seo: {
 			title: 'Yfcccc | Personal Blog',
-			description: 'A personal blog for investment notes and essays.',
+			description: 'A personal blog for investment notes, thinking, and a study calendar.',
 		},
 		nav: [
 			{ id: 'investments', label: 'Investments' },
-			{ id: 'thinking', label: 'Notes' },
+			{ id: 'thinking', label: 'Thinking' },
+			{ id: 'study-calendar', label: 'Study Calendar' },
 		],
 		hero: {
 			badge: 'Blog',
 			title: 'Yfcccc',
 			description: 'Notes for later.',
 			primaryCta: 'Investments',
-			secondaryCta: 'Notes',
+			secondaryCta: 'Thinking',
 			metrics: [
-				{ label: 'Investments', value: 'Market Notes', note: '14 entries' },
-				{ label: 'Notes', value: 'Thoughts', note: '' },
+				{ label: 'Investments', value: 'Market Notes', note: 'Synced from CC98' },
+				{ label: 'Thinking', value: 'Four Notes', note: 'Exams / major / rest / confidence' },
+				{ label: 'Study Calendar', value: 'chmod +x life', note: 'Study log sync' },
 			],
 		},
 		investments: {
@@ -143,10 +165,19 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			emptyTitle: 'No records yet',
 			emptyDescription: 'Quiet for now.',
 		},
+		studyCalendar: {
+			kicker: 'Study Calendar',
+			title: 'Study Calendar',
+			intro: 'Review plans, todos, and progress notes on one timeline.',
+			emptyTitle: 'No study records yet',
+			emptyDescription: 'Nothing available from the synced source.',
+			sourceLabel: 'source',
+			entryLabel: 'entries',
+		},
 		thinking: {
-			kicker: 'Notes',
-			title: 'Notes',
-			intro: '',
+			kicker: 'Thinking',
+			title: 'Thinking',
+			intro: 'Periodic notes, self-corrections, and reflections.',
 			readMore: 'Read',
 			emptyTitle: 'Nothing here yet',
 			emptyDescription: 'Leaving this quiet for now.',

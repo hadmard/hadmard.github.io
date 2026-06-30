@@ -1,0 +1,182 @@
+---
+// 文件说明：该组件渲染“学习日历”页面。
+// 功能说明：读取 CC98 学习日记同步结果，并以时间线方式展示楼主学习记录。
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+
+import type { Locale } from '../data/site';
+
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from './SiteHeader.astro';
+import { getCopy } from '../utils/i18n';
+
+const { locale, canonicalPath, alternatePath } = Astro.props as {
+	locale: Locale;
+	canonicalPath: string;
+	alternatePath: string;
+};
+
+type Cc98Post = {
+	id?: number;
+	userName: string | null;
+	content: string;
+	time: string;
+	floor: number;
+	isDeleted: boolean;
+	isLZ: boolean;
+};
+
+type PostPage = {
+	items?: Cc98Post[];
+};
+
+type Summary = {
+	sourceUrl?: string;
+	topic?: {
+		title?: string;
+		authorName?: string;
+		hitCount?: number;
+	};
+	crawledAt?: string;
+};
+
+const copy = getCopy(locale);
+const outputDir = resolve(process.cwd(), 'custom/cc98-investment-crawler/output/topic-6548170');
+
+let summary: Summary | null = null;
+let records: Cc98Post[] = [];
+
+try {
+	const [summaryRaw, postsRaw] = await Promise.all([
+		readFile(resolve(outputDir, 'records/investment-summary.json'), 'utf-8'),
+		readFile(resolve(outputDir, 'raw/posts.json'), 'utf-8'),
+	]);
+
+	summary = JSON.parse(summaryRaw) as Summary;
+	const pages = JSON.parse(postsRaw) as PostPage[];
+	const allPosts = pages.flatMap((page) => page.items ?? []);
+	const authorName = summary?.topic?.authorName;
+
+	records = allPosts
+		.filter((post) => !post.isDeleted && post.content?.trim())
+		.filter((post) => post.isLZ || (authorName && post.userName === authorName))
+		.sort((a, b) => a.floor - b.floor);
+} catch {
+	summary = null;
+	records = [];
+}
+
+const localeTag = locale === 'zh-cn' ? 'zh-CN' : 'en-US';
+const formatDate = (value: string) => new Date(value).toLocaleDateString(localeTag, {
+	month: '2-digit',
+	day: '2-digit',
+});
+const formatTime = (value: string) => new Date(value).toLocaleTimeString(localeTag, {
+	hour: '2-digit',
+	minute: '2-digit',
+	hour12: false,
+});
+const formatFullDate = (value: string) => new Date(value).toLocaleString(localeTag, {
+	year: 'numeric',
+	month: '2-digit',
+	day: '2-digit',
+	hour: '2-digit',
+	minute: '2-digit',
+	hour12: false,
+});
+
+const cleanText = (content: string) => content
+	.replace(/\[img\][\s\S]*?\[\/img\]/gi, '\n')
+	.replace(/\[[^\]\n]{1,80}\]/g, '')
+	.replace(/\p{Extended_Pictographic}/gu, '')
+	.replace(/[\uFE0F\u200D]/g, '')
+	.replace(/\r\n?/g, '\n')
+	.split('\n')
+	.map((line) => line.replace(/[ \t]+/g, ' ').trimEnd())
+	.join('\n')
+	.replace(/\n{3,}/g, '\n\n')
+	.trim();
+
+const visibleRecords = records
+	.map((record) => ({
+		...record,
+		cleanContent: cleanText(record.content),
+	}))
+	.filter((record) => record.cleanContent);
+
+const crawledAtText = summary?.crawledAt ? formatFullDate(summary.crawledAt) : null;
+---
+
+<Layout
+	title={`${copy.studyCalendar.title} | ${copy.brand.name}`}
+	description={copy.seo.description}
+	lang={locale}
+	canonicalPath={canonicalPath}
+	alternatePath={alternatePath}
+>
+	<main class="site-shell reading-shell">
+		<SiteHeader locale={locale} alternatePath={alternatePath} />
+
+		<section class="reading-hero study-hero" data-reveal>
+			<p class="soft-label">{copy.studyCalendar.kicker}</p>
+			<h1>{copy.studyCalendar.title}</h1>
+			<p>{copy.studyCalendar.intro}</p>
+			<div class="hero-material-stack study-symbol-stack" aria-hidden="true">
+				<span class="hero-symbol hero-symbol-primary">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M8 4.8v4.4M20 4.8v4.4M5.8 10.8h16.4M7.2 6.8h13.6a2.4 2.4 0 0 1 2.4 2.4v12.2a2.4 2.4 0 0 1-2.4 2.4H7.2a2.4 2.4 0 0 1-2.4-2.4V9.2a2.4 2.4 0 0 1 2.4-2.4Z" />
+						<path d="m9.4 17.2 2.5 2.5 6-6" />
+					</svg>
+				</span>
+				<span class="hero-symbol">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M7 7.2h14M7 13.8h14M7 20.4h8.4" />
+					</svg>
+				</span>
+				<span class="hero-symbol">{visibleRecords.length}</span>
+				<span class="hero-slab hero-slab-a"></span>
+				<span class="hero-slab hero-slab-b"></span>
+			</div>
+			<div class="reading-meta">
+				{summary?.topic?.title && <span>{summary.topic.title}</span>}
+				<span>{visibleRecords.length} {copy.studyCalendar.entryLabel}</span>
+				{summary?.sourceUrl && (
+					<a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer">{copy.studyCalendar.sourceLabel}</a>
+				)}
+				{crawledAtText && <span>{crawledAtText}</span>}
+			</div>
+		</section>
+
+		{visibleRecords.length > 0 ? (
+			<section class="study-timeline" aria-label={copy.studyCalendar.title}>
+				{visibleRecords.map((record, index) => (
+					<article class="study-entry" data-reveal style={`--timeline-index: ${index}`}>
+						<div class="study-date-chip">
+							<span>{formatDate(record.time)}</span>
+							<time>{formatTime(record.time)}</time>
+						</div>
+						<div class="timeline-node" aria-hidden="true">
+							<span></span>
+						</div>
+						<div class="study-entry-card">
+							<div class="raw-entry-meta">
+								<span>#{record.floor}</span>
+								<span>{record.userName}</span>
+							</div>
+							<div class="raw-entry-body study-entry-body">
+								{record.cleanContent.split(/\n{2,}/).map((paragraph) => (
+									<p>{paragraph}</p>
+								))}
+							</div>
+						</div>
+					</article>
+				))}
+			</section>
+		) : (
+			<section class="raw-empty" data-reveal>
+				<h2>{copy.studyCalendar.emptyTitle}</h2>
+				<p>{copy.studyCalendar.emptyDescription}</p>
+			</section>
+		)}
+	</main>
+</Layout>

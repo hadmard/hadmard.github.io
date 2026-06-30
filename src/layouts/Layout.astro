@@ -140,7 +140,7 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 
 							const children = [
 								...root.querySelectorAll(
-									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .blog-card i',
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .module-glyph, .card-arrow, .timeline-node, .study-date-chip',
 								),
 							]
 								.filter((child) => child instanceof HTMLElement)
@@ -185,7 +185,7 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 				window.__materialMotionController = controller;
 
 				document.querySelectorAll(
-					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty',
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry',
 				).forEach((root) => controller.addRoot(root));
 
 				controller.updateScrollTargets();

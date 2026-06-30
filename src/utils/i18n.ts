@@ -31,5 +31,5 @@ export function getCopy(locale: Locale) {
 }
 
 export function getThoughtSlug(entry: CollectionEntry<'thoughts'>) {
-	return entry.id.split('/').slice(1).join('/');
+	return entry.id.split('/').slice(1).join('/').replace(/\.(mdx?|markdown)$/i, '');
 }

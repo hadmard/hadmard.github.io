@@ -21,6 +21,7 @@ const cards = copy.nav.map((item) => {
 		note: metric?.note ?? '',
 	};
 });
+
 ---
 
 <Layout
@@ -82,7 +83,25 @@ const cards = copy.nav.map((item) => {
 		<section class="blog-list" aria-label={locale === 'zh-cn' ? '博客入口' : 'Blog entries'} data-reveal>
 			{cards.map((card) => (
 				<a class="blog-card" href={card.href}>
-					<i aria-hidden="true"></i>
+					<i class={`module-glyph module-glyph-${card.id}`} aria-hidden="true">
+						{card.id === 'investments' ? (
+							<svg viewBox="0 0 32 32" role="presentation">
+								<path d="M5 24.5h22M7 22l5.8-6 4.6 3.8L25 9.5" />
+								<path d="M20.2 9.5H25v4.8" />
+							</svg>
+						) : card.id === 'study-calendar' ? (
+							<svg viewBox="0 0 32 32" role="presentation">
+								<path d="M9 5.5v5M23 5.5v5M6.5 12.5h19M8.2 7.8h15.6a2.8 2.8 0 0 1 2.8 2.8v13.2a2.8 2.8 0 0 1-2.8 2.8H8.2a2.8 2.8 0 0 1-2.8-2.8V10.6a2.8 2.8 0 0 1 2.8-2.8Z" />
+								<path d="m10.5 19 3.2 3.2 7.8-8" />
+							</svg>
+						) : (
+							<svg viewBox="0 0 32 32" role="presentation">
+								<path d="M9.5 22.5 8 27l4.5-1.5L24.7 13.3a3 3 0 0 0-4.2-4.2L8.3 21.3Z" />
+								<path d="m18.6 11 4.4 4.4M15.2 25.5h9.8" />
+							</svg>
+						)}
+					</i>
+					<span class="card-arrow" aria-hidden="true"></span>
 					<span>{card.label}</span>
 					<strong>{card.value}</strong>
 					{card.note && <p>{card.note}</p>}
