@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { getCopy } from '../utils/i18n';
+import { normalizeCc98Markdown, renderMarkdown } from '../utils/markdown';
 
 const locale = 'zh-cn';
 const copy = getCopy(locale);
@@ -73,25 +74,17 @@ const formatTime = (value: string) => new Date(value).toLocaleTimeString('zh-CN'
 	hour12: false,
 });
 
-const cleanText = (content: string) => content
-	.replace(/\[img\][\s\S]*?\[\/img\]/gi, '\n')
-	.replace(/\[[^\]\n]{1,80}\]/g, '')
-	.replace(/\p{Extended_Pictographic}/gu, '')
-	.replace(/[\uFE0F\u200D]/g, '')
-	.replace(/\r\n?/g, '\n')
-	.split('\n')
-	.map((line) => line.replace(/[ \t]+/g, ' ').trim())
-	.join('\n')
-	.replace(/\n{3,}/g, '\n\n')
-	.trim();
-
 const placeholderTexts = new Set(['记录投资日常', 'test']);
-const visibleRecords = records
+const visibleRecordData = records
 	.map((record) => ({
 		...record,
-		cleanContent: cleanText(record.content),
+		cleanContent: normalizeCc98Markdown(record.content),
 	}))
 	.filter((record) => record.cleanContent && !placeholderTexts.has(record.cleanContent));
+const visibleRecords = await Promise.all(visibleRecordData.map(async (record) => ({
+	...record,
+	renderedContent: await renderMarkdown(record.cleanContent),
+})));
 
 const crawledAtText = summary?.crawledAt
 	? new Date(summary.crawledAt).toLocaleString('zh-CN', { hour12: false })
@@ -163,11 +156,7 @@ const crawledAtText = summary?.crawledAt
 								</svg>
 							</span>
 						</div>
-						<div class="raw-entry-body">
-							{record.cleanContent.split(/\n{2,}/).map((paragraph) => (
-								<p>{paragraph}</p>
-							))}
-						</div>
+						<div class="raw-entry-body markdown-body" set:html={record.renderedContent} />
 					</article>
 				))}
 			</section>
