@@ -63,9 +63,11 @@ try {
 	records = [];
 }
 
-const formatDate = (value: string) => new Date(value).toLocaleString('zh-CN', {
+const formatDay = (value: string) => new Date(value).toLocaleDateString('zh-CN', {
 	month: '2-digit',
 	day: '2-digit',
+});
+const formatTime = (value: string) => new Date(value).toLocaleTimeString('zh-CN', {
 	hour: '2-digit',
 	minute: '2-digit',
 	hour12: false,
@@ -106,11 +108,11 @@ const crawledAtText = summary?.crawledAt
 	<main class="site-shell reading-shell">
 		<SiteHeader locale={locale} alternatePath={alternatePath} />
 
-		<section class="reading-hero" data-reveal>
+		<section class="reading-hero investment-hero" data-reveal>
 			<p class="soft-label">{copy.investments.kicker}</p>
 			<h1>{copy.investments.title}</h1>
 			{copy.investments.intro && <p>{copy.investments.intro}</p>}
-			<div class="hero-material-stack" aria-hidden="true">
+			<div class="hero-material-stack investment-symbol-stack" aria-hidden="true">
 				<span class="hero-symbol hero-symbol-primary">¥</span>
 				<span class="hero-symbol">
 					<svg viewBox="0 0 28 28" role="presentation">
@@ -121,6 +123,11 @@ const crawledAtText = summary?.crawledAt
 				<span class="hero-symbol">{visibleRecords.length}</span>
 				<span class="hero-slab hero-slab-a"></span>
 				<span class="hero-slab hero-slab-b"></span>
+				<span class="market-orbit market-orbit-a">
+					<svg viewBox="0 0 72 36" role="presentation">
+						<path d="M5 26 C13 9 22 30 31 18 S47 7 55 15 62 24 67 8" />
+					</svg>
+				</span>
 			</div>
 			<div class="reading-meta">
 				{summary?.topic?.title && <span>{summary.topic.title}</span>}
@@ -133,12 +140,28 @@ const crawledAtText = summary?.crawledAt
 		</section>
 
 		{visibleRecords.length > 0 ? (
-			<section class="raw-log" aria-label="投资记录原文">
-				{visibleRecords.map((record) => (
-					<article class="raw-entry">
-						<div class="raw-entry-meta">
-							<span>#{record.floor}</span>
-							<time>{formatDate(record.time)}</time>
+			<section class="raw-log investment-log" aria-label="投资记录原文">
+				{visibleRecords.map((record, index) => (
+					<article class="raw-entry investment-entry" data-reveal style={`--entry-index: ${index}`}>
+						<span class="investment-node" aria-hidden="true">
+							<svg viewBox="0 0 28 28" role="presentation">
+								<path d="M6 20.5h16M8 18l4.4-4.9 3.8 3 5.8-8.2" />
+								<path d="M18.4 7.9H22v3.6" />
+							</svg>
+						</span>
+						<div class="investment-entry-head">
+							<div class="raw-entry-meta investment-meta">
+								<span class="investment-day">{formatDay(record.time)}</span>
+								<time>{formatTime(record.time)}</time>
+								<span>#{record.floor}</span>
+								<span>hadmard</span>
+							</div>
+							<span class="investment-glyph" aria-hidden="true">
+								<svg viewBox="0 0 36 36" role="presentation">
+									<path d="M7 27h22M10 24V13M18 24V8M26 24V16" />
+									<path d="M8 18h4M16 12h4M24 20h4" />
+								</svg>
+							</span>
 						</div>
 						<div class="raw-entry-body">
 							{record.cleanContent.split(/\n{2,}/).map((paragraph) => (

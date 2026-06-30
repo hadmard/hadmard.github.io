@@ -12,6 +12,7 @@ const alternatePath = alternatePathOverride ?? (locale === 'zh-cn' ? `${normaliz
 const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`);
 
 const hrefFor = (id: string) => locale === 'zh-cn' ? `${normalizedNavBasePath}/${id}/` : `${normalizedNavBasePath}/en/${id}/`;
+const studyCalendarLabel = copy.nav.find((item) => item.id === 'study-calendar')?.label ?? (locale === 'zh-cn' ? '学习日历' : 'Study Calendar');
 const cards = copy.nav.map((item) => {
 	const metric = copy.hero.metrics.find((entry) => entry.label === item.label);
 	return {
@@ -39,8 +40,33 @@ const cards = copy.nav.map((item) => {
 			<h1>{copy.hero.title}</h1>
 			<p>{copy.hero.description}</p>
 			<div class="blog-actions">
-				<a href={hrefFor('investments')} class="apple-button apple-button-dark">{copy.hero.primaryCta}</a>
-				<a href={hrefFor('thinking')} class="apple-button apple-button-light">{copy.hero.secondaryCta}</a>
+				<a href={hrefFor('investments')} class="apple-button apple-button-dark apple-button-icon">
+					<span class="button-glyph" aria-hidden="true">
+						<svg viewBox="0 0 24 24" role="presentation">
+							<path d="M4 18.5h16M5.8 16l4.4-4.6 3.4 2.8 5.2-7.1" />
+							<path d="M15.6 7.1h3.2v3.2" />
+						</svg>
+					</span>
+					{copy.hero.primaryCta}
+				</a>
+				<a href={hrefFor('thinking')} class="apple-button apple-button-light apple-button-icon">
+					<span class="button-glyph" aria-hidden="true">
+						<svg viewBox="0 0 24 24" role="presentation">
+							<path d="M7.2 18.4 6 22l3.6-1.2 9.6-9.6a2.4 2.4 0 0 0-3.4-3.4L6.2 17.4Z" />
+							<path d="m14.4 9.2 3.4 3.4M11.6 20h7.8" />
+						</svg>
+					</span>
+					{copy.hero.secondaryCta}
+				</a>
+				<a href={hrefFor('study-calendar')} class="apple-button apple-button-light apple-button-icon">
+					<span class="button-glyph" aria-hidden="true">
+						<svg viewBox="0 0 24 24" role="presentation">
+							<path d="M7.5 4.5v3.4M16.5 4.5v3.4M5.2 9.2h13.6M6.7 6.3h10.6a2.4 2.4 0 0 1 2.4 2.4v9.1a2.4 2.4 0 0 1-2.4 2.4H6.7a2.4 2.4 0 0 1-2.4-2.4V8.7a2.4 2.4 0 0 1 2.4-2.4Z" />
+							<path d="m8.2 15 2.3 2.2 5.3-5.4" />
+						</svg>
+					</span>
+					{studyCalendarLabel}
+				</a>
 			</div>
 			<div class="journal-stage" aria-hidden="true">
 				<span class="journal-halo"></span>
