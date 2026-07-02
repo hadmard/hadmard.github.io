@@ -226,6 +226,20 @@
 	}
 }
 
+@keyframes wordmark-gradient-settle {
+	from {
+		background-position: 86% 50%;
+		filter: blur(1.5px) saturate(1.02);
+		transform: translate3d(0, 6px, 0) scale(0.992);
+	}
+
+	to {
+		background-position: 0% 50%;
+		filter: blur(0) saturate(1);
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+}
+
 @utility site-shell {
 	@apply relative mx-auto flex min-h-screen w-full max-w-[1120px] flex-col px-4 pb-16 pt-4 sm:px-6 lg:px-8;
 }
@@ -558,14 +572,16 @@
 		font-size: 7.6rem;
 		line-height: 0.9;
 		letter-spacing: 0 !important;
-		background: none;
-		color: #202329;
+		background: linear-gradient(98deg, #171a20 0%, #242a35 31%, #3c4657 48%, rgb(var(--home-blue-bright)) 68%, rgb(var(--home-sage)) 92%, rgb(var(--home-amber)) 118%);
+		background-size: 140% 100%;
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
 	}
 
 	.brand-wordmark {
 		position: relative;
-		display: inline-flex;
-		align-items: baseline;
+		display: inline-block;
 		width: fit-content;
 		font-family: "Avenir Next", var(--font-display);
 		font-weight: 730;
@@ -573,6 +589,7 @@
 		font-variation-settings: "wght" 730;
 		isolation: isolate;
 		text-shadow: 0 18px 42px rgba(35, 42, 58, 0.10);
+		animation: wordmark-gradient-settle 1.06s var(--motion-fluid) both;
 	}
 
 	.brand-wordmark::after {
@@ -587,45 +604,14 @@
 		background: linear-gradient(90deg, rgba(var(--home-blue), 0.14), rgba(var(--home-sage), 0.13), transparent 84%);
 		filter: blur(0.5px);
 		opacity: 0.62;
+		transform: scaleX(0.38);
+		transform-origin: left;
+		transition: transform 0.96s var(--motion-fluid), opacity 0.86s var(--motion-smooth);
 	}
 
-	.brand-wordmark span {
-		display: inline-block;
-		background: none;
-		color: #202329;
-		transform-origin: 50% 68%;
-	}
-
-	.brand-wordmark span:nth-child(1) {
-		color: #181b20;
-		font-weight: 760;
-		transform: translateY(-0.015em);
-	}
-
-	.brand-wordmark span:nth-child(2) {
-		color: #252b35;
-		font-weight: 720;
-		transform: translateY(0.012em);
-	}
-
-	.brand-wordmark span:nth-child(n+3) {
-		font-weight: 700;
-	}
-
-	.brand-wordmark span:nth-child(3) {
-		color: #2f3540;
-	}
-
-	.brand-wordmark span:nth-child(4) {
-		color: #344154;
-	}
-
-	.brand-wordmark span:nth-child(5) {
-		color: rgb(var(--home-blue));
-	}
-
-	.brand-wordmark span:nth-child(6) {
-		color: rgb(var(--home-sage));
+	.blog-hero.is-visible .brand-wordmark::after {
+		opacity: 0.7;
+		transform: scaleX(1);
 	}
 
 	.home-hero-mark {
@@ -683,8 +669,90 @@
 	}
 
 	.home-mark-core span {
+		position: relative;
+		display: grid;
+		place-items: center;
 		border-radius: 0.95rem;
 		box-shadow: inset 0 1px rgba(255, 255, 255, 0.56);
+		opacity: 0;
+		transform: translate3d(0, 10px, 18px) scale(0.92);
+		transition:
+			opacity 0.72s var(--motion-smooth),
+			transform 0.86s var(--motion-fluid),
+			filter 0.72s var(--motion-smooth);
+		will-change: transform, opacity;
+	}
+
+	.blog-hero.is-visible .home-mark-core span {
+		opacity: 1;
+		transform: translate3d(0, 0, 18px) scale(1);
+	}
+
+	.blog-hero.is-visible .home-mark-core span:nth-child(1) {
+		transition-delay: 80ms;
+	}
+
+	.blog-hero.is-visible .home-mark-core span:nth-child(2) {
+		transition-delay: 150ms;
+	}
+
+	.blog-hero.is-visible .home-mark-core span:nth-child(3) {
+		transition-delay: 220ms;
+	}
+
+	.blog-hero.is-visible .home-mark-core span:nth-child(4) {
+		transition-delay: 290ms;
+	}
+
+	.home-mark-core span::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background: linear-gradient(145deg, rgba(255, 255, 255, 0.34), transparent 44%, rgba(255, 255, 255, 0.08));
+		pointer-events: none;
+	}
+
+	.home-mark-core svg {
+		position: relative;
+		z-index: 1;
+		height: 56%;
+		width: 56%;
+		fill: none;
+		stroke: rgba(255, 255, 255, 0.94);
+		stroke-width: 2.25;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		filter: drop-shadow(0 3px 7px rgba(30, 38, 52, 0.16));
+	}
+
+	.home-mark-core svg path {
+		vector-effect: non-scaling-stroke;
+	}
+
+	.blog-hero.is-visible .home-mark-core svg path {
+		animation: glyph-draw 1.05s var(--motion-fluid) both;
+	}
+
+	.blog-hero.is-visible .home-mark-core span:nth-child(1) svg path {
+		animation-delay: 120ms;
+	}
+
+	.blog-hero.is-visible .home-mark-core span:nth-child(2) svg path {
+		animation-delay: 190ms;
+	}
+
+	.blog-hero.is-visible .home-mark-core span:nth-child(3) svg path {
+		animation-delay: 260ms;
+	}
+
+	.blog-hero.is-visible .home-mark-core span:nth-child(4) svg path {
+		animation-delay: 330ms;
+	}
+
+	.home-hero-mark:hover .home-mark-core span {
+		filter: saturate(1.08) brightness(1.02);
+		transform: translate3d(0, -2px, 22px) scale(1.025);
 	}
 
 	.home-mark-core span:nth-child(1) {
@@ -1073,7 +1141,8 @@
 		--card-accent-2: var(--tone-teal);
 		background:
 			linear-gradient(180deg, rgba(255, 255, 255, 0.982), rgba(252, 253, 255, 0.92)),
-			linear-gradient(135deg, rgba(var(--card-accent), 0.010), rgba(var(--card-accent-2), 0.005) 58%, rgba(29, 29, 31, 0.006));
+			radial-gradient(circle at 24% 14%, rgba(var(--card-accent), 0.038), transparent 34%),
+			linear-gradient(135deg, rgba(var(--card-accent), 0.022), rgba(var(--card-accent-2), 0.014) 58%, rgba(29, 29, 31, 0.006));
 		border-color: var(--hairline);
 		box-shadow: inset 0 1px rgba(255, 255, 255, 0.82), 0 10px 26px rgba(28, 39, 58, 0.045);
 		--tw-backdrop-saturate: saturate(150%);
@@ -1300,7 +1369,8 @@
 		--card-accent-2: var(--tone-primary);
 		background:
 			linear-gradient(180deg, rgba(255, 255, 255, 0.982), rgba(252, 253, 255, 0.92)),
-			linear-gradient(135deg, rgba(var(--card-accent), 0.012), rgba(var(--card-accent-2), 0.005));
+			radial-gradient(circle at 26% 14%, rgba(var(--card-accent), 0.038), transparent 34%),
+			linear-gradient(135deg, rgba(var(--card-accent), 0.022), rgba(var(--card-accent-2), 0.014));
 	}
 
 	.blog-card:nth-child(3) {
@@ -1308,7 +1378,8 @@
 		--card-accent-2: var(--tone-teal);
 		background:
 			linear-gradient(180deg, rgba(255, 255, 255, 0.982), rgba(252, 253, 255, 0.92)),
-			linear-gradient(135deg, rgba(var(--card-accent), 0.014), rgba(var(--card-accent-2), 0.006));
+			radial-gradient(circle at 26% 14%, rgba(var(--card-accent), 0.042), transparent 34%),
+			linear-gradient(135deg, rgba(var(--card-accent), 0.024), rgba(var(--card-accent-2), 0.014));
 	}
 
 	.blog-card:nth-child(4) {
@@ -1316,7 +1387,8 @@
 		--card-accent-2: var(--tone-sky);
 		background:
 			linear-gradient(180deg, rgba(255, 255, 255, 0.982), rgba(252, 253, 255, 0.92)),
-			linear-gradient(135deg, rgba(var(--card-accent), 0.013), rgba(var(--card-accent-2), 0.006));
+			radial-gradient(circle at 26% 14%, rgba(var(--card-accent), 0.040), transparent 34%),
+			linear-gradient(135deg, rgba(var(--card-accent), 0.023), rgba(var(--card-accent-2), 0.015));
 	}
 
 	.blog-card:hover,
@@ -1325,7 +1397,8 @@
 		--lift-y: -3px;
 		background:
 			linear-gradient(180deg, rgba(255, 255, 255, 0.992), rgba(252, 253, 255, 0.94)),
-			linear-gradient(135deg, rgba(var(--card-accent), 0.018), rgba(var(--card-accent-2), 0.008));
+			radial-gradient(circle at 24% 14%, rgba(var(--card-accent), 0.052), transparent 36%),
+			linear-gradient(135deg, rgba(var(--card-accent), 0.028), rgba(var(--card-accent-2), 0.018));
 		box-shadow: var(--shadow-material-hover);
 	}
 
