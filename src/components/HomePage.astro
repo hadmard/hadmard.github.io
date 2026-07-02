@@ -13,11 +13,9 @@ const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normaliz
 
 const hrefFor = (id: string) => locale === 'zh-cn' ? `${normalizedNavBasePath}/${id}/` : `${normalizedNavBasePath}/en/${id}/`;
 const cards = copy.nav.map((item) => {
-	const metric = copy.hero.metrics.find((entry) => entry.label === item.label);
 	return {
 		...item,
 		href: hrefFor(item.id),
-		value: metric?.value ?? item.label,
 	};
 });
 
@@ -34,74 +32,19 @@ const cards = copy.nav.map((item) => {
 		<SiteHeader locale={locale} alternatePath={alternatePath} basePath={normalizedNavBasePath} />
 
 		<section class="blog-hero" data-reveal>
-			<p class="soft-label">{copy.hero.badge}</p>
-			<h1>{copy.hero.title}</h1>
-			<p>{copy.hero.description}</p>
-			<div class="blog-actions">
-				{copy.nav.map((item, index) => (
-					<a href={hrefFor(item.id)} class={`apple-button ${index === 0 ? 'apple-button-dark' : 'apple-button-light'} apple-button-icon`}>
-						<span class="button-glyph" aria-hidden="true">
-							{item.id === 'investments' ? (
-								<svg viewBox="0 0 24 24" role="presentation">
-									<path d="M4 18.5h16M5.8 16l4.4-4.6 3.4 2.8 5.2-7.1" />
-									<path d="M15.6 7.1h3.2v3.2" />
-								</svg>
-							) : item.id === 'thinking' ? (
-								<svg viewBox="0 0 24 24" role="presentation">
-									<path d="M7.2 18.4 6 22l3.6-1.2 9.6-9.6a2.4 2.4 0 0 0-3.4-3.4L6.2 17.4Z" />
-									<path d="m14.4 9.2 3.4 3.4M11.6 20h7.8" />
-								</svg>
-							) : item.id === 'study-calendar' ? (
-								<svg viewBox="0 0 24 24" role="presentation">
-									<path d="M7.5 4.5v3.4M16.5 4.5v3.4M5.2 9.2h13.6M6.7 6.3h10.6a2.4 2.4 0 0 1 2.4 2.4v9.1a2.4 2.4 0 0 1-2.4 2.4H6.7a2.4 2.4 0 0 1-2.4-2.4V8.7a2.4 2.4 0 0 1 2.4-2.4Z" />
-									<path d="m8.2 15 2.3 2.2 5.3-5.4" />
-								</svg>
-							) : (
-								<svg viewBox="0 0 24 24" role="presentation">
-									<path d="M12 20.2s-6.2-3.6-6.2-9.5A4.1 4.1 0 0 1 12 7.2a4.1 4.1 0 0 1 6.2 3.5c0 5.9-6.2 9.5-6.2 9.5Z" />
-									<path d="M8.3 12.8h2.2l1.2-3.2 1.8 5.5 1.1-2.3h2.9" />
-								</svg>
-							)}
-						</span>
-						{item.label}
-					</a>
-				))}
+			<div class="home-hero-copy">
+				<h1>{copy.hero.title}</h1>
 			</div>
-			<div class="journal-stage" aria-hidden="true">
-				<span class="journal-halo"></span>
-				<div class="journal-sheet journal-sheet-main">
-					<div class="sheet-dots">
-						<span></span>
-						<span></span>
-						<span></span>
-					</div>
-					<div class="sheet-title-line"></div>
-					<div class="sheet-rule sheet-rule-wide"></div>
-					<div class="sheet-rule"></div>
-					<div class="sheet-rule sheet-rule-short"></div>
-				</div>
-				<div class="journal-sheet journal-sheet-market">
-					<div class="market-bars">
-						<span></span>
-						<span></span>
-						<span></span>
-						<span></span>
-						<span></span>
-					</div>
-					<div class="market-line">
-						<span></span>
-						<span></span>
-						<span></span>
-					</div>
-				</div>
-				<div class="journal-sheet journal-sheet-thought">
-					<span class="thought-mark"></span>
-					<span class="thought-line"></span>
-					<span class="thought-line thought-line-short"></span>
-				</div>
-				<span class="journal-accent journal-accent-blue"></span>
-				<span class="journal-accent journal-accent-graphite"></span>
-				<span class="journal-accent journal-accent-paper"></span>
+			<div class="home-hero-mark" aria-hidden="true">
+				<span class="home-mark-ribbon home-mark-ribbon-one"></span>
+				<span class="home-mark-ribbon home-mark-ribbon-two"></span>
+				<span class="home-mark-orbit"></span>
+				<span class="home-mark-core">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
 			</div>
 		</section>
 
@@ -132,8 +75,7 @@ const cards = copy.nav.map((item) => {
 						)}
 					</i>
 					<span class="card-arrow" aria-hidden="true"></span>
-					<span>{card.label}</span>
-					<strong>{card.value}</strong>
+					<strong>{card.label}</strong>
 				</a>
 			))}
 		</section>
