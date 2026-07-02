@@ -238,6 +238,7 @@ export const normalizeCc98Markdown = (content: string) => convertQuoteBlocks(con
 	.replace(/\[(?:tb|ac|em|ldln|zk|han|tsj|st|w|yz|mj|xk|doge|cc\d+)[^\]\n]{0,20}\]/gi, '')
 	.replace(/\p{Extended_Pictographic}/gu, '')
 	.replace(/[\uFE0F\u200D]/g, '')
+	.replace(/^(#{1,6})(?=\S)/gm, '$1 ')
 	.split('\n')
 	.map((line) => line.replace(/[ \t]+$/g, ''))
 	.join('\n')
