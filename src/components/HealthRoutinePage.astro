@@ -1,0 +1,190 @@
+---
+// 文件说明：该组件渲染“健康作息打卡记录”页面。
+// 功能说明：读取 CC98 健康作息同步结果，并以轻量时间线展示楼主打卡内容。
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+
+import type { Locale } from '../data/site';
+
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from './SiteHeader.astro';
+import { getCopy } from '../utils/i18n';
+import { normalizeCc98Markdown, renderMarkdown } from '../utils/markdown';
+
+const { locale, canonicalPath, alternatePath } = Astro.props as {
+	locale: Locale;
+	canonicalPath: string;
+	alternatePath: string;
+};
+
+type Cc98Post = {
+	id?: number;
+	userName: string | null;
+	content: string;
+	time: string;
+	floor: number;
+	isDeleted: boolean;
+	isLZ: boolean;
+};
+
+type PostPage = {
+	items?: Cc98Post[];
+};
+
+type Summary = {
+	sourceUrl?: string;
+	topic?: {
+		title?: string;
+		authorName?: string;
+		hitCount?: number;
+	};
+	crawledAt?: string;
+};
+
+const copy = getCopy(locale);
+const outputDir = resolve(process.cwd(), 'custom/cc98-investment-crawler/output/topic-6562405');
+
+let summary: Summary | null = null;
+let records: Cc98Post[] = [];
+
+try {
+	const [summaryRaw, postsRaw] = await Promise.all([
+		readFile(resolve(outputDir, 'records/investment-summary.json'), 'utf-8'),
+		readFile(resolve(outputDir, 'raw/posts.json'), 'utf-8'),
+	]);
+
+	summary = JSON.parse(summaryRaw) as Summary;
+	const pages = JSON.parse(postsRaw) as PostPage[];
+	const allPosts = pages.flatMap((page) => page.items ?? []);
+	const authorName = summary?.topic?.authorName;
+
+	records = allPosts
+		.filter((post) => !post.isDeleted && post.content?.trim())
+		.filter((post) => post.isLZ || (authorName && post.userName === authorName))
+		.sort((a, b) => a.floor - b.floor);
+} catch {
+	summary = null;
+	records = [];
+}
+
+const localeTag = locale === 'zh-cn' ? 'zh-CN' : 'en-US';
+const formatDate = (value: string) => new Date(value).toLocaleDateString(localeTag, {
+	month: '2-digit',
+	day: '2-digit',
+});
+const formatTime = (value: string) => new Date(value).toLocaleTimeString(localeTag, {
+	hour: '2-digit',
+	minute: '2-digit',
+	hour12: false,
+});
+const formatFullDate = (value: string) => new Date(value).toLocaleString(localeTag, {
+	year: 'numeric',
+	month: '2-digit',
+	day: '2-digit',
+	hour: '2-digit',
+	minute: '2-digit',
+	hour12: false,
+});
+
+const visibleRecordData = records
+	.map((record) => ({
+		...record,
+		cleanContent: normalizeCc98Markdown(record.content),
+	}))
+	.filter((record) => record.cleanContent);
+const visibleRecords = await Promise.all(visibleRecordData.map(async (record) => ({
+	...record,
+	renderedContent: await renderMarkdown(record.cleanContent),
+})));
+
+const crawledAtText = summary?.crawledAt ? formatFullDate(summary.crawledAt) : null;
+---
+
+<Layout
+	title={`${copy.healthRoutine.title} | ${copy.brand.name}`}
+	description={copy.seo.description}
+	lang={locale}
+	canonicalPath={canonicalPath}
+	alternatePath={alternatePath}
+>
+	<main class="site-shell reading-shell">
+		<SiteHeader locale={locale} alternatePath={alternatePath} />
+
+		<section class="reading-hero health-hero" data-reveal>
+			<p class="soft-label">{copy.healthRoutine.kicker}</p>
+			<h1>{copy.healthRoutine.title}</h1>
+			<p>{copy.healthRoutine.intro}</p>
+			<div class="hero-material-stack health-symbol-stack" aria-hidden="true">
+				<span class="hero-symbol hero-symbol-primary">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M14 24.8s-8.3-5-8.3-12.6A5.2 5.2 0 0 1 14 8a5.2 5.2 0 0 1 8.3 4.2c0 7.6-8.3 12.6-8.3 12.6Z" />
+						<path d="M9 14.9h3l1.5-4.3 2.1 7.2 1.4-2.9h3.4" />
+					</svg>
+				</span>
+				<span class="hero-symbol">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M7.8 6.8c4 2.3 7 2.3 11.2 0" />
+						<path d="M8 15.2h12M9.5 20.8h9" />
+					</svg>
+				</span>
+				<span class="hero-symbol">{visibleRecords.length}</span>
+				<span class="hero-slab hero-slab-a"></span>
+				<span class="hero-slab hero-slab-b"></span>
+			</div>
+			<div class="reading-meta">
+				{summary?.topic?.title && <span>{summary.topic.title}</span>}
+				<span>{visibleRecords.length} {copy.healthRoutine.entryLabel}</span>
+				{summary?.sourceUrl && (
+					<a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer">{copy.healthRoutine.sourceLabel}</a>
+				)}
+				{crawledAtText && <span>{crawledAtText}</span>}
+			</div>
+		</section>
+
+		{visibleRecords.length > 0 ? (
+			<section class="study-timeline health-timeline" aria-label={copy.healthRoutine.title}>
+				{visibleRecords.map((record, index) => (
+					<article class="study-entry health-entry" data-reveal style={`--timeline-index: ${index}`}>
+						<div class="study-date-chip">
+							<span>{formatDate(record.time)}</span>
+							<time>{formatTime(record.time)}</time>
+						</div>
+						<div class="timeline-node" aria-hidden="true">
+							<span></span>
+						</div>
+						<div class="study-entry-card health-entry-card">
+							<span class="study-card-glyph health-card-glyph" aria-hidden="true">
+								<svg viewBox="0 0 32 32" role="presentation">
+									<path d="M16 27s-9-5.6-9-13.4A5.9 5.9 0 0 1 16 8.8a5.9 5.9 0 0 1 9 4.8C25 21.4 16 27 16 27Z" />
+									<path d="M9.6 16.1h3.6l1.8-5.2 2.5 8.5 1.7-3.3h3.9" />
+								</svg>
+							</span>
+							<div class="raw-entry-meta study-entry-meta">
+								<span class="meta-chip meta-chip-floor">
+									<svg viewBox="0 0 20 20" role="presentation">
+										<path d="M6 4.5h7.8a1.7 1.7 0 0 1 1.7 1.7v9.3H7.2A2.2 2.2 0 0 1 5 13.3V5.5a1 1 0 0 1 1-1Z" />
+										<path d="M7.2 15.5a2.2 2.2 0 0 1 0-4.4h8.3M8 7.4h4.8" />
+									</svg>
+									#{record.floor}
+								</span>
+								<span class="meta-chip meta-chip-user">
+									<svg viewBox="0 0 20 20" role="presentation">
+										<path d="M10 10.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" />
+										<path d="M4.4 16.3a5.9 5.9 0 0 1 11.2 0" />
+									</svg>
+									{record.userName}
+								</span>
+							</div>
+							<div class="raw-entry-body study-entry-body markdown-body" set:html={record.renderedContent} />
+						</div>
+					</article>
+				))}
+			</section>
+		) : (
+			<section class="raw-empty" data-reveal>
+				<h2>{copy.healthRoutine.emptyTitle}</h2>
+				<p>{copy.healthRoutine.emptyDescription}</p>
+			</section>
+		)}
+	</main>
+</Layout>

@@ -46,6 +46,15 @@ interface SiteCopy {
 		sourceLabel: string;
 		entryLabel: string;
 	};
+	healthRoutine: {
+		kicker: string;
+		title: string;
+		intro: string;
+		emptyTitle: string;
+		emptyDescription: string;
+		sourceLabel: string;
+		entryLabel: string;
+	};
 	thinking: {
 		kicker: string;
 		title: string;
@@ -76,12 +85,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		},
 		seo: {
 			title: 'Yfcccc | 个人博客',
-			description: 'Yfcccc 的个人博客：投资记录、个人思考与学习日历。',
+			description: 'Yfcccc 的个人博客：投资记录、个人思考、学习日历与健康作息。',
 		},
 		nav: [
 			{ id: 'investments', label: '投资记录' },
 			{ id: 'thinking', label: '个人思考' },
 			{ id: 'study-calendar', label: '学习日历' },
+			{ id: 'health-routine', label: '健康作息' },
 		],
 		hero: {
 			badge: 'Blog',
@@ -93,6 +103,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 				{ label: '投资记录', value: '小散的破产之路', note: '同步自 CC98' },
 				{ label: '个人思考', value: '四篇短记', note: '期末周 / 专业 / 休息 / 心气' },
 				{ label: '学习日历', value: 'chmod +x life', note: '学习日记同步' },
+				{ label: '健康作息', value: '健康作息打卡记录', note: '睡眠 / 喝水 / 运动' },
 			],
 		},
 		investments: {
@@ -107,6 +118,15 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			title: '学习日历',
 			intro: '把复习节奏、待办和阶段记录放在同一条时间线上。',
 			emptyTitle: '还没有学习记录',
+			emptyDescription: '同步源暂时没有可展示内容。',
+			sourceLabel: '原帖',
+			entryLabel: '条记录',
+		},
+		healthRoutine: {
+			kicker: '健康作息',
+			title: '健康作息打卡记录',
+			intro: '把睡眠、喝水、运动和身体状态放进一条轻量时间线。',
+			emptyTitle: '还没有健康打卡',
 			emptyDescription: '同步源暂时没有可展示内容。',
 			sourceLabel: '原帖',
 			entryLabel: '条记录',
@@ -139,12 +159,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		},
 		seo: {
 			title: 'Yfcccc | Personal Blog',
-			description: 'A personal blog for investment notes, thinking, and a study calendar.',
+			description: 'A personal blog for investment notes, thinking, study plans, and health routines.',
 		},
 		nav: [
 			{ id: 'investments', label: 'Investments' },
 			{ id: 'thinking', label: 'Thinking' },
 			{ id: 'study-calendar', label: 'Study Calendar' },
+			{ id: 'health-routine', label: 'Health Routine' },
 		],
 		hero: {
 			badge: 'Blog',
@@ -156,6 +177,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 				{ label: 'Investments', value: 'Market Notes', note: 'Synced from CC98' },
 				{ label: 'Thinking', value: 'Four Notes', note: 'Exams / major / rest / confidence' },
 				{ label: 'Study Calendar', value: 'chmod +x life', note: 'Study log sync' },
+				{ label: 'Health Routine', value: 'Daily Check-ins', note: 'Sleep / water / movement' },
 			],
 		},
 		investments: {
@@ -170,6 +192,15 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			title: 'Study Calendar',
 			intro: 'Review plans, todos, and progress notes on one timeline.',
 			emptyTitle: 'No study records yet',
+			emptyDescription: 'Nothing available from the synced source.',
+			sourceLabel: 'source',
+			entryLabel: 'entries',
+		},
+		healthRoutine: {
+			kicker: 'Health Routine',
+			title: 'Health Routine',
+			intro: 'A calm timeline for sleep, water, movement, and recovery notes.',
+			emptyTitle: 'No health check-ins yet',
 			emptyDescription: 'Nothing available from the synced source.',
 			sourceLabel: 'source',
 			entryLabel: 'entries',
