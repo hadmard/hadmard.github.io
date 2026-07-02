@@ -1,5 +1,5 @@
 import { createMarkdownProcessor, type RehypePlugin } from '@astrojs/markdown-remark';
-import type { Element, Root } from 'hast';
+import type { Element, Root, Text } from 'hast';
 import { visit } from 'unist-util-visit';
 
 const allowedUrlProtocols = new Set(['http:', 'https:', 'mailto:', 'tel:']);
@@ -32,6 +32,99 @@ const isExternalHttpUrl = (value: string) => {
 	} catch {
 		return false;
 	}
+};
+
+const texSymbolMap = new Map([
+	['alpha', 'α'],
+	['beta', 'β'],
+	['gamma', 'γ'],
+	['delta', 'δ'],
+	['epsilon', 'ε'],
+	['varepsilon', 'ϵ'],
+	['zeta', 'ζ'],
+	['eta', 'η'],
+	['theta', 'θ'],
+	['vartheta', 'ϑ'],
+	['iota', 'ι'],
+	['kappa', 'κ'],
+	['lambda', 'λ'],
+	['mu', 'μ'],
+	['nu', 'ν'],
+	['xi', 'ξ'],
+	['omicron', 'ο'],
+	['pi', 'π'],
+	['rho', 'ρ'],
+	['sigma', 'σ'],
+	['tau', 'τ'],
+	['upsilon', 'υ'],
+	['phi', 'φ'],
+	['varphi', 'ϕ'],
+	['chi', 'χ'],
+	['psi', 'ψ'],
+	['omega', 'ω'],
+	['Gamma', 'Γ'],
+	['Delta', 'Δ'],
+	['Theta', 'Θ'],
+	['Lambda', 'Λ'],
+	['Xi', 'Ξ'],
+	['Pi', 'Π'],
+	['Sigma', 'Σ'],
+	['Upsilon', 'Υ'],
+	['Phi', 'Φ'],
+	['Psi', 'Ψ'],
+	['Omega', 'Ω'],
+	['times', '×'],
+	['cdot', '·'],
+	['pm', '±'],
+	['le', '≤'],
+	['ge', '≥'],
+	['neq', '≠'],
+	['approx', '≈'],
+	['infty', '∞'],
+	['partial', '∂'],
+	['nabla', '∇'],
+	['degree', '°'],
+]);
+
+const texSymbolPattern = /\\([A-Za-z]+)\b/g;
+
+const createTextNode = (value: string): Text => ({
+	type: 'text',
+	value,
+});
+
+const createMathSymbolNode = (value: string): Element => ({
+	type: 'element',
+	tagName: 'span',
+	properties: {
+		className: ['math-inline'],
+	},
+	children: [createTextNode(value)],
+});
+
+const splitTextWithMathSymbols = (value: string) => {
+	const nodes: Array<Text | Element> = [];
+	let lastIndex = 0;
+
+	for (const match of value.matchAll(texSymbolPattern)) {
+		const command = match[1];
+		const symbol = texSymbolMap.get(command);
+		const index = match.index ?? 0;
+		if (!symbol) continue;
+
+		if (index > lastIndex) {
+			nodes.push(createTextNode(value.slice(lastIndex, index)));
+		}
+		nodes.push(createMathSymbolNode(symbol));
+		lastIndex = index + match[0].length;
+	}
+
+	if (!nodes.length) return null;
+	if (lastIndex < value.length) {
+		nodes.push(createTextNode(value.slice(lastIndex)));
+	}
+
+	return nodes;
 };
 
 const rehypeHardenLinks: RehypePlugin = () => (tree: Root) => {
@@ -68,11 +161,23 @@ const rehypeHardenLinks: RehypePlugin = () => (tree: Root) => {
 	});
 };
 
+const rehypeRenderLightMath: RehypePlugin = () => (tree: Root) => {
+	visit(tree, 'text', (node: Text, index, parent) => {
+		if (typeof index !== 'number' || !parent || !Array.isArray(parent.children)) return;
+		if (parent.type === 'element' && ['code', 'pre', 'script', 'style'].includes(parent.tagName)) return;
+
+		const replacementNodes = splitTextWithMathSymbols(node.value);
+		if (!replacementNodes) return;
+
+		parent.children.splice(index, 1, ...replacementNodes);
+	});
+};
+
 const markdownProcessor = createMarkdownProcessor({
 	gfm: true,
 	smartypants: true,
 	remarkRehype: { allowDangerousHtml: false },
-	rehypePlugins: [rehypeHardenLinks],
+	rehypePlugins: [rehypeHardenLinks, rehypeRenderLightMath],
 });
 
 const normalizeCc98Url = (value: string) => {

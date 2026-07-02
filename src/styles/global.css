@@ -2008,6 +2008,16 @@
 		text-decoration-color: rgba(var(--tone-primary), 0.52);
 	}
 
+	.markdown-body .math-inline {
+		display: inline-block;
+		padding: 0 0.06em;
+		color: rgba(29, 29, 31, 0.82);
+		font-family: "STIX Two Math", "Cambria Math", "Times New Roman", var(--font-reading);
+		font-size: 1.02em;
+		font-style: italic;
+		line-height: 1;
+	}
+
 	.markdown-body blockquote {
 		position: relative;
 		overflow: hidden;
