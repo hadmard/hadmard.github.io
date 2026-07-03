@@ -58,6 +58,11 @@ const titleFromFileName = (filePath: string) => {
 	return fileName.toLowerCase() === 'readme' ? parent : fileName;
 };
 
+const titleOverrides = new Map([
+	['hpc/链接.md', '编译与链接'],
+	['hpc/git.md', 'Git 常用指令'],
+]);
+
 const removeFirstTitle = (body: string) => body.replace(/^\s*#{1,6}\s+.+(?:\n+|$)/, '').trim();
 
 const summarize = (body: string) => {
@@ -89,9 +94,35 @@ const sectionFor = (relativePath: string) => {
 	return 'Notes';
 };
 
+const segmentSlugMap = new Map([
+	['GNU', 'gnu'],
+	['常用命令', 'common-commands'],
+	['链接', 'linking'],
+	['shell配置by codex', 'shell-config-by-codex'],
+]);
+
+const slugSegment = (segment: string) => {
+	const mapped = segmentSlugMap.get(segment);
+	if (mapped) return mapped;
+
+	const normalized = segment
+		.normalize('NFKD')
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-+|-+$/g, '');
+	if (normalized) return normalized;
+
+	const codePointSlug = Array.from(segment)
+		.map((character) => character.codePointAt(0)?.toString(36))
+		.filter(Boolean)
+		.join('-');
+	return codePointSlug ? `note-${codePointSlug}` : 'note';
+};
+
 const slugFor = (relativePath: string) => {
 	const withoutExtension = relativePath.replace(/\.[^.]+$/, '');
-	return withoutExtension.replace(/(^|\/)README$/i, '').replace(/\/$/g, '') || withoutExtension;
+	const withoutReadme = withoutExtension.replace(/(^|\/)README$/i, '').replace(/\/$/g, '') || withoutExtension;
+	return withoutReadme.split('/').filter(Boolean).map(slugSegment).join('/');
 };
 
 const collectMarkdownFiles = async (directory: string): Promise<string[]> => {
@@ -128,9 +159,9 @@ export const getRedemptionNotes = async () => {
 			const relativePath = toPosixPath(relative(sourceDir, filePath));
 			const raw = await readFile(filePath, 'utf-8');
 			const { frontmatter, body: rawBody } = stripFrontmatter(raw);
-			const normalizedBody = rawBody.replace(/^(#{1,6})(?=\S)/gm, '$1 ').trim();
+			const normalizedBody = rawBody.replace(/^(#{1,6})(?!#)(?=\S)/gm, '$1 ').trim();
 			const body = removeFirstTitle(normalizedBody);
-			const title = titleFromFrontmatter(frontmatter) || titleFromBody(normalizedBody) || titleFromFileName(filePath);
+			const title = titleOverrides.get(relativePath) || titleFromFrontmatter(frontmatter) || titleFromBody(normalizedBody) || titleFromFileName(filePath);
 			const wordCount = countWords(body);
 
 			return {

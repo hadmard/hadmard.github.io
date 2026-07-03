@@ -1,10 +1,10 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="1. 实验目标 根据以下两篇笔记完成本机命令行环境、Git、GPG、GitHub CLI 和 Neovim 的基础配置，并记录每一项改动的作用，方便之后复习。 参考资料：<https://note.tonycrane.cc/devo..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/shell%E9%85%8D%E7%BD%AEby%20codex/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/long-missing-semester/shell%E9%85%8D%E7%BD%AEby%20codex/"><title>DevOps 环境配置实验报告 | Redemption Road | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.D_uHcd8p.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link active" href="/en/redemption-road/"> Redemption </a> </nav> <a href="/redemption-road/long-missing-semester/shell%E9%85%8D%E7%BD%AEby%20codex/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Missing Semester</p> <h1>DevOps 环境配置实验报告</h1> <p>1. 实验目标 根据以下两篇笔记完成本机命令行环境、Git、GPG、GitHub CLI 和 Neovim 的基础配置，并记录每一项改动的作用，方便之后复习。 参考资料：&lt;https://note.tonycrane.cc/devo...</p> <div class="article-meta"> <span class="soft-label">9 min</span> <span class="signal-pill">shell配置by codex.md</span> </div> </div> </section> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h1 id="-1-实验目标"># 1. 实验目标</h1>
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="1. 实验目标 根据以下两篇笔记完成本机命令行环境、Git、GPG、GitHub CLI 和 Neovim 的基础配置，并记录每一项改动的作用，方便之后复习。 参考资料：<https://note.tonycrane.cc/devo..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/long-missing-semester/shell-config-by-codex/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/shell-config-by-codex/"><title>DevOps 环境配置实验报告 | 救赎之路 | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.DSfxEErL.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link active" href="/redemption-road/"> 救赎之路 </a> </nav> <a href="/en/redemption-road/long-missing-semester/shell-config-by-codex/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Missing Semester</p> <h1>DevOps 环境配置实验报告</h1> <p>1. 实验目标 根据以下两篇笔记完成本机命令行环境、Git、GPG、GitHub CLI 和 Neovim 的基础配置，并记录每一项改动的作用，方便之后复习。 参考资料：&lt;https://note.tonycrane.cc/devo...</p> <div class="article-meta"> <span class="soft-label">9 分钟</span> <span class="signal-pill">shell配置by codex.md</span> </div> </div> </section> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h2 id="1-实验目标">1. 实验目标</h2>
 <p>根据以下两篇笔记完成本机命令行环境、Git、GPG、GitHub CLI 和 Neovim 的基础配置，并记录每一项改动的作用，方便之后复习。</p>
 <ul>
 <li>参考资料：<a href="https://note.tonycrane.cc/devops/system/shell/" target="_blank" rel="noopener noreferrer">https://note.tonycrane.cc/devops/system/shell/</a></li>
 <li>参考资料：<a href="https://note.tonycrane.cc/devops/system/git/" target="_blank" rel="noopener noreferrer">https://note.tonycrane.cc/devops/system/git/</a></li>
 </ul>
-<h1 id="-2-实验环境"># 2. 实验环境</h1>
+<h2 id="2-实验环境">2. 实验环境</h2>
 <ul>
 <li>系统：macOS Darwin arm64</li>
 <li>Shell：zsh</li>
@@ -13,7 +13,7 @@
 <li>Git 用户名：<code>yifei</code></li>
 <li>Git 邮箱：<code>yfcccc@zju.edu.cn</code></li>
 </ul>
-<h1 id="-3-实验前状态"># 3. 实验前状态</h1>
+<h2 id="3-实验前状态">3. 实验前状态</h2>
 <p>实验开始前，本机已经存在以下内容：</p>
 <ul>
 <li><code>~/.zshrc</code> 已经启用 oh-my-zsh。</li>
@@ -30,8 +30,8 @@
 <li>GitHub CLI 尚未登录。</li>
 <li>本机没有可用于 Git commit 签名的 GPG 私钥。</li>
 </ul>
-<h1 id="-4-备份操作"># 4. 备份操作</h1>
-<h2 id="-41-备份原始-shellgit-配置"># 4.1 备份原始 shell/Git 配置</h2>
+<h2 id="4-备份操作">4. 备份操作</h2>
+<h3 id="41-备份原始-shellgit-配置">4.1 备份原始 shell/Git 配置</h3>
 <p>备份目录：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/Documents/Codex/2026-07-02/https-note-tonycrane-cc-devops-system/work/backups-20260702-105311</span></span></code></pre>
 <p>备份内容：</p>
@@ -45,7 +45,7 @@
 <li>这些文件是登录 shell 和 Git 全局行为的核心配置。</li>
 <li>先备份可以防止配置写错后无法恢复。</li>
 </ul>
-<h2 id="-42-备份-p10k-旧配置"># 4.2 备份 p10k 旧配置</h2>
+<h3 id="42-备份-p10k-旧配置">4.2 备份 p10k 旧配置</h3>
 <p>备份目录：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/Documents/Codex/2026-07-02/https-note-tonycrane-cc-devops-system/work/p10k-reset-20260702-110014</span></span></code></pre>
 <p>备份内容：</p>
@@ -60,7 +60,7 @@
 <li>instant prompt 缓存会影响终端刚打开时显示的提示符效果。</li>
 <li>重置 p10k 前备份，方便以后恢复旧样式。</li>
 </ul>
-<h1 id="-5-homebrew-工具安装"># 5. Homebrew 工具安装</h1>
+<h2 id="5-homebrew-工具安装">5. Homebrew 工具安装</h2>
 <p>执行的主要安装目标：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> gnupg</span><span style="color:#9ECBFF"> pinentry-mac</span><span style="color:#9ECBFF"> gh</span><span style="color:#9ECBFF"> neovim</span><span style="color:#9ECBFF"> bat</span><span style="color:#9ECBFF"> tree-sitter-cli</span></span></code></pre>
 <p>安装内容和用途：</p>
@@ -106,10 +106,10 @@
 <p>验证方式：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#79B8FF">command</span><span style="color:#79B8FF"> -v</span><span style="color:#9ECBFF"> gpg</span><span style="color:#9ECBFF"> gh</span><span style="color:#9ECBFF"> nvim</span><span style="color:#9ECBFF"> bat</span><span style="color:#9ECBFF"> tree-sitter</span></span>
 <span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> list</span><span style="color:#79B8FF"> --formula</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> rg</span><span style="color:#9ECBFF"> '^(gnupg|pinentry-mac|gh|neovim|bat|tree-sitter-cli)$'</span></span></code></pre>
-<h1 id="-6-zsh-和-oh-my-zsh-配置"># 6. zsh 和 oh-my-zsh 配置</h1>
+<h2 id="6-zsh-和-oh-my-zsh-配置">6. zsh 和 oh-my-zsh 配置</h2>
 <p>修改文件：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.zshrc</span></span></code></pre>
-<h2 id="-61-添加-homebrew-环境初始化"># 6.1 添加 Homebrew 环境初始化</h2>
+<h3 id="61-添加-homebrew-环境初始化">6.1 添加 Homebrew 环境初始化</h3>
 <p>新增内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#F97583">if</span><span style="color:#E1E4E8"> [[ </span><span style="color:#F97583">-x</span><span style="color:#E1E4E8"> /opt/homebrew/bin/brew ]]; </span><span style="color:#F97583">then</span></span>
 <span class="line"><span style="color:#79B8FF">  eval</span><span style="color:#9ECBFF"> "$(</span><span style="color:#B392F0">/opt/homebrew/bin/brew</span><span style="color:#9ECBFF"> shellenv)"</span></span>
@@ -120,7 +120,7 @@
 <li>例如 <code>gpg</code>、<code>gh</code>、<code>nvim</code>、<code>bat</code> 都安装在 <code>/opt/homebrew/bin</code> 下。</li>
 <li>如果不初始化，某些新终端可能找不到这些命令。</li>
 </ul>
-<h2 id="-62-安装-oh-my-zsh-插件源码"># 6.2 安装 oh-my-zsh 插件源码</h2>
+<h3 id="62-安装-oh-my-zsh-插件源码">6.2 安装 oh-my-zsh 插件源码</h3>
 <p>新增目录：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.oh-my-zsh/custom/plugins/zsh-autosuggestions</span></span>
 <span class="line"><span>~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting</span></span></code></pre>
@@ -129,7 +129,7 @@
 <li><code>zsh-autosuggestions</code>：根据历史命令给出灰色自动补全建议。</li>
 <li><code>zsh-syntax-highlighting</code>：在输入命令时做语法高亮，例如错误命令会显示成不同颜色。</li>
 </ul>
-<h2 id="-63-启用-oh-my-zsh-插件"># 6.3 启用 oh-my-zsh 插件</h2>
+<h3 id="63-启用-oh-my-zsh-插件">6.3 启用 oh-my-zsh 插件</h3>
 <p>修改内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#E1E4E8">plugins</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">git</span><span style="color:#9ECBFF"> zsh-autosuggestions</span><span style="color:#9ECBFF"> zsh-syntax-highlighting</span><span style="color:#E1E4E8">)</span></span></code></pre>
 <p>用途：</p>
@@ -142,7 +142,7 @@
 <ul>
 <li><code>zsh-syntax-highlighting</code> 通常应该放在插件列表靠后位置，这样它能高亮前面插件处理后的命令行。</li>
 </ul>
-<h2 id="-64-添加常用-alias"># 6.4 添加常用 alias</h2>
+<h3 id="64-添加常用-alias">6.4 添加常用 alias</h3>
 <p>新增内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#F97583">alias</span><span style="color:#E1E4E8"> vim</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'nvim'</span></span>
 <span class="line"><span style="color:#F97583">alias</span><span style="color:#E1E4E8"> ovim</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'/usr/bin/vim'</span></span>
@@ -199,7 +199,7 @@
 <ul>
 <li>代理端口使用 <code>7897</code>，因为你原来的 <code>~/.gitconfig</code> 已经在使用这个端口。</li>
 </ul>
-<h2 id="-65-添加-gpg_tty"># 6.5 添加 GPG_TTY</h2>
+<h3 id="65-添加-gpg_tty">6.5 添加 GPG_TTY</h3>
 <p>新增内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#F97583">if</span><span style="color:#E1E4E8"> [[ </span><span style="color:#F97583">-t</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8"> ]]; </span><span style="color:#F97583">then</span></span>
 <span class="line"><span style="color:#F97583">  export</span><span style="color:#E1E4E8"> GPG_TTY</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">$(</span><span style="color:#B392F0">tty</span><span style="color:#E1E4E8">)</span></span>
@@ -209,7 +209,7 @@
 <li>有些终端环境中，GPG 需要知道当前 TTY，才能正确弹出密码输入或完成签名。</li>
 <li>加上 <code>[[ -t 0 ]]</code> 是为了只在真实终端中设置，避免非交互脚本里 <code>tty</code> 报错。</li>
 </ul>
-<h2 id="-66-初始化-conda"># 6.6 初始化 conda</h2>
+<h3 id="66-初始化-conda">6.6 初始化 conda</h3>
 <p>执行过：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#F97583">~</span><span style="color:#E1E4E8">/miniconda3/bin/conda init zsh</span></span></code></pre>
 <p>写入内容：</p>
@@ -222,7 +222,7 @@
 <li>让新开的 zsh 可以直接使用 <code>conda activate</code>。</li>
 <li>不需要每次手动 source conda 的初始化脚本。</li>
 </ul>
-<h2 id="-67-zsh-验证"># 6.7 zsh 验证</h2>
+<h3 id="67-zsh-验证">6.7 zsh 验证</h3>
 <p>验证命令：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">zsh</span><span style="color:#79B8FF"> -n</span><span style="color:#9ECBFF"> ~/.zshrc</span></span>
 <span class="line"><span style="color:#B392F0">zsh</span><span style="color:#79B8FF"> -ic</span><span style="color:#9ECBFF"> 'command -v gpg gh nvim bat tree-sitter conda; print -rl -- $plugins; alias vim; alias cat; alias proxy'</span></span></code></pre>
@@ -233,15 +233,15 @@
 <li>插件列表包含 <code>git</code>、<code>zsh-autosuggestions</code>、<code>zsh-syntax-highlighting</code>。</li>
 <li>alias 生效。</li>
 </ul>
-<h1 id="-7-powerlevel10k-重置"># 7. Powerlevel10k 重置</h1>
-<h2 id="-71-保留主题引用"># 7.1 保留主题引用</h2>
+<h2 id="7-powerlevel10k-重置">7. Powerlevel10k 重置</h2>
+<h3 id="71-保留主题引用">7.1 保留主题引用</h3>
 <p><code>~/.zshrc</code> 中保留：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#E1E4E8">ZSH_THEME</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"powerlevel10k/powerlevel10k"</span></span></code></pre>
 <p>用途：</p>
 <ul>
 <li>继续使用 Powerlevel10k 作为 oh-my-zsh 主题。</li>
 </ul>
-<h2 id="-72-删除个人-p10k-配置"># 7.2 删除个人 p10k 配置</h2>
+<h3 id="72-删除个人-p10k-配置">7.2 删除个人 p10k 配置</h3>
 <p>删除文件：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.p10k.zsh</span></span></code></pre>
 <p>用途：</p>
@@ -250,7 +250,7 @@
 <li>删除后，Powerlevel10k 会回到“还没有个人配置”的状态。</li>
 <li>下次打开新终端时，可以重新进入配置向导。</li>
 </ul>
-<h2 id="-73-删除-instant-prompt-缓存"># 7.3 删除 instant prompt 缓存</h2>
+<h3 id="73-删除-instant-prompt-缓存">7.3 删除 instant prompt 缓存</h3>
 <p>删除文件：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.cache/p10k-instant-prompt-yifei.zsh</span></span>
 <span class="line"><span>~/.cache/p10k-instant-prompt-yifei.zsh.zwc</span></span></code></pre>
@@ -259,7 +259,7 @@
 <li>避免终端启动瞬间继续显示旧样式缓存。</li>
 <li>让 p10k reset 更彻底。</li>
 </ul>
-<h2 id="-74-保留条件加载逻辑"># 7.4 保留条件加载逻辑</h2>
+<h3 id="74-保留条件加载逻辑">7.4 保留条件加载逻辑</h3>
 <p><code>~/.zshrc</code> 中仍保留：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#E1E4E8">[[ </span><span style="color:#F97583">!</span><span style="color:#F97583"> -f</span><span style="color:#F97583"> ~</span><span style="color:#E1E4E8">/.p10k.zsh ]] </span><span style="color:#F97583">||</span><span style="color:#79B8FF"> source</span><span style="color:#9ECBFF"> ~/.p10k.zsh</span></span></code></pre>
 <p>用途：</p>
@@ -267,7 +267,7 @@
 <li>现在 <code>~/.p10k.zsh</code> 不存在，所以不会加载旧配置。</li>
 <li>以后重新运行 <code>p10k configure</code> 生成新配置后，这一行会自动加载新配置。</li>
 </ul>
-<h1 id="-8-gpg-agent-配置"># 8. GPG agent 配置</h1>
+<h2 id="8-gpg-agent-配置">8. GPG agent 配置</h2>
 <p>修改文件：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.gnupg/gpg-agent.conf</span></span></code></pre>
 <p>写入内容：</p>
@@ -288,10 +288,10 @@
 <li><code>chmod 600 gpg-agent.conf</code>：保护 GPG agent 配置文件权限。</li>
 <li><code>killall gpg-agent</code>：重启 agent，让新配置生效。</li>
 </ul>
-<h1 id="-9-git-全局配置"># 9. Git 全局配置</h1>
+<h2 id="9-git-全局配置">9. Git 全局配置</h2>
 <p>修改文件：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.gitconfig</span></span></code></pre>
-<h2 id="-91-保留原有-git-用户信息"># 9.1 保留原有 Git 用户信息</h2>
+<h3 id="91-保留原有-git-用户信息">9.1 保留原有 Git 用户信息</h3>
 <p>已有内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#B392F0">[user]</span></span>
 <span class="line"><span style="color:#F97583">    name</span><span style="color:#E1E4E8"> = yifei</span></span>
@@ -301,7 +301,7 @@
 <li>Git commit 的作者信息。</li>
 <li>GPG key 也使用同一个姓名和邮箱生成，方便 GitHub 识别签名归属。</li>
 </ul>
-<h2 id="-92-设置-gpg-签名密钥"># 9.2 设置 GPG 签名密钥</h2>
+<h3 id="92-设置-gpg-签名密钥">9.2 设置 GPG 签名密钥</h3>
 <p>新增内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#B392F0">[user]</span></span>
 <span class="line"><span style="color:#F97583">    signingkey</span><span style="color:#E1E4E8"> = CDA01975D6F6AC609A756925D4E0227D08C8399D</span></span></code></pre>
@@ -310,7 +310,7 @@
 <li>告诉 Git 使用哪一个 GPG key 来签名 commit。</li>
 <li>这里使用的是完整指纹，比短 key id 更明确。</li>
 </ul>
-<h2 id="-93-设置-gpg-程序路径"># 9.3 设置 GPG 程序路径</h2>
+<h3 id="93-设置-gpg-程序路径">9.3 设置 GPG 程序路径</h3>
 <p>新增内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#B392F0">[gpg]</span></span>
 <span class="line"><span style="color:#F97583">    program</span><span style="color:#E1E4E8"> = /opt/homebrew/bin/gpg</span></span></code></pre>
@@ -319,7 +319,7 @@
 <li>明确使用 Homebrew 安装的 GPG。</li>
 <li>避免系统路径中找不到 <code>gpg</code> 或找到其他版本。</li>
 </ul>
-<h2 id="-94-设置默认初始化分支"># 9.4 设置默认初始化分支</h2>
+<h3 id="94-设置默认初始化分支">9.4 设置默认初始化分支</h3>
 <p>新增内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#B392F0">[init]</span></span>
 <span class="line"><span style="color:#F97583">    defaultBranch</span><span style="color:#E1E4E8"> = master</span></span></code></pre>
@@ -328,7 +328,7 @@
 <li>新执行 <code>git init</code> 时默认分支名为 <code>master</code>。</li>
 <li>这是参考笔记里的设置。</li>
 </ul>
-<h2 id="-95-开启默认-commit-签名"># 9.5 开启默认 commit 签名</h2>
+<h3 id="95-开启默认-commit-签名">9.5 开启默认 commit 签名</h3>
 <p>新增内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#B392F0">[commit]</span></span>
 <span class="line"><span style="color:#F97583">    gpgsign</span><span style="color:#E1E4E8"> = true</span></span></code></pre>
@@ -337,7 +337,7 @@
 <li>以后执行 <code>git commit</code> 时默认自动 GPG 签名。</li>
 <li>不需要每次手动加 <code>-S</code>。</li>
 </ul>
-<h2 id="-96-配置-github-https-凭据-helper"># 9.6 配置 GitHub HTTPS 凭据 helper</h2>
+<h3 id="96-配置-github-https-凭据-helper">9.6 配置 GitHub HTTPS 凭据 helper</h3>
 <p>新增内容：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#B392F0">[credential "https://github.com"]</span></span>
 <span class="line"><span style="color:#F97583">    helper</span><span style="color:#E1E4E8"> =</span></span>
@@ -355,7 +355,7 @@
 <li>空的 <code>helper =</code> 用于清空前面的 credential helper。</li>
 <li>第二行再指定 <code>gh auth git-credential</code> 作为实际 helper。</li>
 </ul>
-<h1 id="-10-github-cli-授权"># 10. GitHub CLI 授权</h1>
+<h2 id="10-github-cli-授权">10. GitHub CLI 授权</h2>
 <p>执行过：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">gh</span><span style="color:#9ECBFF"> auth</span><span style="color:#9ECBFF"> login</span><span style="color:#79B8FF"> --web</span><span style="color:#79B8FF"> --hostname</span><span style="color:#9ECBFF"> github.com</span><span style="color:#79B8FF"> --git-protocol</span><span style="color:#9ECBFF"> https</span><span style="color:#79B8FF"> --scopes</span><span style="color:#9ECBFF"> admin:gpg_key</span></span>
 <span class="line"><span style="color:#B392F0">gh</span><span style="color:#9ECBFF"> auth</span><span style="color:#9ECBFF"> setup-git</span></span></code></pre>
@@ -378,8 +378,8 @@
 <li>实验报告不记录 token 内容。</li>
 <li>GitHub CLI token 保存在系统 keyring 中。</li>
 </ul>
-<h1 id="-11-gpg-密钥生成和上传"># 11. GPG 密钥生成和上传</h1>
-<h2 id="-111-生成-gpg-密钥"># 11.1 生成 GPG 密钥</h2>
+<h2 id="11-gpg-密钥生成和上传">11. GPG 密钥生成和上传</h2>
+<h3 id="111-生成-gpg-密钥">11.1 生成 GPG 密钥</h3>
 <p>执行过：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">gpg</span><span style="color:#79B8FF"> --quick-generate-key</span><span style="color:#9ECBFF"> "yifei &#x3C;yfcccc@zju.edu.cn>"</span><span style="color:#9ECBFF"> future-default</span><span style="color:#9ECBFF"> default</span><span style="color:#9ECBFF"> 2y</span></span></code></pre>
 <p>生成结果：</p>
@@ -419,7 +419,7 @@
 
 
 <table><thead><tr><th>字段</th><th>含义</th></tr></thead><tbody><tr><td><code>ed25519</code></td><td>主密钥算法，用于签名和认证。</td></tr><tr><td><code>[SC]</code></td><td>S 表示 Sign，可签名；C 表示 Certify，可认证其他 key/user id。</td></tr><tr><td><code>cv25519</code></td><td>子密钥算法，用于加密。</td></tr><tr><td><code>[E]</code></td><td>Encrypt，用于加密。</td></tr><tr><td><code>expires: 2028-07-01</code></td><td>密钥有效期到 2028-07-01。</td></tr></tbody></table>
-<h2 id="-112-revocation-certificate"># 11.2 revocation certificate</h2>
+<h3 id="112-revocation-certificate">11.2 revocation certificate</h3>
 <p>GPG 自动生成了吊销证书：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.gnupg/openpgp-revocs.d/CDA01975D6F6AC609A756925D4E0227D08C8399D.rev</span></span></code></pre>
 <p>用途：</p>
@@ -427,7 +427,7 @@
 <li>如果私钥泄露或不可用，可以用吊销证书声明该 key 作废。</li>
 <li>这个文件很重要，应妥善保管，不应公开。</li>
 </ul>
-<h2 id="-113-导出公钥"># 11.3 导出公钥</h2>
+<h3 id="113-导出公钥">11.3 导出公钥</h3>
 <p>执行过：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">gpg</span><span style="color:#79B8FF"> --armor</span><span style="color:#79B8FF"> --export</span><span style="color:#9ECBFF"> CDA01975D6F6AC609A756925D4E0227D08C8399D</span><span style="color:#F97583"> ></span><span style="color:#9ECBFF"> ~/Documents/Codex/2026-07-02/https-note-tonycrane-cc-devops-system/work/gpg/yifei-gpg-public-key.asc</span></span></code></pre>
 <p>用途：</p>
@@ -435,7 +435,7 @@
 <li>生成 ASCII armored 格式的 GPG 公钥。</li>
 <li>公钥可以上传到 GitHub，用于验证 commit 签名。</li>
 </ul>
-<h2 id="-114-上传-gpg-公钥到-github"># 11.4 上传 GPG 公钥到 GitHub</h2>
+<h3 id="114-上传-gpg-公钥到-github">11.4 上传 GPG 公钥到 GitHub</h3>
 <p>执行过：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">gh</span><span style="color:#9ECBFF"> gpg-key</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> ~/Documents/Codex/2026-07-02/https-note-tonycrane-cc-devops-system/work/gpg/yifei-gpg-public-key.asc</span><span style="color:#79B8FF"> --title</span><span style="color:#9ECBFF"> "yifei MacBook Air 2026-07-02"</span></span></code></pre>
 <p>用途：</p>
@@ -447,8 +447,8 @@
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">gh</span><span style="color:#9ECBFF"> gpg-key</span><span style="color:#9ECBFF"> list</span></span></code></pre>
 <p>结果显示 GitHub 上存在邮箱 <code>yfcccc@zju.edu.cn</code> 对应的 key，短 key id 为：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>D4E0227D08C8399D</span></span></code></pre>
-<h1 id="-12-neovim-配置"># 12. Neovim 配置</h1>
-<h2 id="-121-安装-neovim-配置目录"># 12.1 安装 Neovim 配置目录</h2>
+<h2 id="12-neovim-配置">12. Neovim 配置</h2>
+<h3 id="121-安装-neovim-配置目录">12.1 安装 Neovim 配置目录</h3>
 <p>新增目录：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.config/nvim</span></span></code></pre>
 <p>来源：</p>
@@ -457,7 +457,7 @@
 <ul>
 <li>使用参考笔记中推荐的 Neovim 配置。</li>
 </ul>
-<h2 id="-122-安装-packernvim"># 12.2 安装 packer.nvim</h2>
+<h3 id="122-安装-packernvim">12.2 安装 packer.nvim</h3>
 <p>新增目录：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.local/share/nvim/site/pack/packer/start/packer.nvim</span></span></code></pre>
 <p>用途：</p>
@@ -465,7 +465,7 @@
 <li><code>packer.nvim</code> 是这份 Neovim 配置使用的插件管理器。</li>
 <li>用来安装 <code>lualine</code>、<code>nvim-tree</code>、<code>onedark</code>、<code>gitsigns</code>、<code>nvim-treesitter</code> 等插件。</li>
 </ul>
-<h2 id="-123-同步-neovim-插件"># 12.3 同步 Neovim 插件</h2>
+<h3 id="123-同步-neovim-插件">12.3 同步 Neovim 插件</h3>
 <p>执行过：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">nvim</span><span style="color:#79B8FF"> --headless</span><span style="color:#79B8FF"> -u</span><span style="color:#9ECBFF"> NONE</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'set packpath+=~/.local/share/nvim/site'</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'lua package.path = package.path .. ";~/.config/nvim/lua/?.lua;~/.config/nvim/lua/?/init.lua"'</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'luafile ~/.config/nvim/lua/plugins.lua'</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'autocmd User PackerComplete quitall'</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'PackerSync'</span></span></code></pre>
 <p>用途：</p>
@@ -474,7 +474,7 @@
 <li>所以这里只加载 <code>plugins.lua</code> 来执行 <code>PackerSync</code>。</li>
 <li>这样可以先把插件安装好，再正常启动 Neovim。</li>
 </ul>
-<h2 id="-124-修复-nvim-treesitter-新版-api-兼容"># 12.4 修复 nvim-treesitter 新版 API 兼容</h2>
+<h3 id="124-修复-nvim-treesitter-新版-api-兼容">12.4 修复 nvim-treesitter 新版 API 兼容</h3>
 <p>修改文件：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.config/nvim/lua/plugin-config/nvim-treesitter.lua</span></span></code></pre>
 <p>原配置使用旧 API：</p>
@@ -536,7 +536,7 @@
 
 
 <table><thead><tr><th>修改</th><th>作用</th></tr></thead><tbody><tr><td><code>foldexpr="v:lua.vim.treesitter.foldexpr()"</code></td><td>使用新版 Neovim treesitter fold 表达式。</td></tr><tr><td><code>pcall(require, 'nvim-treesitter')</code></td><td>防止插件未安装时 Neovim 启动直接失败。</td></tr><tr><td><code>treesitter.setup {}</code></td><td>使用新版 <code>nvim-treesitter</code> 的 setup API。</td></tr><tr><td><code>FileType</code> autocmd</td><td>只在指定文件类型中启动 treesitter 高亮。</td></tr><tr><td><code>pcall(vim.treesitter.start)</code></td><td>即使某个语言 parser 缺失，也不阻塞启动。</td></tr></tbody></table>
-<h2 id="-125-安装-treesitter-parser"># 12.5 安装 treesitter parser</h2>
+<h3 id="125-安装-treesitter-parser">12.5 安装 treesitter parser</h3>
 <p>执行过：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">nvim</span><span style="color:#79B8FF"> --headless</span><span style="color:#79B8FF"> -u</span><span style="color:#9ECBFF"> NONE</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'packadd nvim-treesitter'</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'lua require("nvim-treesitter").install({"c", "lua", "python", "yaml"}):wait(300000)'</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'quitall'</span></span></code></pre>
 <p>用途：</p>
@@ -549,7 +549,7 @@
 <li>第一次安装 parser 时报错：找不到 <code>tree-sitter</code> 命令。</li>
 <li>因此安装 <code>tree-sitter-cli</code> 后重新执行 parser 安装。</li>
 </ul>
-<h2 id="-126-neovim-验证"># 12.6 Neovim 验证</h2>
+<h3 id="126-neovim-验证">12.6 Neovim 验证</h3>
 <p>验证命令：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">nvim</span><span style="color:#79B8FF"> --headless</span><span style="color:#9ECBFF"> '+quitall'</span></span>
 <span class="line"><span style="color:#B392F0">nvim</span><span style="color:#79B8FF"> --headless</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'checkhealth nvim-treesitter'</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> 'quitall'</span></span></code></pre>
@@ -563,7 +563,7 @@
 <li>启动时出现过 <code>NvimTree system_open has been removed</code> 的提示。</li>
 <li>这是 <code>nvim-tree</code> 插件配置和新版插件之间的 deprecation 提示，不影响本次基础配置目标。</li>
 </ul>
-<h1 id="-13-git-commit-签名验证"># 13. Git commit 签名验证</h1>
+<h2 id="13-git-commit-签名验证">13. Git commit 签名验证</h2>
 <p>创建了临时验证仓库：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/Documents/Codex/2026-07-02/https-note-tonycrane-cc-devops-system/work/verify-gpg-sign</span></span></code></pre>
 <p>执行过：</p>
@@ -582,8 +582,8 @@
 <li>本机 Git commit 默认签名已经可用。</li>
 <li>对应 GPG key 已上传到 GitHub。</li>
 </ul>
-<h1 id="-14-最终关键配置摘要"># 14. 最终关键配置摘要</h1>
-<h2 id="-141-zshrc"># 14.1 <code>~/.zshrc</code></h2>
+<h2 id="14-最终关键配置摘要">14. 最终关键配置摘要</h2>
+<h3 id="141-zshrc">14.1 <code>~/.zshrc</code></h3>
 <p>关键配置：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#79B8FF">eval</span><span style="color:#9ECBFF"> "$(</span><span style="color:#B392F0">/opt/homebrew/bin/brew</span><span style="color:#9ECBFF"> shellenv)"</span></span>
 <span class="line"><span style="color:#E1E4E8">ZSH_THEME</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"powerlevel10k/powerlevel10k"</span></span>
@@ -594,7 +594,7 @@
 <span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> GPG_TTY</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">$(</span><span style="color:#B392F0">tty</span><span style="color:#E1E4E8">)</span></span></code></pre>
 <p>实际文件位置：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.zshrc</span></span></code></pre>
-<h2 id="-142-gitconfig"># 14.2 <code>~/.gitconfig</code></h2>
+<h3 id="142-gitconfig">14.2 <code>~/.gitconfig</code></h3>
 <p>关键配置：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#B392F0">[user]</span></span>
 <span class="line"><span style="color:#F97583">    name</span><span style="color:#E1E4E8"> = yifei</span></span>
@@ -611,12 +611,12 @@
 <span class="line"><span style="color:#F97583">    helper</span><span style="color:#E1E4E8"> = !/opt/homebrew/bin/gh auth git-credential</span></span></code></pre>
 <p>实际文件位置：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.gitconfig</span></span></code></pre>
-<h2 id="-143-gpg-key"># 14.3 GPG key</h2>
+<h3 id="143-gpg-key">14.3 GPG key</h3>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Fingerprint: CDA01975D6F6AC609A756925D4E0227D08C8399D</span></span>
 <span class="line"><span>Short key id: D4E0227D08C8399D</span></span>
 <span class="line"><span>UID: yifei &#x3C;yfcccc@zju.edu.cn></span></span>
 <span class="line"><span>Expires: 2028-07-01</span></span></code></pre>
-<h1 id="-15-后续常用命令"># 15. 后续常用命令</h1>
+<h2 id="15-后续常用命令">15. 后续常用命令</h2>
 <p>重新配置 Powerlevel10k：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">p10k</span><span style="color:#9ECBFF"> configure</span></span></code></pre>
 <p>查看 GitHub CLI 登录状态：</p>
@@ -630,7 +630,7 @@
 <span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> log</span><span style="color:#79B8FF"> -1</span><span style="color:#79B8FF"> --show-signature</span></span></code></pre>
 <p>导出 GPG 公钥：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="zsh"><code><span class="line"><span style="color:#B392F0">gpg</span><span style="color:#79B8FF"> --armor</span><span style="color:#79B8FF"> --export</span><span style="color:#9ECBFF"> CDA01975D6F6AC609A756925D4E0227D08C8399D</span></span></code></pre>
-<h1 id="-16-实验结论"># 16. 实验结论</h1>
+<h2 id="16-实验结论">16. 实验结论</h2>
 <p>本次实验完成了以下目标：</p>
 <ul>
 <li>zsh 能自动加载 Homebrew 环境。</li>
