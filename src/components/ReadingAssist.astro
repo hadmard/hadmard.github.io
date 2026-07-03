@@ -17,16 +17,26 @@ const visibleOutline = outline.filter((item) => item.id && item.label);
 
 {visibleOutline.length > 0 && (
 	<aside class="reading-outline" data-reading-outline aria-label={label}>
-		<div class="reading-outline-head">
+		<button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true">
 			<span class="reading-outline-icon" aria-hidden="true">
 				<svg viewBox="0 0 28 28" role="presentation">
 					<path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4" />
 					<path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1" />
 				</svg>
 			</span>
-			<span>{label}</span>
-		</div>
-		<nav class="reading-outline-list">
+			<span class="reading-outline-title">{label}</span>
+			<span class="reading-outline-grip" aria-hidden="true">
+				<svg viewBox="0 0 20 20" role="presentation">
+					<path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9" />
+				</svg>
+			</span>
+			<span class="reading-outline-chevron" aria-hidden="true">
+				<svg viewBox="0 0 20 20" role="presentation">
+					<path d="m5.8 8 4.2 4.2L14.2 8" />
+				</svg>
+			</span>
+		</button>
+		<nav class="reading-outline-list" data-reading-outline-list>
 			{visibleOutline.map((item) => (
 				<a
 					href={`#${item.id}`}
@@ -46,10 +56,157 @@ const visibleOutline = outline.filter((item) => item.id && item.label);
 		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
 
 		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlines = [...document.querySelectorAll('[data-reading-outline]')];
 		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
-		if (!progressBars.length && !outlineLinks.length) return;
+		if (!progressBars.length && !outlineLinks.length && !outlines.length) return;
 
 		let frame = 0;
+		const cleanups = [];
+		const on = (target, eventName, handler, options) => {
+			target.addEventListener(eventName, handler, options);
+			cleanups.push(() => target.removeEventListener(eventName, handler, options));
+		};
+
+		const readState = (key) => {
+			try {
+				return JSON.parse(window.localStorage.getItem(key) || '{}') || {};
+			} catch {
+				return {};
+			}
+		};
+
+		const writeState = (key, state) => {
+			try {
+				window.localStorage.setItem(key, JSON.stringify(state));
+			} catch {
+				// localStorage can be unavailable in private contexts.
+			}
+		};
+
+		const clampPosition = (outline, x, y) => {
+			const margin = 12;
+			const rect = outline.getBoundingClientRect();
+			const width = rect.width || outline.offsetWidth || 220;
+			const height = rect.height || outline.offsetHeight || 64;
+			const maxX = Math.max(margin, window.innerWidth - width - margin);
+			const maxY = Math.max(margin, window.innerHeight - height - margin);
+			return {
+				x: Math.min(maxX, Math.max(margin, x)),
+				y: Math.min(maxY, Math.max(margin, y)),
+			};
+		};
+
+		const applyPosition = (outline, x, y) => {
+			const position = clampPosition(outline, x, y);
+			outline.dataset.dragged = 'true';
+			outline.style.left = `${Math.round(position.x)}px`;
+			outline.style.top = `${Math.round(position.y)}px`;
+			outline.style.right = 'auto';
+			outline.style.bottom = 'auto';
+			return position;
+		};
+
+		const setCollapsed = (outline, toggle, collapsed) => {
+			outline.classList.toggle('is-collapsed', collapsed);
+			toggle.setAttribute('aria-expanded', String(!collapsed));
+		};
+
+		const setupOutlinePanel = (outline, index) => {
+			const toggle = outline.querySelector('[data-reading-outline-toggle]');
+			if (!toggle) return;
+
+			const stateKey = `reading-outline:${window.location.pathname}:${index}`;
+			const savedState = readState(stateKey);
+			const startsCollapsed =
+				typeof savedState.collapsed === 'boolean'
+					? savedState.collapsed
+					: window.matchMedia('(max-width: 640px)').matches;
+			setCollapsed(outline, toggle, startsCollapsed);
+
+			if (Number.isFinite(savedState.x) && Number.isFinite(savedState.y)) {
+				window.requestAnimationFrame(() => applyPosition(outline, savedState.x, savedState.y));
+			}
+
+			let dragState = null;
+			let suppressClick = false;
+
+			const persistCurrentState = () => {
+				const rect = outline.getBoundingClientRect();
+				const currentState = readState(stateKey);
+				writeState(stateKey, {
+					...currentState,
+					collapsed: outline.classList.contains('is-collapsed'),
+					...(outline.dataset.dragged === 'true'
+						? { x: Math.round(rect.left), y: Math.round(rect.top) }
+						: {}),
+				});
+			};
+
+			on(toggle, 'pointerdown', (event) => {
+				if (event.button !== undefined && event.button !== 0) return;
+				const rect = outline.getBoundingClientRect();
+				dragState = {
+					id: event.pointerId,
+					startX: event.clientX,
+					startY: event.clientY,
+					left: rect.left,
+					top: rect.top,
+					moved: false,
+				};
+				toggle.setPointerCapture?.(event.pointerId);
+				outline.classList.add('is-dragging');
+			});
+
+			on(toggle, 'pointermove', (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				const dx = event.clientX - dragState.startX;
+				const dy = event.clientY - dragState.startY;
+				if (!dragState.moved && Math.hypot(dx, dy) < 5) return;
+
+				dragState.moved = true;
+				event.preventDefault();
+				applyPosition(outline, dragState.left + dx, dragState.top + dy);
+			});
+
+			const endDrag = (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				outline.classList.remove('is-dragging');
+				toggle.releasePointerCapture?.(event.pointerId);
+
+				if (dragState.moved) {
+					suppressClick = true;
+					persistCurrentState();
+					window.setTimeout(() => {
+						suppressClick = false;
+					}, 0);
+				}
+
+				dragState = null;
+			};
+
+			on(toggle, 'pointerup', endDrag);
+			on(toggle, 'pointercancel', endDrag);
+
+			on(toggle, 'click', (event) => {
+				if (suppressClick) {
+					event.preventDefault();
+					return;
+				}
+
+				const collapsed = !outline.classList.contains('is-collapsed');
+				setCollapsed(outline, toggle, collapsed);
+				window.requestAnimationFrame(() => {
+					if (outline.dataset.dragged === 'true') {
+						const rect = outline.getBoundingClientRect();
+						applyPosition(outline, rect.left, rect.top);
+					}
+					persistCurrentState();
+				});
+			});
+		};
+
+		outlines.forEach(setupOutlinePanel);
+
 		const sections = outlineLinks
 			.map((link) => ({
 				link,
@@ -86,11 +243,19 @@ const visibleOutline = outline.filter((item) => item.id && item.label);
 			if (!frame) frame = window.requestAnimationFrame(update);
 		};
 
-		window.addEventListener('scroll', schedule, { passive: true });
-		window.addEventListener('resize', schedule);
+		const handleResize = () => {
+			schedule();
+			for (const outline of outlines) {
+				if (outline.dataset.dragged !== 'true') continue;
+				const rect = outline.getBoundingClientRect();
+				applyPosition(outline, rect.left, rect.top);
+			}
+		};
+
+		on(window, 'scroll', schedule, { passive: true });
+		on(window, 'resize', handleResize);
 		window.__readingAssistCleanup = () => {
-			window.removeEventListener('scroll', schedule);
-			window.removeEventListener('resize', schedule);
+			for (const cleanup of cleanups) cleanup();
 			if (frame) window.cancelAnimationFrame(frame);
 			frame = 0;
 		};
