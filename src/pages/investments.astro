@@ -1,70 +1,16 @@
 ---
-import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import ReadingAssist from '../components/ReadingAssist.astro';
 import { getCopy } from '../utils/i18n';
-import { normalizeCc98Markdown, renderMarkdown } from '../utils/markdown';
+import { loadCc98Dataset } from '../utils/cc98';
 import { createFloorOutline } from '../utils/reading';
 
 const locale = 'zh-cn';
 const copy = getCopy(locale);
 const alternatePath = '/en/investments/';
 
-type Cc98Post = {
-	id: number;
-	userName: string | null;
-	content: string;
-	time: string;
-	floor: number;
-	isDeleted: boolean;
-	isLZ: boolean;
-};
-
-type PostPage = {
-	items?: Cc98Post[];
-};
-
-type Summary = {
-	sourceUrl?: string;
-	topic?: {
-		title?: string;
-		authorName?: string;
-		hitCount?: number;
-	};
-	crawledAt?: string;
-};
-
-const outputDir = resolve(process.cwd(), 'custom/cc98-investment-crawler/output/topic-6450962');
-
-let summary: Summary | null = null;
-let records: Cc98Post[] = [];
-
-try {
-	const [summaryRaw, postsRaw] = await Promise.all([
-		readFile(resolve(outputDir, 'records/investment-summary.json'), 'utf-8'),
-		readFile(resolve(outputDir, 'raw/posts.json'), 'utf-8'),
-	]);
-
-	summary = JSON.parse(summaryRaw) as Summary;
-	const pages = JSON.parse(postsRaw) as PostPage[];
-	const allPosts = pages.flatMap((page) => page.items ?? []);
-
-	const cleanPosts = allPosts
-		.filter((post) => !post.isDeleted && post.content?.trim())
-		.sort((a, b) => a.floor - b.floor);
-
-	const authorName = summary?.topic?.authorName;
-	records = cleanPosts.filter((post) => post.isLZ || (authorName && post.userName === authorName));
-
-	if (!records.length) {
-		records = cleanPosts;
-	}
-} catch {
-	summary = null;
-	records = [];
-}
+const { config, summary, visibleRecords } = await loadCc98Dataset('investments');
 
 const formatDay = (value: string) => new Date(value).toLocaleDateString('zh-CN', {
 	month: '2-digit',
@@ -76,22 +22,12 @@ const formatTime = (value: string) => new Date(value).toLocaleTimeString('zh-CN'
 	hour12: false,
 });
 
-const placeholderTexts = new Set(['记录投资日常', 'test']);
-const visibleRecordData = records
-	.map((record) => ({
-		...record,
-		cleanContent: normalizeCc98Markdown(record.content),
-	}))
-	.filter((record) => record.cleanContent && !placeholderTexts.has(record.cleanContent));
-const visibleRecords = await Promise.all(visibleRecordData.map(async (record) => ({
-	...record,
-	renderedContent: await renderMarkdown(record.cleanContent),
-})));
 const outline = createFloorOutline(visibleRecords, locale);
 
 const crawledAtText = summary?.crawledAt
 	? new Date(summary.crawledAt).toLocaleString('zh-CN', { hour12: false })
 	: null;
+const sourceUrl = summary?.sourceUrl ?? config.sourceUrl;
 ---
 
 <Layout
@@ -128,8 +64,8 @@ const crawledAtText = summary?.crawledAt
 			<div class="reading-meta">
 				{summary?.topic?.title && <span>{summary.topic.title}</span>}
 				<span>{visibleRecords.length} 条</span>
-				{summary?.sourceUrl && (
-					<a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer">原帖</a>
+				{sourceUrl && (
+					<a href={sourceUrl} target="_blank" rel="noopener noreferrer">原帖</a>
 				)}
 				{crawledAtText && <span>{crawledAtText}</span>}
 			</div>
@@ -174,7 +110,7 @@ const crawledAtText = summary?.crawledAt
 										<path d="M10 10.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" />
 										<path d="M4.4 16.3a5.9 5.9 0 0 1 11.2 0" />
 									</svg>
-									hadmard
+									{record.userName ?? config.ownerName}
 								</span>
 							</div>
 							<span class="investment-glyph" aria-hidden="true">

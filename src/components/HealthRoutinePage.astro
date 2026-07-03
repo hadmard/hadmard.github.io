@@ -1,8 +1,6 @@
 ---
 // 文件说明：该组件渲染“健康作息打卡记录”页面。
 // 功能说明：读取 CC98 健康作息同步结果，并以轻量时间线展示楼主打卡内容。
-import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
 
 import type { Locale } from '../data/site';
 
@@ -10,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
 import SiteHeader from './SiteHeader.astro';
 import ReadingAssist from './ReadingAssist.astro';
 import { getCopy } from '../utils/i18n';
-import { normalizeCc98Markdown, renderMarkdown } from '../utils/markdown';
+import { loadCc98Dataset } from '../utils/cc98';
 import { createFloorOutline } from '../utils/reading';
 
 const { locale, canonicalPath, alternatePath } = Astro.props as {
@@ -19,55 +17,8 @@ const { locale, canonicalPath, alternatePath } = Astro.props as {
 	alternatePath: string;
 };
 
-type Cc98Post = {
-	id?: number;
-	userName: string | null;
-	content: string;
-	time: string;
-	floor: number;
-	isDeleted: boolean;
-	isLZ: boolean;
-};
-
-type PostPage = {
-	items?: Cc98Post[];
-};
-
-type Summary = {
-	sourceUrl?: string;
-	topic?: {
-		title?: string;
-		authorName?: string;
-		hitCount?: number;
-	};
-	crawledAt?: string;
-};
-
 const copy = getCopy(locale);
-const outputDir = resolve(process.cwd(), 'custom/cc98-investment-crawler/output/topic-6562405');
-
-let summary: Summary | null = null;
-let records: Cc98Post[] = [];
-
-try {
-	const [summaryRaw, postsRaw] = await Promise.all([
-		readFile(resolve(outputDir, 'records/investment-summary.json'), 'utf-8'),
-		readFile(resolve(outputDir, 'raw/posts.json'), 'utf-8'),
-	]);
-
-	summary = JSON.parse(summaryRaw) as Summary;
-	const pages = JSON.parse(postsRaw) as PostPage[];
-	const allPosts = pages.flatMap((page) => page.items ?? []);
-	const authorName = summary?.topic?.authorName;
-
-	records = allPosts
-		.filter((post) => !post.isDeleted && post.content?.trim())
-		.filter((post) => post.isLZ || (authorName && post.userName === authorName))
-		.sort((a, b) => a.floor - b.floor);
-} catch {
-	summary = null;
-	records = [];
-}
+const { config, summary, visibleRecords } = await loadCc98Dataset('healthRoutine');
 
 const localeTag = locale === 'zh-cn' ? 'zh-CN' : 'en-US';
 const formatDate = (value: string) => new Date(value).toLocaleDateString(localeTag, {
@@ -88,20 +39,10 @@ const formatFullDate = (value: string) => new Date(value).toLocaleString(localeT
 	hour12: false,
 });
 
-const visibleRecordData = records
-	.map((record) => ({
-		...record,
-		cleanContent: normalizeCc98Markdown(record.content),
-	}))
-	.filter((record) => record.cleanContent);
-const visibleRecords = await Promise.all(visibleRecordData.map(async (record) => ({
-	...record,
-	renderedContent: await renderMarkdown(record.cleanContent),
-})));
-
 const crawledAtText = summary?.crawledAt ? formatFullDate(summary.crawledAt) : null;
 const outline = createFloorOutline(visibleRecords, locale);
 const outlineLabel = locale === 'zh-cn' ? '楼层目录' : 'Floors';
+const sourceUrl = summary?.sourceUrl ?? config.sourceUrl;
 ---
 
 <Layout
@@ -138,8 +79,8 @@ const outlineLabel = locale === 'zh-cn' ? '楼层目录' : 'Floors';
 			<div class="reading-meta">
 				{summary?.topic?.title && <span>{summary.topic.title}</span>}
 				<span>{visibleRecords.length} {copy.healthRoutine.entryLabel}</span>
-				{summary?.sourceUrl && (
-					<a href={summary.sourceUrl} target="_blank" rel="noopener noreferrer">{copy.healthRoutine.sourceLabel}</a>
+				{sourceUrl && (
+					<a href={sourceUrl} target="_blank" rel="noopener noreferrer">{copy.healthRoutine.sourceLabel}</a>
 				)}
 				{crawledAtText && <span>{crawledAtText}</span>}
 			</div>

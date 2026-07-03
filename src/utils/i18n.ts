@@ -8,7 +8,8 @@
 
 import type { CollectionEntry } from 'astro:content';
 
-import { siteCopy, type Locale } from '../data/site';
+import { siteDatabase } from '../data/database';
+import type { Locale } from '../data/site';
 
 // ========== 第一部分：基础语言常量 ==========
 export const defaultLocale: Locale = 'zh-cn';
@@ -27,7 +28,7 @@ export function localePath(locale: Locale, path = '/') {
 
 // ========== 第三部分：内容工具 ==========
 export function getCopy(locale: Locale) {
-	return siteCopy[locale];
+	return siteDatabase.copy[locale];
 }
 
 export function getThoughtSlug(entry: CollectionEntry<'thoughts'>) {
