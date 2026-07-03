@@ -1,0 +1,396 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="一、AI Agent 使用情况 主要使用的平台是 Claude Code，版本为 Claude Code v2.1.153 ，模型服务提供方为 DeepSeek，模型为 deepseek-v4-pro 。在后期整理报告格式时，也使用..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/hpc/exp1/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/hpc/exp1/"><title>Lab 1 简单集群搭建实验报告 | Redemption Road | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.D_uHcd8p.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link active" href="/en/redemption-road/"> Redemption </a> </nav> <a href="/redemption-road/hpc/exp1/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">HPC 101</p> <h1>Lab 1 简单集群搭建实验报告</h1> <p>一、AI Agent 使用情况 主要使用的平台是 Claude Code，版本为 Claude Code v2.1.153 ，模型服务提供方为 DeepSeek，模型为 deepseek-v4-pro 。在后期整理报告格式时，也使用...</p> <div class="article-meta"> <span class="soft-label">6 min</span> <span class="signal-pill">exp1.md</span> </div> </div> </section> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h1 id="-一ai-agent-使用情况"># 一、AI Agent 使用情况</h1>
+<p>主要使用的平台是 Claude Code，版本为 <code>Claude Code v2.1.153</code>，模型服务提供方为 DeepSeek，模型为 <code>deepseek-v4-pro</code>。在后期整理报告格式时，也使用了 OpenAI Codex 桌面端辅助核对截图、提炼命令输出和补齐报告结构。</p>
+<p>AI Agent 的具体作用主要有三类：第一，辅助我理解一些基础概念；第二，辅助定位报错，例如 HPL 一开始提示的报错；第三，整理实验记录，把截图中的关键信息转写成报告文字。实际的虚拟机配置、命令执行、截图验证和错误修复都是我在本地通过 SSH 完成的。</p>
+<h1 id="-二实验环境与集群概况"># 二、实验环境与集群概况</h1>
+<p>本实验在 macOS 宿主机上的 VMware Fusion 虚拟机中完成。由于直接使用虚拟机终端不方便，我主要在 macOS 终端中通过 SSH 连接各个虚拟机，并配置了免密登录、反向代理、<code>hostname</code> 与 IP 地址映射。四台虚拟机位于同一个 <code>172.16.1.0/24</code> 虚拟网络中，节点之间可以通过主机名互相访问。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>节点</th><th>角色</th><th>IP 地址</th><th>操作系统</th><th>CPU/内存配置</th></tr></thead><tbody><tr><td><code>master</code></td><td>控制节点、NFS 服务器、Slurm 控制节点</td><td><code>172.16.1.132</code></td><td>Debian GNU/Linux 13.5 (trixie), aarch64</td><td>2 vCPU, 2GB 内存</td></tr><tr><td><code>node01</code></td><td>计算节点、NFS 客户端、Slurm 计算节点</td><td><code>172.16.1.133</code></td><td>Debian GNU/Linux 13.5 (trixie), aarch64</td><td>2 vCPU, 2GB 内存</td></tr><tr><td><code>node02</code></td><td>计算节点、NFS 客户端、Slurm 计算节点</td><td><code>172.16.1.134</code></td><td>Debian GNU/Linux 13.5 (trixie), aarch64</td><td>2 vCPU, 2 GB 内存</td></tr><tr><td><code>node03</code></td><td>计算节点、NFS 客户端、Slurm 计算节点</td><td><code>172.16.1.135</code></td><td>Debian GNU/Linux 13.5 (trixie), aarch64</td><td>2vCPU,2GB 内存</td></tr></tbody></table>
+<p>共享目录为 <code>/scratch</code>。在 <code>master</code> 上通过 NFS 导出，<code>node01</code>、<code>node02</code>、<code>node03</code> 均挂载 <code>master:/scratch</code>，这样 HPL 可执行文件、输入文件和 Slurm 输出文件可以放在同一个目录下。Slurm 分区为 <code>debug</code>，包含 <code>node01</code> 到 <code>node03</code> 三个计算节点，总计 6 个 CPU，配置中的内存总量为 5400 MB。</p>
+<p>主要软件版本如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>软件</th><th>版本或说明</th></tr></thead><tbody><tr><td>OpenMPI</td><td>5.0.3，安装到 <code>/usr/local</code></td></tr><tr><td>BLAS</td><td>Netlib BLAS 3.12.0，生成 <code>blas_LINUX.a</code></td></tr><tr><td>CBLAS</td><td>使用课程仓库中的 CBLAS 源码，生成 <code>cblas_LINUX.a</code></td></tr><tr><td>HPL</td><td>HPL 2.3，生成 <code>xhpl</code></td></tr><tr><td>Slurm</td><td>24.11.5</td></tr><tr><td>MUNGE</td><td>0.5.16</td></tr><tr><td>NFS</td><td><code>nfs-kernel-server</code> / <code>nfs-common</code> 2.8.3</td></tr></tbody></table>
+<h1 id="-三软件编译"># 三、软件编译</h1>
+<p>本部分在 <code>master</code> 节点完成。源码主要放在 <code>/home/yifei/hpc101-lab1/src</code>，包括 <code>openmpi-5.0.3</code>、<code>BLAS-3.12.0</code>、<code>CBLAS</code> 和 <code>hpl-2.3</code>。整体流程是先编译并安装 OpenMPI，再编译 BLAS 和 CBLAS，最后在 HPL 的 <code>Make.Linux_PII_FBLAS</code> 中配置 MPI、BLAS、CBLAS 的路径并编译出 <code>xhpl</code>。</p>
+<h2 id="-1-openmpi"># 1. OpenMPI</h2>
+<p>我下载并编译了 OpenMPI 5.0.3，安装位置为 <code>/usr/local</code>。编译安装完成后执行 <code>ompi_info --all</code>，截图中可以看到 <code>Open MPI: 5.0.3</code>、<code>Prefix: /usr/local</code>、<code>Configured architecture: aarch64-unknown-linux-gnu</code> 等信息，说明 OpenMPI 已经正确安装。</p>
+<p><img src="/redemption-assets/image-20260607201627519.png" alt="OpenMPI ompi_info 输出" loading="lazy" decoding="async"></p>
+<h2 id="-2-blas-与-cblas"># 2. BLAS 与 CBLAS</h2>
+<p>随后编译 Netlib BLAS 3.12.0。编译结束后在 <code>BLAS-3.12.0</code> 目录中出现了 <code>blas_LINUX.a</code>，说明 BLAS 静态库生成成功。</p>
+<p><img src="/redemption-assets/image-20260607201959525.png" alt="BLAS 编译后生成 blas_LINUX.a" loading="lazy" decoding="async"></p>
+<p>CBLAS 使用课程仓库中提供的源码。配置 <code>Makefile.in</code> 时需要把 <code>BLLIB</code> 指向刚刚生成的 <code>blas_LINUX.a</code>。编译完成后进入 <code>CBLAS/lib</code>，可以看到生成的 <code>cblas_LINUX.a</code>。</p>
+<p><img src="/redemption-assets/image-20260607203930120.png" alt="CBLAS 编译后生成 cblas_LINUX.a" loading="lazy" decoding="async"></p>
+<h2 id="-3-hpl"># 3. HPL</h2>
+<p>HPL 使用 2.3 版本源码。编译时我以 <code>setup/Make.Linux_PII_FBLAS</code> 为模板，修改其中的 <code>TOPdir</code>、<code>MPdir</code>、<code>MPlib</code>、<code>LAdir</code>、<code>LAlib</code> 和 <code>LINKER</code> 等路径，使其分别指向 HPL 顶层目录、OpenMPI 安装目录、MPI 动态库以及 BLAS/CBLAS 静态库。编译结束后，在 <code>hpl-2.3/bin/Linux_PII_FBLAS</code> 中生成了 <code>HPL.dat</code> 和 <code>xhpl</code>。</p>
+<p><img src="/redemption-assets/image-20260607211556784.png" alt="HPL 编译后生成 HPL.dat 和 xhpl" loading="lazy" decoding="async"></p>
+<p>这一部分最容易混淆的是“编译”和“链接”的区别。BLAS 和 CBLAS 生成的是库文件，HPL 本身最终需要把 MPI 通信库和线性代数库都链接进去，才能得到可运行的 <code>xhpl</code>。</p>
+<h1 id="-四nfs-配置与验证"># 四、NFS 配置与验证</h1>
+<p>为了让所有计算节点都能访问同一份 HPL 可执行文件、输入文件和输出文件，我在 <code>master</code> 节点上配置 NFS，将 <code>/scratch</code> 作为共享目录。<code>/etc/exports</code> 中与本实验相关的配置如下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>/scratch *(rw,async,no_subtree_check,no_root_squash)</span></span></code></pre>
+<p>截图中也可以看到 <code>/scratch</code> 被配置为可读写共享目录。</p>
+<p><img src="/redemption-assets/image-20260607213712518.png" alt="master 节点 /etc/exports 配置" loading="lazy" decoding="async"></p>
+<p>在计算节点侧，<code>node01</code>、<code>node02</code>、<code>node03</code> 均挂载了 <code>master:/scratch</code>。为了验证读写是否真正共享，我在 <code>node03</code> 的 <code>/scratch</code> 中执行 <code>sudo touch node03.md</code> 创建测试文件。</p>
+<p><img src="/redemption-assets/image-20260607213924199.png" alt="node03 在 /scratch 中创建文件" loading="lazy" decoding="async"></p>
+<p>随后回到 <code>master</code> 节点执行 <code>ls /scratch</code>，能够看到同一个 <code>node03.md</code> 文件，说明 NFS 服务端和客户端之间的读写共享已经生效。</p>
+<p><img src="/redemption-assets/image-20260607213951710.png" alt="master 节点看到 node03 创建的文件" loading="lazy" decoding="async"></p>
+<h1 id="-五slurm-配置与验证"># 五、Slurm 配置与验证</h1>
+<p>Slurm 集群使用 <code>master</code> 作为控制节点，<code>node01</code>、<code>node02</code>、<code>node03</code> 作为计算节点。<code>slurm.conf</code> 中的核心配置如下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>ClusterName=cluster</span></span>
+<span class="line"><span>SlurmctldHost=master(172.16.1.132)</span></span>
+<span class="line"><span>NodeName=node01 NodeAddr=172.16.1.133 CPUs=2 RealMemory=1800 State=UNKNOWN</span></span>
+<span class="line"><span>NodeName=node02 NodeAddr=172.16.1.134 CPUs=2 RealMemory=1800 State=UNKNOWN</span></span>
+<span class="line"><span>NodeName=node03 NodeAddr=172.16.1.135 CPUs=2 RealMemory=1800 State=UNKNOWN</span></span>
+<span class="line"><span>PartitionName=debug Nodes=node0[1-3] Default=YES MaxTime=INFINITE State=UP</span></span></code></pre>
+<p>使用 <code>sinfo</code> 查看节点状态时，<code>debug</code> 分区处于 <code>up</code> 状态，三个节点均为 <code>idle</code>，说明 Slurm 控制节点和计算节点已经正常通信。</p>
+<p><img src="/redemption-assets/image-20260607222612419.png" alt="sinfo 显示 debug 分区三个节点 idle" loading="lazy" decoding="async"></p>
+<p>我先用一个简单的 hostname 作业验证 Slurm 是否能够跨节点启动任务。命令 <code>srun -N3 -n3 hostname</code> 返回了三个计算节点的主机名，说明 Slurm 可以在三个节点上各启动一个任务。</p>
+<p><img src="/redemption-assets/image-20260607223756948.png" alt="srun hostname 跨节点测试" loading="lazy" decoding="async"></p>
+<p>用于测试的 <code>slurm.sh</code> 内容如下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># !/bin/bash</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -J homework_of_yifei</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -N 3</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -n 3</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -o /scratch/slurm-%j.out</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -e /scratch/slurm-%j.err</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">echo</span><span style="color:#9ECBFF"> "Job started at $(</span><span style="color:#B392F0">date</span><span style="color:#9ECBFF">)"</span></span>
+<span class="line"><span style="color:#79B8FF">echo</span><span style="color:#9ECBFF"> "Running hosts:"</span></span>
+<span class="line"><span style="color:#B392F0">srun</span><span style="color:#9ECBFF"> hostname</span></span>
+<span class="line"><span style="color:#79B8FF">echo</span><span style="color:#9ECBFF"> "Job finished at $(</span><span style="color:#B392F0">date</span><span style="color:#9ECBFF">)"</span></span></code></pre>
+<p><img src="/redemption-assets/image-20260607223251125.png" alt="Slurm hostname 测试脚本" loading="lazy" decoding="async"></p>
+<p>提交脚本后，Slurm 返回 <code>Submitted batch job 12</code>，并在 <code>/scratch</code> 中生成对应的 <code>slurm-12.out</code> 与 <code>slurm-12.err</code>。输出文件中记录了 <code>node01</code>、<code>node02</code>、<code>node03</code>，进一步验证了批处理作业可以正常运行。</p>
+<p><img src="/redemption-assets/image-20260607225606913.png" alt="sbatch slurm.sh 提交成功" loading="lazy" decoding="async"></p>
+<h1 id="-六hpl-作业提交与性能结果"># 六、HPL 作业提交与性能结果</h1>
+<p>在完成 HPL 编译、NFS 共享目录和 Slurm 配置后，我将 <code>xhpl</code> 与 <code>HPL.dat</code> 放到 <code>/scratch/mpl</code> 下，保证所有计算节点都能通过 NFS 访问同一份文件。最终使用的 Slurm 作业脚本为 <code>/scratch/slurm1.sh</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># !/bin/bash</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -J hpl</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -p debug</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH --ntasks-per-node=1</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -N 3</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -n 3</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -o /scratch/hpl-%j.out</span></span>
+<span class="line"><span style="color:#6A737D"># SBATCH -e /scratch/hpl-%j.err</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> /scratch/mpl</span></span>
+<span class="line"><span style="color:#B392F0">srun</span><span style="color:#79B8FF"> --mpi=pmix</span><span style="color:#9ECBFF"> hostname</span></span>
+<span class="line"><span style="color:#B392F0">srun</span><span style="color:#79B8FF"> --mpi=pmix</span><span style="color:#9ECBFF"> ./xhpl</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">echo</span><span style="color:#9ECBFF"> "finished"</span></span></code></pre>
+<p><code>HPL.dat</code> 中本次测试的关键参数如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>值</th><th>说明</th></tr></thead><tbody><tr><td><code>N</code></td><td><code>1000</code></td><td>矩阵规模</td></tr><tr><td><code>NB</code></td><td><code>128</code></td><td>分块大小</td></tr><tr><td><code>P</code></td><td><code>1</code></td><td>MPI 进程网格行数</td></tr><tr><td><code>Q</code></td><td><code>3</code></td><td>MPI 进程网格列数</td></tr></tbody></table>
+<p>Slurm 脚本中申请了 <code>-N 3</code>、<code>-n 3</code>，即总共启动 3 个任务；HPL 中 <code>P * Q = 1 * 3 = 3</code>，正好等于 Slurm 实际启动的 MPI 进程数。如果这两个值不一致，HPL 就无法按输入文件中的进程网格运行。</p>
+<p>第一次运行时我遇到了报错。错误文件中显示：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>HPL ERROR from process # 0, on line 419 of function HPL_pdinfo:</span></span>
+<span class="line"><span>>>> Need at least 3 processes for these tests &#x3C;&#x3C;&#x3C;</span></span></code></pre>
+<p>原因是作业脚本中最初直接使用 <code>srun ./xhpl</code>，没有明确指定 MPI 插件，Slurm 没有按 HPL 需要的 MPI 方式启动任务。修改为 <code>srun --mpi=pmix ./xhpl</code> 后，三个 MPI 进程能够正常参与计算。</p>
+<p><img src="/redemption-assets/image-20260608001419828.png" alt="HPL 初次运行报错" loading="lazy" decoding="async"></p>
+<p>修改后作业成功运行，输出文件为 <code>/scratch/hpl-20.out</code>。输出开头先打印三个节点名，说明任务分布到了 <code>node03</code>、<code>node01</code>、<code>node02</code> 三个节点；随后 HPL 显示使用 <code>N=1000</code>、<code>NB=128</code>、<code>P=1</code>、<code>Q=3</code> 进行测试。</p>
+<p><img src="/redemption-assets/image-20260608001740770.png" alt="HPL 成功运行输出" loading="lazy" decoding="async"></p>
+<p>最终 HPL 共完成 18 组测试，18 组均通过 residual check，没有失败或跳过的测试。部分性能结果如下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>T/V                N    NB     P     Q               Time                 Gflops</span></span>
+<span class="line"><span>WR00L2L2        1000   128     1     3               0.09             7.1651e+00</span></span>
+<span class="line"><span>WR00L2L4        1000   128     1     3               0.09             7.8603e+00</span></span>
+<span class="line"><span>WR00L2C4        1000   128     1     3               0.08             7.9551e+00</span></span>
+<span class="line"><span>WR00R2L4        1000   128     1     3               0.10             6.4320e+00</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Finished     18 tests with the following results:</span></span>
+<span class="line"><span>             18 tests completed and passed residual checks,</span></span>
+<span class="line"><span>              0 tests completed and failed residual checks,</span></span>
+<span class="line"><span>              0 tests skipped because of illegal input values.</span></span></code></pre>
+<p>本次最高性能为 <code>7.9551e+00 Gflops</code>。由于本实验运行在资源较小的虚拟机中，并且使用的是教学用的 Netlib BLAS，性能绝对值并不是重点；更重要的是完成了从源码编译、NFS 共享、Slurm 调度到 HPL 多节点运行的完整流程。</p>
+<h1 id="-七提交附件说明"># 七、提交附件说明</h1>
+<p>见 <code>./attachments/</code> 目录中</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>文件</th><th>内容</th></tr></thead><tbody><tr><td><code>attachments/slurm1.sh</code></td><td>HPL 的 Slurm 作业脚本</td></tr><tr><td><code>attachments/hpl-20.out</code></td><td>HPL 成功运行的完整输出</td></tr><tr><td><code>attachments/hpl-19.err</code></td><td>HPL 初次运行失败时的错误输出</td></tr><tr><td><code>attachments/HPL.dat</code></td><td>HPL 输入参数文件</td></tr><tr><td><code>attachments/slurm.sh</code>、<code>attachments/slurm-12.out</code></td><td>Slurm hostname 测试脚本与输出</td></tr><tr><td><code>attachments/slurm.conf</code>、<code>attachments/exports</code></td><td>Slurm 和 NFS 的完整配置</td></tr></tbody></table></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>

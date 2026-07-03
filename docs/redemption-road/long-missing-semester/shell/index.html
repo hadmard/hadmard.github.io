@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="配置 简介 Terminal / 终端 ：提供你输入命令、显示结果的“窗口界面”，可以理解为UI Terminal、iTerm2 Shell / 命令解释器 ：真正解析你输入的命令，并决定怎么执行 PowerShell；CMD zs..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/long-missing-semester/shell/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/shell/"><title>Terminal - Shell | 救赎之路 | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.D_uHcd8p.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link active" href="/redemption-road/"> 救赎之路 </a> </nav> <a href="/en/redemption-road/long-missing-semester/shell/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Missing Semester</p> <h1>Terminal - Shell</h1> <p>配置 简介 Terminal / 终端 ：提供你输入命令、显示结果的“窗口界面”，可以理解为UI Terminal、iTerm2 Shell / 命令解释器 ：真正解析你输入的命令，并决定怎么执行 PowerShell；CMD zs...</p> <div class="article-meta"> <span class="soft-label">3 分钟</span> <span class="signal-pill">shell.md</span> </div> </div> </section> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h1 id="-配置"># 配置</h1>
+<h2 id="-简介"># 简介</h2>
+<ul>
+<li><strong>Terminal / 终端</strong>：提供你输入命令、显示结果的“窗口界面”，可以理解为UI
+<ul>
+<li>Terminal、iTerm2</li>
+</ul>
+</li>
+<li><strong>Shell / 命令解释器</strong>：真正解析你输入的命令，并决定怎么执行
+<ul>
+<li>PowerShell；CMD</li>
+<li>zsh；bash；fish</li>
+</ul>
+</li>
+</ul>
+<h2 id="-过程"># 过程</h2>
+<ul>
+<li>Terminal 从用户获取输入，然后传递给 Shell，等待 Shell 处理完后，将结果再传递回用户（显示在屏幕上）</li>
+<li>Shell 从 Terminal 拿到输入指令，解析后交给操作系统执行，然后将结果返回给 Terminal</li>
+</ul>
+<h2 id="-推荐"># 推荐</h2>
+<ul>
+<li>Mac 的终端使用iTerm2，可惜没有汉化，太难受了，我还是坚持使用terminal</li>
+<li>shell配置使用oh-my-zsh，主题使用powerlevel10k</li>
+</ul>
+<h1 id="-常用命令"># 常用命令</h1>
+<h2 id="-文件目录操作"># 文件目录操作</h2>
+<ul>
+<li>pwd = 当前目录
+<ul>
+<li>～ home；.当前目录；..上一级目录</li>
+<li>/左偏，unix系统更加开放，自由；\右偏，windows系统更加保守</li>
+</ul>
+</li>
+<li>ls
+<ul>
+<li>-a 所有，包括隐藏</li>
+<li>-l 详细的信息，修改日期，大小，文件权限之类</li>
+</ul>
+</li>
+<li>touch mkdir</li>
+<li>cp  复制
+<ul>
+<li>-i 询问是否覆盖，比较安全</li>
+<li>-v 显示复制的过程</li>
+<li>-iv 可以一起使用</li>
+<li>-r 复制文件夹</li>
+<li>cp a b ,复制a，命名为b</li>
+<li>cp a folder_b 把a复制到b路径</li>
+</ul>
+</li>
+<li>rm  删除
+<ul>
+<li>-r 删除目录</li>
+<li>-f 强制删除</li>
+</ul>
+</li>
+<li>find
+<ul>
+<li>find . -name “a.txt” 从.目录中找名字为a.txt的文件</li>
+<li>find . -name “*.txt” 找所有txt</li>
+<li>-type
+<ul>
+<li>d 文件夹</li>
+<li>f 文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="-文件查看"># 文件查看</h2>
+<ul>
+<li>cat
+<ul>
+<li>-n 带着行号</li>
+<li>也有拼接的作用</li>
+</ul>
+</li>
+<li>head/tail 输出前/后十行
+<ul>
+<li>-n lines,输出前/后lines行</li>
+</ul>
+</li>
+<li>more/less
+<ul>
+<li>分页器，空格翻页，回车下一行，q退出；less功能比more多，按照前面的配置，cat -n 就是分页器了</li>
+</ul>
+</li>
+<li>hexdump 十六进制输出
+<ul>
+<li>
+<h2 id="-c-并排输出十六进制与-ascii实际值">-C 并排输出十六进制与 ASCII（实际值）</h2>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/redemption-assets/image-20260702134755876.png" alt="image-20260702134755876" loading="lazy" decoding="async"></p>
+<ul>
+<li>-n N，输出前N个字节</li>
+</ul>
+<h2 id="-其他"># 其他</h2>
+<ul>
+<li>
+<p>man：查看命令文档（manual）</p>
+</li>
+<li>
+<p>echo：输出字符串（常配合重定向 / 管道使用）</p>
+<ul>
+<li>echo “Hello Linux”
+<ul>
+<li>终端回复如上</li>
+</ul>
+</li>
+<li>echo $USER
+<ul>
+<li>回复变量值</li>
+</ul>
+</li>
+<li>echo “test” > test.txt
+<ul>
+<li>创建文件并且写入，后面的重定向会讲</li>
+</ul>
+</li>
+<li>echo “again” >> test.txt
+<ul>
+<li>追加在末尾</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>whoami：获取当前用户</p>
+</li>
+<li>
+<p>whereis/which/whence：查找命令所在位置</p>
+</li>
+<li>
+<p>clear：清屏</p>
+</li>
+<li>
+<p>chmod：更改文件权限</p>
+</li>
+<li>
+<p>ps：显示进程信息</p>
+</li>
+<li>
+<p>date：获取当前日期时间</p>
+</li>
+<li>
+<p>kill：杀死进程（向进程发送信号）</p>
+</li>
+<li>
+<p>grep：搜索文件内容（常配合重定向 / 管道使用）</p>
+<ul>
+<li><code>grep "apple" a.txt</code>,在a中找含apple</li>
+<li>-n 显示行号</li>
+<li>-i 忽略大小写</li>
+<li>-v 显示不包含apple的行</li>
+<li>-r 在该目录下的所有目录找</li>
+<li>-w 严格搜索，包含不行</li>
+<li>-E a|b 查找含a或b的行</li>
+</ul>
+</li>
+<li>
+<p>diff：比较文件 / 目录内容</p>
+<ul>
+<li>diff <em>file1</em> <em>file2</em> > <em>file3</em>：将 <em>file1</em> 和 <em>file2</em> 的差异写入 <em>file3</em></li>
+</ul>
+</li>
+<li>
+<p>curl：发送 HTTP 请求</p>
+</li>
+<li>
+<p>wget：下载文件</p>
+</li>
+</ul>
+<h1 id="-重定向"># 重定向</h1>
+<ul>
+<li>标准的管线
+<ul>
+<li>0 stdin   标准输入   默认来自键盘</li>
+<li>1 stdout  标准输出   默认显示到屏幕</li>
+<li>2 stderr  标准错误   默认显示到屏幕</li>
+</ul>
+</li>
+<li>但是shell可以更改管线
+<ul>
+<li><code>></code>，同<code>1></code>就是更改输出使用的,这个会覆写原文件
+<ul>
+<li>如<code>python main.py > out.txt</code>，将python的输出写进txt</li>
+</ul>
+</li>
+<li><code>>></code>追加到文件的末尾</li>
+<li><code>&#x3C;</code>把文件的内容作为输入</li>
+<li><code>2></code>把错误输出写进文件</li>
+<li><code>&#x26;></code>不管正确还是错误都写进去</li>
+</ul>
+</li>
+<li>分析例子
+<ul>
+<li><code>python main.py > all.txt 2>&#x26;1</code></li>
+<li>意思就是1号流写入txt，&#x26;1值的是一号流对应的位置，这里就是说2号流去一号流所在的位置</li>
+</ul>
+</li>
+</ul>
+<h1 id="-管线"># 管线</h1>
+<h2 id="-核心"># 核心</h2>
+<ul>
+<li><code>cat a.txt | grep hello</code>，左边的输出送到右边的输入</li>
+</ul>
+<h1 id="-环境变量"># 环境变量</h1>
+<ul>
+<li>两种方式，一个是暂时用，一个是写入配置文件，有点像赋值</li>
+</ul></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>

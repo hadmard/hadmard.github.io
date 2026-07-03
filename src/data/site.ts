@@ -55,6 +55,16 @@ interface SiteCopy {
 		sourceLabel: string;
 		entryLabel: string;
 	};
+	redemptionRoad: {
+		kicker: string;
+		title: string;
+		intro: string;
+		emptyTitle: string;
+		emptyDescription: string;
+		readMore: string;
+		entryLabel: string;
+		backLabel: string;
+	};
 	thinking: {
 		kicker: string;
 		title: string;
@@ -85,13 +95,14 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		},
 		seo: {
 			title: 'Yfcccc | 个人博客',
-			description: 'Yfcccc 的个人博客：投资记录、个人思考、学习日历与健康作息。',
+			description: 'Yfcccc 的个人博客：投资记录、个人思考、学习日历、健康作息与救赎之路。',
 		},
 		nav: [
 			{ id: 'investments', label: '投资记录' },
 			{ id: 'thinking', label: '个人思考' },
 			{ id: 'study-calendar', label: '学习日历' },
 			{ id: 'health-routine', label: '健康作息' },
+			{ id: 'redemption-road', label: '救赎之路' },
 		],
 		hero: {
 			badge: 'Blog',
@@ -104,6 +115,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 				{ label: '个人思考', value: '四篇短记', note: '期末周 / 专业 / 休息 / 心气' },
 				{ label: '学习日历', value: 'chmod +x life', note: '学习日记同步' },
 				{ label: '健康作息', value: '健康作息打卡记录', note: '睡眠 / 喝水 / 运动' },
+				{ label: '救赎之路', value: 'CS 复健笔记', note: 'Linux / HPC / Makefile' },
 			],
 		},
 		investments: {
@@ -130,6 +142,16 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			emptyDescription: '同步源暂时没有可展示内容。',
 			sourceLabel: '原帖',
 			entryLabel: '条记录',
+		},
+		redemptionRoad: {
+			kicker: '救赎之路',
+			title: '救赎之路',
+			intro: '把重新补课的技术笔记整理成一条可以继续走下去的路。',
+			emptyTitle: '还没有笔记',
+			emptyDescription: '把 Markdown 放进同步源后，这里会自动生成阅读入口。',
+			readMore: '阅读笔记',
+			entryLabel: '篇笔记',
+			backLabel: '返回救赎之路',
 		},
 		thinking: {
 			kicker: '个人思考',
@@ -159,13 +181,14 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		},
 		seo: {
 			title: 'Yfcccc | Personal Blog',
-			description: 'A personal blog for investment notes, thinking, study plans, and health routines.',
+			description: 'A personal blog for investment notes, thinking, study plans, health routines, and a redemption learning path.',
 		},
 		nav: [
 			{ id: 'investments', label: 'Investments' },
 			{ id: 'thinking', label: 'Thinking' },
 			{ id: 'study-calendar', label: 'Study Calendar' },
 			{ id: 'health-routine', label: 'Health Routine' },
+			{ id: 'redemption-road', label: 'Redemption' },
 		],
 		hero: {
 			badge: 'Blog',
@@ -178,6 +201,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 				{ label: 'Thinking', value: 'Four Notes', note: 'Exams / major / rest / confidence' },
 				{ label: 'Study Calendar', value: 'chmod +x life', note: 'Study log sync' },
 				{ label: 'Health Routine', value: 'Daily Check-ins', note: 'Sleep / water / movement' },
+				{ label: 'Redemption', value: 'CS Recovery Notes', note: 'Linux / HPC / Makefile' },
 			],
 		},
 		investments: {
@@ -204,6 +228,16 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			emptyDescription: 'Nothing available from the synced source.',
 			sourceLabel: 'source',
 			entryLabel: 'entries',
+		},
+		redemptionRoad: {
+			kicker: 'Redemption Road',
+			title: 'Redemption Road',
+			intro: 'A quiet learning trail for rebuilding technical foundations note by note.',
+			emptyTitle: 'No notes yet',
+			emptyDescription: 'Markdown notes added to the source snapshot will appear here.',
+			readMore: 'Read note',
+			entryLabel: 'notes',
+			backLabel: 'Back to Redemption Road',
 		},
 		thinking: {
 			kicker: 'Thinking',

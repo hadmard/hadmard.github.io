@@ -29,7 +29,7 @@ const getHref = (id: string) => {
             {
                 copy.nav.map((item) => {
                     const targetPath = getHref(item.id).replace(/\/$/, '');
-                    const isActive = currentPath === targetPath;
+                    const isActive = currentPath === targetPath || currentPath.startsWith(`${targetPath}/`);
                     
                     return (
                         <a 

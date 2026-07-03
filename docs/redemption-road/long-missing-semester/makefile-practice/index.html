@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="这些小项目是给你练 Makefile 用的：源码是完整的，但每个目录都故意没有 Makefile。 建议顺序： 1. 01-hello-cli : 练最基本的目标、命令、变量和 clean 。 2. 02-multi-file-ca..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/long-missing-semester/makefile-practice/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/makefile-practice/"><title>Makefile Practice Projects | 救赎之路 | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.D_uHcd8p.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link active" href="/redemption-road/"> 救赎之路 </a> </nav> <a href="/en/redemption-road/long-missing-semester/makefile-practice/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Makefile Practice</p> <h1>Makefile Practice Projects</h1> <p>这些小项目是给你练 Makefile 用的：源码是完整的，但每个目录都故意没有 Makefile。 建议顺序： 1. 01-hello-cli : 练最基本的目标、命令、变量和 clean 。 2. 02-multi-file-ca...</p> <div class="article-meta"> <span class="soft-label">1 分钟</span> <span class="signal-pill">README.md</span> </div> </div> </section> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><p>这些小项目是给你练 Makefile 用的：源码是完整的，但每个目录都故意没有 Makefile。</p>
+<p>建议顺序：</p>
+<ol>
+<li><code>01-hello-cli</code>: 练最基本的目标、命令、变量和 <code>clean</code>。</li>
+<li><code>02-multi-file-calc</code>: 练 <code>.c -> .o -> executable</code>、头文件依赖和增量编译。</li>
+<li><code>03-static-library</code>: 练 <code>ar rcs</code>、静态库和链接顺序。</li>
+<li><code>04-debug-release-test</code>: 练目录结构、<code>debug</code>、<code>release</code>、<code>test</code>、<code>run</code>、自动变量和条件变量。</li>
+</ol>
+<p>通用要求：</p>
+<ul>
+<li>recipe 行必须以 tab 开头。</li>
+<li>先写最笨的版本，再逐步引入变量、自动变量和模式规则。</li>
+<li>推荐编译选项：<code>-Wall -Wextra -Werror</code>。</li>
+<li>每次改完 Makefile 后试试 <code>make clean &#x26;&#x26; make</code>。</li>
+<li>不要急着一次写完，Makefile 很适合一层一层长出来。</li>
+</ul>
+<p>你可以先用 README 里的手动 <code>cc</code> 命令确认程序怎么编译，再把这些命令抽象成 Makefile 规则。</p></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>

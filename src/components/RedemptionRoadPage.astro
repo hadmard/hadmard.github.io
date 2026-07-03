@@ -1,0 +1,115 @@
+---
+// 文件说明：渲染“救赎之路”模块首页。
+// 功能说明：读取同步后的 Markdown 笔记，按主题分组展示为可阅读的卡片入口。
+import type { Locale } from '../data/site';
+
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from './SiteHeader.astro';
+import { getCopy } from '../utils/i18n';
+import { getRedemptionGroups, getRedemptionNotes, noteHref } from '../utils/redemption';
+
+const { locale, canonicalPath, alternatePath } = Astro.props as {
+	locale: Locale;
+	canonicalPath: string;
+	alternatePath: string;
+};
+
+const copy = getCopy(locale);
+const notes = await getRedemptionNotes();
+const groups = getRedemptionGroups(notes);
+const localeTag = locale === 'zh-cn' ? 'zh-CN' : 'en-US';
+const numberFormatter = new Intl.NumberFormat(localeTag);
+const totalWords = notes.reduce((sum, note) => sum + note.wordCount, 0);
+const readingUnit = locale === 'zh-cn' ? '分钟' : 'min';
+const totalWordsLabel = locale === 'zh-cn'
+	? `${numberFormatter.format(totalWords)} 字词`
+	: `${numberFormatter.format(totalWords)} words`;
+---
+
+<Layout
+	title={`${copy.redemptionRoad.title} | ${copy.brand.name}`}
+	description={copy.redemptionRoad.intro}
+	lang={locale}
+	canonicalPath={canonicalPath}
+	alternatePath={alternatePath}
+>
+	<main class="site-shell reading-shell">
+		<SiteHeader locale={locale} alternatePath={alternatePath} />
+
+		<section class="reading-hero redemption-hero" data-reveal>
+			<p class="soft-label">{copy.redemptionRoad.kicker}</p>
+			<h1>{copy.redemptionRoad.title}</h1>
+			<p>{copy.redemptionRoad.intro}</p>
+			<div class="hero-material-stack redemption-symbol-stack" aria-hidden="true">
+				<span class="hero-symbol hero-symbol-primary">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M5 21.8c3.8-8.4 9-13.4 18-15.6" />
+						<path d="M16.9 5.2 23 6.2l-2.6 5.5" />
+						<path d="M6 22.2c4.9 1.4 10.4.5 15.8-2.7" />
+					</svg>
+				</span>
+				<span class="hero-symbol">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M6.5 8.2h15a2.2 2.2 0 0 1 2.2 2.2v8.8a2.2 2.2 0 0 1-2.2 2.2h-15a2.2 2.2 0 0 1-2.2-2.2v-8.8a2.2 2.2 0 0 1 2.2-2.2Z" />
+						<path d="m8.4 12.4 2.8 2.5-2.8 2.5M13.2 17.5h5.7" />
+					</svg>
+				</span>
+				<span class="hero-symbol">{notes.length}</span>
+				<span class="hero-slab hero-slab-a"></span>
+				<span class="hero-slab hero-slab-b"></span>
+			</div>
+			<div class="reading-meta">
+				<span>{notes.length} {copy.redemptionRoad.entryLabel}</span>
+				{notes.length > 0 && <span>{totalWordsLabel}</span>}
+			</div>
+		</section>
+
+		{groups.length > 0 ? (
+			<section class="redemption-board" aria-label={copy.redemptionRoad.title}>
+				{groups.map((group, groupIndex) => (
+					<div class="redemption-group" data-reveal style={`--group-index: ${groupIndex}`}>
+						<div class="redemption-group-head">
+							<span class="redemption-group-mark" aria-hidden="true"></span>
+							<h2>{group.label}</h2>
+						</div>
+						<div class="redemption-note-grid">
+							{group.notes.map((note, noteIndex) => (
+								<a class="redemption-note-card" href={noteHref(note, locale)} style={`--note-index: ${noteIndex}`}>
+									<span class="redemption-note-icon" aria-hidden="true">
+										{note.section === 'HPC 101' ? (
+											<svg viewBox="0 0 32 32" role="presentation">
+												<path d="M7 10.5h18M7 16h18M7 21.5h18" />
+												<path d="M9.5 6.5h13A2.5 2.5 0 0 1 25 9v14a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 7 23V9a2.5 2.5 0 0 1 2.5-2.5Z" />
+											</svg>
+										) : note.section === 'Makefile Practice' ? (
+											<svg viewBox="0 0 32 32" role="presentation">
+												<path d="M8 9.5h7.5l2.2 3H24a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-11a2 2 0 0 1 2-2Z" />
+												<path d="m12 18 2.4 2.4L20.5 15" />
+											</svg>
+										) : (
+											<svg viewBox="0 0 32 32" role="presentation">
+												<path d="M9 6.5h10.2a3.8 3.8 0 0 1 3.8 3.8v15.2H11.2A3.2 3.2 0 0 1 8 22.3V7.5a1 1 0 0 1 1-1Z" />
+												<path d="M11.2 25.5a3.2 3.2 0 0 1 0-6.4H23M12 11h7M12 15h5" />
+											</svg>
+										)}
+									</span>
+									<strong>{note.title}</strong>
+									{note.excerpt && <p>{note.excerpt}</p>}
+									<span class="redemption-note-foot">
+										<span>{note.readingMinutes} {readingUnit}</span>
+										<span>{copy.redemptionRoad.readMore}</span>
+									</span>
+								</a>
+							))}
+						</div>
+					</div>
+				))}
+			</section>
+		) : (
+			<section class="raw-empty" data-reveal>
+				<h2>{copy.redemptionRoad.emptyTitle}</h2>
+				<p>{copy.redemptionRoad.emptyDescription}</p>
+			</section>
+		)}
+	</main>
+</Layout>

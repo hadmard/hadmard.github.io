@@ -1,0 +1,22 @@
+---
+// 文件说明：中文“救赎之路”笔记详情页。
+import RedemptionNotePage from '../../components/RedemptionNotePage.astro';
+import { getRedemptionNotes, noteHref } from '../../utils/redemption';
+
+export async function getStaticPaths() {
+	const notes = await getRedemptionNotes();
+	return notes.map((note) => ({
+		params: { slug: note.slug },
+		props: { note },
+	}));
+}
+
+const { note } = Astro.props;
+---
+
+<RedemptionNotePage
+	locale="zh-cn"
+	note={note}
+	canonicalPath={noteHref(note, 'zh-cn')}
+	alternatePath={noteHref(note, 'en')}
+/>

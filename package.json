@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "check": "astro check",
+    "sync:redemption": "node scripts/sync-redemption-road.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

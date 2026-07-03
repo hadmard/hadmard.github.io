@@ -1,0 +1,58 @@
+---
+// 文件说明：渲染“救赎之路”单篇笔记阅读页。
+// 功能说明：使用统一 Markdown 渲染与阅读排版展示同步后的技术笔记。
+import type { Locale } from '../data/site';
+import type { RedemptionNote } from '../utils/redemption';
+
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from './SiteHeader.astro';
+import { getCopy } from '../utils/i18n';
+import { renderMarkdown } from '../utils/markdown';
+
+const { locale, note, canonicalPath, alternatePath } = Astro.props as {
+	locale: Locale;
+	note: RedemptionNote;
+	canonicalPath: string;
+	alternatePath: string;
+};
+
+const copy = getCopy(locale);
+const renderedContent = await renderMarkdown(note.body);
+const indexHref = locale === 'zh-cn' ? '/redemption-road/' : '/en/redemption-road/';
+const readingUnit = locale === 'zh-cn' ? '分钟' : 'min';
+---
+
+<Layout
+	title={`${note.title} | ${copy.redemptionRoad.title} | ${copy.brand.name}`}
+	description={note.excerpt || copy.redemptionRoad.intro}
+	lang={locale}
+	canonicalPath={canonicalPath}
+	alternatePath={alternatePath}
+>
+	<main class="site-shell reading-shell">
+		<SiteHeader locale={locale} alternatePath={alternatePath} />
+
+		<a class="redemption-back-link" href={indexHref}>
+			<span aria-hidden="true"></span>
+			{copy.redemptionRoad.backLabel}
+		</a>
+
+		<section class="article-hero redemption-article-hero" data-reveal>
+			<div class="max-w-4xl">
+				<p class="section-kicker">{note.section}</p>
+				<h1>{note.title}</h1>
+				{note.excerpt && <p>{note.excerpt}</p>}
+				<div class="article-meta">
+					<span class="soft-label">{note.readingMinutes} {readingUnit}</span>
+					<span class="signal-pill">{note.fileName}</span>
+				</div>
+			</div>
+		</section>
+
+		<section class="redemption-article-layout">
+			<article class="panel-strong article-body redemption-article-body">
+				<div class="prose-thought markdown-body" set:html={renderedContent} />
+			</article>
+		</section>
+	</main>
+</Layout>
