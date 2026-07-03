@@ -223,9 +223,9 @@ export const normalizeCc98Markdown = (content: string) => convertQuoteBlocks(con
 		const href = normalizeCc98Url(url);
 		return href && isSafeUrl(href) ? `<${href}>` : url.trim();
 	})
-	.replace(/\[b\]([\s\S]*?)\[\/b\]/gi, '**$1**')
-	.replace(/\[i\]([\s\S]*?)\[\/i\]/gi, '*$1*')
-	.replace(/\[(?:s|del|strike)\]([\s\S]*?)\[\/(?:s|del|strike)\]/gi, '~~$1~~')
+	.replace(/\[b\]([\s\S]*?)\[\/b\]/gi, (_match, value: string) => `**${value.trim()}**`)
+	.replace(/\[i\]([\s\S]*?)\[\/i\]/gi, (_match, value: string) => `*${value.trim()}*`)
+	.replace(/\[(?:s|del|strike)\]([\s\S]*?)\[\/(?:s|del|strike)\]/gi, (_match, value: string) => `~~${value.trim()}~~`)
 	.replace(/\[u\]([\s\S]*?)\[\/u\]/gi, '$1')
 	.replace(/\[code\]([\s\S]*?)\[\/code\]/gi, (_match, code: string) => `\n\n\`\`\`\n${code.trim()}\n\`\`\`\n\n`)
 	.replace(/\[img\]([\s\S]*?)\[\/img\]/gi, (_match, source: string) => {
