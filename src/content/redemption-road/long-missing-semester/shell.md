@@ -27,7 +27,7 @@
 - pwd = 当前目录
   - ～ home；.当前目录；..上一级目录
   - /左偏，unix系统更加开放，自由；\右偏，windows系统更加保守
-- ls 
+- ls
   - -a 所有，包括隐藏
   - -l 详细的信息，修改日期，大小，文件权限之类
 - touch mkdir
@@ -41,10 +41,10 @@
 - rm  删除
   - -r 删除目录
   - -f 强制删除
-- find 
+- find
   - find . -name "a.txt" 从.目录中找名字为a.txt的文件
   - find . -name "*.txt" 找所有txt
-  - -type 
+  - -type
     - d 文件夹
     - f 文件
 
@@ -55,11 +55,11 @@
   - 也有拼接的作用
 - head/tail 输出前/后十行
   -  -n lines,输出前/后lines行
-- more/less 
+- more/less
   - 分页器，空格翻页，回车下一行，q退出；less功能比more多，按照前面的配置，cat -n 就是分页器了
 - hexdump 十六进制输出
   - -C 并排输出十六进制与 ASCII（实际值）
-    - 
+    -
 
 ![image-20260702134755876](/redemption-assets/image-20260702134755876.png)
 

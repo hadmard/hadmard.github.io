@@ -15,12 +15,34 @@ const contentOutput = resolve(repoRoot, 'src/content/redemption-road');
 const assetOutput = resolve(repoRoot, 'public/redemption-assets');
 const typoraImageRoot = `${join(userHome, 'Library/Application Support/typora-user-images')}/`;
 const markdownExtensions = new Set(['.md', '.markdown', '.mdx']);
-const ignoredDirectories = new Set(['.git', '.obsidian', 'node_modules', 'CS', 'superpowers']);
+const ignoredDirectories = new Set([
+	'.git',
+	'.obsidian',
+	'node_modules',
+	'CS',
+	'docs',
+	'makefile-practice',
+	'superpowers',
+]);
 const copiedAssets = new Map();
 
 const toPosixPath = (value) => value.split('\\').join('/');
 
 const isMarkdownFile = (filePath) => markdownExtensions.has(extname(filePath).toLowerCase());
+
+const isStudyNote = (relativePath, content) => {
+	const normalizedPath = toPosixPath(relativePath);
+	const fileName = basename(normalizedPath).toLowerCase();
+	const pathParts = normalizedPath.toLowerCase().split('/');
+	const title = content.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? '';
+
+	if (pathParts.includes('makefile-practice')) return false;
+	if (fileName === 'exp0.md' || fileName === 'exp1.md') return false;
+	if (/codex/i.test(fileName)) return false;
+	if (/实验报告|实验记录/.test(title)) return false;
+
+	return true;
+};
 
 const escapeMarkdownAlt = (value) => value
 	.replace(/\\/g, '\\\\')
@@ -55,7 +77,9 @@ const rewriteImagePaths = (content) => {
 const normalizeMarkdownArtifacts = (content) => content
 	.replace(/^(\s*)-\s+```(-O0\s+.+)$/gm, '$1- `$2`')
 	.replace(/^(\s*)```(?:ifeq|define)\b.*$/gm, '$1```makefile')
-	.replace(/```([^`\n]+)```/g, '`$1`');
+	.replace(/```([^`\n]+)```/g, '`$1`')
+	.replace(/^[ \u200B\uFEFF]+\t/gm, '\t')
+	.replace(/[ \t\u200B\uFEFF]+$/gm, '');
 
 const collectMarkdownFiles = async (directory) => {
 	const entries = await readdir(directory, { withFileTypes: true });
@@ -100,11 +124,17 @@ const sourceFiles = (await collectMarkdownFiles(sourceRoot)).sort((a, b) => {
 const seenContent = new Set();
 let syncedCount = 0;
 let copiedAssetCount = 0;
+let skippedCount = 0;
 
 for (const sourceFile of sourceFiles) {
 	const relativePath = toPosixPath(relative(sourceRoot, sourceFile));
 	const outputPath = join(contentOutput, relativePath);
 	const rawContent = await readFile(sourceFile, 'utf-8');
+	if (!isStudyNote(relativePath, rawContent)) {
+		skippedCount += 1;
+		continue;
+	}
+
 	const normalizedContent = normalizeMarkdownArtifacts(sanitizeLocalPaths(rewriteImagePaths(rawContent))).replace(/\r\n?/g, '\n').trimEnd();
 	const fingerprint = contentHash(normalizedContent.replace(/\s+$/gm, '').trim());
 	if (seenContent.has(fingerprint)) continue;
@@ -124,4 +154,5 @@ for (const [sourceAsset, fileName] of copiedAssets) {
 }
 
 console.log(`Synced ${syncedCount} markdown files from ${sourceRoot}`);
+console.log(`Skipped ${skippedCount} non-note markdown files`);
 console.log(`Copied ${copiedAssetCount} referenced image assets`);

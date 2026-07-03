@@ -1,0 +1,103 @@
+---
+// 文件说明：渲染阅读进度条与文章大纲。
+// 功能说明：用同一套轻量交互服务 Markdown 文章和 CC98 楼层时间线。
+import type { ReadingOutlineItem } from '../utils/reading';
+
+const { outline = [], label = '目录' } = Astro.props as {
+	outline?: ReadingOutlineItem[];
+	label?: string;
+};
+
+const visibleOutline = outline.filter((item) => item.id && item.label);
+---
+
+<div class="reading-progress-rail" aria-hidden="true">
+	<span class="reading-progress-fill" data-reading-progress-bar></span>
+</div>
+
+{visibleOutline.length > 0 && (
+	<aside class="reading-outline" data-reading-outline aria-label={label}>
+		<div class="reading-outline-head">
+			<span class="reading-outline-icon" aria-hidden="true">
+				<svg viewBox="0 0 28 28" role="presentation">
+					<path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4" />
+					<path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1" />
+				</svg>
+			</span>
+			<span>{label}</span>
+		</div>
+		<nav class="reading-outline-list">
+			{visibleOutline.map((item) => (
+				<a
+					href={`#${item.id}`}
+					class="reading-outline-link"
+					data-outline-target={item.id}
+					style={`--outline-depth: ${Math.max(0, item.level - 2)}`}
+				>
+					<span>{item.label}</span>
+				</a>
+			))}
+		</nav>
+	</aside>
+)}
+
+<script is:inline>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length) return;
+
+		let frame = 0;
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		window.addEventListener('scroll', schedule, { passive: true });
+		window.addEventListener('resize', schedule);
+		window.__readingAssistCleanup = () => {
+			window.removeEventListener('scroll', schedule);
+			window.removeEventListener('resize', schedule);
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script>

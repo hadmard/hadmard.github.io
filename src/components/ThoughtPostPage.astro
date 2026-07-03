@@ -11,8 +11,10 @@ import type { Locale } from '../data/site';
 
 import Layout from '../layouts/Layout.astro';
 import { getCopy, getThoughtSlug } from '../utils/i18n';
+import { extractMarkdownOutline } from '../utils/reading';
 import Comments from './Comments.astro';
 import LocaleSwitch from './LocaleSwitch.astro';
+import ReadingAssist from './ReadingAssist.astro';
 
 const { locale, post, Content, related, alternateHref, canonicalPath, basePath = '' } = Astro.props as {
 	locale: Locale;
@@ -33,6 +35,8 @@ const homeLabel = locale === 'zh-cn' ? '首页' : 'Home';
 const relatedHref = (entry: CollectionEntry<'thoughts'>) => locale === 'zh-cn'
 	? `${normalizedBasePath}/thinking/${getThoughtSlug(entry)}/`
 	: `${normalizedBasePath}/en/thinking/${getThoughtSlug(entry)}/`;
+const outline = extractMarkdownOutline(post.body ?? '');
+const outlineLabel = locale === 'zh-cn' ? '文章目录' : 'Outline';
 ---
 
 <Layout
@@ -65,6 +69,8 @@ const relatedHref = (entry: CollectionEntry<'thoughts'>) => locale === 'zh-cn'
 				</div>
 			</div>
 		</section>
+
+		<ReadingAssist outline={outline} label={outlineLabel} />
 
 		<section class="article-layout">
 			<article class="panel-strong article-body">

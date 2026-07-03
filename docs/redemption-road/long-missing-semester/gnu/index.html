@@ -1,5 +1,65 @@
-<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内容 -..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/long-missing-semester/gnu/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/gnu/"><title>GNU make | 救赎之路 | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.DSfxEErL.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link active" href="/redemption-road/"> 救赎之路 </a> </nav> <a href="/en/redemption-road/long-missing-semester/gnu/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Missing Semester</p> <h1>GNU make</h1> <p>cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内容 -...</p> <div class="article-meta"> <span class="soft-label">4 分钟</span> <span class="signal-pill">GNU.md</span> </div> </div> </section> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h2 id="cc">cc</h2>
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 参数 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/long-missing-semester/gnu/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/gnu/"><title>GNU make | 救赎之路 | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.yqFsmPj4.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link active" href="/redemption-road/"> 救赎之路 </a> </nav> <a href="/en/redemption-road/long-missing-semester/gnu/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Missing Semester</p> <h1>GNU make</h1> <p>cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 参数 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内...</p> <div class="article-meta"> <span class="soft-label">5 分钟</span> <span class="signal-pill">GNU.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="笔记目录"> <div class="reading-outline-head"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span>笔记目录</span> </div> <nav class="reading-outline-list"> <a href="#cc" class="reading-outline-link" data-outline-target="cc" style="--outline-depth: 0"> <span>cc</span> </a><a href="#参数" class="reading-outline-link" data-outline-target="参数" style="--outline-depth: 1"> <span>参数</span> </a><a href="#子目录" class="reading-outline-link" data-outline-target="子目录" style="--outline-depth: 1"> <span>子目录</span> </a><a href="#编译链接库" class="reading-outline-link" data-outline-target="编译链接库" style="--outline-depth: 0"> <span>编译/链接/库</span> </a><a href="#1-编译是每个文件单独翻译" class="reading-outline-link" data-outline-target="1-编译是每个文件单独翻译" style="--outline-depth: 1"> <span>1. 编译是“每个文件单独翻译”</span> </a><a href="#2-链接是把零件拼成完整程序" class="reading-outline-link" data-outline-target="2-链接是把零件拼成完整程序" style="--outline-depth: 1"> <span>2. 链接是“把零件拼成完整程序”</span> </a><a href="#3-静态库-a直接打包进程序" class="reading-outline-link" data-outline-target="3-静态库-a直接打包进程序" style="--outline-depth: 1"> <span>3. 静态库 .a：直接打包进程序</span> </a><a href="#4-动态库-so程序运行时再去找" class="reading-outline-link" data-outline-target="4-动态库-so程序运行时再去找" style="--outline-depth: 1"> <span>4. 动态库 .so：程序运行时再去找</span> </a><a href="#makefile" class="reading-outline-link" data-outline-target="makefile" style="--outline-depth: 0"> <span>Makefile</span> </a><a href="#preview" class="reading-outline-link" data-outline-target="preview" style="--outline-depth: 1"> <span>preview</span> </a><a href="#变量" class="reading-outline-link" data-outline-target="变量" style="--outline-depth: 1"> <span>变量</span> </a><a href="#自动推导" class="reading-outline-link" data-outline-target="自动推导" style="--outline-depth: 1"> <span>自动推导</span> </a><a href="#伪目标" class="reading-outline-link" data-outline-target="伪目标" style="--outline-depth: 1"> <span>伪目标</span> </a><a href="#makefile的包含" class="reading-outline-link" data-outline-target="makefile的包含" style="--outline-depth: 1"> <span>Makefile的包含</span> </a><a href="#d" class="reading-outline-link" data-outline-target="d" style="--outline-depth: 1"> <span>.d</span> </a> </nav> </aside> <script>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length) return;
+
+		let frame = 0;
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		window.addEventListener('scroll', schedule, { passive: true });
+		window.addEventListener('resize', schedule);
+		window.__readingAssistCleanup = () => {
+			window.removeEventListener('scroll', schedule);
+			window.removeEventListener('resize', schedule);
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h2 id="cc">cc</h2>
 <p>cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情</p>
+<h3 id="参数">参数</h3>
 <ul>
 <li>
 <p>无参数，e.g. cc main.c</p>
@@ -64,6 +124,63 @@
 </li>
 </ul>
 </li>
+<li>
+<p>-I</p>
+<ul>
+<li>制定头文件的搜索目录,可以叠加</li>
+</ul>
+</li>
+</ul>
+<h3 id="子目录">子目录</h3>
+<ul>
+<li>
+<p>C语言中的<code>#include</code>表示预处理，先去某些目录里面找include的内容，然后复制展开到.c中（也就是.i文件，预处理文件）</p>
+<ul>
+<li>
+<p><code>#include "add.h"</code></p>
+<ul>
+<li>
+<p>双引号是自己项目的头文件，头文件是函数声明的文件，具体实现是在同名.c文件中</p>
+</li>
+<li>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1. 编译器自己的默认目录</span></span>
+<span class="line"><span>2. cc -I 指定的目录</span></span>
+<span class="line"><span>3. 系统默认头文件目录</span></span></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><code>#include &#x3C;stdio.h></code></p>
+<ul>
+<li>
+<p>尖括号通常用于系统库、标准库、第三方库的头文件。</p>
+</li>
+<li>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1. cc -I 指定的目录</span></span>
+<span class="line"><span>2. 编译器自己的默认目录</span></span>
+<span class="line"><span>3. 系统默认头文件目录</span></span></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>系统默认头文件目录</p>
+<ul>
+<li>例如 Linux 上常见位置有：</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/usr/include</span></span>
+<span class="line"><span>/usr/local/include</span></span></code></pre>
+<ul>
+<li>GCC/Clang 自己也有一些内置头文件目录，比如：</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/usr/lib/gcc/...</span></span>
+<span class="line"><span>/usr/lib/clang/...</span></span></code></pre>
+<ul>
+<li>macOS 上更特殊，很多头文件在 SDK 目录里，例如类似：</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include</span></span></code></pre>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="编译链接库">编译/链接/库</h2>
 <p>主线：</p>
@@ -102,25 +219,7 @@
 <p>所以链接就是：</p>
 <p><strong>把你自己写的代码 + 别人写好的库，合成一个能运行的程序。</strong></p>
 <hr>
-<h3 id="3-库是什么">3. 库是什么？</h3>
-<p>库就是别人提前写好的函数集合。</p>
-<p>比如数学库里有：</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>sin()</span></span>
-<span class="line"><span>cos()</span></span>
-<span class="line"><span>sqrt()</span></span></code></pre>
-<p>BLAS 里有：</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>矩阵乘法</span></span>
-<span class="line"><span>向量运算</span></span>
-<span class="line"><span>线性代数基础操作</span></span></code></pre>
-<p>OpenMPI 里有：</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>多进程通信</span></span>
-<span class="line"><span>节点间通信</span></span>
-<span class="line"><span>MPI_Init</span></span>
-<span class="line"><span>MPI_Comm_rank</span></span>
-<span class="line"><span>MPI_Finalize</span></span></code></pre>
-<p>你写 HPL 的时候，不可能自己重写 BLAS 和 MPI，所以要链接它们。</p>
-<hr>
-<h3 id="4-静态库-a直接打包进程序">4. 静态库 <code>.a</code>：直接打包进程序</h3>
+<h3 id="3-静态库-a直接打包进程序">3. 静态库 <code>.a</code>：直接打包进程序</h3>
 <p>Linux 上静态库一般长这样：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>libblas.a</span></span>
 <span class="line"><span>libmpi.a</span></span></code></pre>
@@ -132,7 +231,7 @@
 <p>你可以理解成：</p>
 <p><strong>静态链接 = 把参考书内容复印进你的作业里。</strong></p>
 <hr>
-<h3 id="5-动态库-so程序运行时再去找">5. 动态库 <code>.so</code>：程序运行时再去找</h3>
+<h3 id="4-动态库-so程序运行时再去找">4. 动态库 <code>.so</code>：程序运行时再去找</h3>
 <p>Linux 上动态库一般长这样：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>libblas.so</span></span>
 <span class="line"><span>libmpi.so</span></span></code></pre>
@@ -260,7 +359,7 @@
 <li>
 <p>define</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#6A737D">#define PRINT_INFO</span></span>
-<span class="line"><span style="color:#E1E4E8">				echo "building..."</span></span>
+<span class="line"><span style="color:#E1E4E8">  		echo "building..."</span></span>
 <span class="line"><span style="color:#E1E4E8">        echo "done"</span></span>
 <span class="line"><span style="color:#E1E4E8">endef</span></span></code></pre>
 <p>就是def呗</p>
@@ -270,7 +369,56 @@
 <li>
 <p>注释，使用#，转义\</p>
 </li>
-</ol></div> </article> </section> </main>  <script>
+</ol>
+<h3 id="d">.d</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#E1E4E8">CC = cc</span></span>
+<span class="line"><span style="color:#E1E4E8">CPPFLAGS = -Iinclude</span></span>
+<span class="line"><span style="color:#E1E4E8">CFLAGS = -Wall -g -MMD -MP</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">SRC = main.c add.c</span></span>
+<span class="line"><span style="color:#E1E4E8">OBJ = </span><span style="color:#9ECBFF">$(</span><span style="color:#E1E4E8">SRC:.c=.o</span><span style="color:#9ECBFF">)</span></span>
+<span class="line"><span style="color:#E1E4E8">DEP = </span><span style="color:#9ECBFF">$(</span><span style="color:#E1E4E8">OBJ:.o=.d</span><span style="color:#9ECBFF">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">main</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">$(</span><span style="color:#E1E4E8">OBJ</span><span style="color:#9ECBFF">)</span></span>
+<span class="line"><span style="color:#9ECBFF">	$(</span><span style="color:#E1E4E8">CC</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF"> $(</span><span style="color:#E1E4E8">OBJ</span><span style="color:#9ECBFF">)</span><span style="color:#E1E4E8"> -o main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">%</span><span style="color:#B392F0">.o</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">%</span><span style="color:#E1E4E8">.c</span></span>
+<span class="line"><span style="color:#9ECBFF">	$(</span><span style="color:#E1E4E8">CC</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF"> $(</span><span style="color:#E1E4E8">CPPFLAGS</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF"> $(</span><span style="color:#E1E4E8">CFLAGS</span><span style="color:#9ECBFF">)</span><span style="color:#E1E4E8"> -c </span><span style="color:#79B8FF">$&#x3C;</span><span style="color:#E1E4E8"> -o </span><span style="color:#79B8FF">$@</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">-include</span><span style="color:#9ECBFF"> $(</span><span style="color:#E1E4E8">DEP</span><span style="color:#9ECBFF">)</span></span></code></pre>
+<ul>
+<li>
+<p><code>-MMD</code> 编译时顺便生成 .d 依赖文件</p>
+</li>
+<li>
+<p><code>-MP</code> 给头文件生成空规则，避免头文件删除后 make 报奇怪错误</p>
+</li>
+<li>
+<p><code>OBJ = $(SRC:.c=.o)</code></p>
+<ul>
+<li>字面意思</li>
+</ul>
+</li>
+<li>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#79B8FF">%</span><span style="color:#B392F0">.o</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">%</span><span style="color:#E1E4E8">.c</span></span>
+<span class="line"><span style="color:#9ECBFF">  $(</span><span style="color:#E1E4E8">CC</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF"> $(</span><span style="color:#E1E4E8">CPPFLAGS</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF"> $(</span><span style="color:#E1E4E8">CFLAGS</span><span style="color:#9ECBFF">)</span><span style="color:#E1E4E8"> -c </span><span style="color:#79B8FF">$&#x3C;</span><span style="color:#E1E4E8"> -o </span><span style="color:#79B8FF">$@</span></span></code></pre>
+<ul>
+<li>
+<p>规则表⬇️，因此这里就是说从所有依赖那里生成目标</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>$@   当前目标</span></span>
+<span class="line"><span>$&#x3C;   第一个依赖</span></span>
+<span class="line"><span>$^   所有依赖</span></span>
+<span class="line"><span>针对某一个规则而言</span></span></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><code>-include main.d add.d</code></p>
+<ul>
+<li>makefile读取这个补充的依赖关系</li>
+</ul>
+</li>
+</ul></div> </article> </section> </main>  <script>
 			const setupReveal = () => {
 				const items = document.querySelectorAll('[data-reveal]');
 				if (!items.length) return;
@@ -416,7 +564,7 @@
 				window.__materialMotionController = controller;
 
 				document.querySelectorAll(
-					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry',
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
 				).forEach((root) => controller.addRoot(root));
 
 				controller.updateScrollTargets();

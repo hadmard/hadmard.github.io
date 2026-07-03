@@ -1,4 +1,63 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="主线： 1. 编译是“每个文件单独翻译” 比如你有： 编译器先分别翻译成机器码碎片： 这些 .o 文件还不是完整软件，只是一块块零件。 ------ 2. 链接是“把零件拼成完整程序” 比如 main.c 里写了： 但 foo() ..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/hpc/linking/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/hpc/linking/"><title>编译与链接 | Redemption Road | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.DSfxEErL.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link active" href="/en/redemption-road/"> Redemption </a> </nav> <a href="/redemption-road/hpc/linking/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">HPC 101</p> <h1>编译与链接</h1> <p>主线： 1. 编译是“每个文件单独翻译” 比如你有： 编译器先分别翻译成机器码碎片： 这些 .o 文件还不是完整软件，只是一块块零件。 ------ 2. 链接是“把零件拼成完整程序” 比如 main.c 里写了： 但 foo() ...</p> <div class="article-meta"> <span class="soft-label">2 min</span> <span class="signal-pill">链接.md</span> </div> </div> </section> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><p>主线：</p>
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="主线： 1. 编译是“每个文件单独翻译” 比如你有： 编译器先分别翻译成机器码碎片： 这些 .o 文件还不是完整软件，只是一块块零件。 ------ 2. 链接是“把零件拼成完整程序” 比如 main.c 里写了： 但 foo() ..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/hpc/linking/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/hpc/linking/"><title>编译与链接 | Redemption Road | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.yqFsmPj4.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link active" href="/en/redemption-road/"> Redemption </a> </nav> <a href="/redemption-road/hpc/linking/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">HPC 101</p> <h1>编译与链接</h1> <p>主线： 1. 编译是“每个文件单独翻译” 比如你有： 编译器先分别翻译成机器码碎片： 这些 .o 文件还不是完整软件，只是一块块零件。 ------ 2. 链接是“把零件拼成完整程序” 比如 main.c 里写了： 但 foo() ...</p> <div class="article-meta"> <span class="soft-label">2 min</span> <span class="signal-pill">链接.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="Outline"> <div class="reading-outline-head"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span>Outline</span> </div> <nav class="reading-outline-list"> <a href="#1-编译是每个文件单独翻译" class="reading-outline-link" data-outline-target="1-编译是每个文件单独翻译" style="--outline-depth: 1"> <span>1. 编译是“每个文件单独翻译”</span> </a><a href="#2-链接是把零件拼成完整程序" class="reading-outline-link" data-outline-target="2-链接是把零件拼成完整程序" style="--outline-depth: 1"> <span>2. 链接是“把零件拼成完整程序”</span> </a><a href="#3-库是什么" class="reading-outline-link" data-outline-target="3-库是什么" style="--outline-depth: 1"> <span>3. 库是什么？</span> </a><a href="#4-静态库-a直接打包进程序" class="reading-outline-link" data-outline-target="4-静态库-a直接打包进程序" style="--outline-depth: 1"> <span>4. 静态库 .a：直接打包进程序</span> </a><a href="#5-动态库-so程序运行时再去找" class="reading-outline-link" data-outline-target="5-动态库-so程序运行时再去找" style="--outline-depth: 1"> <span>5. 动态库 .so：程序运行时再去找</span> </a> </nav> </aside> <script>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length) return;
+
+		let frame = 0;
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		window.addEventListener('scroll', schedule, { passive: true });
+		window.addEventListener('resize', schedule);
+		window.__readingAssistCleanup = () => {
+			window.removeEventListener('scroll', schedule);
+			window.removeEventListener('resize', schedule);
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><p>主线：</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>源码 .c/.f</span></span>
 <span class="line"><span>  ↓ 编译</span></span>
 <span class="line"><span>目标文件 .o</span></span>
@@ -218,7 +277,7 @@
 				window.__materialMotionController = controller;
 
 				document.querySelectorAll(
-					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry',
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
 				).forEach((root) => controller.addRoot(root));
 
 				controller.updateScrollTargets();

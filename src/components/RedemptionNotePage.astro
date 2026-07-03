@@ -6,8 +6,10 @@ import type { RedemptionNote } from '../utils/redemption';
 
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from './SiteHeader.astro';
+import ReadingAssist from './ReadingAssist.astro';
 import { getCopy } from '../utils/i18n';
 import { renderMarkdown } from '../utils/markdown';
+import { extractMarkdownOutline } from '../utils/reading';
 
 const { locale, note, canonicalPath, alternatePath } = Astro.props as {
 	locale: Locale;
@@ -20,6 +22,8 @@ const copy = getCopy(locale);
 const renderedContent = await renderMarkdown(note.body);
 const indexHref = locale === 'zh-cn' ? '/redemption-road/' : '/en/redemption-road/';
 const readingUnit = locale === 'zh-cn' ? '分钟' : 'min';
+const outline = extractMarkdownOutline(note.body);
+const outlineLabel = locale === 'zh-cn' ? '笔记目录' : 'Outline';
 ---
 
 <Layout
@@ -48,6 +52,8 @@ const readingUnit = locale === 'zh-cn' ? '分钟' : 'min';
 				</div>
 			</div>
 		</section>
+
+		<ReadingAssist outline={outline} label={outlineLabel} />
 
 		<section class="redemption-article-layout">
 			<article class="panel-strong article-body redemption-article-body">

@@ -4,6 +4,8 @@
 
 cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情
 
+### 参数
+
 - 无参数，e.g. cc main.c
   - 会自动编译并且链接生成a.out
 
@@ -15,7 +17,7 @@ cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详
 
   - 仅仅编译成目标文件.o 不链接
 
-- -E 
+- -E
 
   - 做预处理，会展开#include，#define之类的
 
@@ -44,6 +46,59 @@ cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详
     -O2   常用优化
     -O3   更激进优化，不一定总是更快
     -Os   优化体积
+
+- -I
+  - 制定头文件的搜索目录,可以叠加
+
+### 子目录
+
+- C语言中的`#include`表示预处理，先去某些目录里面找include的内容，然后复制展开到.c中（也就是.i文件，预处理文件）
+
+  - `#include "add.h"`
+
+    - 双引号是自己项目的头文件，头文件是函数声明的文件，具体实现是在同名.c文件中
+
+    - ```
+      1. 编译器自己的默认目录
+      2. cc -I 指定的目录
+      3. 系统默认头文件目录
+      ```
+
+  - `#include <stdio.h>`
+
+    - 尖括号通常用于系统库、标准库、第三方库的头文件。
+
+    - ```
+      1. cc -I 指定的目录
+      2. 编译器自己的默认目录
+      3. 系统默认头文件目录
+      ```
+
+  - 系统默认头文件目录
+
+    - 例如 Linux 上常见位置有：
+
+    ```
+    /usr/include
+    /usr/local/include
+    ```
+
+    - GCC/Clang 自己也有一些内置头文件目录，比如：
+
+    ```
+    /usr/lib/gcc/...
+    /usr/lib/clang/...
+    ```
+
+    - macOS 上更特殊，很多头文件在 SDK 目录里，例如类似：
+
+    ```
+    /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
+    ```
+
+
+
+
 
 ## 编译/链接/库
 
@@ -117,41 +172,7 @@ main.o + foo.o + bar.o + 一堆库
 
 ------
 
-### 3. 库是什么？
-
-库就是别人提前写好的函数集合。
-
-比如数学库里有：
-
-```
-sin()
-cos()
-sqrt()
-```
-
-BLAS 里有：
-
-```
-矩阵乘法
-向量运算
-线性代数基础操作
-```
-
-OpenMPI 里有：
-
-```
-多进程通信
-节点间通信
-MPI_Init
-MPI_Comm_rank
-MPI_Finalize
-```
-
-你写 HPL 的时候，不可能自己重写 BLAS 和 MPI，所以要链接它们。
-
-------
-
-### 4. 静态库 `.a`：直接打包进程序
+### 3. 静态库 `.a`：直接打包进程序
 
 Linux 上静态库一般长这样：
 
@@ -178,7 +199,7 @@ libmpi.a
 
 ------
 
-### 5. 动态库 `.so`：程序运行时再去找
+### 4. 动态库 `.so`：程序运行时再去找
 
 Linux 上动态库一般长这样：
 
@@ -355,7 +376,7 @@ clean一般放在文件末尾
 
       ```makefile
       #define PRINT_INFO
-      				echo "building..."
+				echo "building..."
               echo "done"
       endef
       ```
@@ -363,3 +384,48 @@ clean一般放在文件末尾
       就是def呗
 
 5. 注释，使用#，转义\
+
+### .d
+
+```makefile
+CC = cc
+CPPFLAGS = -Iinclude
+CFLAGS = -Wall -g -MMD -MP
+
+SRC = main.c add.c
+OBJ = $(SRC:.c=.o)
+DEP = $(OBJ:.o=.d)
+
+main: $(OBJ)
+	$(CC) $(OBJ) -o main
+
+%.o: %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+-include $(DEP)
+```
+
+- `-MMD` 编译时顺便生成 .d 依赖文件
+
+- `-MP` 给头文件生成空规则，避免头文件删除后 make 报奇怪错误
+
+- `OBJ = $(SRC:.c=.o)`
+
+  - 字面意思
+
+- ```makefile
+  %.o: %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+  ```
+
+  - 规则表⬇️，因此这里就是说从所有依赖那里生成目标
+
+    ```
+    $@   当前目标
+    $<   第一个依赖
+    $^   所有依赖
+    针对某一个规则而言
+    ```
+
+- `-include main.d add.d`
+  - makefile读取这个补充的依赖关系

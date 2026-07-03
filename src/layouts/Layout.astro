@@ -185,7 +185,7 @@ const alternate = alternatePath && Astro.site ? new URL(alternatePath, Astro.sit
 				window.__materialMotionController = controller;
 
 				document.querySelectorAll(
-					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry',
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
 				).forEach((root) => controller.addRoot(root));
 
 				controller.updateScrollTargets();

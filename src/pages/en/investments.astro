@@ -3,8 +3,10 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import Layout from '../../layouts/Layout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
+import ReadingAssist from '../../components/ReadingAssist.astro';
 import { getCopy } from '../../utils/i18n';
 import { normalizeCc98Markdown, renderMarkdown } from '../../utils/markdown';
+import { createFloorOutline } from '../../utils/reading';
 
 const locale = 'en';
 const copy = getCopy(locale);
@@ -85,6 +87,7 @@ const visibleRecords = await Promise.all(visibleRecordData.map(async (record) =>
 	...record,
 	renderedContent: await renderMarkdown(record.cleanContent),
 })));
+const outline = createFloorOutline(visibleRecords, locale);
 
 const crawledAtText = summary?.crawledAt
 	? new Date(summary.crawledAt).toLocaleString('en-US', { hour12: false })
@@ -132,10 +135,12 @@ const crawledAtText = summary?.crawledAt
 			</div>
 		</section>
 
+		<ReadingAssist outline={outline} label="Floors" />
+
 		{visibleRecords.length > 0 ? (
 			<section class="raw-log investment-log" aria-label="Raw investment records">
 				{visibleRecords.map((record, index) => (
-					<article class="raw-entry investment-entry" data-reveal style={`--entry-index: ${index}`}>
+					<article id={`floor-${record.floor}`} class="raw-entry investment-entry" data-reveal style={`--entry-index: ${index}`}>
 						<span class="investment-node" aria-hidden="true">
 							<svg viewBox="0 0 28 28" role="presentation">
 								<path d="M6 20.5h16M8 18l4.4-4.9 3.8 3 5.8-8.2" />

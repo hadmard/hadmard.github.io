@@ -8,8 +8,10 @@ import type { Locale } from '../data/site';
 
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from './SiteHeader.astro';
+import ReadingAssist from './ReadingAssist.astro';
 import { getCopy } from '../utils/i18n';
 import { normalizeCc98Markdown, renderMarkdown } from '../utils/markdown';
+import { createFloorOutline } from '../utils/reading';
 
 const { locale, canonicalPath, alternatePath } = Astro.props as {
 	locale: Locale;
@@ -98,6 +100,8 @@ const visibleRecords = await Promise.all(visibleRecordData.map(async (record) =>
 })));
 
 const crawledAtText = summary?.crawledAt ? formatFullDate(summary.crawledAt) : null;
+const outline = createFloorOutline(visibleRecords, locale);
+const outlineLabel = locale === 'zh-cn' ? '楼层目录' : 'Floors';
 ---
 
 <Layout
@@ -141,10 +145,12 @@ const crawledAtText = summary?.crawledAt ? formatFullDate(summary.crawledAt) : n
 			</div>
 		</section>
 
+		<ReadingAssist outline={outline} label={outlineLabel} />
+
 		{visibleRecords.length > 0 ? (
 			<section class="study-timeline health-timeline" aria-label={copy.healthRoutine.title}>
 				{visibleRecords.map((record, index) => (
-					<article class="study-entry health-entry" data-reveal style={`--timeline-index: ${index}`}>
+					<article id={`floor-${record.floor}`} class="study-entry health-entry" data-reveal style={`--timeline-index: ${index}`}>
 						<div class="study-date-chip">
 							<span>{formatDate(record.time)}</span>
 							<time>{formatTime(record.time)}</time>
