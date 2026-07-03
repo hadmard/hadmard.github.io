@@ -145,6 +145,10 @@ function decodeHtmlEntities(input) {
     .replace(/&#39;/gi, "'");
 }
 
+function stripLineTrailingWhitespace(input) {
+  return String(input).replace(/[ \t]+$/gm, "");
+}
+
 function cleanContent(rawContent) {
   if (!rawContent) {
     return "";
@@ -164,6 +168,7 @@ function cleanContent(rawContent) {
   content = content.replace(/<\/p>/gi, "\n");
   content = content.replace(/<[^>]+>/g, "");
   content = decodeHtmlEntities(content);
+  content = stripLineTrailingWhitespace(content);
   content = content.replace(/\n{3,}/g, "\n\n");
 
   return content.trim();
@@ -174,7 +179,7 @@ function ensureTrailingNewline(text) {
 }
 
 function csvEscape(value) {
-  const stringValue = value == null ? "" : String(value);
+  const stringValue = value == null ? "" : stripLineTrailingWhitespace(value);
   return `"${stringValue.replaceAll('"', '""')}"`;
 }
 

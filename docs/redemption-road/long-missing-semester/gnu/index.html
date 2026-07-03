@@ -1,0 +1,429 @@
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内容 -..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/long-missing-semester/gnu/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/gnu/"><title>GNU make | 救赎之路 | Yfcccc</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.DSfxEErL.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Yfcccc</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link active" href="/redemption-road/"> 救赎之路 </a> </nav> <a href="/en/redemption-road/long-missing-semester/gnu/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Missing Semester</p> <h1>GNU make</h1> <p>cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内容 -...</p> <div class="article-meta"> <span class="soft-label">4 分钟</span> <span class="signal-pill">GNU.md</span> </div> </div> </section> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h2 id="cc">cc</h2>
+<p>cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情</p>
+<ul>
+<li>
+<p>无参数，e.g. cc main.c</p>
+<ul>
+<li>会自动编译并且链接生成a.out</li>
+</ul>
+</li>
+<li>
+<p>-o</p>
+<ul>
+<li>-o 实则就是重命名，将a.out 重命名为-o后的内容</li>
+</ul>
+</li>
+<li>
+<p>-c</p>
+<ul>
+<li>仅仅编译成目标文件.o 不链接</li>
+</ul>
+</li>
+<li>
+<p>-E</p>
+<ul>
+<li>做预处理，会展开#include，#define之类的</li>
+</ul>
+</li>
+<li>
+<p>-s 　</p>
+<ul>
+<li>编译到汇编语言</li>
+</ul>
+</li>
+<li>
+<p>-Wall</p>
+<ul>
+<li>打开常用警告</li>
+</ul>
+</li>
+<li>
+<p>-Werror</p>
+<ul>
+<li>只要有警告就错误</li>
+</ul>
+</li>
+<li>
+<p>-g</p>
+<ul>
+<li>打开调试信息</li>
+</ul>
+</li>
+<li>
+<p>-O</p>
+<ul>
+<li>
+<p>优化等级</p>
+</li>
+<li>
+<p><code>-O0   不优化，适合调试</code>
+-O1   轻度优化
+-O2   常用优化
+-O3   更激进优化，不一定总是更快
+-Os   优化体积</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="编译链接库">编译/链接/库</h2>
+<p>主线：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>.c 源文件</span></span>
+<span class="line"><span>   ↓ 预处理</span></span>
+<span class="line"><span>.i 预处理文件</span></span>
+<span class="line"><span>   ↓ 编译</span></span>
+<span class="line"><span>.s 汇编文件</span></span>
+<span class="line"><span>   ↓ 汇编</span></span>
+<span class="line"><span>.o 目标文件</span></span>
+<span class="line"><span>   ↓ 链接</span></span>
+<span class="line"><span>可执行文件</span></span></code></pre>
+<h3 id="1-编译是每个文件单独翻译">1. 编译是“每个文件单独翻译”</h3>
+<p>比如你有：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>main.c</span></span>
+<span class="line"><span>foo.c</span></span>
+<span class="line"><span>bar.c</span></span></code></pre>
+<p>编译器先分别翻译成机器码碎片：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>main.c → main.o</span></span>
+<span class="line"><span>foo.c  → foo.o</span></span>
+<span class="line"><span>bar.c  → bar.o</span></span></code></pre>
+<p>这些 <code>.o</code> 文件还不是完整软件，只是一块块零件。</p>
+<p>这里允许文件包含未定义的函数，但是一般不允许包含未定义的函数（至少从现代的c编译器来看）</p>
+<hr>
+<h3 id="2-链接是把零件拼成完整程序">2. 链接是“把零件拼成完整程序”</h3>
+<p>比如 <code>main.c</code> 里写了：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>foo();</span></span></code></pre>
+<p>但 <code>foo()</code> 的真正实现写在 <code>foo.c</code> 里。</p>
+<p>编译 <code>main.c</code> 的时候，编译器只知道：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>哦，main 需要一个叫 foo 的函数。</span></span></code></pre>
+<p>但它还不知道 <code>foo</code> 的机器码在哪里。</p>
+<p>链接阶段就负责把它们拼起来：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>main.o + foo.o + bar.o + 一堆库</span></span>
+<span class="line"><span>  ↓</span></span>
+<span class="line"><span>可执行程序</span></span></code></pre>
+<p>所以链接就是：</p>
+<p><strong>把你自己写的代码 + 别人写好的库，合成一个能运行的程序。</strong></p>
+<hr>
+<h3 id="3-库是什么">3. 库是什么？</h3>
+<p>库就是别人提前写好的函数集合。</p>
+<p>比如数学库里有：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>sin()</span></span>
+<span class="line"><span>cos()</span></span>
+<span class="line"><span>sqrt()</span></span></code></pre>
+<p>BLAS 里有：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>矩阵乘法</span></span>
+<span class="line"><span>向量运算</span></span>
+<span class="line"><span>线性代数基础操作</span></span></code></pre>
+<p>OpenMPI 里有：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>多进程通信</span></span>
+<span class="line"><span>节点间通信</span></span>
+<span class="line"><span>MPI_Init</span></span>
+<span class="line"><span>MPI_Comm_rank</span></span>
+<span class="line"><span>MPI_Finalize</span></span></code></pre>
+<p>你写 HPL 的时候，不可能自己重写 BLAS 和 MPI，所以要链接它们。</p>
+<hr>
+<h3 id="4-静态库-a直接打包进程序">4. 静态库 <code>.a</code>：直接打包进程序</h3>
+<p>Linux 上静态库一般长这样：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>libblas.a</span></span>
+<span class="line"><span>libmpi.a</span></span></code></pre>
+<p>如果你链接静态库，链接器会把用到的库代码直接塞进你的可执行文件里。</p>
+<p>结果：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>你的程序 = 你的代码 + BLAS代码 + MPI代码的一部分</span></span></code></pre>
+<p>优点：程序比较独立，拷到别处也更可能能跑。</p>
+<p>缺点：文件大；库更新了，你的程序不会自动更新，得重新编译。</p>
+<p>你可以理解成：</p>
+<p><strong>静态链接 = 把参考书内容复印进你的作业里。</strong></p>
+<hr>
+<h3 id="5-动态库-so程序运行时再去找">5. 动态库 <code>.so</code>：程序运行时再去找</h3>
+<p>Linux 上动态库一般长这样：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>libblas.so</span></span>
+<span class="line"><span>libmpi.so</span></span></code></pre>
+<p>如果你链接动态库，可执行文件里面不会塞完整库代码，而是写一张表：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>我运行的时候需要 libblas.so</span></span>
+<span class="line"><span>我运行的时候需要 libmpi.so</span></span></code></pre>
+<p>等你真正运行程序时，系统再去找这些 <code>.so</code> 文件。</p>
+<p>优点：程序小；多个程序可以共享同一个库；库升级方便。</p>
+<p>缺点：运行时找不到库就炸。</p>
+<p>你可以理解成：</p>
+<p><strong>动态链接 = 作业里写“见某本参考书第几页”，运行时必须能找到那本书。</strong></p>
+<h2 id="makefile">Makefile</h2>
+<h3 id="preview">preview</h3>
+<p>rule like：⬇️</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#B392F0">target</span><span style="color:#B392F0"> ...</span><span style="color:#E1E4E8"> : prerequisites ...</span></span>
+<span class="line"><span style="color:#E1E4E8">    recipe</span></span>
+<span class="line"><span style="color:#E1E4E8">    ...</span></span>
+<span class="line"><span style="color:#E1E4E8">    ...</span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#B392F0">edit</span><span style="color:#E1E4E8"> : main.o kbd.o command.o display.o </span><span style="color:#79B8FF">\</span></span>
+<span class="line"><span style="color:#E1E4E8">        insert.o search.o files.o utils.o</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -o edit main.o kbd.o command.o display.o \</span></span>
+<span class="line"><span style="color:#E1E4E8">        insert.o search.o files.o utils.o</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">main.o</span><span style="color:#E1E4E8"> : main.c defs.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c main.c</span></span>
+<span class="line"><span style="color:#B392F0">kbd.o</span><span style="color:#E1E4E8"> : kbd.c defs.h command.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c kbd.c</span></span>
+<span class="line"><span style="color:#B392F0">command.o</span><span style="color:#E1E4E8"> : command.c defs.h command.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c command.c</span></span>
+<span class="line"><span style="color:#B392F0">display.o</span><span style="color:#E1E4E8"> : display.c defs.h buffer.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c display.c</span></span>
+<span class="line"><span style="color:#B392F0">insert.o</span><span style="color:#E1E4E8"> : insert.c defs.h buffer.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c insert.c</span></span>
+<span class="line"><span style="color:#B392F0">search.o</span><span style="color:#E1E4E8"> : search.c defs.h buffer.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c search.c</span></span>
+<span class="line"><span style="color:#B392F0">files.o</span><span style="color:#E1E4E8"> : files.c defs.h buffer.h command.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c files.c</span></span>
+<span class="line"><span style="color:#B392F0">utils.o</span><span style="color:#E1E4E8"> : utils.c defs.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c utils.c</span></span>
+<span class="line"><span style="color:#B392F0">clean</span><span style="color:#E1E4E8"> :</span></span>
+<span class="line"><span style="color:#E1E4E8">    rm edit main.o kbd.o command.o display.o \</span></span>
+<span class="line"><span style="color:#E1E4E8">        insert.o search.o files.o utils.o</span></span></code></pre>
+<p>例如此，基本流程是</p>
+<p>输入make，没有后置，因此看第一个块，其target是edit</p>
+<p>prerequisites中如果有一个以上的文件比target文件要新的话，recipe所定义的命令就会被执行。</p>
+<p>这里的新值得是修改日期，每次编译完，这个make会自动同步源文件，头文件的修改日期，这样如果更新了源文件和头文件，下次meke就会去做</p>
+<p>此时没有，因此触发下面的命令</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>我要生成 edit</span></span>
+<span class="line"><span>↓</span></span>
+<span class="line"><span>edit 依赖 main.o kbd.o command.o ...</span></span>
+<span class="line"><span>↓</span></span>
+<span class="line"><span>先检查这些依赖文件有没有、需不需要更新</span></span>
+<span class="line"><span>↓</span></span>
+<span class="line"><span>如果 main.o 没有，就先找 main.o 的生成规则</span></span>
+<span class="line"><span>↓</span></span>
+<span class="line"><span>执行 cc -c main.c，生成 main.o</span></span>
+<span class="line"><span>↓</span></span>
+<span class="line"><span>其他 .o 同理</span></span>
+<span class="line"><span>↓</span></span>
+<span class="line"><span>所有 .o 都生成完了</span></span>
+<span class="line"><span>↓</span></span>
+<span class="line"><span>最后才执行 cc -o edit main.o kbd.o ...</span></span></code></pre>
+<h3 id="变量">变量</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#E1E4E8">objects = main.o kbd.o command.o display.o </span><span style="color:#79B8FF">\</span></span>
+<span class="line"><span style="color:#E1E4E8">    insert.o search.o files.o utils.o</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">edit</span><span style="color:#E1E4E8"> : </span><span style="color:#9ECBFF">$(</span><span style="color:#E1E4E8">objects</span><span style="color:#9ECBFF">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -o edit </span><span style="color:#9ECBFF">$(</span><span style="color:#E1E4E8">objects</span><span style="color:#9ECBFF">)</span></span>
+<span class="line"><span style="color:#B392F0">main.o</span><span style="color:#E1E4E8"> : main.c defs.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c main.c</span></span>
+<span class="line"><span style="color:#B392F0">kbd.o</span><span style="color:#E1E4E8"> : kbd.c defs.h command.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c kbd.c</span></span>
+<span class="line"><span style="color:#B392F0">command.o</span><span style="color:#E1E4E8"> : command.c defs.h command.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c command.c</span></span>
+<span class="line"><span style="color:#B392F0">display.o</span><span style="color:#E1E4E8"> : display.c defs.h buffer.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c display.c</span></span>
+<span class="line"><span style="color:#B392F0">insert.o</span><span style="color:#E1E4E8"> : insert.c defs.h buffer.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c insert.c</span></span>
+<span class="line"><span style="color:#B392F0">search.o</span><span style="color:#E1E4E8"> : search.c defs.h buffer.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c search.c</span></span>
+<span class="line"><span style="color:#B392F0">files.o</span><span style="color:#E1E4E8"> : files.c defs.h buffer.h command.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c files.c</span></span>
+<span class="line"><span style="color:#B392F0">utils.o</span><span style="color:#E1E4E8"> : utils.c defs.h</span></span>
+<span class="line"><span style="color:#E1E4E8">    cc -c utils.c</span></span>
+<span class="line"><span style="color:#B392F0">clean</span><span style="color:#E1E4E8"> :</span></span>
+<span class="line"><span style="color:#E1E4E8">    rm edit </span><span style="color:#9ECBFF">$(</span><span style="color:#E1E4E8">objects</span><span style="color:#9ECBFF">)</span></span></code></pre>
+<h3 id="自动推导">自动推导</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cc -c a.c</span></span></code></pre>
+<p>上述的结果是a.o，因此我们在写依赖关系的时候可以省去同名者</p>
+<h3 id="伪目标">伪目标</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#79B8FF">.PHONY</span><span style="color:#E1E4E8"> : clean</span></span>
+<span class="line"><span style="color:#B392F0">clean</span><span style="color:#E1E4E8"> :</span></span>
+<span class="line"><span style="color:#E1E4E8">		- rm edit </span><span style="color:#9ECBFF">$(</span><span style="color:#E1E4E8">object</span><span style="color:#9ECBFF">)</span></span></code></pre>
+<p><code>.PHONY</code> 意思是伪目标，防止文件需要编译一个叫clean的可执行文件</p>
+<p>clean一般放在文件末尾</p>
+<h3 id="makefile的包含">Makefile的包含</h3>
+<ol>
+<li>
+<p>显式规则：依赖关系</p>
+</li>
+<li>
+<p>隐式规则：如自动推导</p>
+</li>
+<li>
+<p>变量</p>
+</li>
+<li>
+<p>指令</p>
+<ol>
+<li>
+<p>类似include，引用另一个Makefile或者shell文件</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>bar = ciallo.makefile bish bash</span></span>
+<span class="line"><span>include foo.make *.mk $(bar)</span></span></code></pre>
+</li>
+<li>
+<p>条件语句</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#F97583">ifeq</span><span style="color:#E1E4E8"> (</span><span style="color:#9ECBFF">$(</span><span style="color:#E1E4E8">DEBUG</span><span style="color:#9ECBFF">)</span><span style="color:#E1E4E8">, 1)</span></span>
+<span class="line"><span style="color:#E1E4E8">CFLAGS = -g -Wall</span></span>
+<span class="line"><span style="color:#F97583">else</span></span>
+<span class="line"><span style="color:#E1E4E8">CFLAGS = -O2</span></span>
+<span class="line"><span style="color:#F97583">endif</span></span></code></pre>
+<p>如果debug代表的变量等于1，那么执行方式是打开调试信息和警告</p>
+<p>如果不是，那么就是正常执行</p>
+</li>
+<li>
+<p>define</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#6A737D">#define PRINT_INFO</span></span>
+<span class="line"><span style="color:#E1E4E8">				echo "building..."</span></span>
+<span class="line"><span style="color:#E1E4E8">        echo "done"</span></span>
+<span class="line"><span style="color:#E1E4E8">endef</span></span></code></pre>
+<p>就是def呗</p>
+</li>
+</ol>
+</li>
+<li>
+<p>注释，使用#，转义\</p>
+</li>
+</ol></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>

@@ -136,3 +136,39 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 ](https://seisman.github.io/how-to-write-makefile/rules.html)
 
 写的很好的对于makefile的介绍，爆赞👍"
+"9","839963867","759486","hadmard","2026-07-02T23:10:31.5228886+08:00","false","false","(https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/lec0/#/)
+```
+0 前瞻：通往 Pro 的第一步
+1 Shell 基础及 CLI 工具推荐
+2 Git/GitHub 及开源基础
+3 Markdown 语法及应用
+4 LaTeX 排版简要介绍
+5 如何排出规范、美观的文档
+6 网络/网站基础知识概述
+```
+先完成1/2的学习吧；3其实在做笔记的过程中不会就翻翻也差不多学完了；4虽说很有用，但是我一般是md写好，然后丢给codex让他给我转成对应的latex再编译pdf；5貌似ppt有点问题，没有具体内容，如果有的话其实是一个很优质的提示词；6有空看看","[https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/](https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/lec0/#/)
+```
+0 前瞻：通往 Pro 的第一步
+1 Shell 基础及 CLI 工具推荐
+2 Git/GitHub 及开源基础
+3 Markdown 语法及应用
+4 LaTeX 排版简要介绍
+5 如何排出规范、美观的文档
+6 网络/网站基础知识概述
+```
+先完成1/2的学习吧；3其实在做笔记的过程中不会就翻翻也差不多学完了；4虽说很有用，但是我一般是md写好，然后丢给codex让他给我转成对应的latex再编译pdf；5貌似ppt有点问题，没有具体内容，如果有的话其实是一个很优质的提示词；6有空看看"
+"10","839967211","759486","hadmard","2026-07-03T08:45:52.5458689+08:00","false","false","### 26-7-3 初步规划
+- 农业物料学补天，简单看一遍PPT，然后自己做掉Mooc题目就过了吧，这垃圾课程不想多花一分钟
+- Makefile完成学习
+- Git学习/复习
+
+**如果还有时间**
+- HPC101 Project0 Linux入门操作 复习并且查漏补缺，其实MIssing Semester涉及过一些，这次主要是补一补知识吧
+- 科研推进一些，整理一下这段时间来的结果，想一想新的idea","### 26-7-3 初步规划
+- 农业物料学补天，简单看一遍PPT，然后自己做掉Mooc题目就过了吧，这垃圾课程不想多花一分钟
+- Makefile完成学习
+- Git学习/复习
+
+**如果还有时间**
+- HPC101 Project0 Linux入门操作 复习并且查漏补缺，其实MIssing Semester涉及过一些，这次主要是补一补知识吧
+- 科研推进一些，整理一下这段时间来的结果，想一想新的idea"
