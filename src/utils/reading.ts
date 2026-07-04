@@ -63,6 +63,7 @@ export const extractMarkdownOutline = (content: string): ReadingOutlineItem[] =>
 export const extractParagraphOutline = (content: string, limit = 8): ReadingOutlineItem[] => content
 	.replace(/\r\n?/g, '\n')
 	.split(/\n{2,}/)
+	.filter((paragraph) => !/^\s*(?:[-*+]\s+|\d+[.)]\s+)/.test(paragraph))
 	.map((paragraph) => stripInlineMarkdown(paragraph).replace(/\s+/g, ' '))
 	.filter(Boolean)
 	.slice(0, limit)

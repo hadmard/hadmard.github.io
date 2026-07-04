@@ -11,7 +11,7 @@ import type { Locale } from '../data/site';
 
 import Layout from '../layouts/Layout.astro';
 import { getCopy, getThoughtSlug } from '../utils/i18n';
-import { extractMarkdownOutline } from '../utils/reading';
+import { extractMarkdownOutline, extractParagraphOutline } from '../utils/reading';
 import Comments from './Comments.astro';
 import LocaleSwitch from './LocaleSwitch.astro';
 import ReadingAssist from './ReadingAssist.astro';
@@ -35,7 +35,8 @@ const homeLabel = locale === 'zh-cn' ? '首页' : 'Home';
 const relatedHref = (entry: CollectionEntry<'thoughts'>) => locale === 'zh-cn'
 	? `${normalizedBasePath}/thinking/${getThoughtSlug(entry)}/`
 	: `${normalizedBasePath}/en/thinking/${getThoughtSlug(entry)}/`;
-const outline = extractMarkdownOutline(post.body ?? '');
+const headingOutline = extractMarkdownOutline(post.body ?? '');
+const outline = headingOutline.length ? headingOutline : extractParagraphOutline(post.body ?? '');
 const outlineLabel = locale === 'zh-cn' ? '文章目录' : 'Outline';
 ---
 
@@ -63,10 +64,6 @@ const outlineLabel = locale === 'zh-cn' ? '文章目录' : 'Outline';
 				<p class="section-kicker">{post.data.publishedAt.toLocaleDateString(locale === 'zh-cn' ? 'zh-CN' : 'en-US')}</p>
 				<h1>{post.data.title}</h1>
 				<p>{post.data.excerpt}</p>
-				<div class="article-meta">
-					<span class="soft-label">{post.data.readingTime}</span>
-					{post.data.tags.map((tag) => <span class="signal-pill">{tag}</span>)}
-				</div>
 			</div>
 		</section>
 

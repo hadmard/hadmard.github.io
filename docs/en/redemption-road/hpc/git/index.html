@@ -154,6 +154,18 @@
 
 		outlines.forEach(setupOutlinePanel);
 
+		const paragraphBlocks = [...document.querySelectorAll('.article-body .markdown-body > p')];
+		for (const link of outlineLinks) {
+			const targetId = link.dataset.outlineTarget || '';
+			if (!targetId.startsWith('paragraph-') || document.getElementById(targetId)) continue;
+
+			const paragraphIndex = Number(targetId.replace('paragraph-', '')) - 1;
+			const paragraph = paragraphBlocks[paragraphIndex];
+			if (paragraph && !paragraph.id) {
+				paragraph.id = targetId;
+			}
+		}
+
 		const sections = outlineLinks
 			.map((link) => ({
 				link,
