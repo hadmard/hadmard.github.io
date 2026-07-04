@@ -91,11 +91,11 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 	'zh-cn': {
 		brand: {
 			name: '记录空间',
-			caption: '个人档案',
+			caption: '随手记',
 		},
 		seo: {
 			title: '记录空间 | Hadmard Archive',
-			description: 'Hadmard 的个人档案：投资记录、个人思考、学习日历、健康作息与救赎之路。',
+			description: 'Hadmard 的个人记录：投资、思考、学习、作息和 CS 笔记。',
 		},
 		nav: [
 			{ id: 'investments', label: '投资记录' },
@@ -106,8 +106,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		],
 		hero: {
 			badge: 'Blog',
-			title: '把当下，留给以后看。',
-			description: '投资、思考、学习、作息和救赎路上的片段，整理成一个安静、清晰、会呼吸的个人档案。',
+			title: '写点记录。',
+			description: '投资复盘、学习安排、作息打卡，还有偶尔冒出来的想法。都先放在这里。',
 			primaryCta: '投资记录',
 			secondaryCta: '个人思考',
 			metrics: [
@@ -176,12 +176,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 	},
 	en: {
 		brand: {
-			name: 'Hadmard Archive',
-			caption: 'Personal Archive',
+			name: 'Hadmard Notes',
+			caption: 'Notes for later',
 		},
 		seo: {
-			title: 'Hadmard Archive | Personal Notes',
-			description: 'A personal blog for investment notes, thinking, study plans, health routines, and a redemption learning path.',
+			title: 'Hadmard Notes | Personal Notes',
+			description: 'Personal notes on investing, thinking, study plans, routines, and CS learning.',
 		},
 		nav: [
 			{ id: 'investments', label: 'Investments' },
@@ -192,8 +192,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		],
 		hero: {
 			badge: 'Blog',
-			title: 'Keep now for later.',
-			description: 'Investment notes, thoughts, study logs, routines, and recovery notes collected into a calm personal archive.',
+			title: 'Notes, kept.',
+			description: 'Market notes, study plans, routines, and stray thoughts, all kept in one place.',
 			primaryCta: 'Investments',
 			secondaryCta: 'Thinking',
 			metrics: [
