@@ -90,12 +90,12 @@ interface SiteCopy {
 export const siteCopy: Record<Locale, SiteCopy> = {
 	'zh-cn': {
 		brand: {
-			name: 'Yfcccc',
-			caption: '个人博客',
+			name: '记录空间',
+			caption: '个人档案',
 		},
 		seo: {
-			title: 'Yfcccc | 个人博客',
-			description: 'Yfcccc 的个人博客：投资记录、个人思考、学习日历、健康作息与救赎之路。',
+			title: '记录空间 | Hadmard Archive',
+			description: 'Hadmard 的个人档案：投资记录、个人思考、学习日历、健康作息与救赎之路。',
 		},
 		nav: [
 			{ id: 'investments', label: '投资记录' },
@@ -106,8 +106,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		],
 		hero: {
 			badge: 'Blog',
-			title: 'Yfcccc',
-			description: '写点记录，留给以后看。',
+			title: '把当下，留给以后看。',
+			description: '投资、思考、学习、作息和救赎路上的片段，整理成一个安静、清晰、会呼吸的个人档案。',
 			primaryCta: '投资记录',
 			secondaryCta: '个人思考',
 			metrics: [
@@ -176,11 +176,11 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 	},
 	en: {
 		brand: {
-			name: 'Yfcccc',
-			caption: 'Personal Blog',
+			name: 'Hadmard Archive',
+			caption: 'Personal Archive',
 		},
 		seo: {
-			title: 'Yfcccc | Personal Blog',
+			title: 'Hadmard Archive | Personal Notes',
 			description: 'A personal blog for investment notes, thinking, study plans, health routines, and a redemption learning path.',
 		},
 		nav: [
@@ -192,8 +192,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 		],
 		hero: {
 			badge: 'Blog',
-			title: 'Yfcccc',
-			description: 'Notes for later.',
+			title: 'Keep now for later.',
+			description: 'Investment notes, thoughts, study logs, routines, and recovery notes collected into a calm personal archive.',
 			primaryCta: 'Investments',
 			secondaryCta: 'Thinking',
 			metrics: [
