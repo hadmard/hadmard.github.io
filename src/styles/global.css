@@ -249,6 +249,18 @@
 	}
 }
 
+@keyframes home-slider-settle {
+	from {
+		opacity: 0.52;
+		transform: translateX(-12%);
+	}
+
+	to {
+		opacity: 0.86;
+		transform: translateX(118%);
+	}
+}
+
 @keyframes wordmark-gradient-settle {
 	from {
 		background-position: 86% 50%;
@@ -2051,7 +2063,10 @@
 	.home-stage-sheen,
 	.home-stage-tile,
 	.home-stage-note,
-	.home-stage-rail {
+	.home-stage-rail,
+	.home-stage-toolbar,
+	.home-stage-segmented,
+	.home-stage-slider {
 		position: absolute;
 		display: block;
 	}
@@ -2176,7 +2191,8 @@
 	}
 
 	.home-stage-tile svg,
-	.home-stage-note svg {
+	.home-stage-note svg,
+	.home-stage-toolbar svg {
 		position: relative;
 		z-index: 1;
 		height: 58%;
@@ -2190,12 +2206,14 @@
 	}
 
 	.home-stage-tile svg path,
-	.home-stage-note svg path {
+	.home-stage-note svg path,
+	.home-stage-toolbar svg path {
 		vector-effect: non-scaling-stroke;
 	}
 
 	.home-archive-hero.is-visible .home-stage-tile svg path,
-	.home-archive-hero.is-visible .home-stage-note svg path {
+	.home-archive-hero.is-visible .home-stage-note svg path,
+	.home-archive-hero.is-visible .home-stage-toolbar svg path {
 		animation: glyph-draw 1.05s var(--motion-fluid) both;
 	}
 
@@ -2271,6 +2289,141 @@
 		width: 8.7rem;
 		border: 1px solid rgba(var(--tone-warm), 0.18);
 		animation-delay: -2.2s;
+	}
+
+	.home-stage-toolbar {
+		right: 1.65rem;
+		top: 1.35rem;
+		display: flex;
+		gap: 0.42rem;
+		align-items: center;
+		padding: 0.5rem;
+		border: 1px solid rgba(226, 232, 242, 0.78);
+		border-radius: 999px;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(247, 250, 255, 0.58)),
+			linear-gradient(135deg, rgba(var(--tone-primary), 0.035), rgba(var(--tone-teal), 0.026));
+		box-shadow:
+			inset 0 1px rgba(255, 255, 255, 0.86),
+			0 18px 42px rgba(54, 71, 101, 0.10);
+		-webkit-backdrop-filter: blur(24px) saturate(185%);
+		backdrop-filter: blur(24px) saturate(185%);
+		opacity: 0;
+		transform: translate3d(0, 12px, 30px) scale(0.92);
+		transition:
+			opacity 0.72s var(--motion-smooth),
+			transform 0.9s var(--motion-fluid),
+			box-shadow 0.82s var(--motion-smooth);
+		will-change: transform, opacity;
+	}
+
+	.home-stage-toolbar-control {
+		display: grid;
+		place-items: center;
+		height: 2.35rem;
+		width: 2.35rem;
+		border: 1px solid rgba(219, 227, 239, 0.68);
+		border-radius: 999px;
+		color: rgba(35, 42, 58, 0.66);
+		background: rgba(255, 255, 255, 0.58);
+		box-shadow: inset 0 1px rgba(255, 255, 255, 0.72);
+		transition:
+			transform 0.65s var(--motion-fluid),
+			color 0.65s var(--motion-smooth),
+			background 0.65s var(--motion-smooth);
+	}
+
+	.home-stage-toolbar-control-active {
+		color: #ffffff;
+		border-color: rgba(255, 255, 255, 0.72);
+		background: linear-gradient(180deg, rgb(var(--tone-primary-bright)), rgb(var(--tone-primary)));
+		box-shadow:
+			inset 0 1px rgba(255, 255, 255, 0.36),
+			0 11px 24px rgba(var(--tone-primary), 0.19);
+	}
+
+	.home-archive-hero.is-visible .home-stage-toolbar {
+		opacity: 1;
+		transform: translate3d(0, 0, 30px) scale(1);
+		transition-delay: 210ms;
+	}
+
+	.home-stage-segmented {
+		left: 2.35rem;
+		top: 3.05rem;
+		display: flex;
+		gap: 0.28rem;
+		align-items: center;
+		padding: 0.34rem;
+		border: 1px solid rgba(226, 232, 242, 0.76);
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.64);
+		box-shadow:
+			inset 0 1px rgba(255, 255, 255, 0.8),
+			0 14px 32px rgba(54, 71, 101, 0.08);
+		-webkit-backdrop-filter: blur(18px) saturate(175%);
+		backdrop-filter: blur(18px) saturate(175%);
+		opacity: 0;
+		transform: translate3d(-10px, 10px, 18px) scale(0.94);
+		transition: opacity 0.72s var(--motion-smooth), transform 0.9s var(--motion-fluid);
+	}
+
+	.home-stage-segmented span {
+		height: 1.12rem;
+		width: 2.15rem;
+		border-radius: 999px;
+		background: rgba(243, 247, 252, 0.86);
+		box-shadow: inset 0 1px rgba(255, 255, 255, 0.78);
+	}
+
+	.home-stage-segmented .is-active {
+		width: 2.65rem;
+		background: linear-gradient(90deg, rgba(var(--tone-primary), 0.88), rgba(var(--tone-teal), 0.74));
+		box-shadow:
+			inset 0 1px rgba(255, 255, 255, 0.42),
+			0 8px 18px rgba(var(--tone-primary), 0.16);
+	}
+
+	.home-archive-hero.is-visible .home-stage-segmented {
+		opacity: 1;
+		transform: translate3d(0, 0, 18px) scale(1);
+		transition-delay: 280ms;
+	}
+
+	.home-stage-slider {
+		right: 0.2rem;
+		bottom: 7.05rem;
+		height: 1.22rem;
+		width: 8.4rem;
+		border: 1px solid rgba(var(--tone-primary), 0.12);
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.68);
+		box-shadow:
+			inset 0 1px rgba(255, 255, 255, 0.82),
+			0 14px 34px rgba(54, 71, 101, 0.08);
+		-webkit-backdrop-filter: blur(18px) saturate(170%);
+		backdrop-filter: blur(18px) saturate(170%);
+		opacity: 0;
+		overflow: hidden;
+		transform: translate3d(10px, 10px, 18px) scaleX(0.72);
+		transform-origin: right center;
+		transition: opacity 0.72s var(--motion-smooth), transform 0.95s var(--motion-fluid);
+	}
+
+	.home-stage-slider span {
+		display: block;
+		height: 100%;
+		width: 46%;
+		border-radius: inherit;
+		background: linear-gradient(90deg, rgba(var(--tone-primary), 0.44), rgba(var(--tone-warm), 0.34), rgba(var(--tone-rose), 0.28));
+		box-shadow: 0 0 22px rgba(var(--tone-primary), 0.18);
+		animation: home-slider-settle 3.6s var(--motion-smooth) infinite alternate;
+	}
+
+	.home-archive-hero.is-visible .home-stage-slider {
+		opacity: 1;
+		transform: translate3d(0, 0, 18px) scaleX(1);
+		transition-delay: 330ms;
 	}
 
 	.home-stage-rail {
@@ -3817,6 +3970,21 @@
 		left: 1.8rem;
 		bottom: 7.6rem;
 	}
+
+	.home-stage-toolbar {
+		right: 2.35rem;
+		top: 1.45rem;
+	}
+
+	.home-stage-segmented {
+		left: 2.8rem;
+		top: 2.6rem;
+	}
+
+	.home-stage-slider {
+		right: 1.15rem;
+		bottom: 6.6rem;
+	}
 }
 
 @media (max-width: 1180px) {
@@ -4101,6 +4269,41 @@
 		left: 0.6rem;
 		bottom: 5.4rem;
 		width: 6.4rem;
+	}
+
+	.home-stage-toolbar {
+		right: 1.4rem;
+		top: 0.75rem;
+		gap: 0.28rem;
+		padding: 0.34rem;
+	}
+
+	.home-stage-toolbar-control {
+		height: 1.75rem;
+		width: 1.75rem;
+	}
+
+	.home-stage-segmented {
+		left: 0.95rem;
+		top: 1.45rem;
+		gap: 0.22rem;
+		padding: 0.26rem;
+	}
+
+	.home-stage-segmented span {
+		height: 0.82rem;
+		width: 1.42rem;
+	}
+
+	.home-stage-segmented .is-active {
+		width: 1.82rem;
+	}
+
+	.home-stage-slider {
+		right: 0.45rem;
+		bottom: 4.65rem;
+		height: 0.9rem;
+		width: 5.95rem;
 	}
 
 	.home-stage-rail {
