@@ -23,6 +23,7 @@ const getHref = (id: string) => {
             <a
                 class={currentPath === normalizedHomePath ? 'nav-link active' : 'nav-link'}
                 href={homeHref}
+                aria-current={currentPath === normalizedHomePath ? 'page' : undefined}
             >
                 {homeLabel}
             </a>
@@ -35,6 +36,7 @@ const getHref = (id: string) => {
                         <a 
                             class={isActive ? 'nav-link active' : 'nav-link'} 
                             href={getHref(item.id)}
+                            aria-current={isActive ? 'page' : undefined}
                         >
                             {item.label}
                         </a>
@@ -45,3 +47,31 @@ const getHref = (id: string) => {
         <LocaleSwitch currentLocale={locale} href={alternatePath} />
     </div>
 </header>
+
+<script>
+	const centerActiveNavigation = () => {
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		document.querySelectorAll('.glass-topbar nav').forEach((nav) => {
+			if (!(nav instanceof HTMLElement)) return;
+
+			const activeLink = nav.querySelector('.nav-link.active');
+			if (!(activeLink instanceof HTMLElement)) return;
+			if (nav.scrollWidth <= nav.clientWidth) return;
+
+			const nextLeft = activeLink.offsetLeft - nav.clientWidth / 2 + activeLink.offsetWidth / 2;
+			nav.scrollTo({
+				left: Math.max(0, nextLeft),
+				behavior: reduceMotion ? 'auto' : 'smooth',
+			});
+		});
+	};
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', centerActiveNavigation, { once: true });
+	} else {
+		requestAnimationFrame(centerActiveNavigation);
+	}
+
+	window.addEventListener('pageshow', centerActiveNavigation);
+</script>

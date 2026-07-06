@@ -1,0 +1,1392 @@
+{
+  "generatedAt": "2026-07-06T07:52:58.701Z",
+  "source": {
+    "type": "vivo-calendar-sqlite",
+    "databasePath": "/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db",
+    "snapshotPath": "custom/vivo-calendar-sync/tmp/CalendarSync.snapshot.db"
+  },
+  "range": {
+    "start": "2026-07-05",
+    "end": "2026-07-26"
+  },
+  "courseRule": {
+    "morning": "08:30-11:30",
+    "afternoon": "14:00-17:00",
+    "durationMinutes": 180,
+    "description": "课程按用户确认规则归一化：上午 08:30 开始，下午 14:00 开始，课时均为 3 小时。"
+  },
+  "records": [
+    {
+      "id": 47,
+      "title": "超算概述",
+      "date": "2026-07-05",
+      "startTime": "08:30",
+      "endTime": "11:30",
+      "startIso": "2026-07-05T08:30:00+08:00",
+      "endIso": "2026-07-05T11:30:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "08:30",
+        "endTime": "11:30",
+        "startIso": "2026-07-05T08:30:00+08:00",
+        "endIso": "2026-07-05T11:30:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 53,
+      "title": "夏令营志愿服务",
+      "date": "2026-07-05",
+      "startTime": "13:30",
+      "endTime": "17:30",
+      "startIso": "2026-07-05T13:30:00+08:00",
+      "endIso": "2026-07-05T17:30:00+08:00",
+      "durationMinutes": 240,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "13:30",
+        "endTime": "17:30",
+        "startIso": "2026-07-05T13:30:00+08:00",
+        "endIso": "2026-07-05T17:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "service"
+    },
+    {
+      "id": 71,
+      "title": "家教",
+      "date": "2026-07-05",
+      "startTime": "18:30",
+      "endTime": "20:30",
+      "startIso": "2026-07-05T18:30:00+08:00",
+      "endIso": "2026-07-05T20:30:00+08:00",
+      "durationMinutes": 120,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "18:30",
+        "endTime": "20:30",
+        "startIso": "2026-07-05T18:30:00+08:00",
+        "endIso": "2026-07-05T20:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "tutoring"
+    },
+    {
+      "id": 48,
+      "title": "集群软硬件以及运维",
+      "date": "2026-07-06",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-06T14:00:00+08:00",
+      "endIso": "2026-07-06T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "17:00",
+        "startIso": "2026-07-06T14:00:00+08:00",
+        "endIso": "2026-07-06T17:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 81,
+      "title": "讲授Codex使用",
+      "date": "2026-07-07",
+      "startTime": "10:00",
+      "endTime": "11:00",
+      "startIso": "2026-07-07T10:00:00+08:00",
+      "endIso": "2026-07-07T11:00:00+08:00",
+      "durationMinutes": 60,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "10:00",
+        "endTime": "11:00",
+        "startIso": "2026-07-07T10:00:00+08:00",
+        "endIso": "2026-07-07T11:00:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "talk"
+    },
+    {
+      "id": 49,
+      "title": "HPC中的计算机系统一",
+      "date": "2026-07-07",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-07T14:00:00+08:00",
+      "endIso": "2026-07-07T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "17:00",
+        "startIso": "2026-07-07T14:00:00+08:00",
+        "endIso": "2026-07-07T17:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 50,
+      "title": "HPC中的计算机系统二",
+      "date": "2026-07-08",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-08T14:00:00+08:00",
+      "endIso": "2026-07-08T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "17:00",
+        "startIso": "2026-07-08T14:00:00+08:00",
+        "endIso": "2026-07-08T17:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 74,
+      "title": "家教",
+      "date": "2026-07-09",
+      "startTime": "14:30",
+      "endTime": "16:30",
+      "startIso": "2026-07-09T14:30:00+08:00",
+      "endIso": "2026-07-09T16:30:00+08:00",
+      "durationMinutes": 120,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "14:30",
+        "endTime": "16:30",
+        "startIso": "2026-07-09T14:30:00+08:00",
+        "endIso": "2026-07-09T16:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "tutoring"
+    },
+    {
+      "id": 80,
+      "title": "与zyq吃饭",
+      "date": "2026-07-09",
+      "startTime": "17:30",
+      "endTime": "19:30",
+      "startIso": "2026-07-09T17:30:00+08:00",
+      "endIso": "2026-07-09T19:30:00+08:00",
+      "durationMinutes": 120,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "17:30",
+        "endTime": "19:30",
+        "startIso": "2026-07-09T17:30:00+08:00",
+        "endIso": "2026-07-09T19:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "personal"
+    },
+    {
+      "id": 51,
+      "title": "向量化并行计算基础",
+      "date": "2026-07-10",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-10T14:00:00+08:00",
+      "endIso": "2026-07-10T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "17:00",
+        "startIso": "2026-07-10T14:00:00+08:00",
+        "endIso": "2026-07-10T17:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 52,
+      "title": "CUDA编程基础",
+      "date": "2026-07-11",
+      "startTime": "08:30",
+      "endTime": "11:30",
+      "startIso": "2026-07-11T08:30:00+08:00",
+      "endIso": "2026-07-11T11:30:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "08:30",
+        "endTime": "11:30",
+        "startIso": "2026-07-11T08:30:00+08:00",
+        "endIso": "2026-07-11T11:30:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 75,
+      "title": "家教",
+      "date": "2026-07-11",
+      "startTime": "14:30",
+      "endTime": "16:30",
+      "startIso": "2026-07-11T14:30:00+08:00",
+      "endIso": "2026-07-11T16:30:00+08:00",
+      "durationMinutes": 120,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "14:30",
+        "endTime": "16:30",
+        "startIso": "2026-07-11T14:30:00+08:00",
+        "endIso": "2026-07-11T16:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "tutoring"
+    },
+    {
+      "id": 60,
+      "title": "OpenMP/MPI 并行计算基础",
+      "date": "2026-07-12",
+      "startTime": "08:30",
+      "endTime": "11:30",
+      "startIso": "2026-07-12T08:30:00+08:00",
+      "endIso": "2026-07-12T11:30:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "08:30",
+        "endTime": "09:30",
+        "startIso": "2026-07-12T08:30:00+08:00",
+        "endIso": "2026-07-12T09:30:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": true,
+      "type": "course"
+    },
+    {
+      "id": 46,
+      "title": "接wkc",
+      "date": "2026-07-12",
+      "startTime": "13:00",
+      "endTime": "14:00",
+      "startIso": "2026-07-12T13:00:00+08:00",
+      "endIso": "2026-07-12T14:00:00+08:00",
+      "durationMinutes": 60,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "13:00",
+        "endTime": "14:00",
+        "startIso": "2026-07-12T13:00:00+08:00",
+        "endIso": "2026-07-12T14:00:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "personal"
+    },
+    {
+      "id": 61,
+      "title": "性能分析技术基础 Profiling",
+      "date": "2026-07-12",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-12T14:00:00+08:00",
+      "endIso": "2026-07-12T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "15:00",
+        "startIso": "2026-07-12T14:00:00+08:00",
+        "endIso": "2026-07-12T15:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": true,
+      "type": "course"
+    },
+    {
+      "id": 62,
+      "title": "高性能计算高级话题",
+      "date": "2026-07-13",
+      "startTime": "08:30",
+      "endTime": "11:30",
+      "startIso": "2026-07-13T08:30:00+08:00",
+      "endIso": "2026-07-13T11:30:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "08:30",
+        "endTime": "09:30",
+        "startIso": "2026-07-13T08:30:00+08:00",
+        "endIso": "2026-07-13T09:30:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": true,
+      "type": "course"
+    },
+    {
+      "id": 76,
+      "title": "家教",
+      "date": "2026-07-13",
+      "startTime": "14:30",
+      "endTime": "16:30",
+      "startIso": "2026-07-13T14:30:00+08:00",
+      "endIso": "2026-07-13T16:30:00+08:00",
+      "durationMinutes": 120,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "14:30",
+        "endTime": "16:30",
+        "startIso": "2026-07-13T14:30:00+08:00",
+        "endIso": "2026-07-13T16:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "tutoring"
+    },
+    {
+      "id": 72,
+      "title": "华为CANN",
+      "date": "2026-07-14",
+      "startTime": "08:30",
+      "endTime": "11:30",
+      "startIso": "2026-07-14T08:30:00+08:00",
+      "endIso": "2026-07-14T11:30:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "08:30",
+        "endTime": "11:30",
+        "startIso": "2026-07-14T08:30:00+08:00",
+        "endIso": "2026-07-14T11:30:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 73,
+      "title": "华为HCCL",
+      "date": "2026-07-14",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-14T14:00:00+08:00",
+      "endIso": "2026-07-14T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "17:00",
+        "startIso": "2026-07-14T14:00:00+08:00",
+        "endIso": "2026-07-14T17:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 63,
+      "title": "高性能网络基础",
+      "date": "2026-07-15",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-15T14:00:00+08:00",
+      "endIso": "2026-07-15T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "15:00",
+        "startIso": "2026-07-15T14:00:00+08:00",
+        "endIso": "2026-07-15T15:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": true,
+      "type": "course"
+    },
+    {
+      "id": 77,
+      "title": "家教",
+      "date": "2026-07-15",
+      "startTime": "14:30",
+      "endTime": "16:30",
+      "startIso": "2026-07-15T14:30:00+08:00",
+      "endIso": "2026-07-15T16:30:00+08:00",
+      "durationMinutes": 120,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "14:30",
+        "endTime": "16:30",
+        "startIso": "2026-07-15T14:30:00+08:00",
+        "endIso": "2026-07-15T16:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "tutoring"
+    },
+    {
+      "id": 64,
+      "title": "机器学习基础",
+      "date": "2026-07-16",
+      "startTime": "08:30",
+      "endTime": "11:30",
+      "startIso": "2026-07-16T08:30:00+08:00",
+      "endIso": "2026-07-16T11:30:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "08:30",
+        "endTime": "09:30",
+        "startIso": "2026-07-16T08:30:00+08:00",
+        "endIso": "2026-07-16T09:30:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": true,
+      "type": "course"
+    },
+    {
+      "id": 65,
+      "title": "机器学习基础",
+      "date": "2026-07-16",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-16T14:00:00+08:00",
+      "endIso": "2026-07-16T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "15:00",
+        "startIso": "2026-07-16T14:00:00+08:00",
+        "endIso": "2026-07-16T15:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": true,
+      "type": "course"
+    },
+    {
+      "id": 78,
+      "title": "机器学习高级话题",
+      "date": "2026-07-17",
+      "startTime": "08:30",
+      "endTime": "11:30",
+      "startIso": "2026-07-17T08:30:00+08:00",
+      "endIso": "2026-07-17T11:30:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "08:30",
+        "endTime": "11:30",
+        "startIso": "2026-07-17T08:30:00+08:00",
+        "endIso": "2026-07-17T11:30:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": false,
+      "type": "course"
+    },
+    {
+      "id": 66,
+      "title": "机器学习高级话题",
+      "date": "2026-07-17",
+      "startTime": "14:00",
+      "endTime": "17:00",
+      "startIso": "2026-07-17T14:00:00+08:00",
+      "endIso": "2026-07-17T17:00:00+08:00",
+      "durationMinutes": 180,
+      "allDay": false,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "",
+      "source": {
+        "startTime": "14:00",
+        "endTime": "15:00",
+        "startIso": "2026-07-17T14:00:00+08:00",
+        "endIso": "2026-07-17T15:00:00+08:00"
+      },
+      "isCourse": true,
+      "normalizedByRule": true,
+      "type": "course"
+    },
+    {
+      "id": 67,
+      "title": "新加坡",
+      "date": "2026-07-19",
+      "startTime": "08:00",
+      "endTime": "08:00",
+      "startIso": "2026-07-19T08:00:00+08:00",
+      "endIso": "2026-07-25T08:00:00+08:00",
+      "durationMinutes": 8640,
+      "allDay": true,
+      "calendarId": 2,
+      "calendarName": "vivo work",
+      "calendarColor": -1159088,
+      "location": "新加坡",
+      "source": {
+        "startTime": "08:00",
+        "endTime": "08:00",
+        "startIso": "2026-07-19T08:00:00+08:00",
+        "endIso": "2026-07-25T08:00:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "travel"
+    }
+  ],
+  "days": [
+    {
+      "date": "2026-07-05",
+      "weekday": 0,
+      "events": [
+        {
+          "id": 47,
+          "title": "超算概述",
+          "date": "2026-07-05",
+          "startTime": "08:30",
+          "endTime": "11:30",
+          "startIso": "2026-07-05T08:30:00+08:00",
+          "endIso": "2026-07-05T11:30:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "08:30",
+            "endTime": "11:30",
+            "startIso": "2026-07-05T08:30:00+08:00",
+            "endIso": "2026-07-05T11:30:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        },
+        {
+          "id": 53,
+          "title": "夏令营志愿服务",
+          "date": "2026-07-05",
+          "startTime": "13:30",
+          "endTime": "17:30",
+          "startIso": "2026-07-05T13:30:00+08:00",
+          "endIso": "2026-07-05T17:30:00+08:00",
+          "durationMinutes": 240,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "13:30",
+            "endTime": "17:30",
+            "startIso": "2026-07-05T13:30:00+08:00",
+            "endIso": "2026-07-05T17:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "service"
+        },
+        {
+          "id": 71,
+          "title": "家教",
+          "date": "2026-07-05",
+          "startTime": "18:30",
+          "endTime": "20:30",
+          "startIso": "2026-07-05T18:30:00+08:00",
+          "endIso": "2026-07-05T20:30:00+08:00",
+          "durationMinutes": 120,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "18:30",
+            "endTime": "20:30",
+            "startIso": "2026-07-05T18:30:00+08:00",
+            "endIso": "2026-07-05T20:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "tutoring"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-06",
+      "weekday": 1,
+      "events": [
+        {
+          "id": 48,
+          "title": "集群软硬件以及运维",
+          "date": "2026-07-06",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-06T14:00:00+08:00",
+          "endIso": "2026-07-06T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "17:00",
+            "startIso": "2026-07-06T14:00:00+08:00",
+            "endIso": "2026-07-06T17:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-07",
+      "weekday": 2,
+      "events": [
+        {
+          "id": 81,
+          "title": "讲授Codex使用",
+          "date": "2026-07-07",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "startIso": "2026-07-07T10:00:00+08:00",
+          "endIso": "2026-07-07T11:00:00+08:00",
+          "durationMinutes": 60,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "10:00",
+            "endTime": "11:00",
+            "startIso": "2026-07-07T10:00:00+08:00",
+            "endIso": "2026-07-07T11:00:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "talk"
+        },
+        {
+          "id": 49,
+          "title": "HPC中的计算机系统一",
+          "date": "2026-07-07",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-07T14:00:00+08:00",
+          "endIso": "2026-07-07T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "17:00",
+            "startIso": "2026-07-07T14:00:00+08:00",
+            "endIso": "2026-07-07T17:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        }
+      ],
+      "solarTerms": [
+        {
+          "date": "2026-07-07",
+          "name": "小暑",
+          "source": "vivo-ui-overlay"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-08",
+      "weekday": 3,
+      "events": [
+        {
+          "id": 50,
+          "title": "HPC中的计算机系统二",
+          "date": "2026-07-08",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-08T14:00:00+08:00",
+          "endIso": "2026-07-08T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "17:00",
+            "startIso": "2026-07-08T14:00:00+08:00",
+            "endIso": "2026-07-08T17:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-09",
+      "weekday": 4,
+      "events": [
+        {
+          "id": 74,
+          "title": "家教",
+          "date": "2026-07-09",
+          "startTime": "14:30",
+          "endTime": "16:30",
+          "startIso": "2026-07-09T14:30:00+08:00",
+          "endIso": "2026-07-09T16:30:00+08:00",
+          "durationMinutes": 120,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "14:30",
+            "endTime": "16:30",
+            "startIso": "2026-07-09T14:30:00+08:00",
+            "endIso": "2026-07-09T16:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "tutoring"
+        },
+        {
+          "id": 80,
+          "title": "与zyq吃饭",
+          "date": "2026-07-09",
+          "startTime": "17:30",
+          "endTime": "19:30",
+          "startIso": "2026-07-09T17:30:00+08:00",
+          "endIso": "2026-07-09T19:30:00+08:00",
+          "durationMinutes": 120,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "17:30",
+            "endTime": "19:30",
+            "startIso": "2026-07-09T17:30:00+08:00",
+            "endIso": "2026-07-09T19:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "personal"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-10",
+      "weekday": 5,
+      "events": [
+        {
+          "id": 51,
+          "title": "向量化并行计算基础",
+          "date": "2026-07-10",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-10T14:00:00+08:00",
+          "endIso": "2026-07-10T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "17:00",
+            "startIso": "2026-07-10T14:00:00+08:00",
+            "endIso": "2026-07-10T17:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-11",
+      "weekday": 6,
+      "events": [
+        {
+          "id": 52,
+          "title": "CUDA编程基础",
+          "date": "2026-07-11",
+          "startTime": "08:30",
+          "endTime": "11:30",
+          "startIso": "2026-07-11T08:30:00+08:00",
+          "endIso": "2026-07-11T11:30:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "08:30",
+            "endTime": "11:30",
+            "startIso": "2026-07-11T08:30:00+08:00",
+            "endIso": "2026-07-11T11:30:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        },
+        {
+          "id": 75,
+          "title": "家教",
+          "date": "2026-07-11",
+          "startTime": "14:30",
+          "endTime": "16:30",
+          "startIso": "2026-07-11T14:30:00+08:00",
+          "endIso": "2026-07-11T16:30:00+08:00",
+          "durationMinutes": 120,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "14:30",
+            "endTime": "16:30",
+            "startIso": "2026-07-11T14:30:00+08:00",
+            "endIso": "2026-07-11T16:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "tutoring"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-12",
+      "weekday": 0,
+      "events": [
+        {
+          "id": 60,
+          "title": "OpenMP/MPI 并行计算基础",
+          "date": "2026-07-12",
+          "startTime": "08:30",
+          "endTime": "11:30",
+          "startIso": "2026-07-12T08:30:00+08:00",
+          "endIso": "2026-07-12T11:30:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "08:30",
+            "endTime": "09:30",
+            "startIso": "2026-07-12T08:30:00+08:00",
+            "endIso": "2026-07-12T09:30:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": true,
+          "type": "course"
+        },
+        {
+          "id": 46,
+          "title": "接wkc",
+          "date": "2026-07-12",
+          "startTime": "13:00",
+          "endTime": "14:00",
+          "startIso": "2026-07-12T13:00:00+08:00",
+          "endIso": "2026-07-12T14:00:00+08:00",
+          "durationMinutes": 60,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "startIso": "2026-07-12T13:00:00+08:00",
+            "endIso": "2026-07-12T14:00:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "personal"
+        },
+        {
+          "id": 61,
+          "title": "性能分析技术基础 Profiling",
+          "date": "2026-07-12",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-12T14:00:00+08:00",
+          "endIso": "2026-07-12T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "15:00",
+            "startIso": "2026-07-12T14:00:00+08:00",
+            "endIso": "2026-07-12T15:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": true,
+          "type": "course"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-13",
+      "weekday": 1,
+      "events": [
+        {
+          "id": 62,
+          "title": "高性能计算高级话题",
+          "date": "2026-07-13",
+          "startTime": "08:30",
+          "endTime": "11:30",
+          "startIso": "2026-07-13T08:30:00+08:00",
+          "endIso": "2026-07-13T11:30:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "08:30",
+            "endTime": "09:30",
+            "startIso": "2026-07-13T08:30:00+08:00",
+            "endIso": "2026-07-13T09:30:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": true,
+          "type": "course"
+        },
+        {
+          "id": 76,
+          "title": "家教",
+          "date": "2026-07-13",
+          "startTime": "14:30",
+          "endTime": "16:30",
+          "startIso": "2026-07-13T14:30:00+08:00",
+          "endIso": "2026-07-13T16:30:00+08:00",
+          "durationMinutes": 120,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "14:30",
+            "endTime": "16:30",
+            "startIso": "2026-07-13T14:30:00+08:00",
+            "endIso": "2026-07-13T16:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "tutoring"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-14",
+      "weekday": 2,
+      "events": [
+        {
+          "id": 72,
+          "title": "华为CANN",
+          "date": "2026-07-14",
+          "startTime": "08:30",
+          "endTime": "11:30",
+          "startIso": "2026-07-14T08:30:00+08:00",
+          "endIso": "2026-07-14T11:30:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "08:30",
+            "endTime": "11:30",
+            "startIso": "2026-07-14T08:30:00+08:00",
+            "endIso": "2026-07-14T11:30:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        },
+        {
+          "id": 73,
+          "title": "华为HCCL",
+          "date": "2026-07-14",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-14T14:00:00+08:00",
+          "endIso": "2026-07-14T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "17:00",
+            "startIso": "2026-07-14T14:00:00+08:00",
+            "endIso": "2026-07-14T17:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-15",
+      "weekday": 3,
+      "events": [
+        {
+          "id": 63,
+          "title": "高性能网络基础",
+          "date": "2026-07-15",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-15T14:00:00+08:00",
+          "endIso": "2026-07-15T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "15:00",
+            "startIso": "2026-07-15T14:00:00+08:00",
+            "endIso": "2026-07-15T15:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": true,
+          "type": "course"
+        },
+        {
+          "id": 77,
+          "title": "家教",
+          "date": "2026-07-15",
+          "startTime": "14:30",
+          "endTime": "16:30",
+          "startIso": "2026-07-15T14:30:00+08:00",
+          "endIso": "2026-07-15T16:30:00+08:00",
+          "durationMinutes": 120,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "14:30",
+            "endTime": "16:30",
+            "startIso": "2026-07-15T14:30:00+08:00",
+            "endIso": "2026-07-15T16:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "tutoring"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-16",
+      "weekday": 4,
+      "events": [
+        {
+          "id": 64,
+          "title": "机器学习基础",
+          "date": "2026-07-16",
+          "startTime": "08:30",
+          "endTime": "11:30",
+          "startIso": "2026-07-16T08:30:00+08:00",
+          "endIso": "2026-07-16T11:30:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "08:30",
+            "endTime": "09:30",
+            "startIso": "2026-07-16T08:30:00+08:00",
+            "endIso": "2026-07-16T09:30:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": true,
+          "type": "course"
+        },
+        {
+          "id": 65,
+          "title": "机器学习基础",
+          "date": "2026-07-16",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-16T14:00:00+08:00",
+          "endIso": "2026-07-16T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "15:00",
+            "startIso": "2026-07-16T14:00:00+08:00",
+            "endIso": "2026-07-16T15:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": true,
+          "type": "course"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-17",
+      "weekday": 5,
+      "events": [
+        {
+          "id": 78,
+          "title": "机器学习高级话题",
+          "date": "2026-07-17",
+          "startTime": "08:30",
+          "endTime": "11:30",
+          "startIso": "2026-07-17T08:30:00+08:00",
+          "endIso": "2026-07-17T11:30:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "08:30",
+            "endTime": "11:30",
+            "startIso": "2026-07-17T08:30:00+08:00",
+            "endIso": "2026-07-17T11:30:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": false,
+          "type": "course"
+        },
+        {
+          "id": 66,
+          "title": "机器学习高级话题",
+          "date": "2026-07-17",
+          "startTime": "14:00",
+          "endTime": "17:00",
+          "startIso": "2026-07-17T14:00:00+08:00",
+          "endIso": "2026-07-17T17:00:00+08:00",
+          "durationMinutes": 180,
+          "allDay": false,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "",
+          "source": {
+            "startTime": "14:00",
+            "endTime": "15:00",
+            "startIso": "2026-07-17T14:00:00+08:00",
+            "endIso": "2026-07-17T15:00:00+08:00"
+          },
+          "isCourse": true,
+          "normalizedByRule": true,
+          "type": "course"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-19",
+      "weekday": 0,
+      "events": [
+        {
+          "id": 67,
+          "title": "新加坡",
+          "date": "2026-07-19",
+          "startTime": "08:00",
+          "endTime": "08:00",
+          "startIso": "2026-07-19T08:00:00+08:00",
+          "endIso": "2026-07-25T08:00:00+08:00",
+          "durationMinutes": 8640,
+          "allDay": true,
+          "calendarId": 2,
+          "calendarName": "vivo work",
+          "calendarColor": -1159088,
+          "location": "新加坡",
+          "source": {
+            "startTime": "08:00",
+            "endTime": "08:00",
+            "startIso": "2026-07-19T08:00:00+08:00",
+            "endIso": "2026-07-25T08:00:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "travel"
+        }
+      ],
+      "solarTerms": []
+    },
+    {
+      "date": "2026-07-23",
+      "weekday": 4,
+      "events": [],
+      "solarTerms": [
+        {
+          "date": "2026-07-23",
+          "name": "大暑",
+          "source": "vivo-ui-overlay"
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "total": 26,
+    "courses": 16,
+    "normalized": 7,
+    "allDay": 1
+  }
+}

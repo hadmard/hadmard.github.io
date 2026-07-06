@@ -55,6 +55,16 @@ interface SiteCopy {
 		sourceLabel: string;
 		entryLabel: string;
 	};
+	schedule: {
+		kicker: string;
+		title: string;
+		intro: string;
+		emptyTitle: string;
+		emptyDescription: string;
+		entryLabel: string;
+		sourceLabel: string;
+		courseRuleLabel: string;
+	};
 	redemptionRoad: {
 		kicker: string;
 		title: string;
@@ -102,6 +112,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			{ id: 'thinking', label: '个人思考' },
 			{ id: 'study-calendar', label: '学习日历' },
 			{ id: 'health-routine', label: '健康作息' },
+			{ id: 'schedule', label: '日程查看记录' },
 			{ id: 'redemption-road', label: '救赎之路' },
 		],
 		hero: {
@@ -115,6 +126,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 				{ label: '个人思考', value: '四篇短记', note: '期末周 / 专业 / 休息 / 心气' },
 				{ label: '学习日历', value: 'chmod +x life', note: '学习日记同步' },
 				{ label: '健康作息', value: '健康作息打卡记录', note: '睡眠 / 喝水 / 运动' },
+				{ label: '日程查看记录', value: 'vivo 日历', note: '课程 / 家教 / 出行' },
 				{ label: '救赎之路', value: 'CS 复健笔记', note: 'Linux / HPC / Makefile' },
 			],
 		},
@@ -142,6 +154,16 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			emptyDescription: '同步源暂时没有可展示内容。',
 			sourceLabel: '原帖',
 			entryLabel: '条记录',
+		},
+		schedule: {
+			kicker: '日程查看记录',
+			title: '日程查看记录',
+			intro: '从 vivo 日历同步课程、家教、出行和临时安排，按真实开始与结束时间整理。',
+			emptyTitle: '还没有日程',
+			emptyDescription: '先运行本地同步脚本，再重新构建网站。',
+			entryLabel: '条日程',
+			sourceLabel: 'vivo 本地日历',
+			courseRuleLabel: '课程按 08:30 / 14:00 开始，每节 3 小时',
 		},
 		redemptionRoad: {
 			kicker: '救赎之路',
@@ -188,6 +210,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			{ id: 'thinking', label: 'Thinking' },
 			{ id: 'study-calendar', label: 'Study Calendar' },
 			{ id: 'health-routine', label: 'Health Routine' },
+			{ id: 'schedule', label: 'Schedule' },
 			{ id: 'redemption-road', label: 'Redemption' },
 		],
 		hero: {
@@ -201,6 +224,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 				{ label: 'Thinking', value: 'Four Notes', note: 'Exams / major / rest / confidence' },
 				{ label: 'Study Calendar', value: 'chmod +x life', note: 'Study log sync' },
 				{ label: 'Health Routine', value: 'Daily Check-ins', note: 'Sleep / water / movement' },
+				{ label: 'Schedule', value: 'vivo Calendar', note: 'Courses / tutoring / trips' },
 				{ label: 'Redemption', value: 'CS Recovery Notes', note: 'Linux / HPC / Makefile' },
 			],
 		},
@@ -228,6 +252,16 @@ export const siteCopy: Record<Locale, SiteCopy> = {
 			emptyDescription: 'Nothing available from the synced source.',
 			sourceLabel: 'source',
 			entryLabel: 'entries',
+		},
+		schedule: {
+			kicker: 'Schedule',
+			title: 'Schedule',
+			intro: 'Courses, tutoring, trips, and small plans synced from the local vivo calendar.',
+			emptyTitle: 'No schedule records yet',
+			emptyDescription: 'Run the local sync script and rebuild the site.',
+			entryLabel: 'events',
+			sourceLabel: 'vivo local calendar',
+			courseRuleLabel: 'Courses start at 08:30 / 14:00 and run for 3 hours',
 		},
 		redemptionRoad: {
 			kicker: 'Redemption Road',

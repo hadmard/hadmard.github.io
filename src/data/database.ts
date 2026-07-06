@@ -17,6 +17,10 @@ export interface Cc98TopicConfig {
 
 export const siteDatabase = {
 	copy: siteCopy,
+	schedule: {
+		outputFile: 'custom/vivo-calendar-sync/output/schedule-records.json',
+		sourceDatabase: '/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db',
+	},
 	cc98: {
 		outputRoot: 'custom/cc98-investment-crawler/output',
 		topics: {

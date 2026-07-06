@@ -1,9 +1,13 @@
 # hadmard.github.io
 
-这是一个基于 `Astro 6 + Tailwind CSS 4 + MDX` 的个人博客站点。当前保留两个栏目：
+这是一个基于 `Astro 6 + Tailwind CSS 4 + MDX` 的个人博客站点。当前栏目：
 
 - 投资记录：展示本地记录。
-- 随笔：放个人思考文章，适合长文阅读。
+- 个人思考：放个人思考文章，适合长文阅读。
+- 学习日历：同步学习记录。
+- 健康作息：同步作息打卡。
+- 日程查看记录：读取本机 vivo 日历导出的静态快照。
+- 救赎之路：整理本地 Markdown 笔记。
 
 ## 目录结构
 
@@ -16,6 +20,7 @@ src/
   styles/global.css     全站 Apple material 风格样式
 custom/
   cc98-investment-crawler/  投资记录抓取脚本和输出
+  vivo-calendar-sync/       vivo 本地日历同步库读取说明
 docs/                       GitHub Pages 发布产物
 ```
 
@@ -93,3 +98,30 @@ node custom/cc98-investment-crawler/crawl-cc98-topic.mjs --topic 6450962
 ```
 
 如果只是手动补一条记录，可以编辑 `raw/posts.json`。
+
+## vivo 日程同步
+
+本机 vivo 办公套件 / PC 套件的日历同步库读取方式见：
+
+```text
+custom/vivo-calendar-sync/README.md
+```
+
+当前确认的本地库位置：
+
+```text
+/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db
+```
+
+刷新网站日程数据：
+
+```bash
+pnpm run sync:schedule
+pnpm run build
+```
+
+站点不能在线上直接访问这台 Mac 的本地 SQLite，所以页面读取的是本地导出的静态 JSON：
+
+```text
+custom/vivo-calendar-sync/output/schedule-records.json
+```

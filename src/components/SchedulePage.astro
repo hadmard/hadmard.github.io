@@ -1,0 +1,250 @@
+---
+// 文件说明：该组件渲染“日程查看记录”页面。
+// 功能说明：读取 vivo 本地日历导出的静态快照，并以 Apple 风格月历与时间线展示日程。
+
+import type { Locale } from '../data/site';
+import type { ScheduleDay, ScheduleRecord, ScheduleType } from '../utils/schedule';
+
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from './SiteHeader.astro';
+import { getCopy } from '../utils/i18n';
+import { getNextScheduleRecord, loadScheduleDataset } from '../utils/schedule';
+
+const { locale, canonicalPath, alternatePath } = Astro.props as {
+	locale: Locale;
+	canonicalPath: string;
+	alternatePath: string;
+};
+
+const copy = getCopy(locale);
+const dataset = await loadScheduleDataset();
+const localeTag = locale === 'zh-cn' ? 'zh-CN' : 'en-US';
+const weekdayLabels = locale === 'zh-cn'
+	? ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+	: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+const typeLabels: Record<ScheduleType, string> = locale === 'zh-cn'
+	? {
+		course: '课程',
+		tutoring: '家教',
+		personal: '个人',
+		service: '服务',
+		talk: '分享',
+		travel: '出行',
+		plan: '计划',
+	}
+	: {
+		course: 'Course',
+		tutoring: 'Tutoring',
+		personal: 'Personal',
+		service: 'Service',
+		talk: 'Talk',
+		travel: 'Trip',
+		plan: 'Plan',
+	};
+
+const formatMonthDay = (value: string) => new Date(`${value}T00:00:00+08:00`).toLocaleDateString(localeTag, {
+	month: '2-digit',
+	day: '2-digit',
+});
+
+const formatFullDate = (value: string) => new Date(value).toLocaleString(localeTag, {
+	year: 'numeric',
+	month: '2-digit',
+	day: '2-digit',
+	hour: '2-digit',
+	minute: '2-digit',
+	hour12: false,
+});
+
+const durationText = (minutes: number) => {
+	if (minutes >= 1440) {
+		return locale === 'zh-cn' ? `${Math.round(minutes / 1440)} 天` : `${Math.round(minutes / 1440)}d`;
+	}
+	if (minutes >= 60) {
+		const hours = minutes / 60;
+		return locale === 'zh-cn' ? `${Number.isInteger(hours) ? hours : hours.toFixed(1)} 小时` : `${Number.isInteger(hours) ? hours : hours.toFixed(1)}h`;
+	}
+	return locale === 'zh-cn' ? `${minutes} 分钟` : `${minutes}m`;
+};
+
+const eventRange = (record: ScheduleRecord) => record.allDay
+	? `${formatMonthDay(record.date)} ${record.startTime} - ${formatMonthDay(record.endIso.slice(0, 10))} ${record.endTime}`
+	: `${record.startTime} - ${record.endTime}`;
+
+const daysByDate = new Map(dataset.days.map((day) => [day.date, day]));
+const makeCalendarDays = () => {
+	if (!dataset.range.start || !dataset.range.end) return dataset.days;
+	const days: ScheduleDay[] = [];
+	let cursor = new Date(`${dataset.range.start}T00:00:00+08:00`);
+	const end = new Date(`${dataset.range.end}T00:00:00+08:00`);
+
+	while (cursor < end) {
+		const date = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}-${String(cursor.getDate()).padStart(2, '0')}`;
+		days.push(daysByDate.get(date) ?? {
+			date,
+			weekday: cursor.getDay(),
+			events: [],
+			solarTerms: [],
+		});
+		cursor = new Date(cursor.getTime() + 24 * 60 * 60 * 1000);
+	}
+
+	return days;
+};
+
+const calendarDays = makeCalendarDays();
+const timelineDays = calendarDays.filter((day) => day.events.length || day.solarTerms.length);
+const nextRecord = getNextScheduleRecord(dataset.records);
+const generatedAt = dataset.generatedAt ? formatFullDate(dataset.generatedAt) : null;
+const courseRecords = dataset.records.filter((record) => record.isCourse);
+const nextCourse = courseRecords.find((record) => nextRecord && new Date(record.endIso) >= new Date(nextRecord.startIso)) ?? courseRecords[0] ?? null;
+const courseHours = Math.round(courseRecords.reduce((sum, record) => sum + record.durationMinutes, 0) / 60);
+---
+
+<Layout
+	title={`${copy.schedule.title} | ${copy.brand.name}`}
+	description={copy.schedule.intro}
+	lang={locale}
+	canonicalPath={canonicalPath}
+	alternatePath={alternatePath}
+>
+	<main class="site-shell reading-shell schedule-shell">
+		<SiteHeader locale={locale} alternatePath={alternatePath} />
+
+		<section class="reading-hero schedule-hero" data-reveal>
+			<p class="soft-label">{copy.schedule.kicker}</p>
+			<h1>{copy.schedule.title}</h1>
+			<p>{copy.schedule.intro}</p>
+			<div class="hero-material-stack schedule-symbol-stack" aria-hidden="true">
+				<span class="hero-symbol hero-symbol-primary">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M8 4.8v4.4M20 4.8v4.4M5.8 10.8h16.4" />
+						<path d="M7.2 6.8h13.6a2.4 2.4 0 0 1 2.4 2.4v12.2a2.4 2.4 0 0 1-2.4 2.4H7.2a2.4 2.4 0 0 1-2.4-2.4V9.2a2.4 2.4 0 0 1 2.4-2.4Z" />
+					</svg>
+				</span>
+				<span class="hero-symbol">{dataset.stats.total}</span>
+				<span class="hero-symbol">
+					<svg viewBox="0 0 28 28" role="presentation">
+						<path d="M7 18.4h14M7 9.6h14" />
+						<path d="M10 6.5v15M18 6.5v15" />
+					</svg>
+				</span>
+				<span class="hero-slab hero-slab-a"></span>
+				<span class="hero-slab hero-slab-b"></span>
+			</div>
+			<div class="reading-meta">
+				<span>{dataset.stats.total} {copy.schedule.entryLabel}</span>
+				<span>{dataset.stats.courses} {locale === 'zh-cn' ? '节课程' : 'courses'}</span>
+				<span>{copy.schedule.sourceLabel}</span>
+				{generatedAt && <span>{generatedAt}</span>}
+			</div>
+		</section>
+
+		{dataset.records.length > 0 ? (
+			<>
+				<section class="schedule-dashboard" data-reveal>
+					<div class="schedule-month-panel">
+						<div class="schedule-panel-head">
+							<div>
+								<p>{locale === 'zh-cn' ? '月视图' : 'Month'}</p>
+								<h2>2026 / 07</h2>
+							</div>
+							<span>{copy.schedule.courseRuleLabel}</span>
+						</div>
+						<div class="schedule-week-row" aria-hidden="true">
+							{weekdayLabels.map((weekday) => <span>{weekday}</span>)}
+						</div>
+						<div class="schedule-month-grid">
+							{calendarDays.map((day) => (
+								<article class={`schedule-day-cell ${day.events.length ? 'has-events' : ''} ${day.solarTerms.length ? 'has-term' : ''}`}>
+									<div class="schedule-day-number">
+										<span>{day.date.slice(-2)}</span>
+										<small>{weekdayLabels[day.weekday]}</small>
+									</div>
+									{day.solarTerms.map((term) => <em>{term.name}</em>)}
+									<div class="schedule-dot-row">
+										{day.events.slice(0, 4).map((event, dotIndex) => (
+											<i class={`schedule-dot schedule-dot-${event.type}`} style={`--dot-index: ${dotIndex}`}></i>
+										))}
+									</div>
+								</article>
+							))}
+						</div>
+					</div>
+
+					<aside class="schedule-focus-panel">
+						<div class="schedule-focus-card schedule-focus-primary">
+							<p>{locale === 'zh-cn' ? '下一项' : 'Next'}</p>
+							{nextRecord && (
+								<>
+									<h2>{nextRecord.title}</h2>
+									<time>{formatMonthDay(nextRecord.date)} · {eventRange(nextRecord)}</time>
+									<span>{typeLabels[nextRecord.type]} · {durationText(nextRecord.durationMinutes)}</span>
+								</>
+							)}
+						</div>
+						<div class="schedule-rhythm-grid">
+							<div class="schedule-focus-card">
+								<p>{locale === 'zh-cn' ? '上午课' : 'Morning'}</p>
+								<strong>{dataset.courseRule.morning}</strong>
+							</div>
+							<div class="schedule-focus-card">
+								<p>{locale === 'zh-cn' ? '下午课' : 'Afternoon'}</p>
+								<strong>{dataset.courseRule.afternoon}</strong>
+							</div>
+						</div>
+						<div class="schedule-focus-card">
+							<p>{locale === 'zh-cn' ? '课程总量' : 'Course load'}</p>
+							<strong>{courseHours}h</strong>
+							<span>{dataset.stats.normalized} {locale === 'zh-cn' ? '条按规则修正' : 'normalized by rule'}</span>
+						</div>
+						{nextCourse && (
+							<div class="schedule-focus-card schedule-course-glass">
+								<p>{locale === 'zh-cn' ? '课程锚点' : 'Course anchor'}</p>
+								<strong>{nextCourse.title}</strong>
+								<span>{formatMonthDay(nextCourse.date)} · {eventRange(nextCourse)}</span>
+							</div>
+						)}
+					</aside>
+				</section>
+
+				<section class="schedule-timeline" aria-label={copy.schedule.title}>
+					{timelineDays.map((day, index) => (
+						<article class="schedule-day-group" data-reveal style={`--timeline-index: ${index}`}>
+							<div class="schedule-date-chip">
+								<span>{formatMonthDay(day.date)}</span>
+								<small>{weekdayLabels[day.weekday]}</small>
+								{day.solarTerms.map((term) => <em>{term.name}</em>)}
+							</div>
+							<div class="schedule-event-stack">
+								{day.events.map((event) => (
+									<div class={`schedule-event-card schedule-event-${event.type}`}>
+										<div class="schedule-event-time">
+											<span>{eventRange(event)}</span>
+											<small>{durationText(event.durationMinutes)}</small>
+										</div>
+										<div class="schedule-event-body">
+											<h3>{event.title}</h3>
+											<p>
+												<span>{typeLabels[event.type]}</span>
+												<span>{event.calendarName}</span>
+												{event.normalizedByRule && <span>{locale === 'zh-cn' ? '已按课程规则修正' : 'normalized'}</span>}
+												{event.normalizedByRule && <span>{locale === 'zh-cn' ? '原始' : 'source'} {event.source.startTime}-{event.source.endTime}</span>}
+											</p>
+										</div>
+									</div>
+								))}
+							</div>
+						</article>
+					))}
+				</section>
+			</>
+		) : (
+			<section class="raw-empty" data-reveal>
+				<h2>{copy.schedule.emptyTitle}</h2>
+				<p>{copy.schedule.emptyDescription}</p>
+			</section>
+		)}
+	</main>
+</Layout>

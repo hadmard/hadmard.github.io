@@ -10,6 +10,7 @@
     "build": "astro build",
     "check": "astro check",
     "sync:redemption": "node scripts/sync-redemption-road.mjs",
+    "sync:schedule": "node custom/vivo-calendar-sync/sync-vivo-calendar.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
