@@ -2601,13 +2601,11 @@
 
 	.schedule-dashboard {
 		display: grid;
-		grid-template-columns: minmax(0, 1.5fr) minmax(18rem, 0.75fr);
-		gap: clamp(1rem, 2vw, 1.45rem);
+		grid-template-columns: 1fr;
 		margin-top: clamp(1.4rem, 3vw, 2rem);
 	}
 
 	.schedule-month-panel,
-	.schedule-focus-card,
 	.schedule-day-group {
 		position: relative;
 		overflow: hidden;
@@ -2623,7 +2621,6 @@
 	}
 
 	.schedule-month-panel::before,
-	.schedule-focus-card::before,
 	.schedule-day-group::before {
 		content: "";
 		position: absolute;
@@ -2647,8 +2644,7 @@
 		margin-bottom: 1rem;
 	}
 
-	.schedule-panel-head p,
-	.schedule-focus-card p {
+	.schedule-panel-head p {
 		margin: 0 0 0.22rem;
 		color: rgba(29, 29, 31, 0.52);
 		font-size: 0.8rem;
@@ -2661,20 +2657,6 @@
 		font-size: clamp(1.9rem, 3.4vw, 2.85rem);
 		font-weight: 760;
 		letter-spacing: 0;
-	}
-
-	.schedule-panel-head > span {
-		max-width: 16rem;
-		border-radius: 999px;
-		padding: 0.55rem 0.82rem;
-		color: rgb(var(--tone-primary));
-		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(245, 250, 255, 0.56)),
-			linear-gradient(120deg, rgba(var(--tone-primary), 0.08), rgba(var(--tone-sky), 0.04));
-		border: 1px solid rgba(var(--tone-primary), 0.11);
-		font-size: 0.82rem;
-		font-weight: 700;
-		line-height: 1.35;
 	}
 
 	.schedule-week-row,
@@ -2789,62 +2771,6 @@
 	.schedule-dot-talk { background: rgb(var(--tone-sky)); }
 	.schedule-dot-travel { background: rgb(var(--tone-warm)); }
 	.schedule-dot-plan { background: rgb(var(--tone-rose)); }
-
-	.schedule-focus-panel {
-		display: grid;
-		align-content: start;
-		gap: 0.9rem;
-	}
-
-	.schedule-focus-card {
-		border-radius: 26px;
-		padding: 1.1rem;
-	}
-
-	.schedule-focus-card > * {
-		position: relative;
-		z-index: 1;
-	}
-
-	.schedule-focus-card h2,
-	.schedule-focus-card strong {
-		display: block;
-		margin: 0;
-		color: #1d1d1f;
-		font-size: clamp(1.25rem, 2.2vw, 1.68rem);
-		font-weight: 760;
-		line-height: 1.16;
-		letter-spacing: 0;
-	}
-
-	.schedule-focus-card time,
-	.schedule-focus-card span {
-		display: block;
-		margin-top: 0.62rem;
-		color: rgba(29, 29, 31, 0.56);
-		font-size: 0.92rem;
-		font-weight: 650;
-		line-height: 1.45;
-	}
-
-	.schedule-focus-primary {
-		min-height: 11.4rem;
-		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(247, 251, 255, 0.62)),
-			linear-gradient(135deg, rgba(var(--tone-primary), 0.080), rgba(var(--tone-sky), 0.030), rgba(var(--tone-warm), 0.026));
-	}
-
-	.schedule-rhythm-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.75rem;
-	}
-
-	.schedule-course-glass {
-		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(251, 252, 255, 0.62)),
-			linear-gradient(135deg, rgba(var(--tone-warm), 0.070), rgba(var(--tone-rose), 0.022));
-	}
 
 	.schedule-timeline {
 		display: grid;
@@ -2977,29 +2903,6 @@
 		font-weight: 760;
 		line-height: 1.25;
 		letter-spacing: 0;
-	}
-
-	.schedule-event-body p {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.4rem;
-		margin: 0.55rem 0 0;
-	}
-
-	.schedule-event-body p span {
-		border-radius: 999px;
-		padding: 0.28rem 0.52rem;
-		color: rgba(29, 29, 31, 0.56);
-		background: rgba(255, 255, 255, 0.62);
-		border: 1px solid rgba(226, 232, 241, 0.68);
-		font-size: 0.76rem;
-		font-weight: 720;
-	}
-
-	.schedule-event-body p span:last-child {
-		color: rgba(var(--schedule-accent), 0.78);
-		background: rgba(var(--schedule-accent), 0.060);
-		border-color: rgba(var(--schedule-accent), 0.095);
 	}
 
 	.reading-meta,
@@ -4509,15 +4412,6 @@
 		grid-template-columns: 1fr;
 	}
 
-	.schedule-focus-panel {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	.schedule-focus-primary,
-	.schedule-course-glass {
-		grid-column: 1 / -1;
-	}
-
 	.schedule-day-cell {
 		min-height: 6.5rem;
 	}
@@ -5152,11 +5046,6 @@
 		gap: 0.7rem;
 	}
 
-	.schedule-panel-head > span {
-		max-width: none;
-		width: fit-content;
-	}
-
 	.schedule-week-row {
 		display: none;
 	}
@@ -5184,21 +5073,6 @@
 		left: 0.58rem;
 		right: 0.58rem;
 		bottom: 0.58rem;
-	}
-
-	.schedule-focus-panel,
-	.schedule-rhythm-grid {
-		grid-template-columns: 1fr;
-	}
-
-	.schedule-focus-primary,
-	.schedule-course-glass {
-		grid-column: auto;
-	}
-
-	.schedule-focus-card {
-		border-radius: 22px;
-		padding: 1rem;
 	}
 
 	.schedule-timeline {
@@ -5235,10 +5109,6 @@
 
 	.schedule-event-time small {
 		justify-self: end;
-	}
-
-	.schedule-event-body p {
-		gap: 0.32rem;
 	}
 
 	[data-reveal] {
