@@ -1,6 +1,6 @@
 {
   "sourceUrl": "https://www.cc98.org/topic/6548170",
-  "crawledAt": "2026-07-03T03:10:42.886Z",
+  "crawledAt": "2026-07-06T09:30:57.105Z",
   "topic": {
     "topicId": "6548170",
     "title": "chmod +x life [学习日记]",
@@ -8,8 +8,8 @@
     "boardName": "一路走来",
     "authorName": "hadmard",
     "createdAt": "2026-06-22T15:29:22.0788572+08:00",
-    "replyCount": 9,
-    "hitCount": 204,
+    "replyCount": 19,
+    "hitCount": 347,
     "state": 0,
     "raw": {
       "id": 6548170,
@@ -21,14 +21,14 @@
       "userInfo": null,
       "isAnonymous": false,
       "disableHot": false,
-      "lastPostTime": "2026-07-03T08:45:52.5458689+08:00",
+      "lastPostTime": "2026-07-06T10:34:49.7274685+08:00",
       "state": 0,
       "type": 0,
-      "replyCount": 9,
-      "hitCount": 204,
+      "replyCount": 19,
+      "hitCount": 347,
       "totalVoteUserCount": 0,
       "lastPostUser": "hadmard",
-      "lastPostContent": "### 26-7-3 初步规划\n- 农业物料学补天，简...",
+      "lastPostContent": "### 七月六号代办\n\n#### 上午\n- 按照规划，...",
       "topState": 0,
       "bestState": 0,
       "isVote": false,
@@ -64,5 +64,5 @@
       "lotteryTopicDetail": null
     }
   },
-  "postCount": 10
+  "postCount": 20
 }
