@@ -87,6 +87,7 @@ const texSymbolMap = new Map([
 ]);
 
 const texSymbolPattern = /\\([A-Za-z]+)\b/g;
+const quoteTokenPattern = /\[\/?quote(?:=[^\]\n]{0,160})?\]/gi;
 
 const createTextNode = (value: string): Text => ({
 	type: 'text',
@@ -101,6 +102,30 @@ const createMathSymbolNode = (value: string): Element => ({
 	},
 	children: [createTextNode(value)],
 });
+
+const translateTexSymbols = (value: string) => value.replace(texSymbolPattern, (match, command: string) => texSymbolMap.get(command) ?? match);
+
+const pushPlainTextWithMathSymbols = (nodes: Array<Text | Element>, value: string) => {
+	if (!value) return;
+	const symbolNodes = splitTextWithMathSymbols(value);
+	if (symbolNodes) {
+		nodes.push(...symbolNodes);
+		return;
+	}
+	nodes.push(createTextNode(value));
+};
+
+const findClosingDollar = (value: string, startIndex: number) => {
+	for (let index = startIndex; index < value.length; index += 1) {
+		if (value[index] === '\n') return -1;
+		if (value[index] !== '$') continue;
+		if (value[index - 1] === '\\') continue;
+		if (value[index + 1] === '$') continue;
+		return index;
+	}
+
+	return -1;
+};
 
 const splitTextWithMathSymbols = (value: string) => {
 	const nodes: Array<Text | Element> = [];
@@ -125,6 +150,75 @@ const splitTextWithMathSymbols = (value: string) => {
 	}
 
 	return nodes;
+};
+
+const splitTextWithInlineMath = (value: string) => {
+	const nodes: Array<Text | Element> = [];
+	let lastIndex = 0;
+	let index = 0;
+
+	while (index < value.length) {
+		if (value[index] !== '$' || value[index - 1] === '\\' || value[index + 1] === '$') {
+			index += 1;
+			continue;
+		}
+
+		const closingIndex = findClosingDollar(value, index + 1);
+		if (closingIndex === -1) {
+			index += 1;
+			continue;
+		}
+
+		const expression = value.slice(index + 1, closingIndex).trim();
+		if (!expression || expression.length > 160) {
+			index = closingIndex + 1;
+			continue;
+		}
+
+		pushPlainTextWithMathSymbols(nodes, value.slice(lastIndex, index));
+		nodes.push(createMathSymbolNode(translateTexSymbols(expression)));
+		lastIndex = closingIndex + 1;
+		index = closingIndex + 1;
+	}
+
+	if (!nodes.length) return splitTextWithMathSymbols(value);
+	pushPlainTextWithMathSymbols(nodes, value.slice(lastIndex));
+	return nodes;
+};
+
+export const stripCc98QuoteBlocks = (content: string) => {
+	let output = '';
+	let lastIndex = 0;
+	let depth = 0;
+
+	for (const match of content.matchAll(quoteTokenPattern)) {
+		const index = match.index ?? 0;
+		const token = match[0];
+		const isClosing = /^\[\/quote/i.test(token);
+
+		if (isClosing) {
+			if (depth > 0) {
+				depth -= 1;
+				if (depth === 0) lastIndex = index + token.length;
+				continue;
+			}
+
+			output += content.slice(lastIndex, index);
+			lastIndex = index + token.length;
+			continue;
+		}
+
+		if (depth === 0) {
+			output += content.slice(lastIndex, index);
+		}
+		depth += 1;
+	}
+
+	if (depth === 0) {
+		output += content.slice(lastIndex);
+	}
+
+	return output;
 };
 
 const rehypeHardenLinks: RehypePlugin = () => (tree: Root) => {
@@ -166,7 +260,7 @@ const rehypeRenderLightMath: RehypePlugin = () => (tree: Root) => {
 		if (typeof index !== 'number' || !parent || !Array.isArray(parent.children)) return;
 		if (parent.type === 'element' && ['code', 'pre', 'script', 'style'].includes(parent.tagName)) return;
 
-		const replacementNodes = splitTextWithMathSymbols(node.value);
+		const replacementNodes = splitTextWithInlineMath(node.value);
 		if (!replacementNodes) return;
 
 		parent.children.splice(index, 1, ...replacementNodes);
@@ -200,24 +294,7 @@ const toMarkdownLink = (rawUrl: string, rawLabel: string) => {
 	return `[${escapeMarkdownLinkText(label)}](${href})`;
 };
 
-const convertQuoteBlocks = (content: string) => content.replace(
-	/\[quote(?:=[^\]\n]{0,160})?\]([\s\S]*?)\[\/quote\]/gi,
-	(_match, quoted: string) => {
-		const quoteBody = quoted
-			.trim()
-			.split('\n')
-			.map((line) => line.trimEnd())
-			.join('\n');
-		const markdownQuote = quoteBody
-			.split('\n')
-			.map((line) => line ? `> ${line}` : '>')
-			.join('\n');
-
-		return `\n\n${markdownQuote}\n\n`;
-	},
-);
-
-export const normalizeCc98Markdown = (content: string) => convertQuoteBlocks(content.replace(/\r\n?/g, '\n'))
+export const normalizeCc98Markdown = (content: string) => stripCc98QuoteBlocks(content.replace(/\r\n?/g, '\n'))
 	.replace(/\[url=([^\]\n]{1,500})\]([\s\S]*?)\[\/url\]/gi, (_match, url: string, label: string) => toMarkdownLink(url, label))
 	.replace(/\[url\]([\s\S]*?)\[\/url\]/gi, (_match, url: string) => {
 		const href = normalizeCc98Url(url);

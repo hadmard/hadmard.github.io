@@ -43,6 +43,19 @@ const eventRange = (record: ScheduleRecord) => record.allDay
 	? `${formatMonthDay(record.date)} ${record.startTime} - ${formatMonthDay(record.endIso.slice(0, 10))} ${record.endTime}`
 	: `${record.startTime} - ${record.endTime}`;
 
+const monthDate = dataset.range.start ? new Date(`${dataset.range.start}T00:00:00+08:00`) : null;
+const monthTitle = monthDate
+	? `${monthDate.getFullYear()} / ${String(monthDate.getMonth() + 1).padStart(2, '0')}`
+	: '2026 / 07';
+const dayAnchor = (date: string) => `schedule-day-${date}`;
+const calendarAnchor = (date: string) => `schedule-calendar-${date}`;
+const dayAriaLabel = (day: ScheduleDay) => {
+	const items = day.events.length + day.solarTerms.length;
+	const date = formatMonthDay(day.date);
+	if (locale === 'zh-cn') return `${date}，${items ? `${items} 项安排` : '没有安排'}`;
+	return `${date}, ${items || 'no'} item${items === 1 ? '' : 's'}`;
+};
+
 const daysByDate = new Map(dataset.days.map((day) => [day.date, day]));
 const makeCalendarDays = () => {
 	if (!dataset.range.start || !dataset.range.end) return dataset.days;
@@ -102,60 +115,179 @@ const timelineDays = calendarDays.filter((day) => day.events.length || day.solar
 
 		{dataset.records.length > 0 ? (
 			<>
-				<section class="schedule-dashboard" data-reveal>
+				<section class="schedule-dashboard" data-reveal data-schedule-root>
 					<div class="schedule-month-panel">
 						<div class="schedule-panel-head">
 							<div>
 								<p>{locale === 'zh-cn' ? '月视图' : 'Month'}</p>
-								<h2>2026 / 07</h2>
+								<h2>{monthTitle}</h2>
 							</div>
 						</div>
 						<div class="schedule-week-row" aria-hidden="true">
 							{weekdayLabels.map((weekday) => <span>{weekday}</span>)}
 						</div>
 						<div class="schedule-month-grid">
-							{calendarDays.map((day) => (
-								<article class={`schedule-day-cell ${day.events.length ? 'has-events' : ''} ${day.solarTerms.length ? 'has-term' : ''}`}>
-									<div class="schedule-day-number">
-										<span>{day.date.slice(-2)}</span>
-										<small>{weekdayLabels[day.weekday]}</small>
+							{calendarDays.map((day) => {
+								const hasDetails = Boolean(day.events.length || day.solarTerms.length);
+								const previewEvents = day.events.slice(0, 2);
+								const hiddenEventCount = Math.max(0, day.events.length - previewEvents.length);
+								const cellClass = `schedule-day-cell ${hasDetails ? 'is-actionable' : 'is-quiet'} ${day.events.length ? 'has-events' : ''} ${day.solarTerms.length ? 'has-term' : ''}`;
+								const cellContent = (
+									<>
+										<div class="schedule-day-number">
+											<span>{day.date.slice(-2)}</span>
+											<small>{weekdayLabels[day.weekday]}</small>
+										</div>
+										{day.solarTerms.map((term) => <em>{term.name}</em>)}
+										{previewEvents.length > 0 && (
+											<div class="schedule-day-preview" aria-hidden="true">
+												{previewEvents.map((event) => <span>{event.title}</span>)}
+												{hiddenEventCount > 0 && <strong>+{hiddenEventCount}</strong>}
+											</div>
+										)}
+										<div class="schedule-dot-row" aria-hidden="true">
+											{day.events.slice(0, 4).map((event, dotIndex) => (
+												<i class={`schedule-dot schedule-dot-${event.type}`} style={`--dot-index: ${dotIndex}`}></i>
+											))}
+										</div>
+									</>
+								);
+
+								return hasDetails ? (
+									<a
+										id={calendarAnchor(day.date)}
+										class={cellClass}
+										href={`#${dayAnchor(day.date)}`}
+										aria-label={dayAriaLabel(day)}
+										data-schedule-jump
+										data-schedule-date={day.date}
+									>
+										{cellContent}
+									</a>
+								) : (
+									<div class={cellClass} aria-label={dayAriaLabel(day)}>
+										{cellContent}
 									</div>
-									{day.solarTerms.map((term) => <em>{term.name}</em>)}
-									<div class="schedule-dot-row">
-										{day.events.slice(0, 4).map((event, dotIndex) => (
-											<i class={`schedule-dot schedule-dot-${event.type}`} style={`--dot-index: ${dotIndex}`}></i>
-										))}
-									</div>
-								</article>
-							))}
+								);
+							})}
 						</div>
 					</div>
 				</section>
 
 				<section class="schedule-timeline" aria-label={copy.schedule.title}>
 					{timelineDays.map((day, index) => (
-						<article class="schedule-day-group" data-reveal style={`--timeline-index: ${index}`}>
+						<article
+							id={dayAnchor(day.date)}
+							class="schedule-day-group"
+							data-reveal
+							data-schedule-day={day.date}
+							tabindex="-1"
+							style={`--timeline-index: ${index}`}
+						>
 							<div class="schedule-date-chip">
 								<span>{formatMonthDay(day.date)}</span>
 								<small>{weekdayLabels[day.weekday]}</small>
 								{day.solarTerms.map((term) => <em>{term.name}</em>)}
 							</div>
 							<div class="schedule-event-stack">
-								{day.events.map((event) => (
-									<div class={`schedule-event-card schedule-event-${event.type}`}>
+								{day.events.length > 0 ? (
+									day.events.map((event) => (
+										<div class={`schedule-event-card schedule-event-${event.type}`}>
+											<div class="schedule-event-time">
+												<span>{eventRange(event)}</span>
+												<small>{durationText(event.durationMinutes)}</small>
+											</div>
+											<div class="schedule-event-body">
+												<h3>{event.title}</h3>
+											</div>
+										</div>
+									))
+								) : (
+									<div class="schedule-event-card schedule-event-plan schedule-term-card">
 										<div class="schedule-event-time">
-											<span>{eventRange(event)}</span>
-											<small>{durationText(event.durationMinutes)}</small>
+											<span>{locale === 'zh-cn' ? '全天' : 'All day'}</span>
+											<small>{locale === 'zh-cn' ? '节气' : 'Solar term'}</small>
 										</div>
 										<div class="schedule-event-body">
-											<h3>{event.title}</h3>
+											<h3>{day.solarTerms.map((term) => term.name).join(' / ')}</h3>
 										</div>
 									</div>
-								))}
+								)}
 							</div>
 						</article>
 					))}
 				</section>
+
+				<script is:inline>
+					const setupScheduleCalendar = () => {
+						const root = document.querySelector('[data-schedule-root]');
+						if (!(root instanceof HTMLElement) || root.dataset.scheduleReady === 'true') return;
+						root.dataset.scheduleReady = 'true';
+
+						const links = [...document.querySelectorAll('[data-schedule-jump]')].filter((link) => link instanceof HTMLAnchorElement);
+						const groups = [...document.querySelectorAll('[data-schedule-day]')].filter((group) => group instanceof HTMLElement);
+						const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+						let pulseTimer = 0;
+
+						const setActive = (date) => {
+							for (const link of links) {
+								link.classList.toggle('is-selected', link.dataset.scheduleDate === date);
+							}
+						};
+
+						const jumpToDay = (hash, updateHistory = true) => {
+							const target = document.querySelector(hash);
+							if (!(target instanceof HTMLElement)) return;
+
+							const date = target.dataset.scheduleDay;
+							if (date) setActive(date);
+							if (updateHistory) history.replaceState(null, '', hash);
+
+							target.scrollIntoView({
+								behavior: prefersReducedMotion ? 'auto' : 'smooth',
+								block: 'start',
+							});
+							target.focus({ preventScroll: true });
+							target.classList.add('is-focus-pulse');
+							window.clearTimeout(pulseTimer);
+							pulseTimer = window.setTimeout(() => target.classList.remove('is-focus-pulse'), 1400);
+						};
+
+						for (const link of links) {
+							link.addEventListener('click', (event) => {
+								const hash = link.hash;
+								if (!hash) return;
+								event.preventDefault();
+								jumpToDay(hash);
+							});
+						}
+
+						const observer = new IntersectionObserver(
+							(entries) => {
+								const visible = entries
+									.filter((entry) => entry.isIntersecting && entry.target instanceof HTMLElement)
+									.sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+								if (visible?.target instanceof HTMLElement) {
+									setActive(visible.target.dataset.scheduleDay);
+								}
+							},
+							{ threshold: [0.35, 0.6], rootMargin: '-15% 0px -55% 0px' },
+						);
+
+						for (const group of groups) observer.observe(group);
+
+						if (window.location.hash.startsWith('#schedule-day-')) {
+							window.requestAnimationFrame(() => jumpToDay(window.location.hash, false));
+						}
+					};
+
+					if (document.readyState === 'loading') {
+						document.addEventListener('DOMContentLoaded', setupScheduleCalendar, { once: true });
+					} else {
+						setupScheduleCalendar();
+					}
+					document.addEventListener('astro:page-load', setupScheduleCalendar);
+				</script>
 			</>
 		) : (
 			<section class="raw-empty" data-reveal>

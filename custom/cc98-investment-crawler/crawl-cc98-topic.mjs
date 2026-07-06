@@ -149,6 +149,45 @@ function stripLineTrailingWhitespace(input) {
   return String(input).replace(/[ \t]+$/gm, "");
 }
 
+const quoteTokenPattern = /\[\/?quote(?:=[^\]\n]{0,160})?\]/gi;
+
+function stripCc98QuoteBlocks(input) {
+  let output = "";
+  let lastIndex = 0;
+  let depth = 0;
+
+  for (const match of String(input).matchAll(quoteTokenPattern)) {
+    const index = match.index ?? 0;
+    const token = match[0];
+    const isClosing = /^\[\/quote/i.test(token);
+
+    if (isClosing) {
+      if (depth > 0) {
+        depth -= 1;
+        if (depth === 0) {
+          lastIndex = index + token.length;
+        }
+        continue;
+      }
+
+      output += input.slice(lastIndex, index);
+      lastIndex = index + token.length;
+      continue;
+    }
+
+    if (depth === 0) {
+      output += input.slice(lastIndex, index);
+    }
+    depth += 1;
+  }
+
+  if (depth === 0) {
+    output += input.slice(lastIndex);
+  }
+
+  return output;
+}
+
 function cleanContent(rawContent) {
   if (!rawContent) {
     return "";
@@ -156,12 +195,12 @@ function cleanContent(rawContent) {
 
   let content = String(rawContent).replace(/\r\n/g, "\n");
 
-  // 这里优先保留链接文本和引用正文，避免直接整段删除后丢失投资记录上下文。
+  // CC98 的回复常带有嵌套引用；记录页只保留用户本次写下的正文。
+  content = stripCc98QuoteBlocks(content);
   content = content.replace(/\[url=([^\]]+)\]([\s\S]*?)\[\/url\]/gi, "$2 ($1)");
   content = content.replace(/\[url\]([\s\S]*?)\[\/url\]/gi, "$1");
   content = content.replace(/\[(img|video|audio)\]([\s\S]*?)\[\/\1\]/gi, "[$1] $2");
   content = content.replace(/\[upload\]([\s\S]*?)\[\/upload\]/gi, "[upload] $1");
-  content = content.replace(/\[quote\]([\s\S]*?)\[\/quote\]/gi, (_, quoted) => `\n[引用]\n${quoted}\n[/引用]\n`);
   content = content.replace(/\[\/?(b|i|u|del|size|color|align|replyview|markdown|code|table|tr|td|th|list|\*|posteronly)\b[^\]]*\]/gi, "");
   content = content.replace(/\[[^\]]+\]/g, "");
   content = content.replace(/<br\s*\/?>/gi, "\n");
