@@ -167,7 +167,7 @@ GitHub Pages 是静态站点，线上页面不能直接读取这台 Mac 的本�
 
 ## 刷新命令
 
-默认读取本机 vivo 同步库，并导出 2026-07-05 到 2026-07-26 的日程：
+默认读取本机 vivo 同步库，并导出 2026-07-05 到 2026-07-26 的日程。脚本参数里的 `--end` 是排他边界，所以默认结束值是 2026-07-27：
 
 ```bash
 pnpm run sync:schedule
@@ -179,7 +179,7 @@ pnpm run sync:schedule
 node custom/vivo-calendar-sync/sync-vivo-calendar.mjs \
   --db "/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db" \
   --start 2026-07-05 \
-  --end 2026-07-26 \
+  --end 2026-07-27 \
   --out custom/vivo-calendar-sync/output/schedule-records.json
 ```
 

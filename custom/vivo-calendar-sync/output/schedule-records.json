@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T10:25:04.295Z",
+  "generatedAt": "2026-07-07T15:06:18.809Z",
   "source": {
     "type": "vivo-calendar-sqlite",
     "databasePath": "/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db",
@@ -7,7 +7,7 @@
   },
   "range": {
     "start": "2026-07-05",
-    "end": "2026-07-26"
+    "end": "2026-07-27"
   },
   "courseRule": {
     "morning": "08:30-11:30",
@@ -635,6 +635,30 @@
         "endTime": "08:00",
         "startIso": "2026-07-19T08:00:00+08:00",
         "endIso": "2026-07-25T08:00:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "travel"
+    },
+    {
+      "id": 82,
+      "title": "剪头发",
+      "date": "2026-07-26",
+      "startTime": "08:00",
+      "endTime": "08:00",
+      "startIso": "2026-07-26T08:00:00+08:00",
+      "endIso": "2026-07-27T08:00:00+08:00",
+      "durationMinutes": 1440,
+      "allDay": true,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "08:00",
+        "endTime": "08:00",
+        "startIso": "2026-07-26T08:00:00+08:00",
+        "endIso": "2026-07-27T08:00:00+08:00"
       },
       "isCourse": false,
       "normalizedByRule": false,
@@ -1381,12 +1405,43 @@
           "source": "vivo-ui-overlay"
         }
       ]
+    },
+    {
+      "date": "2026-07-26",
+      "weekday": 0,
+      "events": [
+        {
+          "id": 82,
+          "title": "剪头发",
+          "date": "2026-07-26",
+          "startTime": "08:00",
+          "endTime": "08:00",
+          "startIso": "2026-07-26T08:00:00+08:00",
+          "endIso": "2026-07-27T08:00:00+08:00",
+          "durationMinutes": 1440,
+          "allDay": true,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "08:00",
+            "endTime": "08:00",
+            "startIso": "2026-07-26T08:00:00+08:00",
+            "endIso": "2026-07-27T08:00:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "travel"
+        }
+      ],
+      "solarTerms": []
     }
   ],
   "stats": {
-    "total": 26,
+    "total": 27,
     "courses": 16,
     "normalized": 7,
-    "allDay": 1
+    "allDay": 2
   }
 }

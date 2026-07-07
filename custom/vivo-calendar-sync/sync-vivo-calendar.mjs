@@ -7,7 +7,7 @@ import { dirname, resolve } from 'node:path';
 const DEFAULT_DB = '/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db';
 const DEFAULT_OUT = 'custom/vivo-calendar-sync/output/schedule-records.json';
 const DEFAULT_START = '2026-07-05';
-const DEFAULT_END = '2026-07-26';
+const DEFAULT_END = '2026-07-27';
 
 const args = new Map();
 for (let index = 2; index < process.argv.length; index += 1) {
