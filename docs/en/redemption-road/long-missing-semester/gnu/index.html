@@ -295,6 +295,7 @@
 <p>-I</p>
 <ul>
 <li>制定头文件的搜索目录,可以叠加</li>
+<li>注意这里只是告诉编译去哪里找头文件，并不知道源码的位置</li>
 </ul>
 </li>
 </ul>
@@ -585,6 +586,15 @@
 <li>makefile读取这个补充的依赖关系</li>
 </ul>
 </li>
+</ul>
+<h3 id="额外的注意">额外的注意</h3>
+<ul>
+<li>主规则的依赖和下面的配方的目标要一样
+<ul>
+<li>然后这个主规则的依赖需要标明具体的目录</li>
+</ul>
+</li>
+<li></li>
 </ul></div> </article> </section> </main>  <script>
 			const setupReveal = () => {
 				const items = document.querySelectorAll('[data-reveal]');
