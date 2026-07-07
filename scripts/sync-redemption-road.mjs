@@ -1,6 +1,5 @@
 // 文件说明：同步桌面 CS 学习笔记到站点内容目录。
 // 功能说明：复制 Markdown 笔记并把 Typora 本地图片改写为站点静态资源路径。
-import { createHash } from 'node:crypto';
 import { copyFile, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { homedir } from 'node:os';
@@ -101,8 +100,6 @@ const collectMarkdownFiles = async (directory) => {
 	return files;
 };
 
-const contentHash = (value) => createHash('sha256').update(value).digest('hex');
-
 if (!existsSync(sourceRoot)) {
 	throw new Error(`Redemption source folder does not exist: ${sourceRoot}`);
 }
@@ -120,7 +117,6 @@ const sourceFiles = (await collectMarkdownFiles(sourceRoot)).sort((a, b) => {
 
 	return depthA - depthB || relativeA.localeCompare(relativeB, 'zh-CN', { numeric: true });
 });
-const seenContent = new Set();
 let syncedCount = 0;
 let copiedAssetCount = 0;
 let skippedCount = 0;
@@ -135,9 +131,6 @@ for (const sourceFile of sourceFiles) {
 	}
 
 	const normalizedContent = normalizeMarkdownArtifacts(sanitizeLocalPaths(rewriteImagePaths(rawContent))).replace(/\r\n?/g, '\n').trimEnd();
-	const fingerprint = contentHash(normalizedContent.replace(/\s+$/gm, '').trim());
-	if (seenContent.has(fingerprint)) continue;
-	seenContent.add(fingerprint);
 
 	await mkdir(dirname(outputPath), { recursive: true });
 	await writeFile(outputPath, `${normalizedContent}\n`, 'utf-8');
