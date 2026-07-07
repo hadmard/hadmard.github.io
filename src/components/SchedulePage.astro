@@ -141,7 +141,12 @@ const timelineDays = calendarDays.filter((day) => day.events.length || day.solar
 										{day.solarTerms.map((term) => <em>{term.name}</em>)}
 										{previewEvents.length > 0 && (
 											<div class="schedule-day-preview" aria-hidden="true">
-												{previewEvents.map((event) => <span>{event.title}</span>)}
+												{previewEvents.map((event) => (
+													<span>
+														<b>{event.startTime}</b>
+														{event.title}
+													</span>
+												))}
 												{hiddenEventCount > 0 && <strong>+{hiddenEventCount}</strong>}
 											</div>
 										)}

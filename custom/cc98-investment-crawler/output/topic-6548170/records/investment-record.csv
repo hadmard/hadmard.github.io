@@ -404,7 +404,8 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 - 今日学习了 `git` 的使用，(https://learngitbranching.js.org/?locale=zh_CN)，推荐这个网站，很有意思，爆赞。
 - 最有用的几个`git checkout ` `git branch -f  ` `git cherry-pick ` `git rebase -i HEAD~`，以及 HEAD^ 选择第n个父节点
 - `git merge ` 是加到HEAD之后,`git rebase `  是把HEAD的差异加到之后
-- 下午课程有点难，听懵了，需要课下自学一下","## 七月七日代办
+- 下午课程有点难，听懵了，需要课下自学一下
+- 晚上学的不多，今天稍显疲惫，简单了解了一下 `CPU` 的构造，以及运行基本原理，基本就是下午的课的一些内容，剩下的明天上午看；' git ' 是完成了学习，但是有关远程仓库的还剩了一些，一并明天上午解决","## 七月七日代办
 
 ### 上午
 - 完成 `git` 的学习
@@ -426,7 +427,8 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 - 今日学习了 `git` 的使用，[https://learngitbranching.js.org/?locale=zh_CN](https://learngitbranching.js.org/?locale=zh_CN)，推荐这个网站，很有意思，爆赞。
 - 最有用的几个`git checkout [node/branch]` `git branch -f [branch] [node]` `git cherry-pick [node]` `git rebase -i HEAD~[num]`，以及 HEAD^[num] 选择第n个父节点
 - `git merge [branch]` 是加到HEAD之后,`git rebase [branch]`  是把HEAD的差异加到[branch]之后
-- 下午课程有点难，听懵了，需要课下自学一下"
+- 下午课程有点难，听懵了，需要课下自学一下
+- 晚上学的不多，今天稍显疲惫，简单了解了一下 `CPU` 的构造，以及运行基本原理，基本就是下午的课的一些内容，剩下的明天上午看；' git ' 是完成了学习，但是有关远程仓库的还剩了一些，一并明天上午解决"
 "23","840036915","759486","hadmard","2026-07-07T09:18:34.1208414+08:00","false","false","也是蹬完了GPT Pro 20x的额度
  https://file.cc98.org/v4-upload/d/2026/0707/lreknhv2.webp","也是蹬完了GPT Pro 20x的额度[ac20]
 [img]https://file.cc98.org/v4-upload/d/2026/0707/lreknhv2.webp[/img]"

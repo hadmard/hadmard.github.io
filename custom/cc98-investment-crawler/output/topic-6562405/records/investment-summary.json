@@ -1,6 +1,6 @@
 {
   "sourceUrl": "https://www.cc98.org/topic/6562405",
-  "crawledAt": "2026-07-07T15:03:56.041Z",
+  "crawledAt": "2026-07-07T16:11:44.625Z",
   "topic": {
     "topicId": "6562405",
     "title": "健康作息打卡记录",
@@ -8,8 +8,8 @@
     "boardName": "一路走来",
     "authorName": "hadmard",
     "createdAt": "2026-07-02T09:25:18.0779052+08:00",
-    "replyCount": 21,
-    "hitCount": 281,
+    "replyCount": 22,
+    "hitCount": 294,
     "state": 0,
     "raw": {
       "id": 6562405,
@@ -21,14 +21,14 @@
       "userInfo": null,
       "isAnonymous": false,
       "disableHot": false,
-      "lastPostTime": "2026-07-07T20:28:32.8692538+08:00",
+      "lastPostTime": "2026-07-07T23:57:42.4163209+08:00",
       "state": 0,
       "type": 0,
-      "replyCount": 21,
-      "hitCount": 281,
+      "replyCount": 22,
+      "hitCount": 294,
       "totalVoteUserCount": 0,
       "lastPostUser": "hadmard",
-      "lastPostContent": "[quote][b]以下是引用21楼：用户鱼初出在20...",
+      "lastPostContent": "[b]打卡天数：5[/b]\n[b]连续打卡天数：4[/...",
       "topState": 0,
       "bestState": 0,
       "isVote": false,
@@ -64,5 +64,5 @@
       "lotteryTopicDetail": null
     }
   },
-  "postCount": 22
+  "postCount": 23
 }
