@@ -38,7 +38,6 @@ const isStudyNote = (relativePath, content) => {
 
 	if (pathParts.includes('makefile-practice')) return false;
 	if (fileName === 'exp0.md' || fileName === 'exp1.md') return false;
-	if (/codex/i.test(fileName)) return false;
 	if (/实验报告|实验记录/.test(title)) return false;
 
 	return true;

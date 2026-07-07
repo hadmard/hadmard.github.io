@@ -1,0 +1,561 @@
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="安装Codex 有四种方式可以使用codex 1. Codex App 适合那些不太需要详细调整细节的项目，应该也是最广泛的使用方式，使用门槛低，功能多 科研而言，不太推荐使用，因为没法定位细节 2. IDE extension 目..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/codex/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/codex/"><title>Codex 使用指北 | 救赎之路 | 记录空间</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.Ds29qfpL.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">记录空间</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link" href="/schedule/"> 日程 </a><a class="nav-link active" href="/redemption-road/" aria-current="page"> 救赎之路 </a> </nav> <a href="/en/redemption-road/codex/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <script type="module">const o=()=>{const n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.querySelectorAll(".glass-topbar nav").forEach(e=>{if(!(e instanceof HTMLElement))return;const t=e.querySelector(".nav-link.active");if(!(t instanceof HTMLElement)||e.scrollWidth<=e.clientWidth)return;const i=t.offsetLeft-e.clientWidth/2+t.offsetWidth/2;e.scrollTo({left:Math.max(0,i),behavior:n?"auto":"smooth"})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",o,{once:!0}):requestAnimationFrame(o);window.addEventListener("pageshow",o);</script> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Notes</p> <h1>Codex 使用指北</h1> <p>安装Codex 有四种方式可以使用codex 1. Codex App 适合那些不太需要详细调整细节的项目，应该也是最广泛的使用方式，使用门槛低，功能多 科研而言，不太推荐使用，因为没法定位细节 2. IDE extension 目...</p> <div class="article-meta"> <span class="soft-label">5 分钟</span> <span class="signal-pill">codex.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="笔记目录"> <button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span class="reading-outline-title">笔记目录</span> <span class="reading-outline-grip" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9"></path> </svg> </span> <span class="reading-outline-chevron" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="m5.8 8 4.2 4.2L14.2 8"></path> </svg> </span> </button> <nav class="reading-outline-list" data-reading-outline-list> <a href="#安装codex" class="reading-outline-link" data-outline-target="安装codex" style="--outline-depth: 0"> <span>安装Codex</span> </a><a href="#使用前配置" class="reading-outline-link" data-outline-target="使用前配置" style="--outline-depth: 0"> <span>使用前配置</span> </a><a href="#修改网络问题" class="reading-outline-link" data-outline-target="修改网络问题" style="--outline-depth: 1"> <span>修改网络问题</span> </a><a href="#使用技巧" class="reading-outline-link" data-outline-target="使用技巧" style="--outline-depth: 0"> <span>使用技巧</span> </a><a href="#chat-bot-with-coding-skill" class="reading-outline-link" data-outline-target="chat-bot-with-coding-skill" style="--outline-depth: 1"> <span>Chat bot with coding skill</span> </a><a href="#prompt" class="reading-outline-link" data-outline-target="prompt" style="--outline-depth: 1"> <span>Prompt</span> </a><a href="#agentsmd" class="reading-outline-link" data-outline-target="agentsmd" style="--outline-depth: 1"> <span>Agents.md</span> </a><a href="#plan" class="reading-outline-link" data-outline-target="plan" style="--outline-depth: 1"> <span>/plan</span> </a><a href="#goal" class="reading-outline-link" data-outline-target="goal" style="--outline-depth: 1"> <span>/goal</span> </a><a href="#额外的小tips" class="reading-outline-link" data-outline-target="额外的小tips" style="--outline-depth: 1"> <span>额外的小tips</span> </a><a href="#codex特性" class="reading-outline-link" data-outline-target="codex特性" style="--outline-depth: 0"> <span>Codex特性</span> </a><a href="#沙箱" class="reading-outline-link" data-outline-target="沙箱" style="--outline-depth: 1"> <span>沙箱</span> </a><a href="#agentsmd-1" class="reading-outline-link" data-outline-target="agentsmd-1" style="--outline-depth: 1"> <span>Agents.md</span> </a><a href="#配置文件" class="reading-outline-link" data-outline-target="配置文件" style="--outline-depth: 1"> <span>配置文件</span> </a><a href="#skills" class="reading-outline-link" data-outline-target="skills" style="--outline-depth: 1"> <span>Skills</span> </a><a href="#mcp" class="reading-outline-link" data-outline-target="mcp" style="--outline-depth: 1"> <span>MCP</span> </a><a href="#plugins" class="reading-outline-link" data-outline-target="plugins" style="--outline-depth: 1"> <span>Plugins</span> </a><a href="#subagent" class="reading-outline-link" data-outline-target="subagent" style="--outline-depth: 1"> <span>Subagent</span> </a><a href="#远程连接" class="reading-outline-link" data-outline-target="远程连接" style="--outline-depth: 1"> <span>远程连接</span> </a><a href="#in-app-browser" class="reading-outline-link" data-outline-target="in-app-browser" style="--outline-depth: 1"> <span>In-app browser</span> </a><a href="#chrome-extension" class="reading-outline-link" data-outline-target="chrome-extension" style="--outline-depth: 1"> <span>Chrome extension</span> </a><a href="#computer-use" class="reading-outline-link" data-outline-target="computer-use" style="--outline-depth: 1"> <span>Computer Use</span> </a><a href="#风控政策" class="reading-outline-link" data-outline-target="风控政策" style="--outline-depth: 0"> <span>风控政策</span> </a><a href="#充值" class="reading-outline-link" data-outline-target="充值" style="--outline-depth: 0"> <span>充值</span> </a> </nav> </aside> <script>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlines = [...document.querySelectorAll('[data-reading-outline]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length && !outlines.length) return;
+
+		let frame = 0;
+		const cleanups = [];
+		const on = (target, eventName, handler, options) => {
+			target.addEventListener(eventName, handler, options);
+			cleanups.push(() => target.removeEventListener(eventName, handler, options));
+		};
+
+		const readState = (key) => {
+			try {
+				return JSON.parse(window.localStorage.getItem(key) || '{}') || {};
+			} catch {
+				return {};
+			}
+		};
+
+		const writeState = (key, state) => {
+			try {
+				window.localStorage.setItem(key, JSON.stringify(state));
+			} catch {
+				// localStorage can be unavailable in private contexts.
+			}
+		};
+
+		const clampPosition = (outline, x, y) => {
+			const margin = 12;
+			const rect = outline.getBoundingClientRect();
+			const width = rect.width || outline.offsetWidth || 220;
+			const height = rect.height || outline.offsetHeight || 64;
+			const maxX = Math.max(margin, window.innerWidth - width - margin);
+			const maxY = Math.max(margin, window.innerHeight - height - margin);
+			return {
+				x: Math.min(maxX, Math.max(margin, x)),
+				y: Math.min(maxY, Math.max(margin, y)),
+			};
+		};
+
+		const applyPosition = (outline, x, y) => {
+			const position = clampPosition(outline, x, y);
+			outline.dataset.dragged = 'true';
+			outline.style.left = `${Math.round(position.x)}px`;
+			outline.style.top = `${Math.round(position.y)}px`;
+			outline.style.right = 'auto';
+			outline.style.bottom = 'auto';
+			return position;
+		};
+
+		const setCollapsed = (outline, toggle, collapsed) => {
+			outline.classList.toggle('is-collapsed', collapsed);
+			toggle.setAttribute('aria-expanded', String(!collapsed));
+		};
+
+		const setupOutlinePanel = (outline, index) => {
+			const toggle = outline.querySelector('[data-reading-outline-toggle]');
+			if (!toggle) return;
+
+			const stateKey = `reading-outline:${window.location.pathname}:${index}`;
+			const savedState = readState(stateKey);
+			const startsCollapsed =
+				typeof savedState.collapsed === 'boolean'
+					? savedState.collapsed
+					: window.matchMedia('(max-width: 640px)').matches;
+			setCollapsed(outline, toggle, startsCollapsed);
+
+			if (Number.isFinite(savedState.x) && Number.isFinite(savedState.y)) {
+				window.requestAnimationFrame(() => applyPosition(outline, savedState.x, savedState.y));
+			}
+
+			let dragState = null;
+			let suppressClick = false;
+
+			const persistCurrentState = () => {
+				const rect = outline.getBoundingClientRect();
+				const currentState = readState(stateKey);
+				writeState(stateKey, {
+					...currentState,
+					collapsed: outline.classList.contains('is-collapsed'),
+					...(outline.dataset.dragged === 'true'
+						? { x: Math.round(rect.left), y: Math.round(rect.top) }
+						: {}),
+				});
+			};
+
+			on(toggle, 'pointerdown', (event) => {
+				if (event.button !== undefined && event.button !== 0) return;
+				const rect = outline.getBoundingClientRect();
+				dragState = {
+					id: event.pointerId,
+					startX: event.clientX,
+					startY: event.clientY,
+					left: rect.left,
+					top: rect.top,
+					moved: false,
+				};
+				toggle.setPointerCapture?.(event.pointerId);
+				outline.classList.add('is-dragging');
+			});
+
+			on(toggle, 'pointermove', (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				const dx = event.clientX - dragState.startX;
+				const dy = event.clientY - dragState.startY;
+				if (!dragState.moved && Math.hypot(dx, dy) < 5) return;
+
+				dragState.moved = true;
+				event.preventDefault();
+				applyPosition(outline, dragState.left + dx, dragState.top + dy);
+			});
+
+			const endDrag = (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				outline.classList.remove('is-dragging');
+				toggle.releasePointerCapture?.(event.pointerId);
+
+				if (dragState.moved) {
+					suppressClick = true;
+					persistCurrentState();
+					window.setTimeout(() => {
+						suppressClick = false;
+					}, 0);
+				}
+
+				dragState = null;
+			};
+
+			on(toggle, 'pointerup', endDrag);
+			on(toggle, 'pointercancel', endDrag);
+
+			on(toggle, 'click', (event) => {
+				if (suppressClick) {
+					event.preventDefault();
+					return;
+				}
+
+				const collapsed = !outline.classList.contains('is-collapsed');
+				setCollapsed(outline, toggle, collapsed);
+				window.requestAnimationFrame(() => {
+					if (outline.dataset.dragged === 'true') {
+						const rect = outline.getBoundingClientRect();
+						applyPosition(outline, rect.left, rect.top);
+					}
+					persistCurrentState();
+				});
+			});
+		};
+
+		outlines.forEach(setupOutlinePanel);
+
+		const paragraphBlocks = [...document.querySelectorAll('.article-body .markdown-body > p')];
+		for (const link of outlineLinks) {
+			const targetId = link.dataset.outlineTarget || '';
+			if (!targetId.startsWith('paragraph-') || document.getElementById(targetId)) continue;
+
+			const paragraphIndex = Number(targetId.replace('paragraph-', '')) - 1;
+			const paragraph = paragraphBlocks[paragraphIndex];
+			if (paragraph && !paragraph.id) {
+				paragraph.id = targetId;
+			}
+		}
+
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		const handleResize = () => {
+			schedule();
+			for (const outline of outlines) {
+				if (outline.dataset.dragged !== 'true') continue;
+				const rect = outline.getBoundingClientRect();
+				applyPosition(outline, rect.left, rect.top);
+			}
+		};
+
+		on(window, 'scroll', schedule, { passive: true });
+		on(window, 'resize', handleResize);
+		window.__readingAssistCleanup = () => {
+			for (const cleanup of cleanups) cleanup();
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h2 id="安装codex">安装Codex</h2>
+<p>有四种方式可以使用codex</p>
+<ol>
+<li>Codex App
+<ul>
+<li>适合那些不太需要详细调整细节的项目，应该也是最广泛的使用方式，使用门槛低，功能多</li>
+<li>科研而言，不太推荐使用，因为没法定位细节</li>
+</ul>
+</li>
+<li>IDE extension
+<ul>
+<li>目前我主要使用这种方式</li>
+<li>操作类似 Copilot</li>
+</ul>
+</li>
+<li>terminal CLI 版本
+<ul>
+<li>很多比较专业的程序员会使用这个方式</li>
+<li>没有 GUI 的服务器也可以使用（但是2也可以配置后使用）</li>
+<li>有点不直观，我不太喜欢使用，比如说每次调用历史记录需要  <code>/resume</code> , 1或者2则一览无余</li>
+</ul>
+</li>
+<li>网页版
+<ul>
+<li>只能编辑 <code>github</code> 仓库，也许没电脑时候可以替代？</li>
+<li>最少使用的一档</li>
+</ul>
+</li>
+</ol>
+<h2 id="使用前配置">使用前配置</h2>
+<h3 id="修改网络问题">修改网络问题</h3>
+<p><img src="/redemption-assets/image-20260706165352863.png" alt="image-20260706165352863" loading="lazy" decoding="async"></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>**解决方案**：修改配置文件</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>	可以修改 `shell` 的配置文件，也可以修改 `codex` 的配置文件；</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>	前者好一些，因为这样后续 `git` `pip` `node` `conda` 等都可以受益；</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>	但是需要做好代理工具的分流，不然可能会上不了网，会相对麻烦一些，高频使用上述可以操作。</span></span></code></pre>
+<h2 id="使用技巧">使用技巧</h2>
+<h3 id="chat-bot-with-coding-skill">Chat bot with coding skill</h3>
+<p>此不必多言，codex可以根据项目里的实际情况来交互问答</p>
+<h3 id="prompt">Prompt</h3>
+<p>大模型发展初期，Prompt 工程一度很火热。然而随着ai能力的发展，迄今为止，其功能弱化了许多。这里其实不太算提示词工程，只能说是给 ai 的一些约束吧</p>
+<p>一个好的提示词可以浓缩成四件事：</p>
+<ol>
+<li>Goal：你要它做什么</li>
+<li>Context：参考那些文件</li>
+<li>Constraints：不能动什么文件</li>
+<li>Done when：指标（量化更好，如果有的话）</li>
+</ol>
+<h3 id="agentsmd">Agents.md</h3>
+<p>可以理解为一般性的上者👆</p>
+<p>有两个级别</p>
+<ul>
+<li>
+<p>一个是所有项目都适用的，这个一般放一些语言风格之类的，泛用性强的</p>
+</li>
+<li>
+<p>一个是一个项目所有对话都适用的，更有对策性</p>
+</li>
+</ul>
+<p>一般可以写一写项目的背景，你想往哪方面去做</p>
+<p>或者让codex看完项目之后问你问题，然后综合和他的对话写 agents.md，写完之后也可以让codex再润色一下</p>
+<p><strong>最好让ai每完成一次对话，都将结果记录下来，并且让其每次在开始某个任务之前先广泛参考之前的记录</strong></p>
+<p>个人觉得此还是很重要的，一个好的 Agents.md 可以极大提升开发效率</p>
+<h3 id="plan"><code>/plan</code></h3>
+<p>做之前和你协商计划，一般适用于任务量稍大，并且需要精细化操作的任务，能了解细节及时跟进</p>
+<h3 id="goal"><code>/goal</code></h3>
+<p>如果项目有明显的量化指标，可以尝试这个操作。原理就是一次对话结束，把结果和你的目标比较一下，如果没有达到目标，那么就把事先写好的提示词再发送一遍。但是挺费Token的，因为正常的对话完之后，我们会人工对其结果校正思考。但是此模式就完全是自己思考，有时候还是有些幻觉发生。</p>
+<h3 id="额外的小tips">额外的小tips</h3>
+<p>推荐每次开始一个新的项目的时候先 <code>git init</code> ,一方面是方便进行项目版本管理，另一方面是如果没有创建仓库，那么codex所做的操作将无法回退</p>
+<h2 id="codex特性">Codex特性</h2>
+<h3 id="沙箱">沙箱</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>模式</th><th>含义</th><th>适合</th></tr></thead><tbody><tr><td><code>read-only</code></td><td>可读文件，但不能直接写或运行需权限命令</td><td>解释、审查、规划</td></tr><tr><td><code>workspace-write</code></td><td>可在 workspace 内读写，常规命令可执行</td><td>日常开发默认选择</td></tr><tr><td><code>danger-full-access</code></td><td>无沙箱限制</td><td>只在外部隔离环境中使用</td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>审批策略</th><th>行为</th></tr></thead><tbody><tr><td><code>untrusted</code></td><td>只自动运行已知安全的只读命令，其他要问</td></tr><tr><td><code>on-request</code></td><td>沙箱内自动运行，越界时询问</td></tr><tr><td><code>never</code></td><td>不弹审批，尽力执行</td></tr></tbody></table>
+<h3 id="agentsmd-1">Agents.md</h3>
+<p>Codex 会按层次加载指导：</p>
+<ol>
+<li>全局 <code>~/.codex/AGENTS.override.md</code> 或 <code>~/.codex/AGENTS.md</code>。</li>
+<li>repo 根目录到当前目录沿途的 <code>AGENTS.override.md</code>、<code>AGENTS.md</code>。</li>
+<li>其他指导文件。</li>
+</ol>
+<h3 id="配置文件">配置文件</h3>
+<p>个人默认配置在：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>~/.codex/config.toml</span></span></code></pre>
+<p>项目配置在：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>.codex/config.toml</span></span></code></pre>
+<h3 id="skills">Skills</h3>
+<p>Skill 是可复用工作流，通常是一个包含 <code>SKILL.md</code> 的目录。Codex 先看到 skill 名字和描述，只有匹配任务时才读取完整说明，年初爆火的 openclaw 进行功能扩展时候就是一般使用 Skill 来进行</p>
+<h3 id="mcp">MCP</h3>
+<p>MCP 是连接外部工具和上下文的标准协议。Codex 作为 host，通过 MCP client 连接 MCP server。</p>
+<p>MCP server 可以提供：</p>
+<ul>
+<li>Tools：可执行动作。</li>
+<li>Resources：可读资料。</li>
+<li>Prompts：可复用模板。</li>
+</ul>
+<h3 id="plugins">Plugins</h3>
+<p>Plugin 是可安装分发单位，可以打包：</p>
+<ul>
+<li>skills。</li>
+<li>app integrations。</li>
+<li>MCP servers。</li>
+<li>lifecycle hooks。</li>
+<li>assets 和元数据。</li>
+</ul>
+<h3 id="subagent">Subagent</h3>
+<p>就是同时让多个agent处理任务，需要在提示词中主动说才可唤出来</p>
+<h3 id="远程连接">远程连接</h3>
+<p>可以实现手机控制电脑的 codex进行任务执行</p>
+<h3 id="in-app-browser">In-app browser</h3>
+<p>内置浏览器，此处指的是 APP 版本的，如果做网站之类的会比较方便看预览</p>
+<h3 id="chrome-extension">Chrome extension</h3>
+<p>可以控制浏览器页面</p>
+<h3 id="computer-use">Computer Use</h3>
+<p>可以控制电脑，win端不清楚是否可以，mac端可以实现，但是会有bug</p>
+<h2 id="风控政策">风控政策</h2>
+<p>如果说网络不太干净的话，那么账号可能会被风控</p>
+<p><a href="https://ping0.cc/" target="_blank" rel="noopener noreferrer">https://ping0.cc/</a></p>
+<p>上述网址可以查看自己的代理节点质量</p>
+<p>openai不像隔壁anthropic乱封号，但是有概率会需要手机号验证（自然是封掉了 +86）</p>
+<p>遇到了，如果有一个海外的手机号，那就没什么事情</p>
+<p>没有的话，1.购买一个并且开通一个保号套餐；2.网上有说通过一些途径可以获得一个what‘s app账号接码，但是没有仔细了解过；3.使用接码平台，但是一般是一次性或者30d有效期的，这个账号的手机号没法改，后面再出验证这个号就废掉了</p>
+<h2 id="充值">充值</h2>
+<p>跟⬆️有联动</p>
+<p>1.如果有 visa/万事达卡的话，可以直充，价格是20+5=25$，大约170元人民币</p>
+<p>2.一些第三方代充，不清楚是什么渠道，我和我爸妈是之前有段时间使用其，大约125元左右；</p>
+<p>3.成品号，我其实挺推荐这种的，价格在60元-80元，一般就是一个月用完就抛掉，不用担心手机号验证的问题，即使遇到了使用接码平台买了30天有效期的手机号验证一下就行了，这个成本在10元左右</p>
+<p>第三方代充，目前主要用过这几个</p>
+<p><a href="https://aisou.pro/" target="_blank" rel="noopener noreferrer">https://aisou.pro/</a> 这个一般最实惠，一般还有质保</p>
+<p><a href="https://pay.ldxp.cn/shop/6Q8DVZ9B" target="_blank" rel="noopener noreferrer">https://pay.ldxp.cn/shop/6Q8DVZ9B</a></p>
+<p><a href="https://zzshu.com/" target="_blank" rel="noopener noreferrer">https://zzshu.com/</a></p></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .home-stage-orbit, .home-stage-path, .home-stage-strip, .home-stage-panel, .home-stage-tile, .home-stage-note, .home-stage-rail, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>
