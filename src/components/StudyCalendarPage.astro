@@ -58,7 +58,7 @@ const sourceUrl = summary?.sourceUrl ?? config.sourceUrl;
 		<section class="reading-hero study-hero" data-reveal>
 			<p class="soft-label">{copy.studyCalendar.kicker}</p>
 			<h1>{copy.studyCalendar.title}</h1>
-			<p>{copy.studyCalendar.intro}</p>
+			{copy.studyCalendar.intro && <p>{copy.studyCalendar.intro}</p>}
 			<div class="hero-material-stack study-symbol-stack" aria-hidden="true">
 				<span class="hero-symbol hero-symbol-primary">
 					<svg viewBox="0 0 28 28" role="presentation">

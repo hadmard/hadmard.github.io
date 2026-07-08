@@ -39,7 +39,7 @@ const totalWordsLabel = locale === 'zh-cn'
 		<section class="reading-hero redemption-hero" data-reveal>
 			<p class="soft-label">{copy.redemptionRoad.kicker}</p>
 			<h1>{copy.redemptionRoad.title}</h1>
-			<p>{copy.redemptionRoad.intro}</p>
+			{copy.redemptionRoad.intro && <p>{copy.redemptionRoad.intro}</p>}
 			<div class="hero-material-stack redemption-symbol-stack" aria-hidden="true">
 				<span class="hero-symbol hero-symbol-primary">
 					<svg viewBox="0 0 28 28" role="presentation">

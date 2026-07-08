@@ -10,85 +10,14 @@ const normalizedBasePath = basePath ? `/${basePath.replace(/^\/+|\/+$/g, '')}` :
 const normalizedNavBasePath = navBasePath ? `/${navBasePath.replace(/^\/+|\/+$/g, '')}` : normalizedBasePath;
 const alternatePath = alternatePathOverride ?? (locale === 'zh-cn' ? `${normalizedBasePath}/en/` : `${normalizedBasePath || '/'}`);
 const canonicalPath = canonicalPathOverride ?? (locale === 'zh-cn' ? `${normalizedBasePath || '/'}` : `${normalizedBasePath}/en/`);
-const moduleDetails = locale === 'zh-cn'
-	? {
-		investments: {
-			line: '记录买卖、亏损、犹豫和当时的判断。',
-			signal: '小散的破产之路',
-			preview: ['收益', '仓位', '复盘'],
-		},
-		thinking: {
-			line: '短一点的自我校准，先把话说清楚。',
-			signal: '阶段性想法',
-			preview: ['判断', '反思', '心气'],
-		},
-		'study-calendar': {
-			line: '每天推进一点，任务和进度放在一起。',
-			signal: 'chmod +x life',
-			preview: ['任务', '复习', '记录'],
-		},
-		'health-routine': {
-			line: '睡眠、饮水、运动，身体状态也算数据。',
-			signal: '健康作息打卡',
-			preview: ['睡眠', '喝水', '运动'],
-		},
-		schedule: {
-			line: '课程、家教、出行，从 vivo 日历同步。',
-			signal: '本地日程',
-			preview: ['08:30', '14:00', '出行'],
-		},
-		'redemption-road': {
-			line: 'CS 复健笔记，慢慢把基础补回来。',
-			signal: '替身笔记',
-			preview: ['Linux', 'HPC', 'Makefile'],
-		},
-	}
-	: {
-		investments: {
-			line: 'Trades, losses, hesitation, and the judgement at the time.',
-			signal: 'Market notes',
-			preview: ['return', 'risk', 'review'],
-		},
-		thinking: {
-			line: 'Short self-corrections written before they get polished away.',
-			signal: 'Personal notes',
-			preview: ['judgement', 'reflection', 'mood'],
-		},
-		'study-calendar': {
-			line: 'Daily study progress, todos, and review rhythm.',
-			signal: 'chmod +x life',
-			preview: ['tasks', 'review', 'log'],
-		},
-		'health-routine': {
-			line: 'Sleep, water, movement, and body-state check-ins.',
-			signal: 'Routine log',
-			preview: ['sleep', 'water', 'move'],
-		},
-		schedule: {
-			line: 'Courses, tutoring, and trips synced from vivo calendar.',
-			signal: 'Local calendar',
-			preview: ['08:30', '14:00', 'travel'],
-		},
-		'redemption-road': {
-			line: 'CS recovery notes, rebuilt one topic at a time.',
-			signal: 'CS notes',
-			preview: ['Linux', 'HPC', 'Makefile'],
-		},
-	};
-
 const hrefFor = (id: string) => locale === 'zh-cn' ? `${normalizedNavBasePath}/${id}/` : `${normalizedNavBasePath}/en/${id}/`;
 const cards = copy.nav.map((item) => {
 	return {
 		...item,
 		href: hrefFor(item.id),
-		...moduleDetails[item.id as keyof typeof moduleDetails],
 	};
 });
-const heroTitle = locale === 'zh-cn' ? '留一份现场。' : 'Keep the scene.';
-const heroIntro = locale === 'zh-cn'
-	? '投资复盘、课程日程、学习打卡、作息和 CS 笔记，先按原样收好。以后回头看，至少知道自己当时在想什么。'
-	: 'Market notes, class schedules, study logs, routines, and CS notes, kept close to the way they were written.';
-const heroKicker = locale === 'zh-cn' ? '个人档案' : 'Personal archive';
+const heroTitle = locale === 'zh-cn' ? '个人blog' : 'Personal Blog';
 
 ---
 
@@ -104,9 +33,7 @@ const heroKicker = locale === 'zh-cn' ? '个人档案' : 'Personal archive';
 
 		<section class="blog-hero home-archive-hero" data-reveal>
 			<div class="home-hero-copy">
-				<p class="home-hero-kicker">{heroKicker}</p>
 				<h1 class="home-hero-title">{heroTitle}</h1>
-				<p class="home-hero-intro">{heroIntro}</p>
 			</div>
 			<div class="home-hero-stage" aria-hidden="true">
 				<span class="home-stage-orbit"></span>
@@ -237,11 +164,6 @@ const heroKicker = locale === 'zh-cn' ? '个人档案' : 'Personal archive';
 					<span class="card-arrow" aria-hidden="true"></span>
 					<span class="module-card-rail" aria-hidden="true"></span>
 					<strong>{card.label}</strong>
-					<p>{card.line}</p>
-					<span class="module-card-signal">{card.signal}</span>
-					<span class="module-card-preview" aria-hidden="true">
-						{card.preview.map((item) => <b>{item}</b>)}
-					</span>
 				</a>
 			))}
 		</section>
