@@ -4342,17 +4342,17 @@
 
 	.markdown-body pre {
 		overflow-x: auto;
-		border: 1px solid rgba(29, 29, 31, 0.08);
-		border-radius: 16px;
+		border: 1px solid rgba(98, 145, 190, 0.18);
+		border-radius: 18px;
 		background:
-			linear-gradient(180deg, rgba(29, 29, 31, 0.94), rgba(29, 29, 31, 0.88)),
-			linear-gradient(135deg, rgba(var(--tone-primary), 0.050), transparent);
-		padding: 1rem;
-		color: #ffffff;
+			linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 255, 0.88)),
+			linear-gradient(135deg, rgba(var(--tone-primary), 0.060), rgba(var(--tone-teal), 0.025)) !important;
+		padding: 1.05rem 1.12rem;
+		color: #24292f !important;
 		font-family: "SF Mono", "Menlo", "Consolas", monospace;
 		font-size: 0.88em;
 		line-height: 1.75;
-		box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), 0 12px 30px rgba(28, 39, 58, 0.085);
+		box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), 0 16px 34px rgba(28, 39, 58, 0.070);
 	}
 
 	.markdown-body pre code {
@@ -4360,6 +4360,15 @@
 		padding: 0;
 		color: inherit;
 		font: inherit;
+	}
+
+	.markdown-body pre code .line {
+		display: block;
+		min-height: 1.75em;
+	}
+
+	.markdown-body pre code span {
+		background: transparent !important;
 	}
 
 	.markdown-body table {
@@ -4497,10 +4506,6 @@
 
 	.prose-thought pre {
 		overflow-x: auto;
-		border-radius: 18px;
-		background: rgba(29, 29, 31, 0.92);
-		padding: 1rem;
-		color: #ffffff;
 	}
 
 	.related-card strong {

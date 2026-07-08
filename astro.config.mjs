@@ -34,6 +34,11 @@ export default defineConfig({
             prefixDefaultLocale: false,
         },
     },
+    markdown: {
+        shikiConfig: {
+            theme: 'github-light',
+        },
+    },
     vite: {
         plugins: [tailwindcss()],
     },

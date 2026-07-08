@@ -270,6 +270,9 @@ const rehypeRenderLightMath: RehypePlugin = () => (tree: Root) => {
 const markdownProcessor = createMarkdownProcessor({
 	gfm: true,
 	smartypants: true,
+	shikiConfig: {
+		theme: 'github-light',
+	},
 	remarkRehype: { allowDangerousHtml: false },
 	rehypePlugins: [rehypeHardenLinks, rehypeRenderLightMath],
 });
