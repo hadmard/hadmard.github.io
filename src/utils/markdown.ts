@@ -186,7 +186,18 @@ const splitTextWithInlineMath = (value: string) => {
 	return nodes;
 };
 
-export const stripCc98QuoteBlocks = (content: string) => {
+const quotePrefixForDepth = (depth: number) => `${'> '.repeat(depth)}`;
+
+const prefixQuotedText = (content: string, depth: number) => {
+	if (depth <= 0 || !content) return content;
+	const prefix = quotePrefixForDepth(depth);
+	return content
+		.split('\n')
+		.map((line) => `${prefix}${line}`)
+		.join('\n');
+};
+
+const preserveCc98QuoteBlocks = (content: string) => {
 	let output = '';
 	let lastIndex = 0;
 	let depth = 0;
@@ -197,28 +208,20 @@ export const stripCc98QuoteBlocks = (content: string) => {
 		const isClosing = /^\[\/quote/i.test(token);
 
 		if (isClosing) {
-			if (depth > 0) {
-				depth -= 1;
-				if (depth === 0) lastIndex = index + token.length;
-				continue;
-			}
-
-			output += content.slice(lastIndex, index);
+			output += prefixQuotedText(content.slice(lastIndex, index), depth);
+			depth = Math.max(0, depth - 1);
+			output += '\n\n';
 			lastIndex = index + token.length;
 			continue;
 		}
 
-		if (depth === 0) {
-			output += content.slice(lastIndex, index);
-		}
+		output += prefixQuotedText(content.slice(lastIndex, index), depth);
+		if (!output.endsWith('\n\n')) output += '\n\n';
 		depth += 1;
+		lastIndex = index + token.length;
 	}
 
-	if (depth === 0) {
-		output += content.slice(lastIndex);
-	}
-
-	return output;
+	return output + prefixQuotedText(content.slice(lastIndex), depth);
 };
 
 const rehypeHardenLinks: RehypePlugin = () => (tree: Root) => {
@@ -463,7 +466,44 @@ const toMarkdownLink = (rawUrl: string, rawLabel: string) => {
 	return `[${escapeMarkdownLinkText(label)}](${href})`;
 };
 
-export const normalizeCc98Markdown = (content: string) => stripCc98QuoteBlocks(content.replace(/\r\n?/g, '\n'))
+const cc98EmoteMap: Record<string, string> = {
+	ac01: '😂',
+	ac02: '🙂',
+	ac03: '😅',
+	ac04: '😮',
+	ac05: '😢',
+	ac06: '😡',
+	ac07: '😳',
+	ac08: '😎',
+	ac09: '🤔',
+	ac10: '😴',
+	ac13: '😌',
+	ac20: '😮‍💨',
+	ac32: '😭',
+	ac34: '😵',
+	ac1003: '🤔',
+	ac2054: '🫡',
+	cc9801: '🙂',
+	cc9802: '😅',
+	cc9803: '😂',
+	cc9804: '🥲',
+	cc9805: '🤝',
+	cc9806: '💧',
+	cc9810: '😴',
+	cc9823: '📈',
+	cc9832: '💪',
+	tb02: '🙂',
+	tb03: '😂',
+	tb13: '👍',
+};
+
+const renderCc98Emote = (value: string) => {
+	const key = value.match(/^\[([a-z]+(?:\d+)?|cc\d+)/i)?.[1]?.toLowerCase();
+	if (!key) return value;
+	return cc98EmoteMap[key] ?? `:${key}:`;
+};
+
+export const normalizeCc98Markdown = (content: string) => preserveCc98QuoteBlocks(content.replace(/\r\n?/g, '\n'))
 	.replace(/\[url=([^\]\n]{1,500})\]([\s\S]*?)\[\/url\]/gi, (_match, url: string, label: string) => toMarkdownLink(url, label))
 	.replace(/\[url\]([\s\S]*?)\[\/url\]/gi, (_match, url: string) => {
 		const href = normalizeCc98Url(url);
@@ -481,9 +521,7 @@ export const normalizeCc98Markdown = (content: string) => stripCc98QuoteBlocks(c
 	.replace(/<br\s*\/?>/gi, '\n')
 	.replace(/\[\*\]/g, '\n- ')
 	.replace(/\[(\/)?(?:size|color|font|align|center|left|right|table|tr|td|list|ol|ul|li)(?:=[^\]\n]{0,120})?\]/gi, '')
-	.replace(/\[(?:tb|ac|em|ldln|zk|han|tsj|st|w|yz|mj|xk|doge|cc\d+)[^\]\n]{0,20}\]/gi, '')
-	.replace(/\p{Extended_Pictographic}/gu, '')
-	.replace(/[\uFE0F\u200D]/g, '')
+	.replace(/\[(?:tb|ac|em|ldln|zk|han|tsj|st|w|yz|mj|xk|doge|cc\d+)[^\]\n]{0,20}\]/gi, renderCc98Emote)
 	.replace(/^(#{1,6})(?!#)(?=\S)/gm, '$1 ')
 	.split('\n')
 	.map((line) => line.replace(/[ \t]+$/g, ''))
