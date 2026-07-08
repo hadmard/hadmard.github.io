@@ -267,6 +267,172 @@ const rehypeRenderLightMath: RehypePlugin = () => (tree: Root) => {
 	});
 };
 
+const getClassList = (node: Element) => {
+	const value = node.properties?.className ?? node.properties?.class;
+	if (Array.isArray(value)) return value.map(String);
+	if (typeof value === 'string') return value.split(/\s+/).filter(Boolean);
+	return [];
+};
+
+const appendClassName = (node: Element, className: string) => {
+	const classList = getClassList(node);
+	if (classList.includes(className)) return;
+	node.properties = {
+		...node.properties,
+		class: [...classList, className].join(' '),
+	};
+};
+
+const textNode = (value: string): Text => ({
+	type: 'text',
+	value,
+});
+
+const tokenNode = (className: string, value: string): Element => ({
+	type: 'element',
+	tagName: 'span',
+	properties: {
+		className: ['code-token', className],
+	},
+	children: [textNode(value)],
+});
+
+const getTextContent = (node: Element | Text): string => {
+	if (node.type === 'text') return node.value;
+	return node.children.map((child) => {
+		if (child.type === 'text' || child.type === 'element') return getTextContent(child);
+		return '';
+	}).join('');
+};
+
+const isElement = (value: unknown): value is Element => (
+	Boolean(value)
+	&& value !== null
+	&& typeof value === 'object'
+	&& 'type' in value
+	&& (value as { type?: unknown }).type === 'element'
+);
+
+const codeTokenPattern = /#.*$|\$\([^)]+\)|\$[@<^?*]|\b(?:ifeq|ifneq|ifdef|ifndef|else|endif|include|define|endef|for|do|done|if|then|fi)\b|\.PHONY\b|-include\b|(?:^|\s)[@-]?(?:cc|gcc|clang|g\+\+|c\+\+|rm|echo|mkdir|cp|mv|ar|ld|make|python3?|node|pnpm|npm|git|grep|sed|awk|cat|ls|cd)\b|(?:^|\s)(?:-{1,2}[A-Za-z][\w-]*(?:=[^\s]+)?|-I[^\s]+)|\b[\w./%+@-]+\.(?:c|cc|cpp|h|hpp|o|a|so|d|mk|makefile|out)\b/g;
+const shellLikePattern = /(?:^|\s)(?:cc|gcc|clang|make|git|pnpm|npm|node|python3?|rm|mkdir|cp|mv)\b|(?:^|\s)-[A-Za-z][\w-]*|\b[\w./%+@-]+\.(?:c|h|o|a|so|d|mk|out)\b|\$\([^)]+\)|\$[@<^?*]/m;
+const makefileLikePattern = /^\s*[^:=#\s][^:=#]*\s*:/m;
+
+const classForCodeToken = (value: string) => {
+	const trimmed = value.trim();
+	if (!trimmed) return '';
+	if (trimmed.startsWith('#')) return 'code-token-comment';
+	if (trimmed.startsWith('$')) return 'code-token-variable';
+	if (trimmed === '.PHONY' || trimmed === '-include' || /^(ifeq|ifneq|ifdef|ifndef|else|endif|include|define|endef|for|do|done|if|then|fi)$/.test(trimmed)) {
+		return 'code-token-keyword';
+	}
+	if (/^[@-]?(cc|gcc|clang|g\+\+|c\+\+|rm|echo|mkdir|cp|mv|ar|ld|make|python3?|node|pnpm|npm|git|grep|sed|awk|cat|ls|cd)$/.test(trimmed)) {
+		return 'code-token-command';
+	}
+	if (/^(-{1,2}[A-Za-z][\w-]*(?:=[^\s]+)?|-I[^\s]+)$/.test(trimmed)) return 'code-token-flag';
+	if (/\.(?:c|cc|cpp|h|hpp|o|a|so|d|mk|makefile|out)$/.test(trimmed)) return 'code-token-file';
+	return '';
+};
+
+const splitLeadingWhitespace = (value: string) => {
+	const match = value.match(/^(\s+)(\S[\s\S]*)$/);
+	if (!match) return ['', value] as const;
+	return [match[1], match[2]] as const;
+};
+
+const tokenizeCodeText = (value: string): Array<Element | Text> => {
+	const nodes: Array<Element | Text> = [];
+	let cursor = 0;
+
+	for (const match of value.matchAll(codeTokenPattern)) {
+		const rawToken = match[0];
+		const index = match.index ?? 0;
+		const className = classForCodeToken(rawToken);
+		if (!className || index < cursor) continue;
+
+		if (index > cursor) nodes.push(textNode(value.slice(cursor, index)));
+
+		const [leadingWhitespace, token] = splitLeadingWhitespace(rawToken);
+		if (leadingWhitespace) nodes.push(textNode(leadingWhitespace));
+		nodes.push(tokenNode(className, token));
+		cursor = index + rawToken.length;
+
+		if (className === 'code-token-comment') break;
+	}
+
+	if (cursor < value.length) nodes.push(textNode(value.slice(cursor)));
+	return nodes.length ? nodes : [textNode(value)];
+};
+
+const tokenizeMakefileLine = (value: string): Array<Element | Text> => {
+	if (/^\s*#/.test(value)) {
+		const [leadingWhitespace, comment] = splitLeadingWhitespace(value);
+		return [
+			leadingWhitespace ? textNode(leadingWhitespace) : null,
+			tokenNode('code-token-comment', comment),
+		].filter(Boolean) as Array<Element | Text>;
+	}
+
+	const targetMatch = value.match(/^(\s*)([^:=#\s][^:=#]*?)(\s*:)/);
+	if (targetMatch) {
+		const prefix = targetMatch[1];
+		const target = targetMatch[2];
+		const separator = targetMatch[3];
+		return [
+			prefix ? textNode(prefix) : null,
+			tokenNode('code-token-target', target),
+			textNode(separator),
+			...tokenizeCodeText(value.slice(targetMatch[0].length)),
+		].filter(Boolean) as Array<Element | Text>;
+	}
+
+	const assignmentMatch = value.match(/^(\s*)([A-Za-z_][\w.-]*)(\s*(?::=|\+=|\?=|=))/);
+	if (assignmentMatch) {
+		const prefix = assignmentMatch[1];
+		const variable = assignmentMatch[2];
+		const operator = assignmentMatch[3];
+		return [
+			prefix ? textNode(prefix) : null,
+			tokenNode('code-token-variable', variable),
+			textNode(operator),
+			...tokenizeCodeText(value.slice(assignmentMatch[0].length)),
+		].filter(Boolean) as Array<Element | Text>;
+	}
+
+	return tokenizeCodeText(value);
+};
+
+const enhanceCodeBlockLines = (pre: Element, language: string) => {
+	const code = pre.children.find((child): child is Element => isElement(child) && child.tagName === 'code');
+	if (!code) return;
+
+	const codeText = getTextContent(code);
+	const normalizedLanguage = language.toLowerCase();
+	const isMakefile = normalizedLanguage === 'makefile' || (normalizedLanguage === 'plaintext' && makefileLikePattern.test(codeText));
+	const isShellLike = ['bash', 'shell', 'sh', 'zsh'].includes(normalizedLanguage) || (normalizedLanguage === 'plaintext' && shellLikePattern.test(codeText));
+
+	if (!isMakefile && !isShellLike) return;
+
+	appendClassName(pre, 'syntax-rich');
+	appendClassName(pre, isMakefile ? 'syntax-rich-makefile' : 'syntax-rich-shell');
+
+	code.children.forEach((child) => {
+		if (!isElement(child) || child.tagName !== 'span' || !getClassList(child).includes('line')) return;
+
+		const lineText = getTextContent(child);
+		if (isMakefile && makefileLikePattern.test(lineText)) appendClassName(child, 'code-line-target');
+		if (isMakefile && /^\s+[@-]?\S/.test(lineText)) appendClassName(child, 'code-line-recipe');
+		child.children = isMakefile ? tokenizeMakefileLine(lineText) : tokenizeCodeText(lineText);
+	});
+};
+
+const rehypeEnhanceCodeBlocks: RehypePlugin = () => (tree: Root) => {
+	visit(tree, 'element', (node: Element) => {
+		if (node.tagName !== 'pre') return;
+		const language = firstString(node.properties?.['data-language'] ?? node.properties?.dataLanguage);
+		enhanceCodeBlockLines(node, language);
+	});
+};
+
 const markdownProcessor = createMarkdownProcessor({
 	gfm: true,
 	smartypants: true,
@@ -274,7 +440,7 @@ const markdownProcessor = createMarkdownProcessor({
 		theme: 'github-light',
 	},
 	remarkRehype: { allowDangerousHtml: false },
-	rehypePlugins: [rehypeHardenLinks, rehypeRenderLightMath],
+	rehypePlugins: [rehypeHardenLinks, rehypeRenderLightMath, rehypeEnhanceCodeBlocks],
 });
 
 const normalizeCc98Url = (value: string) => {

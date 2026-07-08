@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 参数 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/gnu/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/long-missing-semester/gnu/"><title>GNU make | Redemption Road | Hadmard Notes</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.BioWKVF9.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Hadmard Notes</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link" href="/en/schedule/"> Schedule </a><a class="nav-link active" href="/en/redemption-road/" aria-current="page"> Redemption </a> </nav> <a href="/redemption-road/long-missing-semester/gnu/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <script type="module">const o=()=>{const n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.querySelectorAll(".glass-topbar nav").forEach(e=>{if(!(e instanceof HTMLElement))return;const t=e.querySelector(".nav-link.active");if(!(t instanceof HTMLElement)||e.scrollWidth<=e.clientWidth)return;const i=t.offsetLeft-e.clientWidth/2+t.offsetWidth/2;e.scrollTo({left:Math.max(0,i),behavior:n?"auto":"smooth"})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",o,{once:!0}):requestAnimationFrame(o);window.addEventListener("pageshow",o);</script> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Missing Semester</p> <h1>GNU make</h1> <p>cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 参数 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内...</p> <div class="article-meta"> <span class="soft-label">5 min</span> <span class="signal-pill">GNU.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="Outline"> <button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span class="reading-outline-title">Outline</span> <span class="reading-outline-grip" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9"></path> </svg> </span> <span class="reading-outline-chevron" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="m5.8 8 4.2 4.2L14.2 8"></path> </svg> </span> </button> <nav class="reading-outline-list" data-reading-outline-list> <a href="#cc" class="reading-outline-link" data-outline-target="cc" style="--outline-depth: 0"> <span>cc</span> </a><a href="#参数" class="reading-outline-link" data-outline-target="参数" style="--outline-depth: 1"> <span>参数</span> </a><a href="#子目录" class="reading-outline-link" data-outline-target="子目录" style="--outline-depth: 1"> <span>子目录</span> </a><a href="#编译链接库" class="reading-outline-link" data-outline-target="编译链接库" style="--outline-depth: 0"> <span>编译/链接/库</span> </a><a href="#1-编译是每个文件单独翻译" class="reading-outline-link" data-outline-target="1-编译是每个文件单独翻译" style="--outline-depth: 1"> <span>1. 编译是“每个文件单独翻译”</span> </a><a href="#2-链接是把零件拼成完整程序" class="reading-outline-link" data-outline-target="2-链接是把零件拼成完整程序" style="--outline-depth: 1"> <span>2. 链接是“把零件拼成完整程序”</span> </a><a href="#3-静态库-a直接打包进程序" class="reading-outline-link" data-outline-target="3-静态库-a直接打包进程序" style="--outline-depth: 1"> <span>3. 静态库 .a：直接打包进程序</span> </a><a href="#4-动态库-so程序运行时再去找" class="reading-outline-link" data-outline-target="4-动态库-so程序运行时再去找" style="--outline-depth: 1"> <span>4. 动态库 .so：程序运行时再去找</span> </a><a href="#makefile" class="reading-outline-link" data-outline-target="makefile" style="--outline-depth: 0"> <span>Makefile</span> </a><a href="#preview" class="reading-outline-link" data-outline-target="preview" style="--outline-depth: 1"> <span>preview</span> </a><a href="#变量" class="reading-outline-link" data-outline-target="变量" style="--outline-depth: 1"> <span>变量</span> </a><a href="#自动推导" class="reading-outline-link" data-outline-target="自动推导" style="--outline-depth: 1"> <span>自动推导</span> </a><a href="#伪目标" class="reading-outline-link" data-outline-target="伪目标" style="--outline-depth: 1"> <span>伪目标</span> </a><a href="#makefile的包含" class="reading-outline-link" data-outline-target="makefile的包含" style="--outline-depth: 1"> <span>Makefile的包含</span> </a><a href="#d" class="reading-outline-link" data-outline-target="d" style="--outline-depth: 1"> <span>.d</span> </a> </nav> </aside> <script>
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 参数 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/long-missing-semester/gnu/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/long-missing-semester/gnu/"><title>GNU make | Redemption Road | Hadmard Notes</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch._40xyWpO.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Hadmard Notes</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link" href="/en/schedule/"> Schedule </a><a class="nav-link active" href="/en/redemption-road/" aria-current="page"> Redemption </a> </nav> <a href="/redemption-road/long-missing-semester/gnu/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <script type="module">const o=()=>{const n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.querySelectorAll(".glass-topbar nav").forEach(e=>{if(!(e instanceof HTMLElement))return;const t=e.querySelector(".nav-link.active");if(!(t instanceof HTMLElement)||e.scrollWidth<=e.clientWidth)return;const i=t.offsetLeft-e.clientWidth/2+t.offsetWidth/2;e.scrollTo({left:Math.max(0,i),behavior:n?"auto":"smooth"})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",o,{once:!0}):requestAnimationFrame(o);window.addEventListener("pageshow",o);</script> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Missing Semester</p> <h1>GNU make</h1> <p>cc cc 指的是C compiler，有clang，也有gcc，下面介绍cc这个命令的详情 参数 无参数，e.g. cc main.c 会自动编译并且链接生成a.out -o -o 实则就是重命名，将a.out 重命名为-o后的内...</p> <div class="article-meta"> <span class="soft-label">5 min</span> <span class="signal-pill">GNU.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="Outline"> <button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span class="reading-outline-title">Outline</span> <span class="reading-outline-grip" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9"></path> </svg> </span> <span class="reading-outline-chevron" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="m5.8 8 4.2 4.2L14.2 8"></path> </svg> </span> </button> <nav class="reading-outline-list" data-reading-outline-list> <a href="#cc" class="reading-outline-link" data-outline-target="cc" style="--outline-depth: 0"> <span>cc</span> </a><a href="#参数" class="reading-outline-link" data-outline-target="参数" style="--outline-depth: 1"> <span>参数</span> </a><a href="#子目录" class="reading-outline-link" data-outline-target="子目录" style="--outline-depth: 1"> <span>子目录</span> </a><a href="#编译链接库" class="reading-outline-link" data-outline-target="编译链接库" style="--outline-depth: 0"> <span>编译/链接/库</span> </a><a href="#1-编译是每个文件单独翻译" class="reading-outline-link" data-outline-target="1-编译是每个文件单独翻译" style="--outline-depth: 1"> <span>1. 编译是“每个文件单独翻译”</span> </a><a href="#2-链接是把零件拼成完整程序" class="reading-outline-link" data-outline-target="2-链接是把零件拼成完整程序" style="--outline-depth: 1"> <span>2. 链接是“把零件拼成完整程序”</span> </a><a href="#3-静态库-a直接打包进程序" class="reading-outline-link" data-outline-target="3-静态库-a直接打包进程序" style="--outline-depth: 1"> <span>3. 静态库 .a：直接打包进程序</span> </a><a href="#4-动态库-so程序运行时再去找" class="reading-outline-link" data-outline-target="4-动态库-so程序运行时再去找" style="--outline-depth: 1"> <span>4. 动态库 .so：程序运行时再去找</span> </a><a href="#makefile" class="reading-outline-link" data-outline-target="makefile" style="--outline-depth: 0"> <span>Makefile</span> </a><a href="#preview" class="reading-outline-link" data-outline-target="preview" style="--outline-depth: 1"> <span>preview</span> </a><a href="#变量" class="reading-outline-link" data-outline-target="变量" style="--outline-depth: 1"> <span>变量</span> </a><a href="#自动推导" class="reading-outline-link" data-outline-target="自动推导" style="--outline-depth: 1"> <span>自动推导</span> </a><a href="#伪目标" class="reading-outline-link" data-outline-target="伪目标" style="--outline-depth: 1"> <span>伪目标</span> </a><a href="#makefile的包含" class="reading-outline-link" data-outline-target="makefile的包含" style="--outline-depth: 1"> <span>Makefile的包含</span> </a><a href="#d" class="reading-outline-link" data-outline-target="d" style="--outline-depth: 1"> <span>.d</span> </a> </nav> </aside> <script>
 	const setupReadingAssist = () => {
 		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
 
@@ -311,9 +311,9 @@
 <p>双引号是自己项目的头文件，头文件是函数声明的文件，具体实现是在同名.c文件中</p>
 </li>
 <li>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1. 编译器自己的默认目录</span></span>
-<span class="line"><span>2. cc -I 指定的目录</span></span>
-<span class="line"><span>3. 系统默认头文件目录</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line">1. 编译器自己的默认目录</span>
+<span class="line">2. <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-I</span> 指定的目录</span>
+<span class="line">3. 系统默认头文件目录</span></code></pre>
 </li>
 </ul>
 </li>
@@ -324,9 +324,9 @@
 <p>尖括号通常用于系统库、标准库、第三方库的头文件。</p>
 </li>
 <li>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1. cc -I 指定的目录</span></span>
-<span class="line"><span>2. 编译器自己的默认目录</span></span>
-<span class="line"><span>3. 系统默认头文件目录</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line">1. <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-I</span> 指定的目录</span>
+<span class="line">2. 编译器自己的默认目录</span>
+<span class="line">3. 系统默认头文件目录</span></code></pre>
 </li>
 </ul>
 </li>
@@ -363,13 +363,13 @@
 <span class="line"><span>可执行文件</span></span></code></pre>
 <h3 id="1-编译是每个文件单独翻译">1. 编译是“每个文件单独翻译”</h3>
 <p>比如你有：</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>main.c</span></span>
-<span class="line"><span>foo.c</span></span>
-<span class="line"><span>bar.c</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span class="code-token code-token-file">main.c</span></span>
+<span class="line"><span class="code-token code-token-file">foo.c</span></span>
+<span class="line"><span class="code-token code-token-file">bar.c</span></span></code></pre>
 <p>编译器先分别翻译成机器码碎片：</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>main.c → main.o</span></span>
-<span class="line"><span>foo.c  → foo.o</span></span>
-<span class="line"><span>bar.c  → bar.o</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span class="code-token code-token-file">main.c</span> → <span class="code-token code-token-file">main.o</span></span>
+<span class="line"><span class="code-token code-token-file">foo.c</span>  → <span class="code-token code-token-file">foo.o</span></span>
+<span class="line"><span class="code-token code-token-file">bar.c</span>  → <span class="code-token code-token-file">bar.o</span></span></code></pre>
 <p>这些 <code>.o</code> 文件还不是完整软件，只是一块块零件。</p>
 <p>这里允许文件包含未定义的函数，但是一般不允许包含未定义的函数（至少从现代的c编译器来看）</p>
 <hr>
@@ -381,16 +381,16 @@
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>哦，main 需要一个叫 foo 的函数。</span></span></code></pre>
 <p>但它还不知道 <code>foo</code> 的机器码在哪里。</p>
 <p>链接阶段就负责把它们拼起来：</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>main.o + foo.o + bar.o + 一堆库</span></span>
-<span class="line"><span>  ↓</span></span>
-<span class="line"><span>可执行程序</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span class="code-token code-token-file">main.o</span> + <span class="code-token code-token-file">foo.o</span> + <span class="code-token code-token-file">bar.o</span> + 一堆库</span>
+<span class="line">  ↓</span>
+<span class="line">可执行程序</span></code></pre>
 <p>所以链接就是：</p>
 <p><strong>把你自己写的代码 + 别人写好的库，合成一个能运行的程序。</strong></p>
 <hr>
 <h3 id="3-静态库-a直接打包进程序">3. 静态库 <code>.a</code>：直接打包进程序</h3>
 <p>Linux 上静态库一般长这样：</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>libblas.a</span></span>
-<span class="line"><span>libmpi.a</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span class="code-token code-token-file">libblas.a</span></span>
+<span class="line"><span class="code-token code-token-file">libmpi.a</span></span></code></pre>
 <p>如果你链接静态库，链接器会把用到的库代码直接塞进你的可执行文件里。</p>
 <p>结果：</p>
 <pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>你的程序 = 你的代码 + BLAS代码 + MPI代码的一部分</span></span></code></pre>
@@ -401,11 +401,11 @@
 <hr>
 <h3 id="4-动态库-so程序运行时再去找">4. 动态库 <code>.so</code>：程序运行时再去找</h3>
 <p>Linux 上动态库一般长这样：</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>libblas.so</span></span>
-<span class="line"><span>libmpi.so</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span class="code-token code-token-file">libblas.so</span></span>
+<span class="line"><span class="code-token code-token-file">libmpi.so</span></span></code></pre>
 <p>如果你链接动态库，可执行文件里面不会塞完整库代码，而是写一张表：</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>我运行的时候需要 libblas.so</span></span>
-<span class="line"><span>我运行的时候需要 libmpi.so</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line">我运行的时候需要 <span class="code-token code-token-file">libblas.so</span></span>
+<span class="line">我运行的时候需要 <span class="code-token code-token-file">libmpi.so</span></span></code></pre>
 <p>等你真正运行程序时，系统再去找这些 <code>.so</code> 文件。</p>
 <p>优点：程序小；多个程序可以共享同一个库；库升级方便。</p>
 <p>缺点：运行时找不到库就炸。</p>
@@ -414,85 +414,85 @@
 <h2 id="makefile">Makefile</h2>
 <h3 id="preview">preview</h3>
 <p>rule like：⬇️</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#6F42C1">target</span><span style="color:#6F42C1"> ...</span><span style="color:#24292E"> : prerequisites ...</span></span>
-<span class="line"><span style="color:#24292E">    recipe</span></span>
-<span class="line"><span style="color:#24292E">    ...</span></span>
-<span class="line"><span style="color:#24292E">    ...</span></span></code></pre>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#6F42C1">edit</span><span style="color:#24292E"> : main.o kbd.o command.o display.o </span><span style="color:#005CC5">\</span></span>
-<span class="line"><span style="color:#24292E">        insert.o search.o files.o utils.o</span></span>
-<span class="line"><span style="color:#24292E">    cc -o edit main.o kbd.o command.o display.o \</span></span>
-<span class="line"><span style="color:#24292E">        insert.o search.o files.o utils.o</span></span>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line code-line-target"><span class="code-token code-token-target">target ...</span> : prerequisites ...</span>
+<span class="line code-line-recipe">    recipe</span>
+<span class="line code-line-recipe">    ...</span>
+<span class="line code-line-recipe">    ...</span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line code-line-target"><span class="code-token code-token-target">edit</span> : <span class="code-token code-token-file">main.o</span> <span class="code-token code-token-file">kbd.o</span> <span class="code-token code-token-file">command.o</span> <span class="code-token code-token-file">display.o</span> \</span>
+<span class="line code-line-recipe">        <span class="code-token code-token-file">insert.o</span> <span class="code-token code-token-file">search.o</span> <span class="code-token code-token-file">files.o</span> <span class="code-token code-token-file">utils.o</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-o</span> edit <span class="code-token code-token-file">main.o</span> <span class="code-token code-token-file">kbd.o</span> <span class="code-token code-token-file">command.o</span> <span class="code-token code-token-file">display.o</span> \</span>
+<span class="line code-line-recipe">        <span class="code-token code-token-file">insert.o</span> <span class="code-token code-token-file">search.o</span> <span class="code-token code-token-file">files.o</span> <span class="code-token code-token-file">utils.o</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#6F42C1">main.o</span><span style="color:#24292E"> : main.c defs.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c main.c</span></span>
-<span class="line"><span style="color:#6F42C1">kbd.o</span><span style="color:#24292E"> : kbd.c defs.h command.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c kbd.c</span></span>
-<span class="line"><span style="color:#6F42C1">command.o</span><span style="color:#24292E"> : command.c defs.h command.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c command.c</span></span>
-<span class="line"><span style="color:#6F42C1">display.o</span><span style="color:#24292E"> : display.c defs.h buffer.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c display.c</span></span>
-<span class="line"><span style="color:#6F42C1">insert.o</span><span style="color:#24292E"> : insert.c defs.h buffer.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c insert.c</span></span>
-<span class="line"><span style="color:#6F42C1">search.o</span><span style="color:#24292E"> : search.c defs.h buffer.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c search.c</span></span>
-<span class="line"><span style="color:#6F42C1">files.o</span><span style="color:#24292E"> : files.c defs.h buffer.h command.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c files.c</span></span>
-<span class="line"><span style="color:#6F42C1">utils.o</span><span style="color:#24292E"> : utils.c defs.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c utils.c</span></span>
-<span class="line"><span style="color:#6F42C1">clean</span><span style="color:#24292E"> :</span></span>
-<span class="line"><span style="color:#24292E">    rm edit main.o kbd.o command.o display.o \</span></span>
-<span class="line"><span style="color:#24292E">        insert.o search.o files.o utils.o</span></span></code></pre>
+<span class="line code-line-target"><span class="code-token code-token-target">main.o</span> : <span class="code-token code-token-file">main.c</span> <span class="code-token code-token-file">defs.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">main.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">kbd.o</span> : <span class="code-token code-token-file">kbd.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">command.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">kbd.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">command.o</span> : <span class="code-token code-token-file">command.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">command.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">command.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">display.o</span> : <span class="code-token code-token-file">display.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">buffer.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">display.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">insert.o</span> : <span class="code-token code-token-file">insert.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">buffer.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">insert.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">search.o</span> : <span class="code-token code-token-file">search.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">buffer.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">search.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">files.o</span> : <span class="code-token code-token-file">files.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">buffer.h</span> <span class="code-token code-token-file">command.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">files.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">utils.o</span> : <span class="code-token code-token-file">utils.c</span> <span class="code-token code-token-file">defs.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">utils.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">clean</span> :</span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">rm</span> edit <span class="code-token code-token-file">main.o</span> <span class="code-token code-token-file">kbd.o</span> <span class="code-token code-token-file">command.o</span> <span class="code-token code-token-file">display.o</span> \</span>
+<span class="line code-line-recipe">        <span class="code-token code-token-file">insert.o</span> <span class="code-token code-token-file">search.o</span> <span class="code-token code-token-file">files.o</span> <span class="code-token code-token-file">utils.o</span></span></code></pre>
 <p>例如此，基本流程是</p>
 <p>输入make，没有后置，因此看第一个块，其target是edit</p>
 <p>prerequisites中如果有一个以上的文件比target文件要新的话，recipe所定义的命令就会被执行。</p>
 <p>这里的新值得是修改日期，每次编译完，这个make会自动同步源文件，头文件的修改日期，这样如果更新了源文件和头文件，下次meke就会去做</p>
 <p>此时没有，因此触发下面的命令</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>我要生成 edit</span></span>
-<span class="line"><span>↓</span></span>
-<span class="line"><span>edit 依赖 main.o kbd.o command.o ...</span></span>
-<span class="line"><span>↓</span></span>
-<span class="line"><span>先检查这些依赖文件有没有、需不需要更新</span></span>
-<span class="line"><span>↓</span></span>
-<span class="line"><span>如果 main.o 没有，就先找 main.o 的生成规则</span></span>
-<span class="line"><span>↓</span></span>
-<span class="line"><span>执行 cc -c main.c，生成 main.o</span></span>
-<span class="line"><span>↓</span></span>
-<span class="line"><span>其他 .o 同理</span></span>
-<span class="line"><span>↓</span></span>
-<span class="line"><span>所有 .o 都生成完了</span></span>
-<span class="line"><span>↓</span></span>
-<span class="line"><span>最后才执行 cc -o edit main.o kbd.o ...</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line">我要生成 edit</span>
+<span class="line">↓</span>
+<span class="line">edit 依赖 <span class="code-token code-token-file">main.o</span> <span class="code-token code-token-file">kbd.o</span> <span class="code-token code-token-file">command.o</span> ...</span>
+<span class="line">↓</span>
+<span class="line">先检查这些依赖文件有没有、需不需要更新</span>
+<span class="line">↓</span>
+<span class="line">如果 <span class="code-token code-token-file">main.o</span> 没有，就先找 <span class="code-token code-token-file">main.o</span> 的生成规则</span>
+<span class="line">↓</span>
+<span class="line">执行 <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">main.c</span>，生成 <span class="code-token code-token-file">main.o</span></span>
+<span class="line">↓</span>
+<span class="line">其他 .o 同理</span>
+<span class="line">↓</span>
+<span class="line">所有 .o 都生成完了</span>
+<span class="line">↓</span>
+<span class="line">最后才执行 <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-o</span> edit <span class="code-token code-token-file">main.o</span> <span class="code-token code-token-file">kbd.o</span> ...</span></code></pre>
 <h3 id="变量">变量</h3>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#24292E">objects = main.o kbd.o command.o display.o </span><span style="color:#005CC5">\</span></span>
-<span class="line"><span style="color:#24292E">    insert.o search.o files.o utils.o</span></span>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span class="code-token code-token-variable">objects</span> = <span class="code-token code-token-file">main.o</span> <span class="code-token code-token-file">kbd.o</span> <span class="code-token code-token-file">command.o</span> <span class="code-token code-token-file">display.o</span> \</span>
+<span class="line code-line-recipe">    <span class="code-token code-token-file">insert.o</span> <span class="code-token code-token-file">search.o</span> <span class="code-token code-token-file">files.o</span> <span class="code-token code-token-file">utils.o</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#6F42C1">edit</span><span style="color:#24292E"> : </span><span style="color:#032F62">$(</span><span style="color:#24292E">objects</span><span style="color:#032F62">)</span></span>
-<span class="line"><span style="color:#24292E">    cc -o edit </span><span style="color:#032F62">$(</span><span style="color:#24292E">objects</span><span style="color:#032F62">)</span></span>
-<span class="line"><span style="color:#6F42C1">main.o</span><span style="color:#24292E"> : main.c defs.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c main.c</span></span>
-<span class="line"><span style="color:#6F42C1">kbd.o</span><span style="color:#24292E"> : kbd.c defs.h command.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c kbd.c</span></span>
-<span class="line"><span style="color:#6F42C1">command.o</span><span style="color:#24292E"> : command.c defs.h command.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c command.c</span></span>
-<span class="line"><span style="color:#6F42C1">display.o</span><span style="color:#24292E"> : display.c defs.h buffer.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c display.c</span></span>
-<span class="line"><span style="color:#6F42C1">insert.o</span><span style="color:#24292E"> : insert.c defs.h buffer.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c insert.c</span></span>
-<span class="line"><span style="color:#6F42C1">search.o</span><span style="color:#24292E"> : search.c defs.h buffer.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c search.c</span></span>
-<span class="line"><span style="color:#6F42C1">files.o</span><span style="color:#24292E"> : files.c defs.h buffer.h command.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c files.c</span></span>
-<span class="line"><span style="color:#6F42C1">utils.o</span><span style="color:#24292E"> : utils.c defs.h</span></span>
-<span class="line"><span style="color:#24292E">    cc -c utils.c</span></span>
-<span class="line"><span style="color:#6F42C1">clean</span><span style="color:#24292E"> :</span></span>
-<span class="line"><span style="color:#24292E">    rm edit </span><span style="color:#032F62">$(</span><span style="color:#24292E">objects</span><span style="color:#032F62">)</span></span></code></pre>
+<span class="line code-line-target"><span class="code-token code-token-target">edit</span> : <span class="code-token code-token-variable">$(objects)</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-o</span> edit <span class="code-token code-token-variable">$(objects)</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">main.o</span> : <span class="code-token code-token-file">main.c</span> <span class="code-token code-token-file">defs.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">main.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">kbd.o</span> : <span class="code-token code-token-file">kbd.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">command.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">kbd.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">command.o</span> : <span class="code-token code-token-file">command.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">command.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">command.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">display.o</span> : <span class="code-token code-token-file">display.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">buffer.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">display.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">insert.o</span> : <span class="code-token code-token-file">insert.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">buffer.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">insert.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">search.o</span> : <span class="code-token code-token-file">search.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">buffer.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">search.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">files.o</span> : <span class="code-token code-token-file">files.c</span> <span class="code-token code-token-file">defs.h</span> <span class="code-token code-token-file">buffer.h</span> <span class="code-token code-token-file">command.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">files.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">utils.o</span> : <span class="code-token code-token-file">utils.c</span> <span class="code-token code-token-file">defs.h</span></span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">utils.c</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">clean</span> :</span>
+<span class="line code-line-recipe">    <span class="code-token code-token-command">rm</span> edit <span class="code-token code-token-variable">$(objects)</span></span></code></pre>
 <h3 id="自动推导">自动推导</h3>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cc -c a.c</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span class="code-token code-token-command">cc</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-file">a.c</span></span></code></pre>
 <p>上述的结果是a.o，因此我们在写依赖关系的时候可以省去同名者</p>
 <h3 id="伪目标">伪目标</h3>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#005CC5">.PHONY</span><span style="color:#24292E"> : clean</span></span>
-<span class="line"><span style="color:#6F42C1">clean</span><span style="color:#24292E"> :</span></span>
-<span class="line"><span style="color:#24292E">		- rm edit </span><span style="color:#032F62">$(</span><span style="color:#24292E">object</span><span style="color:#032F62">)</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line code-line-target"><span class="code-token code-token-target">.PHONY</span> : clean</span>
+<span class="line code-line-target"><span class="code-token code-token-target">clean</span> :</span>
+<span class="line code-line-recipe">		- <span class="code-token code-token-command">rm</span> edit <span class="code-token code-token-variable">$(object)</span></span></code></pre>
 <p><code>.PHONY</code> 意思是伪目标，防止文件需要编译一个叫clean的可执行文件</p>
 <p>clean一般放在文件末尾</p>
 <h3 id="makefile的包含">Makefile的包含</h3>
@@ -511,25 +511,25 @@
 <ol>
 <li>
 <p>类似include，引用另一个Makefile或者shell文件</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>bar = ciallo.makefile bish bash</span></span>
-<span class="line"><span>include foo.make *.mk $(bar)</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line">bar = <span class="code-token code-token-file">ciallo.makefile</span> bish bash</span>
+<span class="line"><span class="code-token code-token-keyword">include</span> foo.make *.mk <span class="code-token code-token-variable">$(bar)</span></span></code></pre>
 </li>
 <li>
 <p>条件语句</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#D73A49">ifeq</span><span style="color:#24292E"> (</span><span style="color:#032F62">$(</span><span style="color:#24292E">DEBUG</span><span style="color:#032F62">)</span><span style="color:#24292E">, 1)</span></span>
-<span class="line"><span style="color:#24292E">CFLAGS = -g -Wall</span></span>
-<span class="line"><span style="color:#D73A49">else</span></span>
-<span class="line"><span style="color:#24292E">CFLAGS = -O2</span></span>
-<span class="line"><span style="color:#D73A49">endif</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span class="code-token code-token-keyword">ifeq</span> (<span class="code-token code-token-variable">$(DEBUG)</span>, 1)</span>
+<span class="line"><span class="code-token code-token-variable">CFLAGS</span> = <span class="code-token code-token-flag">-g</span> <span class="code-token code-token-flag">-Wall</span></span>
+<span class="line"><span class="code-token code-token-keyword">else</span></span>
+<span class="line"><span class="code-token code-token-variable">CFLAGS</span> = <span class="code-token code-token-flag">-O2</span></span>
+<span class="line"><span class="code-token code-token-keyword">endif</span></span></code></pre>
 <p>如果debug代表的变量等于1，那么执行方式是打开调试信息和警告</p>
 <p>如果不是，那么就是正常执行</p>
 </li>
 <li>
 <p>define</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#6A737D">#define PRINT_INFO</span></span>
-<span class="line"><span style="color:#24292E">  		echo "building..."</span></span>
-<span class="line"><span style="color:#24292E">        echo "done"</span></span>
-<span class="line"><span style="color:#24292E">endef</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span class="code-token code-token-comment">#define PRINT_INFO</span></span>
+<span class="line code-line-recipe">  		<span class="code-token code-token-command">echo</span> "building..."</span>
+<span class="line code-line-recipe">        <span class="code-token code-token-command">echo</span> "<span class="code-token code-token-keyword">done</span>"</span>
+<span class="line"><span class="code-token code-token-keyword">endef</span></span></code></pre>
 <p>就是def呗</p>
 </li>
 </ol>
@@ -539,21 +539,21 @@
 </li>
 </ol>
 <h3 id="d">.d</h3>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#24292E">CC = cc</span></span>
-<span class="line"><span style="color:#24292E">CPPFLAGS = -Iinclude</span></span>
-<span class="line"><span style="color:#24292E">CFLAGS = -Wall -g -MMD -MP</span></span>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span class="code-token code-token-variable">CC</span> = <span class="code-token code-token-command">cc</span></span>
+<span class="line"><span class="code-token code-token-variable">CPPFLAGS</span> = <span class="code-token code-token-flag">-Iinclude</span></span>
+<span class="line"><span class="code-token code-token-variable">CFLAGS</span> = <span class="code-token code-token-flag">-Wall</span> <span class="code-token code-token-flag">-g</span> <span class="code-token code-token-flag">-MMD</span> <span class="code-token code-token-flag">-MP</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#24292E">SRC = main.c add.c</span></span>
-<span class="line"><span style="color:#24292E">OBJ = </span><span style="color:#032F62">$(</span><span style="color:#24292E">SRC:.c=.o</span><span style="color:#032F62">)</span></span>
-<span class="line"><span style="color:#24292E">DEP = </span><span style="color:#032F62">$(</span><span style="color:#24292E">OBJ:.o=.d</span><span style="color:#032F62">)</span></span>
+<span class="line"><span class="code-token code-token-variable">SRC</span> = <span class="code-token code-token-file">main.c</span> <span class="code-token code-token-file">add.c</span></span>
+<span class="line"><span class="code-token code-token-variable">OBJ</span> = <span class="code-token code-token-variable">$(SRC:.c=.o)</span></span>
+<span class="line"><span class="code-token code-token-variable">DEP</span> = <span class="code-token code-token-variable">$(OBJ:.o=.d)</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#6F42C1">main</span><span style="color:#24292E">: </span><span style="color:#032F62">$(</span><span style="color:#24292E">OBJ</span><span style="color:#032F62">)</span></span>
-<span class="line"><span style="color:#032F62">	$(</span><span style="color:#24292E">CC</span><span style="color:#032F62">)</span><span style="color:#032F62"> $(</span><span style="color:#24292E">OBJ</span><span style="color:#032F62">)</span><span style="color:#24292E"> -o main</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">main</span>: <span class="code-token code-token-variable">$(OBJ)</span></span>
+<span class="line code-line-recipe">	<span class="code-token code-token-variable">$(CC)</span> <span class="code-token code-token-variable">$(OBJ)</span> <span class="code-token code-token-flag">-o</span> main</span>
 <span class="line"></span>
-<span class="line"><span style="color:#005CC5">%</span><span style="color:#6F42C1">.o</span><span style="color:#24292E">: </span><span style="color:#005CC5">%</span><span style="color:#24292E">.c</span></span>
-<span class="line"><span style="color:#032F62">	$(</span><span style="color:#24292E">CC</span><span style="color:#032F62">)</span><span style="color:#032F62"> $(</span><span style="color:#24292E">CPPFLAGS</span><span style="color:#032F62">)</span><span style="color:#032F62"> $(</span><span style="color:#24292E">CFLAGS</span><span style="color:#032F62">)</span><span style="color:#24292E"> -c </span><span style="color:#005CC5">$&#x3C;</span><span style="color:#24292E"> -o </span><span style="color:#005CC5">$@</span></span>
+<span class="line code-line-target"><span class="code-token code-token-target">%.o</span>: %.c</span>
+<span class="line code-line-recipe">	<span class="code-token code-token-variable">$(CC)</span> <span class="code-token code-token-variable">$(CPPFLAGS)</span> <span class="code-token code-token-variable">$(CFLAGS)</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-variable">$&#x3C;</span> <span class="code-token code-token-flag">-o</span> <span class="code-token code-token-variable">$@</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#D73A49">-include</span><span style="color:#032F62"> $(</span><span style="color:#24292E">DEP</span><span style="color:#032F62">)</span></span></code></pre>
+<span class="line"><span class="code-token code-token-keyword">-include</span> <span class="code-token code-token-variable">$(DEP)</span></span></code></pre>
 <ul>
 <li>
 <p><code>-MMD</code> 编译时顺便生成 .d 依赖文件</p>
@@ -568,15 +568,15 @@
 </ul>
 </li>
 <li>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line"><span style="color:#005CC5">%</span><span style="color:#6F42C1">.o</span><span style="color:#24292E">: </span><span style="color:#005CC5">%</span><span style="color:#24292E">.c</span></span>
-<span class="line"><span style="color:#032F62">  $(</span><span style="color:#24292E">CC</span><span style="color:#032F62">)</span><span style="color:#032F62"> $(</span><span style="color:#24292E">CPPFLAGS</span><span style="color:#032F62">)</span><span style="color:#032F62"> $(</span><span style="color:#24292E">CFLAGS</span><span style="color:#032F62">)</span><span style="color:#24292E"> -c </span><span style="color:#005CC5">$&#x3C;</span><span style="color:#24292E"> -o </span><span style="color:#005CC5">$@</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="makefile"><code><span class="line code-line-target"><span class="code-token code-token-target">%.o</span>: %.c</span>
+<span class="line code-line-recipe">  <span class="code-token code-token-variable">$(CC)</span> <span class="code-token code-token-variable">$(CPPFLAGS)</span> <span class="code-token code-token-variable">$(CFLAGS)</span> <span class="code-token code-token-flag">-c</span> <span class="code-token code-token-variable">$&#x3C;</span> <span class="code-token code-token-flag">-o</span> <span class="code-token code-token-variable">$@</span></span></code></pre>
 <ul>
 <li>
 <p>规则表⬇️，因此这里就是说从所有依赖那里生成目标</p>
-<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>$@   当前目标</span></span>
-<span class="line"><span>$&#x3C;   第一个依赖</span></span>
-<span class="line"><span>$^   所有依赖</span></span>
-<span class="line"><span>针对某一个规则而言</span></span></code></pre>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span class="code-token code-token-variable">$@</span>   当前目标</span>
+<span class="line"><span class="code-token code-token-variable">$&#x3C;</span>   第一个依赖</span>
+<span class="line"><span class="code-token code-token-variable">$^</span>   所有依赖</span>
+<span class="line">针对某一个规则而言</span></code></pre>
 </li>
 </ul>
 </li>

@@ -4371,6 +4371,56 @@
 		background: transparent !important;
 	}
 
+	.markdown-body pre.syntax-rich code .line {
+		margin-inline: -0.28rem;
+		border-radius: 9px;
+		padding-inline: 0.28rem;
+		transition: background-color 320ms ease, box-shadow 320ms ease;
+	}
+
+	.markdown-body pre.syntax-rich code .line.code-line-recipe {
+		background: linear-gradient(90deg, rgba(var(--tone-primary), 0.060), rgba(var(--tone-primary), 0.018));
+	}
+
+	.markdown-body pre.syntax-rich code .line:hover {
+		background: rgba(255, 255, 255, 0.72);
+		box-shadow: inset 2px 0 rgba(var(--tone-primary), 0.42);
+	}
+
+	.markdown-body pre.syntax-rich .code-token-target {
+		color: #7c3aed !important;
+		font-weight: 680;
+	}
+
+	.markdown-body pre.syntax-rich .code-token-command {
+		color: #007a73 !important;
+		font-weight: 680;
+	}
+
+	.markdown-body pre.syntax-rich .code-token-keyword {
+		color: #d12f5c !important;
+		font-weight: 680;
+	}
+
+	.markdown-body pre.syntax-rich .code-token-variable {
+		color: #0a66c2 !important;
+		font-weight: 650;
+	}
+
+	.markdown-body pre.syntax-rich .code-token-flag {
+		color: #b85c00 !important;
+		font-weight: 620;
+	}
+
+	.markdown-body pre.syntax-rich .code-token-file {
+		color: #365f91 !important;
+	}
+
+	.markdown-body pre.syntax-rich .code-token-comment {
+		color: #73808c !important;
+		font-style: italic;
+	}
+
 	.markdown-body table {
 		display: block;
 		width: 100%;
