@@ -153,10 +153,11 @@ GitHub Pages 是静态站点，线上页面不能直接读取这台 Mac 的本�
 
 1. 本地脚本读取 `CalendarSync.db`。
 2. 复制临时快照到 `custom/vivo-calendar-sync/tmp/CalendarSync.snapshot.db`。
-3. 导出安全的 JSON：
+3. 导出安全的 JSON 和 Markdown 归档：
 
    ```text
    custom/vivo-calendar-sync/output/schedule-records.json
+   custom/vivo-calendar-sync/output/schedule-records.md
    ```
 
 4. `src/data/database.ts` 注册这个数据源。
@@ -180,7 +181,8 @@ node custom/vivo-calendar-sync/sync-vivo-calendar.mjs \
   --db "/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db" \
   --start 2026-07-05 \
   --end 2026-07-27 \
-  --out custom/vivo-calendar-sync/output/schedule-records.json
+  --out custom/vivo-calendar-sync/output/schedule-records.json \
+  --md-out custom/vivo-calendar-sync/output/schedule-records.md
 ```
 
 ## 课程时间规则

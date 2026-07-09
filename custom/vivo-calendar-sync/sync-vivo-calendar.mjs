@@ -6,6 +6,7 @@ import { dirname, resolve } from 'node:path';
 
 const DEFAULT_DB = '/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db';
 const DEFAULT_OUT = 'custom/vivo-calendar-sync/output/schedule-records.json';
+const DEFAULT_MD_OUT = 'custom/vivo-calendar-sync/output/schedule-records.md';
 const DEFAULT_START = '2026-07-05';
 const DEFAULT_END = '2026-07-27';
 
@@ -20,6 +21,7 @@ for (let index = 2; index < process.argv.length; index += 1) {
 
 const sourceDb = args.get('db') ?? DEFAULT_DB;
 const outFile = resolve(process.cwd(), args.get('out') ?? DEFAULT_OUT);
+const mdOutFile = resolve(process.cwd(), args.get('md-out') ?? DEFAULT_MD_OUT);
 const startDate = args.get('start') ?? DEFAULT_START;
 const endDate = args.get('end') ?? DEFAULT_END;
 const snapshot = resolve(process.cwd(), 'custom/vivo-calendar-sync/tmp/CalendarSync.snapshot.db');
@@ -51,6 +53,16 @@ const solarTerms = [
 ];
 
 const pad = (value) => String(value).padStart(2, '0');
+const weekdayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+const typeNames = new Map([
+	['course', '课程'],
+	['tutoring', '家教'],
+	['personal', '个人'],
+	['service', '志愿服务'],
+	['talk', '分享'],
+	['travel', '出行'],
+	['plan', '日程'],
+]);
 
 const localParts = (ms) => {
 	const date = new Date(ms);
@@ -81,6 +93,16 @@ const msFromLocal = (date, time) => new Date(`${date}T${time}:00+08:00`).getTime
 const minutesBetween = (startMs, endMs) => Math.max(0, Math.round((endMs - startMs) / 60000));
 
 const isCourse = (title) => coursePatterns.some((pattern) => pattern.test(title));
+
+const formatDuration = (minutes) => {
+	if (!minutes) return '';
+	if (minutes % 1440 === 0) return `${minutes / 1440} 天`;
+	const hours = Math.floor(minutes / 60);
+	const rest = minutes % 60;
+	if (hours && rest) return `${hours} 小时 ${rest} 分钟`;
+	if (hours) return `${hours} 小时`;
+	return `${rest} 分钟`;
+};
 
 const getType = (event) => {
 	if (event.allDay) return 'travel';
@@ -224,7 +246,61 @@ const payload = {
 	},
 };
 
+const renderMarkdown = () => {
+	const lines = [
+		'# 日程同步记录',
+		'',
+		`- 同步时间：${new Date(payload.generatedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false })}`,
+		`- 同步范围：${payload.range.start} 至 ${payload.range.end}`,
+		`- 日程总数：${payload.stats.total}`,
+		`- 课程数：${payload.stats.courses}`,
+		`- 时间修正：${payload.stats.normalized}`,
+		'',
+		'## 课程时间规则',
+		'',
+		`- 上午课程：${payload.courseRule.morning}`,
+		`- 下午课程：${payload.courseRule.afternoon}`,
+		`- 单节时长：${formatDuration(payload.courseRule.durationMinutes)}`,
+		'',
+		'## 每日记录',
+		'',
+	];
+
+	for (const day of payload.days) {
+		lines.push(`### ${day.date} ${weekdayNames[day.weekday] ?? ''}`.trim(), '');
+
+		for (const term of day.solarTerms) {
+			lines.push(`- 节气：${term.name}`);
+		}
+
+		if (!day.events.length) {
+			lines.push('- 无日程');
+		}
+
+		for (const record of day.events) {
+			const typeName = typeNames.get(record.type) ?? record.type;
+			const endDate = record.endIso.slice(0, 10);
+			const time = record.allDay
+				? `${record.date} ${record.startTime}-${endDate} ${record.endTime}`
+				: `${record.startTime}-${record.endTime}`;
+			const duration = `，${formatDuration(record.durationMinutes)}`;
+			const location = record.location ? `，地点：${record.location}` : '';
+			const normalized = record.normalizedByRule
+				? `，原始时间：${record.source.startTime}-${record.source.endTime}`
+				: '';
+			lines.push(`- ${time} · ${record.title}（${typeName}${duration}${location}${normalized}）`);
+		}
+
+		lines.push('');
+	}
+
+	return `${lines.join('\n').replace(/\n{3,}/g, '\n\n')}\n`;
+};
+
 mkdirSync(dirname(outFile), { recursive: true });
 writeFileSync(outFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf-8');
+mkdirSync(dirname(mdOutFile), { recursive: true });
+writeFileSync(mdOutFile, renderMarkdown(), 'utf-8');
 
 console.log(`Wrote ${records.length} schedule records to ${outFile}`);
+console.log(`Wrote schedule markdown to ${mdOutFile}`);

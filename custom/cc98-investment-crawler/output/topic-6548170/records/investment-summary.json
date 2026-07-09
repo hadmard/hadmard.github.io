@@ -1,6 +1,6 @@
 {
   "sourceUrl": "https://www.cc98.org/topic/6548170",
-  "crawledAt": "2026-07-09T05:11:10.341Z",
+  "crawledAt": "2026-07-09T05:38:20.121Z",
   "topic": {
     "topicId": "6548170",
     "title": "chmod +x life [学习日记]",
@@ -8,8 +8,8 @@
     "boardName": "",
     "authorName": "hadmard",
     "createdAt": "2026-06-22T15:29:22.0788572+08:00",
-    "replyCount": 22,
-    "hitCount": 407,
+    "replyCount": 25,
+    "hitCount": 459,
     "state": 0,
     "raw": {
       "id": 6548170,
@@ -21,14 +21,14 @@
       "userInfo": null,
       "isAnonymous": false,
       "disableHot": false,
-      "lastPostTime": "2026-07-07T09:18:34.1208414+08:00",
+      "lastPostTime": "2026-07-09T13:03:28.6886788+08:00",
       "state": 0,
       "type": 0,
-      "replyCount": 22,
-      "hitCount": 407,
+      "replyCount": 25,
+      "hitCount": 459,
       "totalVoteUserCount": 0,
       "lastPostUser": "hadmard",
-      "lastPostContent": "[img]https://file.cc98.org/...",
+      "lastPostContent": "[quote][b]以下是引用21楼：用户hadmar...",
       "topState": 0,
       "bestState": 0,
       "isVote": false,
@@ -64,5 +64,5 @@
       "lotteryTopicDetail": null
     }
   },
-  "postCount": 23
+  "postCount": 26
 }

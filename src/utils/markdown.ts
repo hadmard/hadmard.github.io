@@ -489,6 +489,7 @@ const cc98EmoteMap: Record<string, string> = {
 	cc9804: '🥲',
 	cc9805: '🤝',
 	cc9806: '💧',
+	cc9809: '👌',
 	cc9810: '😴',
 	cc9823: '📈',
 	cc9832: '💪',
