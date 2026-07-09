@@ -68,6 +68,7 @@ CC98 投资记录爬虫
   --password   CC98 密码
   --page-size  每次请求楼层数量，默认 20
   --out-dir    输出目录，默认写入 custom/cc98-investment-crawler/output/topic-<id>
+  --from-cache 只根据已有 raw/topic.json 与 raw/posts.json 重建 records，不联网
   --help       显示帮助
 
 环境变量：
@@ -150,42 +151,122 @@ function stripLineTrailingWhitespace(input) {
 }
 
 const quoteTokenPattern = /\[\/?quote(?:=[^\]\n]{0,160})?\]/gi;
+const allowedUrlProtocols = new Set(["http:", "https:", "mailto:", "tel:"]);
 
-function stripCc98QuoteBlocks(input) {
+function isSafeUrl(value) {
+  const trimmed = String(value).trim();
+  if (!trimmed) return false;
+  if (trimmed.startsWith("#") || trimmed.startsWith("/") || trimmed.startsWith("./") || trimmed.startsWith("../")) {
+    return true;
+  }
+
+  try {
+    return allowedUrlProtocols.has(new URL(trimmed).protocol);
+  } catch {
+    return false;
+  }
+}
+
+function normalizeCc98Url(value) {
+  const trimmed = String(value).trim();
+  if (!trimmed) return "";
+  if (trimmed.startsWith("/")) return `https://www.cc98.org${trimmed}`;
+  if (/^www\./i.test(trimmed)) return `https://${trimmed}`;
+  return trimmed;
+}
+
+function escapeMarkdownLinkText(value) {
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/\[/g, "\\[")
+    .replace(/\]/g, "\\]")
+    .replace(/</g, "‹")
+    .replace(/>/g, "›");
+}
+
+function toMarkdownLink(rawUrl, rawLabel) {
+  const href = normalizeCc98Url(rawUrl);
+  const label = String(rawLabel).trim() || href;
+  if (!href || !isSafeUrl(href)) return label;
+  return `[${escapeMarkdownLinkText(label)}](${href})`;
+}
+
+function quotePrefixForDepth(depth) {
+  return "> ".repeat(depth);
+}
+
+function prefixQuotedText(content, depth) {
+  if (depth <= 0 || !content) return content;
+  const prefix = quotePrefixForDepth(depth);
+  return String(content)
+    .split("\n")
+    .map((line) => `${prefix}${line}`)
+    .join("\n");
+}
+
+function preserveCc98QuoteBlocks(input) {
+  const content = String(input);
   let output = "";
   let lastIndex = 0;
   let depth = 0;
 
-  for (const match of String(input).matchAll(quoteTokenPattern)) {
+  for (const match of content.matchAll(quoteTokenPattern)) {
     const index = match.index ?? 0;
     const token = match[0];
     const isClosing = /^\[\/quote/i.test(token);
 
     if (isClosing) {
-      if (depth > 0) {
-        depth -= 1;
-        if (depth === 0) {
-          lastIndex = index + token.length;
-        }
-        continue;
-      }
-
-      output += input.slice(lastIndex, index);
+      output += prefixQuotedText(content.slice(lastIndex, index), depth);
+      depth = Math.max(0, depth - 1);
+      output += "\n\n";
       lastIndex = index + token.length;
       continue;
     }
 
-    if (depth === 0) {
-      output += input.slice(lastIndex, index);
-    }
+    output += prefixQuotedText(content.slice(lastIndex, index), depth);
+    if (!output.endsWith("\n\n")) output += "\n\n";
     depth += 1;
+    lastIndex = index + token.length;
   }
 
-  if (depth === 0) {
-    output += input.slice(lastIndex);
-  }
+  return output + prefixQuotedText(content.slice(lastIndex), depth);
+}
 
-  return output;
+const cc98EmoteMap = new Map([
+  ["ac01", "😂"],
+  ["ac02", "🙂"],
+  ["ac03", "😅"],
+  ["ac04", "😮"],
+  ["ac05", "😢"],
+  ["ac06", "😡"],
+  ["ac07", "😳"],
+  ["ac08", "😎"],
+  ["ac09", "🤔"],
+  ["ac10", "😴"],
+  ["ac13", "😌"],
+  ["ac20", "😮‍💨"],
+  ["ac32", "😭"],
+  ["ac34", "😵"],
+  ["ac1003", "🤔"],
+  ["ac2054", "🫡"],
+  ["cc9801", "🙂"],
+  ["cc9802", "😅"],
+  ["cc9803", "😂"],
+  ["cc9804", "🥲"],
+  ["cc9805", "🤝"],
+  ["cc9806", "💧"],
+  ["cc9810", "😴"],
+  ["cc9823", "📈"],
+  ["cc9832", "💪"],
+  ["tb02", "🙂"],
+  ["tb03", "😂"],
+  ["tb13", "👍"],
+]);
+
+function renderCc98Emote(value) {
+  const key = String(value).match(/^\[([a-z]+(?:\d+)?|cc\d+)/i)?.[1]?.toLowerCase();
+  if (!key) return value;
+  return cc98EmoteMap.get(key) ?? `:${key}:`;
 }
 
 function cleanContent(rawContent) {
@@ -195,14 +276,26 @@ function cleanContent(rawContent) {
 
   let content = String(rawContent).replace(/\r\n/g, "\n");
 
-  // CC98 的回复常带有嵌套引用；记录页只保留用户本次写下的正文。
-  content = stripCc98QuoteBlocks(content);
-  content = content.replace(/\[url=([^\]]+)\]([\s\S]*?)\[\/url\]/gi, "$2 ($1)");
-  content = content.replace(/\[url\]([\s\S]*?)\[\/url\]/gi, "$1");
-  content = content.replace(/\[(img|video|audio)\]([\s\S]*?)\[\/\1\]/gi, "[$1] $2");
+  content = preserveCc98QuoteBlocks(content);
+  content = content.replace(/\[url=([^\]\n]{1,500})\]([\s\S]*?)\[\/url\]/gi, (_match, url, label) => toMarkdownLink(url, label));
+  content = content.replace(/\[url\]([\s\S]*?)\[\/url\]/gi, (_match, url) => {
+    const href = normalizeCc98Url(url);
+    return href && isSafeUrl(href) ? `<${href}>` : String(url).trim();
+  });
+  content = content.replace(/\[b\]([\s\S]*?)\[\/b\]/gi, (_match, value) => `**${String(value).trim()}**`);
+  content = content.replace(/\[i\]([\s\S]*?)\[\/i\]/gi, (_match, value) => `*${String(value).trim()}*`);
+  content = content.replace(/\[(?:s|del|strike)\]([\s\S]*?)\[\/(?:s|del|strike)\]/gi, (_match, value) => `~~${String(value).trim()}~~`);
+  content = content.replace(/\[u\]([\s\S]*?)\[\/u\]/gi, "$1");
+  content = content.replace(/\[code\]([\s\S]*?)\[\/code\]/gi, (_match, code) => `\n\n\`\`\`\n${String(code).trim()}\n\`\`\`\n\n`);
+  content = content.replace(/\[img\]([\s\S]*?)\[\/img\]/gi, (_match, source) => {
+    const url = String(source).trim();
+    return url ? `\n\n![](${url})\n\n` : "\n";
+  });
+  content = content.replace(/\[(video|audio)\]([\s\S]*?)\[\/\1\]/gi, (_match, type, source) => `[${type}] ${String(source).trim()}`);
   content = content.replace(/\[upload\]([\s\S]*?)\[\/upload\]/gi, "[upload] $1");
-  content = content.replace(/\[\/?(b|i|u|del|size|color|align|replyview|markdown|code|table|tr|td|th|list|\*|posteronly)\b[^\]]*\]/gi, "");
-  content = content.replace(/\[[^\]]+\]/g, "");
+  content = content.replace(/\[\*\]/g, "\n- ");
+  content = content.replace(/\[(\/)?(?:size|color|font|align|center|left|right|table|tr|td|th|list|ol|ul|li|replyview|markdown|posteronly)(?:=[^\]\n]{0,120})?\]/gi, "");
+  content = content.replace(/\[(?:tb|ac|em|ldln|zk|han|tsj|st|w|yz|mj|xk|doge|cc\d+)[^\]\n]{0,20}\]/gi, renderCc98Emote);
   content = content.replace(/<br\s*\/?>/gi, "\n");
   content = content.replace(/<\/p>/gi, "\n");
   content = content.replace(/<[^>]+>/g, "");
@@ -534,6 +627,40 @@ async function writeOutputs({ outDir, sourceUrl, topic, postPages, posts }) {
   );
 }
 
+async function rebuildFromCache({ outDir, sourceUrl, topicId }) {
+  const rawDir = path.join(outDir, "raw");
+  const [topicRawText, postsRawText] = await Promise.all([
+    fs.readFile(path.join(rawDir, "topic.json"), "utf8"),
+    fs.readFile(path.join(rawDir, "posts.json"), "utf8"),
+  ]);
+
+  const rawTopic = JSON.parse(topicRawText);
+  const postPages = JSON.parse(postsRawText);
+  const normalizedTopic = normalizeTopic(topicId, rawTopic);
+  const normalizedPosts = [];
+
+  for (const page of Array.isArray(postPages) ? postPages : []) {
+    const from = Number.isFinite(page?.from) ? page.from : normalizedPosts.length;
+    const items = Array.isArray(page?.items) ? page.items : [];
+    for (const [index, post] of items.entries()) {
+      normalizedPosts.push(normalizePost(post, from + index + 1));
+    }
+  }
+
+  await writeOutputs({
+    outDir,
+    sourceUrl,
+    topic: normalizedTopic,
+    postPages,
+    posts: normalizedPosts,
+  });
+
+  return {
+    topic: normalizedTopic,
+    posts: normalizedPosts,
+  };
+}
+
 // ========== 第四部分：主流程与命令行入口 ==========
 
 async function main() {
@@ -557,8 +684,6 @@ async function main() {
     throw new Error("未能识别 topicId，请通过 --topic 传入 CC98 主题链接或纯数字 ID。");
   }
 
-  const token = await resolveAuthorizationToken(args);
-
   const pageSize = Number.parseInt(String(args["page-size"] ?? DEFAULT_PAGE_SIZE), 10);
   if (!Number.isFinite(pageSize) || pageSize <= 0) {
     throw new Error("--page-size 必须是正整数。");
@@ -567,6 +692,21 @@ async function main() {
   const outDir = path.resolve(
     String(args["out-dir"] ?? path.join(__dirname, "output", `topic-${topicId}`))
   );
+
+  if (args["from-cache"]) {
+    const result = await rebuildFromCache({ outDir, sourceUrl, topicId });
+    process.stdout.write(
+      [
+        "缓存重建完成。",
+        `主题：${result.topic.title}`,
+        `楼层数：${result.posts.length}`,
+        `输出目录：${outDir}`,
+      ].join("\n") + "\n"
+    );
+    return;
+  }
+
+  const token = await resolveAuthorizationToken(args);
 
   const result = await fetchTopicAndPosts({
     topicId,

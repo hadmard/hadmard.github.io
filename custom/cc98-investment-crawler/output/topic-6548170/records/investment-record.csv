@@ -16,7 +16,9 @@ floor,postId,userId,userName,replyTime,isAnonymous,isDeleted,contentText,content
 
 更新一下格式
 代办和小结字样使用二级标题，时间点采用三级标题，代办块和小结块分割时候使用***"
-"2","839796044","806599","Xminstrel","2026-06-22T15:33:45.8801458+08:00","false","false","共勉","[ac1003]
+"2","839796044","806599","Xminstrel","2026-06-22T15:33:45.8801458+08:00","false","false","🤔
+共勉
+🫡","[ac1003]
 共勉
 [ac2054]"
 "3","839796061","759486","hadmard","2026-06-22T15:34:33.4578115+08:00","false","false","期末周考试代办
@@ -129,7 +131,8 @@ floor,postId,userId,userName,replyTime,isAnonymous,isDeleted,contentText,content
 
 vim先不学了，等什么时候觉得有必要学习再去学吧
 
-(https://seisman.github.io/how-to-write-makefile/rules.html)
+[https://seisman.github.io/how-to-write-makefile/rules.html
+](https://seisman.github.io/how-to-write-makefile/rules.html)
 
 写的很好的对于makefile的介绍，爆赞👍","###Shell 相关学习完成
 1. 配置了个性化的terminal和shell，终端放弃了iTerm2，Mac端的设置界面没有汉化，看的有点难受😣；
@@ -142,7 +145,7 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 ](https://seisman.github.io/how-to-write-makefile/rules.html)
 
 写的很好的对于makefile的介绍，爆赞👍"
-"9","839963867","759486","hadmard","2026-07-02T23:10:31.5228886+08:00","false","false","(https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/lec0/#/)
+"9","839963867","759486","hadmard","2026-07-02T23:10:31.5228886+08:00","false","false","[https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/](https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/lec0/#/)
 ```
 0 前瞻：通往 Pro 的第一步
 1 Shell 基础及 CLI 工具推荐
@@ -187,16 +190,43 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 还有个小感悟
 
 真正学自己感兴趣的东西是很难觉得累的，之前给自己定的是45分钟作为一个学习块，完成一个学习块之后给5min的休息时间；但是现在感觉也许一个半小时作为一个时间块更合适一些，然后休息半个小时，至少暑假先如此了。"
-"12","839978939","760775","赤奈良瞳","2026-07-03T20:28:58.3189586+08:00","false","false","主播打算转码吗","主播打算转码吗[ac1003]"
-"13","839979005","759486","hadmard","2026-07-03T20:33:02.752618+08:00","false","false","大方向算是吧，但是转哪个小方向还是很迷茫","[quote][b]以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[color=blue][url=/topic/6548170/2#2]>>查看原帖<<[/url][/color][/b]
+"12","839978939","760775","赤奈良瞳","2026-07-03T20:28:58.3189586+08:00","false","false","主播打算转码吗🤔","主播打算转码吗[ac1003]"
+"13","839979005","759486","hadmard","2026-07-03T20:33:02.752618+08:00","false","false","> **以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#2)**
+> 主播打算转码吗🤔
+
+大方向算是吧，但是转哪个小方向还是很迷茫😵","[quote][b]以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[color=blue][url=/topic/6548170/2#2]>>查看原帖<<[/url][/color][/b]
 主播打算转码吗[ac1003][/quote]
 大方向算是吧，但是转哪个小方向还是很迷茫[ac34]"
-"14","839979031","760775","赤奈良瞳","2026-07-03T20:35:39.7202704+08:00","false","false","加油哇，反正跑出去就是胜利了","[quote][b]以下是引用13楼：用户hadmard在2026-07-03 20:33:02的发言：[color=blue][url=/topic/6548170/2#3]>>查看原帖<<[/url][/color][/b]
+"14","839979031","760775","赤奈良瞳","2026-07-03T20:35:39.7202704+08:00","false","false","> **以下是引用13楼：用户hadmard在2026-07-03 20:33:02的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#3)**
+>
+
+> > **以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#2)**
+> > 主播打算转码吗🤔
+
+>
+> 大方向算是吧，但是转哪个小方向还是很迷茫😵
+
+加油哇，反正跑出去就是胜利了😂😭","[quote][b]以下是引用13楼：用户hadmard在2026-07-03 20:33:02的发言：[color=blue][url=/topic/6548170/2#3]>>查看原帖<<[/url][/color][/b]
 [quote][b]以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[color=blue][url=/topic/6548170/2#2]>>查看原帖<<[/url][/color][/b]
 主播打算转码吗[ac1003][/quote]
 大方向算是吧，但是转哪个小方向还是很迷茫[ac34][/quote]
 加油哇，反正跑出去就是胜利了[ac01][ac32]"
-"15","839979097","759486","hadmard","2026-07-03T20:40:31.1546406+08:00","false","false","还真是，农工真是害人不浅","[quote][b]以下是引用14楼：用户赤奈良瞳在2026-07-03 20:35:39的发言：[color=blue][url=/topic/6548170/2#4]>>查看原帖<<[/url][/color][/b]
+"15","839979097","759486","hadmard","2026-07-03T20:40:31.1546406+08:00","false","false","> **以下是引用14楼：用户赤奈良瞳在2026-07-03 20:35:39的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#4)**
+>
+
+> > **以下是引用13楼：用户hadmard在2026-07-03 20:33:02的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#3)**
+> >
+
+> > > **以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#2)**
+> > > 主播打算转码吗🤔
+
+> >
+> > 大方向算是吧，但是转哪个小方向还是很迷茫😵
+
+>
+> 加油哇，反正跑出去就是胜利了😂😭
+
+还真是，农工真是害人不浅😂","[quote][b]以下是引用14楼：用户赤奈良瞳在2026-07-03 20:35:39的发言：[color=blue][url=/topic/6548170/2#4]>>查看原帖<<[/url][/color][/b]
 [quote][b]以下是引用13楼：用户hadmard在2026-07-03 20:33:02的发言：[color=blue][url=/topic/6548170/2#3]>>查看原帖<<[/url][/color][/b]
 [quote][b]以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[color=blue][url=/topic/6548170/2#2]>>查看原帖<<[/url][/color][/b]
 主播打算转码吗[ac1003][/quote]
@@ -212,7 +242,7 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 
 #### 七月五号
 做完了一半"
-"17","839984879","759486","hadmard","2026-07-04T09:23:45.843344+08:00","false","false","终于考完了，物料学意料之中的恶心，不过终于能拥抱自由，不用学sgsp的石了，这点无疑是很好的","终于考完了，物料学意料之中的恶心，不过终于能拥抱自由，不用学sgsp的石了，这点无疑是很好的[ac13]"
+"17","839984879","759486","hadmard","2026-07-04T09:23:45.843344+08:00","false","false","终于考完了，物料学意料之中的恶心，不过终于能拥抱自由，不用学sgsp的石了，这点无疑是很好的😌","终于考完了，物料学意料之中的恶心，不过终于能拥抱自由，不用学sgsp的石了，这点无疑是很好的[ac13]"
 "18","839985778","759486","hadmard","2026-07-04T10:43:03.6916972+08:00","false","false","## 七月四日代办
 
 ### 上午
@@ -401,9 +431,9 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 
 ## 七月七日小结
 
-- 今日学习了 `git` 的使用，(https://learngitbranching.js.org/?locale=zh_CN)，推荐这个网站，很有意思，爆赞。
-- 最有用的几个`git checkout ` `git branch -f  ` `git cherry-pick ` `git rebase -i HEAD~`，以及 HEAD^ 选择第n个父节点
-- `git merge ` 是加到HEAD之后,`git rebase `  是把HEAD的差异加到之后
+- 今日学习了 `git` 的使用，[https://learngitbranching.js.org/?locale=zh_CN](https://learngitbranching.js.org/?locale=zh_CN)，推荐这个网站，很有意思，爆赞。
+- 最有用的几个`git checkout [node/branch]` `git branch -f [branch] [node]` `git cherry-pick [node]` `git rebase -i HEAD~[num]`，以及 HEAD^[num] 选择第n个父节点
+- `git merge [branch]` 是加到HEAD之后,`git rebase [branch]`  是把HEAD的差异加到[branch]之后
 - 下午课程有点难，听懵了，需要课下自学一下
 - 晚上学的不多，今天稍显疲惫，简单了解了一下 `CPU` 的构造，以及运行基本原理，基本就是下午的课的一些内容，剩下的明天上午看；' git ' 是完成了学习，但是有关远程仓库的还剩了一些，一并明天上午解决","## 七月七日代办
 
@@ -429,6 +459,7 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 - `git merge [branch]` 是加到HEAD之后,`git rebase [branch]`  是把HEAD的差异加到[branch]之后
 - 下午课程有点难，听懵了，需要课下自学一下
 - 晚上学的不多，今天稍显疲惫，简单了解了一下 `CPU` 的构造，以及运行基本原理，基本就是下午的课的一些内容，剩下的明天上午看；' git ' 是完成了学习，但是有关远程仓库的还剩了一些，一并明天上午解决"
-"23","840036915","759486","hadmard","2026-07-07T09:18:34.1208414+08:00","false","false","也是蹬完了GPT Pro 20x的额度
- https://file.cc98.org/v4-upload/d/2026/0707/lreknhv2.webp","也是蹬完了GPT Pro 20x的额度[ac20]
+"23","840036915","759486","hadmard","2026-07-07T09:18:34.1208414+08:00","false","false","也是蹬完了GPT Pro 20x的额度😮‍💨
+
+![](https://file.cc98.org/v4-upload/d/2026/0707/lreknhv2.webp)","也是蹬完了GPT Pro 20x的额度[ac20]
 [img]https://file.cc98.org/v4-upload/d/2026/0707/lreknhv2.webp[/img]"

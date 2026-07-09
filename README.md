@@ -31,6 +31,14 @@ npm install
 npm run dev
 ```
 
+## 同步
+
+本项目里，“同步”指同时刷新 vivo 日程、CS Learning 笔记和 CC98 帖子。完整口径与命令见：
+
+```text
+SYNC.md
+```
+
 ## 视觉
 
 - 字体：使用 Apple 平台系统字体栈，优先走 SF Pro，不在仓库内分发字体文件。

@@ -2,8 +2,8 @@
 
 - 来源链接：https://www.cc98.org/topic/6548170
 - 主题 ID：6548170
-- 抓取时间：2026-07-07T16:11:39.278Z
-- 版面：一路走来（ID: 144）
+- 抓取时间：2026-07-09T05:11:10.341Z
+- 版面：未知版面（ID: 144）
 - 发帖人：hadmard
 - 原帖时间：2026-06-22T15:29:22.0788572+08:00
 - 楼层总数：23
@@ -67,7 +67,9 @@ lz目前就读于某天坑工科，不想走学院给的既定道路，想要diy
 
 正文：
 
+🤔
 共勉
+🫡
 
 ### 3楼
 
@@ -195,7 +197,8 @@ lz目前就读于某天坑工科，不想走学院给的既定道路，想要diy
 
 vim先不学了，等什么时候觉得有必要学习再去学吧
 
-(https://seisman.github.io/how-to-write-makefile/rules.html)
+[https://seisman.github.io/how-to-write-makefile/rules.html
+](https://seisman.github.io/how-to-write-makefile/rules.html)
 
 写的很好的对于makefile的介绍，爆赞👍
 
@@ -209,7 +212,7 @@ vim先不学了，等什么时候觉得有必要学习再去学吧
 
 正文：
 
-(https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/lec0/#/)
+[https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/](https://slides.tonycrane.cc/PracticalSkillsTutorial/2023-fall-ckc/lec0/#/)
 ```
 0 前瞻：通往 Pro 的第一步
 1 Shell 基础及 CLI 工具推荐
@@ -266,7 +269,7 @@ Makefile 完成了理论知识的学习，让codex给我搞了几个小项目自
 
 正文：
 
-主播打算转码吗
+主播打算转码吗🤔
 
 ### 13楼
 
@@ -278,7 +281,10 @@ Makefile 完成了理论知识的学习，让codex给我搞了几个小项目自
 
 正文：
 
-大方向算是吧，但是转哪个小方向还是很迷茫
+> **以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#2)**
+> 主播打算转码吗🤔
+
+大方向算是吧，但是转哪个小方向还是很迷茫😵
 
 ### 14楼
 
@@ -290,7 +296,16 @@ Makefile 完成了理论知识的学习，让codex给我搞了几个小项目自
 
 正文：
 
-加油哇，反正跑出去就是胜利了
+> **以下是引用13楼：用户hadmard在2026-07-03 20:33:02的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#3)**
+>
+
+> > **以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#2)**
+> > 主播打算转码吗🤔
+
+>
+> 大方向算是吧，但是转哪个小方向还是很迷茫😵
+
+加油哇，反正跑出去就是胜利了😂😭
 
 ### 15楼
 
@@ -302,7 +317,22 @@ Makefile 完成了理论知识的学习，让codex给我搞了几个小项目自
 
 正文：
 
-还真是，农工真是害人不浅
+> **以下是引用14楼：用户赤奈良瞳在2026-07-03 20:35:39的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#4)**
+>
+
+> > **以下是引用13楼：用户hadmard在2026-07-03 20:33:02的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#3)**
+> >
+
+> > > **以下是引用12楼：用户赤奈良瞳在2026-07-03 20:28:58的发言：[››查看原帖‹‹](https://www.cc98.org/topic/6548170/2#2)**
+> > > 主播打算转码吗🤔
+
+> >
+> > 大方向算是吧，但是转哪个小方向还是很迷茫😵
+
+>
+> 加油哇，反正跑出去就是胜利了😂😭
+
+还真是，农工真是害人不浅😂
 
 ### 16楼
 
@@ -330,7 +360,7 @@ Makefile 完成了理论知识的学习，让codex给我搞了几个小项目自
 
 正文：
 
-终于考完了，物料学意料之中的恶心，不过终于能拥抱自由，不用学sgsp的石了，这点无疑是很好的
+终于考完了，物料学意料之中的恶心，不过终于能拥抱自由，不用学sgsp的石了，这点无疑是很好的😌
 
 ### 18楼
 
@@ -491,9 +521,9 @@ ai infra 和 土木仔细想想有些共通之处。
 
 ## 七月七日小结
 
-- 今日学习了 `git` 的使用，(https://learngitbranching.js.org/?locale=zh_CN)，推荐这个网站，很有意思，爆赞。
-- 最有用的几个`git checkout ` `git branch -f  ` `git cherry-pick ` `git rebase -i HEAD~`，以及 HEAD^ 选择第n个父节点
-- `git merge ` 是加到HEAD之后,`git rebase `  是把HEAD的差异加到之后
+- 今日学习了 `git` 的使用，[https://learngitbranching.js.org/?locale=zh_CN](https://learngitbranching.js.org/?locale=zh_CN)，推荐这个网站，很有意思，爆赞。
+- 最有用的几个`git checkout [node/branch]` `git branch -f [branch] [node]` `git cherry-pick [node]` `git rebase -i HEAD~[num]`，以及 HEAD^[num] 选择第n个父节点
+- `git merge [branch]` 是加到HEAD之后,`git rebase [branch]`  是把HEAD的差异加到[branch]之后
 - 下午课程有点难，听懵了，需要课下自学一下
 - 晚上学的不多，今天稍显疲惫，简单了解了一下 `CPU` 的构造，以及运行基本原理，基本就是下午的课的一些内容，剩下的明天上午看；' git ' 是完成了学习，但是有关远程仓库的还剩了一些，一并明天上午解决
 
@@ -507,5 +537,6 @@ ai infra 和 土木仔细想想有些共通之处。
 
 正文：
 
-也是蹬完了GPT Pro 20x的额度
- https://file.cc98.org/v4-upload/d/2026/0707/lreknhv2.webp
+也是蹬完了GPT Pro 20x的额度😮‍💨
+
+![](https://file.cc98.org/v4-upload/d/2026/0707/lreknhv2.webp)
