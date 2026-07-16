@@ -435,4 +435,33 @@ main: $(OBJ)
 
 - 主规则的依赖和下面的配方的目标要一样
   - 然后这个主规则的依赖需要标明具体的目录
--
+
+```makefile
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic
+
+SOURCES = $(wildcard *.cpp)
+PROGRAMS = $(SOURCES:.cpp=)
+
+.PHONY: all clean run
+
+all: $(PROGRAMS)
+
+%: %.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+clean:
+	rm -f $(PROGRAMS)
+
+
+```
+
+
+
+```makefile
+$(wildcard *.cpp) #Wildcard 表示按照通配符来查找文件
+```
+
+```makefile
+PROGRAMS = $(SOURCES:.cpp=) #表示把.cpp替换为空
+```

@@ -1,0 +1,656 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="按值 这里main函数块和foo函数块分别自己新建了一个n变量，两者互不影响 这里的foo函数传入的是main函数内的n，所以改变的也是其 ASCII字符 char的底层是int，因此可以使用int的比较运算符和算术运算符，也可以使..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/cs106b/c-strings/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/cs106b/c-strings/"><title>传递函数 | Redemption Road | Personal Blog</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.Btc3j4sV.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Personal Blog</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link" href="/en/schedule/"> Schedule </a><a class="nav-link active" href="/en/redemption-road/" aria-current="page"> Redemption </a> </nav> <a href="/redemption-road/cs106b/c-strings/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <script type="module">const o=()=>{const n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.querySelectorAll(".glass-topbar nav").forEach(e=>{if(!(e instanceof HTMLElement))return;const t=e.querySelector(".nav-link.active");if(!(t instanceof HTMLElement)||e.scrollWidth<=e.clientWidth)return;const i=t.offsetLeft-e.clientWidth/2+t.offsetWidth/2;e.scrollTo({left:Math.max(0,i),behavior:n?"auto":"smooth"})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",o,{once:!0}):requestAnimationFrame(o);window.addEventListener("pageshow",o);</script> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Notes</p> <h1>传递函数</h1> <p>按值 这里main函数块和foo函数块分别自己新建了一个n变量，两者互不影响 这里的foo函数传入的是main函数内的n，所以改变的也是其 ASCII字符 char的底层是int，因此可以使用int的比较运算符和算术运算符，也可以使...</p> <div class="article-meta"> <span class="soft-label">4 min</span> <span class="signal-pill">C++ Strings.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="Outline"> <button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span class="reading-outline-title">Outline</span> <span class="reading-outline-grip" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9"></path> </svg> </span> <span class="reading-outline-chevron" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="m5.8 8 4.2 4.2L14.2 8"></path> </svg> </span> </button> <nav class="reading-outline-list" data-reading-outline-list> <a href="#按值" class="reading-outline-link" data-outline-target="按值" style="--outline-depth: 1"> <span>按值</span> </a><a href="#ascii字符" class="reading-outline-link" data-outline-target="ascii字符" style="--outline-depth: 1"> <span>ASCII字符</span> </a><a href="#字符串" class="reading-outline-link" data-outline-target="字符串" style="--outline-depth: 1"> <span>字符串</span> </a><a href="#本质" class="reading-outline-link" data-outline-target="本质" style="--outline-depth: 2"> <span>本质</span> </a><a href="#成员函数" class="reading-outline-link" data-outline-target="成员函数" style="--outline-depth: 2"> <span>成员函数</span> </a><a href="#strlibh" class="reading-outline-link" data-outline-target="strlibh" style="--outline-depth: 2"> <span>strlib.h</span> </a><a href="#修改字符串内容" class="reading-outline-link" data-outline-target="修改字符串内容" style="--outline-depth: 2"> <span>修改字符串内容</span> </a><a href="#遍历字符串" class="reading-outline-link" data-outline-target="遍历字符串" style="--outline-depth: 2"> <span>遍历字符串</span> </a><a href="#cctype" class="reading-outline-link" data-outline-target="cctype" style="--outline-depth: 2"> <span>cctype</span> </a><a href="#两种风格" class="reading-outline-link" data-outline-target="两种风格" style="--outline-depth: 2"> <span>两种风格</span> </a><a href="#初始化" class="reading-outline-link" data-outline-target="初始化" style="--outline-depth: 2"> <span>初始化</span> </a> </nav> </aside> <script>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlines = [...document.querySelectorAll('[data-reading-outline]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length && !outlines.length) return;
+
+		let frame = 0;
+		const cleanups = [];
+		const on = (target, eventName, handler, options) => {
+			target.addEventListener(eventName, handler, options);
+			cleanups.push(() => target.removeEventListener(eventName, handler, options));
+		};
+
+		const readState = (key) => {
+			try {
+				return JSON.parse(window.localStorage.getItem(key) || '{}') || {};
+			} catch {
+				return {};
+			}
+		};
+
+		const writeState = (key, state) => {
+			try {
+				window.localStorage.setItem(key, JSON.stringify(state));
+			} catch {
+				// localStorage can be unavailable in private contexts.
+			}
+		};
+
+		const clampPosition = (outline, x, y) => {
+			const margin = 12;
+			const rect = outline.getBoundingClientRect();
+			const width = rect.width || outline.offsetWidth || 220;
+			const height = rect.height || outline.offsetHeight || 64;
+			const maxX = Math.max(margin, window.innerWidth - width - margin);
+			const maxY = Math.max(margin, window.innerHeight - height - margin);
+			return {
+				x: Math.min(maxX, Math.max(margin, x)),
+				y: Math.min(maxY, Math.max(margin, y)),
+			};
+		};
+
+		const applyPosition = (outline, x, y) => {
+			const position = clampPosition(outline, x, y);
+			outline.dataset.dragged = 'true';
+			outline.style.left = `${Math.round(position.x)}px`;
+			outline.style.top = `${Math.round(position.y)}px`;
+			outline.style.right = 'auto';
+			outline.style.bottom = 'auto';
+			return position;
+		};
+
+		const setCollapsed = (outline, toggle, collapsed) => {
+			outline.classList.toggle('is-collapsed', collapsed);
+			toggle.setAttribute('aria-expanded', String(!collapsed));
+		};
+
+		const setupOutlinePanel = (outline, index) => {
+			const toggle = outline.querySelector('[data-reading-outline-toggle]');
+			if (!toggle) return;
+
+			const stateKey = `reading-outline:${window.location.pathname}:${index}`;
+			const savedState = readState(stateKey);
+			const startsCollapsed =
+				typeof savedState.collapsed === 'boolean'
+					? savedState.collapsed
+					: window.matchMedia('(max-width: 640px)').matches;
+			setCollapsed(outline, toggle, startsCollapsed);
+
+			if (Number.isFinite(savedState.x) && Number.isFinite(savedState.y)) {
+				window.requestAnimationFrame(() => applyPosition(outline, savedState.x, savedState.y));
+			}
+
+			let dragState = null;
+			let suppressClick = false;
+
+			const persistCurrentState = () => {
+				const rect = outline.getBoundingClientRect();
+				const currentState = readState(stateKey);
+				writeState(stateKey, {
+					...currentState,
+					collapsed: outline.classList.contains('is-collapsed'),
+					...(outline.dataset.dragged === 'true'
+						? { x: Math.round(rect.left), y: Math.round(rect.top) }
+						: {}),
+				});
+			};
+
+			on(toggle, 'pointerdown', (event) => {
+				if (event.button !== undefined && event.button !== 0) return;
+				const rect = outline.getBoundingClientRect();
+				dragState = {
+					id: event.pointerId,
+					startX: event.clientX,
+					startY: event.clientY,
+					left: rect.left,
+					top: rect.top,
+					moved: false,
+				};
+				toggle.setPointerCapture?.(event.pointerId);
+				outline.classList.add('is-dragging');
+			});
+
+			on(toggle, 'pointermove', (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				const dx = event.clientX - dragState.startX;
+				const dy = event.clientY - dragState.startY;
+				if (!dragState.moved && Math.hypot(dx, dy) < 5) return;
+
+				dragState.moved = true;
+				event.preventDefault();
+				applyPosition(outline, dragState.left + dx, dragState.top + dy);
+			});
+
+			const endDrag = (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				outline.classList.remove('is-dragging');
+				toggle.releasePointerCapture?.(event.pointerId);
+
+				if (dragState.moved) {
+					suppressClick = true;
+					persistCurrentState();
+					window.setTimeout(() => {
+						suppressClick = false;
+					}, 0);
+				}
+
+				dragState = null;
+			};
+
+			on(toggle, 'pointerup', endDrag);
+			on(toggle, 'pointercancel', endDrag);
+
+			on(toggle, 'click', (event) => {
+				if (suppressClick) {
+					event.preventDefault();
+					return;
+				}
+
+				const collapsed = !outline.classList.contains('is-collapsed');
+				setCollapsed(outline, toggle, collapsed);
+				window.requestAnimationFrame(() => {
+					if (outline.dataset.dragged === 'true') {
+						const rect = outline.getBoundingClientRect();
+						applyPosition(outline, rect.left, rect.top);
+					}
+					persistCurrentState();
+				});
+			});
+		};
+
+		outlines.forEach(setupOutlinePanel);
+
+		const paragraphBlocks = [...document.querySelectorAll('.article-body .markdown-body > p')];
+		for (const link of outlineLinks) {
+			const targetId = link.dataset.outlineTarget || '';
+			if (!targetId.startsWith('paragraph-') || document.getElementById(targetId)) continue;
+
+			const paragraphIndex = Number(targetId.replace('paragraph-', '')) - 1;
+			const paragraph = paragraphBlocks[paragraphIndex];
+			if (paragraph && !paragraph.id) {
+				paragraph.id = targetId;
+			}
+		}
+
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		const handleResize = () => {
+			schedule();
+			for (const outline of outlines) {
+				if (outline.dataset.dragged !== 'true') continue;
+				const rect = outline.getBoundingClientRect();
+				applyPosition(outline, rect.left, rect.top);
+			}
+		};
+
+		on(window, 'scroll', schedule, { passive: true });
+		on(window, 'resize', handleResize);
+		window.__readingAssistCleanup = () => {
+			for (const cleanup of cleanups) cleanup();
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h3 id="按值">按值</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> &#x3C;iostream></span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "console.h"</span></span>
+<span class="line"><span style="color:#24292E">using namespace std;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">void</span><span style="color:#6F42C1"> foo</span><span style="color:#24292E">(</span><span style="color:#D73A49">int</span><span style="color:#E36209"> n</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#24292E">   n</span><span style="color:#D73A49">++</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">int</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#D73A49">   int</span><span style="color:#24292E"> n </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 3</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#6F42C1">   foo</span><span style="color:#24292E">(n);</span></span>
+<span class="line"><span style="color:#24292E">   cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> n </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span><span style="color:#6A737D"> //输出3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">   return</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"></span></code></pre>
+<p>这里main函数块和foo函数块分别自己新建了一个n变量，两者互不影响</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> &#x3C;iostream></span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "console.h"</span></span>
+<span class="line"><span style="color:#24292E">using namespace std;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">void</span><span style="color:#6F42C1"> foo</span><span style="color:#24292E">(</span><span style="color:#D73A49">int</span><span style="color:#D73A49"> &#x26;</span><span style="color:#E36209">n</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#24292E">   n</span><span style="color:#D73A49">++</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">int</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#D73A49">   int</span><span style="color:#24292E"> n </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 3</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#6F42C1">   foo</span><span style="color:#24292E">(n);</span></span>
+<span class="line"><span style="color:#24292E">   cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> n </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span><span style="color:#6A737D"> //输出4</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">   return</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"></span></code></pre>
+<p>这里的foo函数传入的是main函数内的n，所以改变的也是其</p>
+<h3 id="ascii字符">ASCII字符</h3>
+<p>char的底层是int，因此可以使用int的比较运算符和算术运算符，也可以使用 int(ch) 将其转换为对应的</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> &#x3C;iostream></span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "console.h"</span></span>
+<span class="line"><span style="color:#24292E">using namespace std;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">int</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#D73A49">   for</span><span style="color:#24292E"> (</span><span style="color:#D73A49">char</span><span style="color:#24292E"> ch </span><span style="color:#D73A49">=</span><span style="color:#032F62"> 'a'</span><span style="color:#24292E">; ch </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#032F62"> 'z'</span><span style="color:#24292E">; ch</span><span style="color:#D73A49">++</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">   {</span></span>
+<span class="line"><span style="color:#24292E">      cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> ch </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#032F62"> " ("</span><span style="color:#D73A49"> &#x3C;&#x3C;</span><span style="color:#D73A49"> int</span><span style="color:#24292E">(ch) </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#032F62"> ")"</span><span style="color:#D73A49"> &#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span></span>
+<span class="line"><span style="color:#24292E">   }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">   return</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> &#x3C;iostream></span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "console.h"</span></span>
+<span class="line"><span style="color:#24292E">using namespace std;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">int</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#D73A49">   for</span><span style="color:#24292E"> (</span><span style="color:#D73A49">char</span><span style="color:#24292E"> ch </span><span style="color:#D73A49">=</span><span style="color:#032F62"> 'a'</span><span style="color:#24292E">; ch </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#032F62"> 'z'</span><span style="color:#24292E">; ch</span><span style="color:#D73A49">++</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">   {</span></span>
+<span class="line"><span style="color:#24292E">      cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> ch </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#032F62"> " ("</span><span style="color:#D73A49"> &#x3C;&#x3C;</span><span style="color:#D73A49"> int</span><span style="color:#24292E">(ch) </span><span style="color:#D73A49">-</span><span style="color:#24292E"> (</span><span style="color:#032F62">'a'</span><span style="color:#D73A49"> -</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">) </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#032F62"> ")"</span><span style="color:#D73A49"> &#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span><span style="color:#6A737D"> //最好如此，不要写 -96</span></span>
+<span class="line"><span style="color:#24292E">   }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">   return</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<h3 id="字符串">字符串</h3>
+<h4 id="本质">本质</h4>
+<p>字符串因此就是字符数组，因为char底层就是int，因此可以如此认为</p>
+<p>C++ 中的字符串必须用双引号括起来，而不能用单引号。单引号仅用于单个字符。</p>
+<p>字符串也是一个对象，其的数据结构是一个字符数组，也包含很多很多的函数，可以使用 <code>.</code> 来使用</p>
+<h4 id="成员函数">成员函数</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Member Function 成员函数</th><th>Description 描述</th></tr></thead><tbody><tr><td>s.append(str)</td><td>在字符串末尾添加文本</td></tr><tr><td>s.compare(str)</td><td>根据相对顺序返回-1、0或1。</td></tr><tr><td>s.erase(index, length)</td><td>从给定索引处开始删除字符串中的文本</td></tr><tr><td>s.find(str) s.rfind(str)</td><td>返回字符串 str 的起始位置在当前字符串中的第一个或最后一个索引（如果未找到，则返回 string::npos ）。</td></tr><tr><td>s.insert(index, str)</td><td>将文本添加到字符串的指定索引处</td></tr><tr><td>s.length() s.size()</td><td>返回字符串中的字符数</td></tr><tr><td>s.replace(index, len, str)</td><td>将指定索引处的 len 个字符替换为新文本</td></tr><tr><td>s.substr(start, length) s.substr(start)</td><td>返回一个从起始位置 （包含起始位置）开始，长度为下一个 length 字符的新字符串；如果省略 length 参数，则获取字符串末尾到末尾为止的所有字符。</td></tr></tbody></table>
+<h4 id="strlibh">strlib.h</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Function Name 函数名称</th><th>Description 描述</th></tr></thead><tbody><tr><td>endsWith(str, suffix) startsWith(str, prefix)</td><td>returns true if the given string begins or ends with the given prefix/suffix text 如果给定的字符串以给定的前缀/后缀文本开头或结尾，则返回 true。</td></tr><tr><td>integerToString(int) realToString(double) stringToInteger(str) stringToReal(str)</td><td>returns a conversion between numbers and strings 返回数字和字符串之间的转换结果。</td></tr><tr><td>equalsIgnoreCase(s1, s2)</td><td>returns true if s1 and s2 have same chars, ignoring case 如果 s1 和 s2 具有相同的字符（忽略大小写），则返回 true。</td></tr><tr><td>toLowerCase(str) toUpperCase(str)</td><td>returns an upper/lowercase version of a string (pass-by-value!) 返回字符串的大写/小写版本（按值传递！）</td></tr><tr><td>trim(str) 修剪(字符串)</td><td>returns string with surrounding whitespace removed 返回一个已去除周围空格的字符串。</td></tr></tbody></table>
+<h4 id="修改字符串内容">修改字符串内容</h4>
+<p>python内的字符串是不可修改滴，but this diverges in cpp.</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> &#x3C;iostream></span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "console.h"</span></span>
+<span class="line"><span style="color:#D73A49">using</span><span style="color:#D73A49"> namespace</span><span style="color:#6F42C1"> std</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">int</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#24292E">   string s </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "hello"</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">   cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> s </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">   // This changes the character at index 0. I read "s[0]" out loud as "s-sub-zero."</span></span>
+<span class="line"><span style="color:#24292E">   s[</span><span style="color:#005CC5">0</span><span style="color:#24292E">] </span><span style="color:#D73A49">=</span><span style="color:#032F62"> 'Y'</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">   cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> s </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">   // We can concatenate a single character to a string using the + operator. We know</span></span>
+<span class="line"><span style="color:#6A737D">   // the w below is just a character (not a string) because it's in single quotes.</span></span>
+<span class="line"><span style="color:#24292E">   s </span><span style="color:#D73A49">+=</span><span style="color:#032F62"> 'w'</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">   cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> s </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">   // We can also concatenate an entire string.</span></span>
+<span class="line"><span style="color:#24292E">   s </span><span style="color:#D73A49">+=</span><span style="color:#032F62"> " squashes"</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">   cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> s </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">   return</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">result </span><span style="color:#D73A49">=</span><span style="color:#032F62"> ","</span><span style="color:#24292E">.join([</span><span style="color:#005CC5">str</span><span style="color:#24292E">(number) </span><span style="color:#D73A49">for</span><span style="color:#24292E"> number </span><span style="color:#D73A49">in</span><span style="color:#24292E"> numbers]) </span><span style="color:#6A737D">#这是python</span></span></code></pre>
+<h4 id="遍历字符串">遍历字符串</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> &#x3C;iostream></span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "console.h"</span></span>
+<span class="line"><span style="color:#D73A49">using</span><span style="color:#D73A49"> namespace</span><span style="color:#6F42C1"> std</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">int</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#24292E">   string s </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "hello"</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">   // We can loop through a string using a for-loop.</span></span>
+<span class="line"><span style="color:#D73A49">   for</span><span style="color:#24292E"> (</span><span style="color:#D73A49">int</span><span style="color:#24292E"> i </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">; i </span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E"> s.</span><span style="color:#6F42C1">length</span><span style="color:#24292E">(); i</span><span style="color:#D73A49">++</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">   {</span></span>
+<span class="line"><span style="color:#24292E">      cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> i </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#032F62"> ": "</span><span style="color:#D73A49"> &#x3C;&#x3C;</span><span style="color:#24292E"> s[i] </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span></span>
+<span class="line"><span style="color:#24292E">   }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">   cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span></span>
+<span class="line"><span style="color:#D73A49">   for</span><span style="color:#24292E"> (</span><span style="color:#D73A49">char</span><span style="color:#24292E"> ch : s)</span><span style="color:#6A737D">   //有点像 python 中的 for i in list；</span></span>
+<span class="line"><span style="color:#24292E">   {</span></span>
+<span class="line"><span style="color:#24292E">      cout </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> ch </span><span style="color:#D73A49">&#x3C;&#x3C;</span><span style="color:#24292E"> endl;</span></span>
+<span class="line"><span style="color:#24292E">   }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">   return</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<h4 id="cctype">cctype</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Member Function 成员函数</th><th>Description 描述</th></tr></thead><tbody><tr><td>isalnum(ch)</td><td>checks if a character is alphanumeric 检查字符是否为字母数字字符</td></tr><tr><td>isalpha(ch)</td><td>checks if a character is alphabetic 检查字符是否为字母</td></tr><tr><td>islower(ch)</td><td>checks if a character is a lowercase alphabetic character 检查字符是否为小写字母</td></tr><tr><td>isupper(ch)</td><td>checks if a character is an uppercase alphabetic character 检查字符是否为大写字母</td></tr><tr><td>isdigit(ch)</td><td>checks if a character is a digit 检查字符是否为数字</td></tr><tr><td>isxdigit(ch)</td><td>checks if a character is a hexadecimal character 检查字符是否为十六进制字符</td></tr><tr><td>iscntrl(ch)</td><td>checks if a character is a control character 检查角色是否为控制角色</td></tr><tr><td>isgraph(ch)</td><td>checks if a character is a graphical (i.e., visible) character 检查字符是否为图形字符（即可见字符）。</td></tr><tr><td>isspace(ch)</td><td>checks if a character is a space character (typically tab or space) 检查字符是否为空格字符（通常是制表符或空格）</td></tr><tr><td>isblank(ch)</td><td>checks if a character is a blank character 检查字符是否为空白字符</td></tr><tr><td>isprint(ch)</td><td>checks if a character is a printing character according to locale 检查字符是否为区域设置中的可打印字符</td></tr><tr><td>ispunct(ch)</td><td>checks if a character is punctuation (visible non-alnum/non-space) 检查字符是否为标点符号（可见的非字母/非空格）</td></tr><tr><td>toupper(ch) 上标(ch)</td><td>converts a character to uppercase (pass-by-value!) 将字符转换为大写（按值传递！）</td></tr><tr><td>tolower(ch) 降低(ch)</td><td>converts a character to lowercase (pass-by-value!) 将字符转换为小写（按值传递！）</td></tr></tbody></table>
+<h4 id="两种风格">两种风格</h4>
+<p>C 语言风格</p>
+<p>直接写 <code>“xyz”</code></p>
+<p>C++ 语言风格</p>
+<p><code>std::string s = "abc";</code></p>
+<p><code>string s = "hello" + " there";</code> 这个操作就不行，因为C里面不能直接加字符串，只要有一个是C++风格才可以，如<code>string s = (string)"hello + " there"</code> / <code>string s = string("hello") + " there"</code> / <code>string s = std::string{"hello"} + " there"</code></p>
+<h4 id="初始化">初始化</h4>
+<p><code>int a =3.14</code> 截掉小数部分</p>
+<p><code>int a(3.14)</code> 同上</p>
+<p><code>int a{3.14}</code> 大括号是更现代化的初始化操作，这样子的话，会编译失败，防止数据丢失</p></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .home-stage-orbit, .home-stage-path, .home-stage-strip, .home-stage-panel, .home-stage-tile, .home-stage-note, .home-stage-rail, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>

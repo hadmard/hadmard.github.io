@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-09T05:43:15.219Z",
+  "generatedAt": "2026-07-16T14:07:32.717Z",
   "source": {
     "type": "vivo-calendar-sqlite",
     "databasePath": "/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db",
@@ -536,13 +536,37 @@
       "location": "",
       "source": {
         "startTime": "08:30",
-        "endTime": "09:30",
+        "endTime": "11:30",
         "startIso": "2026-07-16T08:30:00+08:00",
-        "endIso": "2026-07-16T09:30:00+08:00"
+        "endIso": "2026-07-16T11:30:00+08:00"
       },
       "isCourse": true,
-      "normalizedByRule": true,
+      "normalizedByRule": false,
       "type": "course"
+    },
+    {
+      "id": 83,
+      "title": "买花露水",
+      "date": "2026-07-16",
+      "startTime": "09:42",
+      "endTime": "10:00",
+      "startIso": "2026-07-16T09:42:00+08:00",
+      "endIso": "2026-07-16T10:00:00+08:00",
+      "durationMinutes": 18,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "09:42",
+        "endTime": "10:00",
+        "startIso": "2026-07-16T09:42:00+08:00",
+        "endIso": "2026-07-16T10:00:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "plan"
     },
     {
       "id": 65,
@@ -560,12 +584,12 @@
       "location": "",
       "source": {
         "startTime": "14:00",
-        "endTime": "15:00",
+        "endTime": "17:00",
         "startIso": "2026-07-16T14:00:00+08:00",
-        "endIso": "2026-07-16T15:00:00+08:00"
+        "endIso": "2026-07-16T17:00:00+08:00"
       },
       "isCourse": true,
-      "normalizedByRule": true,
+      "normalizedByRule": false,
       "type": "course"
     },
     {
@@ -593,6 +617,30 @@
       "type": "course"
     },
     {
+      "id": 88,
+      "title": "换新加坡元",
+      "date": "2026-07-17",
+      "startTime": "10:00",
+      "endTime": "10:30",
+      "startIso": "2026-07-17T10:00:00+08:00",
+      "endIso": "2026-07-17T10:30:00+08:00",
+      "durationMinutes": 30,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "10:00",
+        "endTime": "10:30",
+        "startIso": "2026-07-17T10:00:00+08:00",
+        "endIso": "2026-07-17T10:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "plan"
+    },
+    {
       "id": 66,
       "title": "机器学习高级话题",
       "date": "2026-07-17",
@@ -608,13 +656,37 @@
       "location": "",
       "source": {
         "startTime": "14:00",
-        "endTime": "15:00",
+        "endTime": "17:00",
         "startIso": "2026-07-17T14:00:00+08:00",
-        "endIso": "2026-07-17T15:00:00+08:00"
+        "endIso": "2026-07-17T17:00:00+08:00"
       },
       "isCourse": true,
-      "normalizedByRule": true,
+      "normalizedByRule": false,
       "type": "course"
+    },
+    {
+      "id": 85,
+      "title": "做家教",
+      "date": "2026-07-17",
+      "startTime": "18:30",
+      "endTime": "20:30",
+      "startIso": "2026-07-17T18:30:00+08:00",
+      "endIso": "2026-07-17T20:30:00+08:00",
+      "durationMinutes": 120,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "18:30",
+        "endTime": "20:30",
+        "startIso": "2026-07-17T18:30:00+08:00",
+        "endIso": "2026-07-17T20:30:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "tutoring"
     },
     {
       "id": 67,
@@ -629,6 +701,30 @@
       "calendarId": 2,
       "calendarName": "vivo work",
       "calendarColor": -1159088,
+      "location": "新加坡",
+      "source": {
+        "startTime": "08:00",
+        "endTime": "08:00",
+        "startIso": "2026-07-19T08:00:00+08:00",
+        "endIso": "2026-07-25T08:00:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "travel"
+    },
+    {
+      "id": 84,
+      "title": "新加坡出差",
+      "date": "2026-07-19",
+      "startTime": "08:00",
+      "endTime": "08:00",
+      "startIso": "2026-07-19T08:00:00+08:00",
+      "endIso": "2026-07-25T08:00:00+08:00",
+      "durationMinutes": 8640,
+      "allDay": true,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
       "location": "新加坡",
       "source": {
         "startTime": "08:00",
@@ -1273,13 +1369,37 @@
           "location": "",
           "source": {
             "startTime": "08:30",
-            "endTime": "09:30",
+            "endTime": "11:30",
             "startIso": "2026-07-16T08:30:00+08:00",
-            "endIso": "2026-07-16T09:30:00+08:00"
+            "endIso": "2026-07-16T11:30:00+08:00"
           },
           "isCourse": true,
-          "normalizedByRule": true,
+          "normalizedByRule": false,
           "type": "course"
+        },
+        {
+          "id": 83,
+          "title": "买花露水",
+          "date": "2026-07-16",
+          "startTime": "09:42",
+          "endTime": "10:00",
+          "startIso": "2026-07-16T09:42:00+08:00",
+          "endIso": "2026-07-16T10:00:00+08:00",
+          "durationMinutes": 18,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "09:42",
+            "endTime": "10:00",
+            "startIso": "2026-07-16T09:42:00+08:00",
+            "endIso": "2026-07-16T10:00:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "plan"
         },
         {
           "id": 65,
@@ -1297,12 +1417,12 @@
           "location": "",
           "source": {
             "startTime": "14:00",
-            "endTime": "15:00",
+            "endTime": "17:00",
             "startIso": "2026-07-16T14:00:00+08:00",
-            "endIso": "2026-07-16T15:00:00+08:00"
+            "endIso": "2026-07-16T17:00:00+08:00"
           },
           "isCourse": true,
-          "normalizedByRule": true,
+          "normalizedByRule": false,
           "type": "course"
         }
       ],
@@ -1337,6 +1457,30 @@
           "type": "course"
         },
         {
+          "id": 88,
+          "title": "换新加坡元",
+          "date": "2026-07-17",
+          "startTime": "10:00",
+          "endTime": "10:30",
+          "startIso": "2026-07-17T10:00:00+08:00",
+          "endIso": "2026-07-17T10:30:00+08:00",
+          "durationMinutes": 30,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "10:00",
+            "endTime": "10:30",
+            "startIso": "2026-07-17T10:00:00+08:00",
+            "endIso": "2026-07-17T10:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "plan"
+        },
+        {
           "id": 66,
           "title": "机器学习高级话题",
           "date": "2026-07-17",
@@ -1352,13 +1496,37 @@
           "location": "",
           "source": {
             "startTime": "14:00",
-            "endTime": "15:00",
+            "endTime": "17:00",
             "startIso": "2026-07-17T14:00:00+08:00",
-            "endIso": "2026-07-17T15:00:00+08:00"
+            "endIso": "2026-07-17T17:00:00+08:00"
           },
           "isCourse": true,
-          "normalizedByRule": true,
+          "normalizedByRule": false,
           "type": "course"
+        },
+        {
+          "id": 85,
+          "title": "做家教",
+          "date": "2026-07-17",
+          "startTime": "18:30",
+          "endTime": "20:30",
+          "startIso": "2026-07-17T18:30:00+08:00",
+          "endIso": "2026-07-17T20:30:00+08:00",
+          "durationMinutes": 120,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "18:30",
+            "endTime": "20:30",
+            "startIso": "2026-07-17T18:30:00+08:00",
+            "endIso": "2026-07-17T20:30:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "tutoring"
         }
       ],
       "solarTerms": []
@@ -1380,6 +1548,30 @@
           "calendarId": 2,
           "calendarName": "vivo work",
           "calendarColor": -1159088,
+          "location": "新加坡",
+          "source": {
+            "startTime": "08:00",
+            "endTime": "08:00",
+            "startIso": "2026-07-19T08:00:00+08:00",
+            "endIso": "2026-07-25T08:00:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "travel"
+        },
+        {
+          "id": 84,
+          "title": "新加坡出差",
+          "date": "2026-07-19",
+          "startTime": "08:00",
+          "endTime": "08:00",
+          "startIso": "2026-07-19T08:00:00+08:00",
+          "endIso": "2026-07-25T08:00:00+08:00",
+          "durationMinutes": 8640,
+          "allDay": true,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
           "location": "新加坡",
           "source": {
             "startTime": "08:00",
@@ -1439,9 +1631,9 @@
     }
   ],
   "stats": {
-    "total": 27,
+    "total": 31,
     "courses": 16,
-    "normalized": 7,
-    "allDay": 2
+    "normalized": 4,
+    "allDay": 3
   }
 }

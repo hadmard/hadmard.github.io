@@ -1,0 +1,529 @@
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="概述 一个基于 Ascend C 的最大公约数（GCD）算子，支持 float16 数据类型， 4D shape （如 [N4, N3, N2, N1] ）、 ND Format 以及 Broadcast 语义 ， 运行在 Asce..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/huawei/cann-outreach/2026/regional-outreach/jiangsu/cann-campus-tour-nanjing-university-session/zhangjingwei/gcd-ascend/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/huawei/cann-outreach/2026/regional-outreach/jiangsu/cann-campus-tour-nanjing-university-session/zhangjingwei/gcd-ascend/"><title>gcd_ascend — Ascend C GCD Operator (float16, 4D ND, Broadcast) | 救赎之路 | 个人blog</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.Btc3j4sV.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">个人blog</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link" href="/schedule/"> 日程 </a><a class="nav-link active" href="/redemption-road/" aria-current="page"> 救赎之路 </a> </nav> <a href="/en/redemption-road/huawei/cann-outreach/2026/regional-outreach/jiangsu/cann-campus-tour-nanjing-university-session/zhangjingwei/gcd-ascend/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <script type="module">const o=()=>{const n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.querySelectorAll(".glass-topbar nav").forEach(e=>{if(!(e instanceof HTMLElement))return;const t=e.querySelector(".nav-link.active");if(!(t instanceof HTMLElement)||e.scrollWidth<=e.clientWidth)return;const i=t.offsetLeft-e.clientWidth/2+t.offsetWidth/2;e.scrollTo({left:Math.max(0,i),behavior:n?"auto":"smooth"})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",o,{once:!0}):requestAnimationFrame(o);window.addEventListener("pageshow",o);</script> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Notes</p> <h1>gcd_ascend — Ascend C GCD Operator (float16, 4D ND, Broadcast)</h1> <p>概述 一个基于 Ascend C 的最大公约数（GCD）算子，支持 float16 数据类型， 4D shape （如 [N4, N3, N2, N1] ）、 ND Format 以及 Broadcast 语义 ， 运行在 Asce...</p> <div class="article-meta"> <span class="soft-label">2 分钟</span> <span class="signal-pill">README.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="笔记目录"> <button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span class="reading-outline-title">笔记目录</span> <span class="reading-outline-grip" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9"></path> </svg> </span> <span class="reading-outline-chevron" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="m5.8 8 4.2 4.2L14.2 8"></path> </svg> </span> </button> <nav class="reading-outline-list" data-reading-outline-list> <a href="#概述" class="reading-outline-link" data-outline-target="概述" style="--outline-depth: 0"> <span>概述</span> </a><a href="#算子接口" class="reading-outline-link" data-outline-target="算子接口" style="--outline-depth: 1"> <span>算子接口</span> </a><a href="#broadcast-语义" class="reading-outline-link" data-outline-target="broadcast-语义" style="--outline-depth: 1"> <span>Broadcast 语义</span> </a><a href="#支持的-broadcast-场景" class="reading-outline-link" data-outline-target="支持的-broadcast-场景" style="--outline-depth: 2"> <span>支持的 Broadcast 场景</span> </a><a href="#项目结构" class="reading-outline-link" data-outline-target="项目结构" style="--outline-depth: 0"> <span>项目结构</span> </a><a href="#构建要求" class="reading-outline-link" data-outline-target="构建要求" style="--outline-depth: 0"> <span>构建要求</span> </a><a href="#构建" class="reading-outline-link" data-outline-target="构建" style="--outline-depth: 0"> <span>构建</span> </a><a href="#运行单元测试" class="reading-outline-link" data-outline-target="运行单元测试" style="--outline-depth: 0"> <span>运行单元测试</span> </a><a href="#算子说明" class="reading-outline-link" data-outline-target="算子说明" style="--outline-depth: 0"> <span>算子说明</span> </a><a href="#gcd-算法euclidean" class="reading-outline-link" data-outline-target="gcd-算法euclidean" style="--outline-depth: 1"> <span>GCD 算法（Euclidean）</span> </a><a href="#broadcast-策略" class="reading-outline-link" data-outline-target="broadcast-策略" style="--outline-depth: 1"> <span>Broadcast 策略</span> </a><a href="#多核并行" class="reading-outline-link" data-outline-target="多核并行" style="--outline-depth: 1"> <span>多核并行</span> </a> </nav> </aside> <script>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlines = [...document.querySelectorAll('[data-reading-outline]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length && !outlines.length) return;
+
+		let frame = 0;
+		const cleanups = [];
+		const on = (target, eventName, handler, options) => {
+			target.addEventListener(eventName, handler, options);
+			cleanups.push(() => target.removeEventListener(eventName, handler, options));
+		};
+
+		const readState = (key) => {
+			try {
+				return JSON.parse(window.localStorage.getItem(key) || '{}') || {};
+			} catch {
+				return {};
+			}
+		};
+
+		const writeState = (key, state) => {
+			try {
+				window.localStorage.setItem(key, JSON.stringify(state));
+			} catch {
+				// localStorage can be unavailable in private contexts.
+			}
+		};
+
+		const clampPosition = (outline, x, y) => {
+			const margin = 12;
+			const rect = outline.getBoundingClientRect();
+			const width = rect.width || outline.offsetWidth || 220;
+			const height = rect.height || outline.offsetHeight || 64;
+			const maxX = Math.max(margin, window.innerWidth - width - margin);
+			const maxY = Math.max(margin, window.innerHeight - height - margin);
+			return {
+				x: Math.min(maxX, Math.max(margin, x)),
+				y: Math.min(maxY, Math.max(margin, y)),
+			};
+		};
+
+		const applyPosition = (outline, x, y) => {
+			const position = clampPosition(outline, x, y);
+			outline.dataset.dragged = 'true';
+			outline.style.left = `${Math.round(position.x)}px`;
+			outline.style.top = `${Math.round(position.y)}px`;
+			outline.style.right = 'auto';
+			outline.style.bottom = 'auto';
+			return position;
+		};
+
+		const setCollapsed = (outline, toggle, collapsed) => {
+			outline.classList.toggle('is-collapsed', collapsed);
+			toggle.setAttribute('aria-expanded', String(!collapsed));
+		};
+
+		const setupOutlinePanel = (outline, index) => {
+			const toggle = outline.querySelector('[data-reading-outline-toggle]');
+			if (!toggle) return;
+
+			const stateKey = `reading-outline:${window.location.pathname}:${index}`;
+			const savedState = readState(stateKey);
+			const startsCollapsed =
+				typeof savedState.collapsed === 'boolean'
+					? savedState.collapsed
+					: window.matchMedia('(max-width: 640px)').matches;
+			setCollapsed(outline, toggle, startsCollapsed);
+
+			if (Number.isFinite(savedState.x) && Number.isFinite(savedState.y)) {
+				window.requestAnimationFrame(() => applyPosition(outline, savedState.x, savedState.y));
+			}
+
+			let dragState = null;
+			let suppressClick = false;
+
+			const persistCurrentState = () => {
+				const rect = outline.getBoundingClientRect();
+				const currentState = readState(stateKey);
+				writeState(stateKey, {
+					...currentState,
+					collapsed: outline.classList.contains('is-collapsed'),
+					...(outline.dataset.dragged === 'true'
+						? { x: Math.round(rect.left), y: Math.round(rect.top) }
+						: {}),
+				});
+			};
+
+			on(toggle, 'pointerdown', (event) => {
+				if (event.button !== undefined && event.button !== 0) return;
+				const rect = outline.getBoundingClientRect();
+				dragState = {
+					id: event.pointerId,
+					startX: event.clientX,
+					startY: event.clientY,
+					left: rect.left,
+					top: rect.top,
+					moved: false,
+				};
+				toggle.setPointerCapture?.(event.pointerId);
+				outline.classList.add('is-dragging');
+			});
+
+			on(toggle, 'pointermove', (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				const dx = event.clientX - dragState.startX;
+				const dy = event.clientY - dragState.startY;
+				if (!dragState.moved && Math.hypot(dx, dy) < 5) return;
+
+				dragState.moved = true;
+				event.preventDefault();
+				applyPosition(outline, dragState.left + dx, dragState.top + dy);
+			});
+
+			const endDrag = (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				outline.classList.remove('is-dragging');
+				toggle.releasePointerCapture?.(event.pointerId);
+
+				if (dragState.moved) {
+					suppressClick = true;
+					persistCurrentState();
+					window.setTimeout(() => {
+						suppressClick = false;
+					}, 0);
+				}
+
+				dragState = null;
+			};
+
+			on(toggle, 'pointerup', endDrag);
+			on(toggle, 'pointercancel', endDrag);
+
+			on(toggle, 'click', (event) => {
+				if (suppressClick) {
+					event.preventDefault();
+					return;
+				}
+
+				const collapsed = !outline.classList.contains('is-collapsed');
+				setCollapsed(outline, toggle, collapsed);
+				window.requestAnimationFrame(() => {
+					if (outline.dataset.dragged === 'true') {
+						const rect = outline.getBoundingClientRect();
+						applyPosition(outline, rect.left, rect.top);
+					}
+					persistCurrentState();
+				});
+			});
+		};
+
+		outlines.forEach(setupOutlinePanel);
+
+		const paragraphBlocks = [...document.querySelectorAll('.article-body .markdown-body > p')];
+		for (const link of outlineLinks) {
+			const targetId = link.dataset.outlineTarget || '';
+			if (!targetId.startsWith('paragraph-') || document.getElementById(targetId)) continue;
+
+			const paragraphIndex = Number(targetId.replace('paragraph-', '')) - 1;
+			const paragraph = paragraphBlocks[paragraphIndex];
+			if (paragraph && !paragraph.id) {
+				paragraph.id = targetId;
+			}
+		}
+
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		const handleResize = () => {
+			schedule();
+			for (const outline of outlines) {
+				if (outline.dataset.dragged !== 'true') continue;
+				const rect = outline.getBoundingClientRect();
+				applyPosition(outline, rect.left, rect.top);
+			}
+		};
+
+		on(window, 'scroll', schedule, { passive: true });
+		on(window, 'resize', handleResize);
+		window.__readingAssistCleanup = () => {
+			for (const cleanup of cleanups) cleanup();
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h2 id="概述">概述</h2>
+<p>一个基于 <strong>Ascend C</strong> 的最大公约数（GCD）算子，支持 <strong>float16</strong> 数据类型，
+<strong>4D shape</strong>（如 <code>[N4, N3, N2, N1]</code>）、<strong>ND Format</strong> 以及 <strong>Broadcast 语义</strong>，
+运行在 <strong>Ascend 910B3</strong> NPU 上。</p>
+<h3 id="算子接口">算子接口</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td><code>self</code>  (输入)</td><td>float16, Tensor</td><td>第一个输入，4D ND</td></tr><tr><td><code>other</code> (输入)</td><td>float16, Tensor</td><td>第二个输入，4D ND</td></tr><tr><td><code>out</code>   (输出)</td><td>float16, Tensor</td><td>输出：<code>gcd(self, other)</code>，shape 为 self 和 other 的 broadcast 结果</td></tr></tbody></table>
+<h3 id="broadcast-语义">Broadcast 语义</h3>
+<p>两个输入的 4D shape 需满足 NumPy broadcast 规则：</p>
+<ul>
+<li>对应维度相等，或其中一个为 1（该维度会被 broadcast）</li>
+<li>输出 shape 取各维度的最大值</li>
+</ul>
+<h4 id="支持的-broadcast-场景">支持的 Broadcast 场景</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>场景</th><th>self shape</th><th>other shape</th><th>输出 shape</th></tr></thead><tbody><tr><td>同型</td><td><code>[1,4,8,16]</code></td><td><code>[1,4,8,16]</code></td><td><code>[1,4,8,16]</code></td></tr><tr><td>broadcast self</td><td><code>[1,1,1,16]</code></td><td><code>[1,4,8,16]</code></td><td><code>[1,4,8,16]</code></td></tr><tr><td>broadcast other</td><td><code>[1,4,8,16]</code></td><td><code>[1,1,1,16]</code></td><td><code>[1,4,8,16]</code></td></tr><tr><td>混合 broadcast</td><td><code>[1,1,8,1]</code></td><td><code>[1,4,1,16]</code></td><td><code>[1,4,8,16]</code></td></tr><tr><td>全 broadcast</td><td><code>[1,1,1,1]</code></td><td><code>[1,4,8,16]</code></td><td><code>[1,4,8,16]</code></td></tr></tbody></table>
+<h2 id="项目结构">项目结构</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>gcd_ascend/</span></span>
+<span class="line"><span>├── CMakeLists.txt              # 顶层构建</span></span>
+<span class="line"><span>├── build.sh                    # 构建脚本</span></span>
+<span class="line"><span>├── op_kernel/</span></span>
+<span class="line"><span>│   ├── CMakeLists.txt</span></span>
+<span class="line"><span>│   └── gcd_custom.cpp          # Ascend C kernel (欧几里得算法)</span></span>
+<span class="line"><span>├── op_host/</span></span>
+<span class="line"><span>│   ├── CMakeLists.txt</span></span>
+<span class="line"><span>│   └── gcd_custom.cpp          # 算子注册 + tiling + broadcast stride 计算</span></span>
+<span class="line"><span>├── scripts/</span></span>
+<span class="line"><span>│   ├── test_gcd.py             # Python 单元测试（含多种 broadcast 场景）</span></span>
+<span class="line"><span>│   └── run_test.sh             # 构建 + 测试一键脚本</span></span>
+<span class="line"><span>└── README.md</span></span></code></pre>
+<h2 id="构建要求">构建要求</h2>
+<ul>
+<li><strong>硬件</strong>: Ascend 910B3 (或其它 7 系列 NPU)</li>
+<li><strong>软件</strong>: CANN >= 7.0 (Ascend C Toolkit)</li>
+<li>已配置 Ascend 环境变量</li>
+</ul>
+<h2 id="构建">构建</h2>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span class="code-token code-token-comment"># 方法一：直接构建</span></span>
+<span class="line">bash build.sh Release</span>
+<span class="line"></span>
+<span class="line"><span class="code-token code-token-comment"># 方法二：构建 + 测试</span></span>
+<span class="line">bash scripts/run_test.sh Release</span></code></pre>
+<p>构建产物在 <code>build/output/</code> 目录。</p>
+<h2 id="运行单元测试">运行单元测试</h2>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span class="code-token code-token-comment"># 需要先 source Ascend 环境</span></span>
+<span class="line">source /usr/local/Ascend/ascend-toolkit/set_env.sh</span>
+<span class="line"></span>
+<span class="line"><span class="code-token code-token-comment"># 构建后运行测试</span></span>
+<span class="line"><span class="code-token code-token-command">python3</span> scripts/test_gcd.py <span class="code-token code-token-flag">--op-dir</span> build/output <span class="code-token code-token-flag">--device</span> 0</span></code></pre>
+<p>测试内容包括：</p>
+<ul>
+<li>6 种 broadcast 场景的正确性验证</li>
+<li>与 NumPy 参考实现（Euclidean 算法）对比</li>
+<li>GCD 数学性质验证（结果应整除两个输入）</li>
+<li>Max diff 精度报告</li>
+</ul>
+<h2 id="算子说明">算子说明</h2>
+<p><code>out = gcd(self, other)</code> 逐元素最大公约数计算。</p>
+<h3 id="gcd-算法euclidean">GCD 算法（Euclidean）</h3>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line code-line-target"><span class="code-token code-token-target">gcd(a, b)</span>:</span>
+<span class="line code-line-recipe">    <span class="code-token code-token-variable">a</span> = |a|, b = |b|</span>
+<span class="line code-line-recipe">    <span class="code-token code-token-keyword">if</span> a == 0: return b</span>
+<span class="line code-line-recipe">    <span class="code-token code-token-keyword">if</span> b == 0: return a</span>
+<span class="line code-line-target code-line-recipe">    <span class="code-token code-token-target">while |b| > eps (1e-4)</span>:</span>
+<span class="line code-line-recipe">        <span class="code-token code-token-variable">q</span> = floor(a / b)</span>
+<span class="line code-line-recipe">        <span class="code-token code-token-variable">r</span> = a - q * b</span>
+<span class="line code-line-recipe">        <span class="code-token code-token-keyword">if</span> |r| &#x3C;= eps: break</span>
+<span class="line code-line-recipe">        a, b = b, r</span>
+<span class="line code-line-recipe">    return |a|</span></code></pre>
+<p>算法在 float16 精度下最多 50 次迭代保证收敛。</p>
+<h3 id="broadcast-策略">Broadcast 策略</h3>
+<ul>
+<li><strong>Tiling</strong>: 基于输出（broadcast 后）的总元素数进行数据划分</li>
+<li><strong>Stride 映射</strong>: 每个输出元素通过预计算的 stride 数组映射到 self/other 的对应位置
+<ul>
+<li>若某维度 size=1（broadcast 维度），则该维度的 stride=0（始终访问元素 0）</li>
+<li>若某维度 size>1，stride=后续维度的乘积</li>
+</ul>
+</li>
+<li><strong>访存模式</strong>: 由于 broadcast 导致非连续访存，每个元素使用标量加载；输出为连续写回</li>
+</ul>
+<h3 id="多核并行">多核并行</h3>
+<p>Block 数由 Tiling 函数决定（最大 8 核），输出元素均匀分布到各核。</p></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .home-stage-orbit, .home-stage-path, .home-stage-strip, .home-stage-panel, .home-stage-tile, .home-stage-note, .home-stage-rail, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>

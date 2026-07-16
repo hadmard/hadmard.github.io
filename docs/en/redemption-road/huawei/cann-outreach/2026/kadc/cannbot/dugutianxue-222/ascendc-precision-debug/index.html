@@ -1,0 +1,763 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="核心理念 精度调试 = 理解 + 分析 + 定位 + 修复 1. 理解数据类型限制 ：FP16 约 3-4 位有效数字，FP32 约 6-7 位。 2. 识别数值稳定性问题 ：大数吃小数、灾难性抵消。 3. 掌握科学调试方法 ：从最..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/huawei/cann-outreach/2026/kadc/cannbot/dugutianxue-222/ascendc-precision-debug/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/huawei/cann-outreach/2026/kadc/cannbot/dugutianxue-222/ascendc-precision-debug/"><title>Ascend C 算子精度调试 | Redemption Road | Personal Blog</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.Btc3j4sV.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Personal Blog</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link" href="/en/schedule/"> Schedule </a><a class="nav-link active" href="/en/redemption-road/" aria-current="page"> Redemption </a> </nav> <a href="/redemption-road/huawei/cann-outreach/2026/kadc/cannbot/dugutianxue-222/ascendc-precision-debug/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <script type="module">const o=()=>{const n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.querySelectorAll(".glass-topbar nav").forEach(e=>{if(!(e instanceof HTMLElement))return;const t=e.querySelector(".nav-link.active");if(!(t instanceof HTMLElement)||e.scrollWidth<=e.clientWidth)return;const i=t.offsetLeft-e.clientWidth/2+t.offsetWidth/2;e.scrollTo({left:Math.max(0,i),behavior:n?"auto":"smooth"})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",o,{once:!0}):requestAnimationFrame(o);window.addEventListener("pageshow",o);</script> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Notes</p> <h1>Ascend C 算子精度调试</h1> <p>核心理念 精度调试 = 理解 + 分析 + 定位 + 修复 1. 理解数据类型限制 ：FP16 约 3-4 位有效数字，FP32 约 6-7 位。 2. 识别数值稳定性问题 ：大数吃小数、灾难性抵消。 3. 掌握科学调试方法 ：从最...</p> <div class="article-meta"> <span class="soft-label">6 min</span> <span class="signal-pill">ascendc-precision-debug.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="Outline"> <button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span class="reading-outline-title">Outline</span> <span class="reading-outline-grip" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9"></path> </svg> </span> <span class="reading-outline-chevron" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="m5.8 8 4.2 4.2L14.2 8"></path> </svg> </span> </button> <nav class="reading-outline-list" data-reading-outline-list> <a href="#核心理念" class="reading-outline-link" data-outline-target="核心理念" style="--outline-depth: 0"> <span>核心理念</span> </a><a href="#使用时机" class="reading-outline-link" data-outline-target="使用时机" style="--outline-depth: 0"> <span>使用时机</span> </a><a href="#调试前置要求" class="reading-outline-link" data-outline-target="调试前置要求" style="--outline-depth: 0"> <span>调试前置要求 ⭐⭐⭐</span> </a><a href="#1-固定最小可复现用例" class="reading-outline-link" data-outline-target="1-固定最小可复现用例" style="--outline-depth: 1"> <span>1. 固定最小可复现用例</span> </a><a href="#2-检索-asc-devkit" class="reading-outline-link" data-outline-target="2-检索-asc-devkit" style="--outline-depth: 1"> <span>2. 检索 asc-devkit ⭐</span> </a><a href="#3-清理缓存和临时文件" class="reading-outline-link" data-outline-target="3-清理缓存和临时文件" style="--outline-depth: 1"> <span>3. 清理缓存和临时文件</span> </a><a href="#快速决策树" class="reading-outline-link" data-outline-target="快速决策树" style="--outline-depth: 0"> <span>快速决策树</span> </a><a href="#症状-原因速查表" class="reading-outline-link" data-outline-target="症状-原因速查表" style="--outline-depth: 0"> <span>症状-原因速查表</span> </a><a href="#诊断模式fp32-通过但-fp16bf16-失败" class="reading-outline-link" data-outline-target="诊断模式fp32-通过但-fp16bf16-失败" style="--outline-depth: 1"> <span>诊断模式：&quot;FP32 通过但 FP16/BF16 失败&quot;</span> </a><a href="#诊断模式bf16-通过但-fp16fp32-失败" class="reading-outline-link" data-outline-target="诊断模式bf16-通过但-fp16fp32-失败" style="--outline-depth: 1"> <span>诊断模式：&quot;BF16 通过，但 FP16/FP32 失败&quot;</span> </a><a href="#常见陷阱速查" class="reading-outline-link" data-outline-target="常见陷阱速查" style="--outline-depth: 0"> <span>常见陷阱速查</span> </a><a href="#流水线同步调试" class="reading-outline-link" data-outline-target="流水线同步调试" style="--outline-depth: 1"> <span>流水线同步调试</span> </a><a href="#调试策略层级" class="reading-outline-link" data-outline-target="调试策略层级" style="--outline-depth: 0"> <span>调试策略层级</span> </a><a href="#问题定位方法" class="reading-outline-link" data-outline-target="问题定位方法" style="--outline-depth: 0"> <span>问题定位方法</span> </a><a href="#1-对比法与工作的代码对比" class="reading-outline-link" data-outline-target="1-对比法与工作的代码对比" style="--outline-depth: 1"> <span>1. 对比法（与工作的代码对比）</span> </a><a href="#2-边界二分法" class="reading-outline-link" data-outline-target="2-边界二分法" style="--outline-depth: 1"> <span>2. 边界二分法</span> </a><a href="#3-数值验证法" class="reading-outline-link" data-outline-target="3-数值验证法" style="--outline-depth: 1"> <span>3. 数值验证法</span> </a><a href="#4-buffer-调试要点" class="reading-outline-link" data-outline-target="4-buffer-调试要点" style="--outline-depth: 1"> <span>4. Buffer 调试要点</span> </a><a href="#精度标准来源优先级" class="reading-outline-link" data-outline-target="精度标准来源优先级" style="--outline-depth: 0"> <span>精度标准来源优先级</span> </a> </nav> </aside> <script>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlines = [...document.querySelectorAll('[data-reading-outline]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length && !outlines.length) return;
+
+		let frame = 0;
+		const cleanups = [];
+		const on = (target, eventName, handler, options) => {
+			target.addEventListener(eventName, handler, options);
+			cleanups.push(() => target.removeEventListener(eventName, handler, options));
+		};
+
+		const readState = (key) => {
+			try {
+				return JSON.parse(window.localStorage.getItem(key) || '{}') || {};
+			} catch {
+				return {};
+			}
+		};
+
+		const writeState = (key, state) => {
+			try {
+				window.localStorage.setItem(key, JSON.stringify(state));
+			} catch {
+				// localStorage can be unavailable in private contexts.
+			}
+		};
+
+		const clampPosition = (outline, x, y) => {
+			const margin = 12;
+			const rect = outline.getBoundingClientRect();
+			const width = rect.width || outline.offsetWidth || 220;
+			const height = rect.height || outline.offsetHeight || 64;
+			const maxX = Math.max(margin, window.innerWidth - width - margin);
+			const maxY = Math.max(margin, window.innerHeight - height - margin);
+			return {
+				x: Math.min(maxX, Math.max(margin, x)),
+				y: Math.min(maxY, Math.max(margin, y)),
+			};
+		};
+
+		const applyPosition = (outline, x, y) => {
+			const position = clampPosition(outline, x, y);
+			outline.dataset.dragged = 'true';
+			outline.style.left = `${Math.round(position.x)}px`;
+			outline.style.top = `${Math.round(position.y)}px`;
+			outline.style.right = 'auto';
+			outline.style.bottom = 'auto';
+			return position;
+		};
+
+		const setCollapsed = (outline, toggle, collapsed) => {
+			outline.classList.toggle('is-collapsed', collapsed);
+			toggle.setAttribute('aria-expanded', String(!collapsed));
+		};
+
+		const setupOutlinePanel = (outline, index) => {
+			const toggle = outline.querySelector('[data-reading-outline-toggle]');
+			if (!toggle) return;
+
+			const stateKey = `reading-outline:${window.location.pathname}:${index}`;
+			const savedState = readState(stateKey);
+			const startsCollapsed =
+				typeof savedState.collapsed === 'boolean'
+					? savedState.collapsed
+					: window.matchMedia('(max-width: 640px)').matches;
+			setCollapsed(outline, toggle, startsCollapsed);
+
+			if (Number.isFinite(savedState.x) && Number.isFinite(savedState.y)) {
+				window.requestAnimationFrame(() => applyPosition(outline, savedState.x, savedState.y));
+			}
+
+			let dragState = null;
+			let suppressClick = false;
+
+			const persistCurrentState = () => {
+				const rect = outline.getBoundingClientRect();
+				const currentState = readState(stateKey);
+				writeState(stateKey, {
+					...currentState,
+					collapsed: outline.classList.contains('is-collapsed'),
+					...(outline.dataset.dragged === 'true'
+						? { x: Math.round(rect.left), y: Math.round(rect.top) }
+						: {}),
+				});
+			};
+
+			on(toggle, 'pointerdown', (event) => {
+				if (event.button !== undefined && event.button !== 0) return;
+				const rect = outline.getBoundingClientRect();
+				dragState = {
+					id: event.pointerId,
+					startX: event.clientX,
+					startY: event.clientY,
+					left: rect.left,
+					top: rect.top,
+					moved: false,
+				};
+				toggle.setPointerCapture?.(event.pointerId);
+				outline.classList.add('is-dragging');
+			});
+
+			on(toggle, 'pointermove', (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				const dx = event.clientX - dragState.startX;
+				const dy = event.clientY - dragState.startY;
+				if (!dragState.moved && Math.hypot(dx, dy) < 5) return;
+
+				dragState.moved = true;
+				event.preventDefault();
+				applyPosition(outline, dragState.left + dx, dragState.top + dy);
+			});
+
+			const endDrag = (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				outline.classList.remove('is-dragging');
+				toggle.releasePointerCapture?.(event.pointerId);
+
+				if (dragState.moved) {
+					suppressClick = true;
+					persistCurrentState();
+					window.setTimeout(() => {
+						suppressClick = false;
+					}, 0);
+				}
+
+				dragState = null;
+			};
+
+			on(toggle, 'pointerup', endDrag);
+			on(toggle, 'pointercancel', endDrag);
+
+			on(toggle, 'click', (event) => {
+				if (suppressClick) {
+					event.preventDefault();
+					return;
+				}
+
+				const collapsed = !outline.classList.contains('is-collapsed');
+				setCollapsed(outline, toggle, collapsed);
+				window.requestAnimationFrame(() => {
+					if (outline.dataset.dragged === 'true') {
+						const rect = outline.getBoundingClientRect();
+						applyPosition(outline, rect.left, rect.top);
+					}
+					persistCurrentState();
+				});
+			});
+		};
+
+		outlines.forEach(setupOutlinePanel);
+
+		const paragraphBlocks = [...document.querySelectorAll('.article-body .markdown-body > p')];
+		for (const link of outlineLinks) {
+			const targetId = link.dataset.outlineTarget || '';
+			if (!targetId.startsWith('paragraph-') || document.getElementById(targetId)) continue;
+
+			const paragraphIndex = Number(targetId.replace('paragraph-', '')) - 1;
+			const paragraph = paragraphBlocks[paragraphIndex];
+			if (paragraph && !paragraph.id) {
+				paragraph.id = targetId;
+			}
+		}
+
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		const handleResize = () => {
+			schedule();
+			for (const outline of outlines) {
+				if (outline.dataset.dragged !== 'true') continue;
+				const rect = outline.getBoundingClientRect();
+				applyPosition(outline, rect.left, rect.top);
+			}
+		};
+
+		on(window, 'scroll', schedule, { passive: true });
+		on(window, 'resize', handleResize);
+		window.__readingAssistCleanup = () => {
+			for (const cleanup of cleanups) cleanup();
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h2 id="核心理念">核心理念</h2>
+<blockquote>
+<p><strong>精度调试 = 理解 + 分析 + 定位 + 修复</strong></p>
+</blockquote>
+<ol>
+<li><strong>理解数据类型限制</strong>：FP16 约 3-4 位有效数字，FP32 约 6-7 位。</li>
+<li><strong>识别数值稳定性问题</strong>：大数吃小数、灾难性抵消。</li>
+<li><strong>掌握科学调试方法</strong>：从最小复现到根因分析。</li>
+</ol>
+<h2 id="使用时机">使用时机</h2>
+<p><strong>适用</strong>：精度验证失败（rtol/atol 不达标）、输出全为0或随机值、FP16差于FP32、特定数值范围误差大、流水线同步问题、DataCopy对齐问题。</p>
+<hr>
+<h2 id="调试前置要求-">调试前置要求 ⭐⭐⭐</h2>
+<blockquote>
+<p>进入调试前<strong>必须</strong>完成以下三步</p>
+</blockquote>
+<h3 id="1-固定最小可复现用例">1. 固定最小可复现用例</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>项目</th><th>说明</th><th>示例</th></tr></thead><tbody><tr><td>Shape</td><td>tensor 形状</td><td><code>{8, 16}</code></td></tr><tr><td>Dtype</td><td>数据类型</td><td><code>float16</code></td></tr><tr><td>固定值</td><td>具体数值</td><td><code>[1.0, 2.0, -0.5, ...]</code></td></tr></tbody></table>
+<p><strong>选择原则</strong>：优先简单 → 优先32字节对齐 → 优先FP32 → 覆盖边界值</p>
+<p><strong>💡 推荐实践</strong>：调试时建议在至少两个 dtype（如 FP16 和 FP32）上用<strong>同一 shape + 同一数据</strong>验证。如果一种 dtype 通过另一种失败，可按下方对应的诊断模式快速缩小范围。</p>
+<h3 id="2-检索-asc-devkit-">2. 检索 asc-devkit ⭐</h3>
+<blockquote>
+<p><strong>禁止凭直觉修改代码</strong></p>
+</blockquote>
+<p><strong>检索顺序</strong>：</p>
+<ol>
+<li>搜索 <code>asc-devkit/examples/</code> 查找类似算子。</li>
+<li>查看 <code>asc-devkit/docs/api/context/</code> API 文档。</li>
+<li>对比官方实现与当前实现。</li>
+</ol>
+<h3 id="3-清理缓存和临时文件">3. 清理缓存和临时文件</h3>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span class="code-token code-token-command">rm</span> <span class="code-token code-token-flag">-rf</span> build input output</span>
+<span class="line"><span class="code-token code-token-command">mkdir</span> <span class="code-token code-token-flag">-p</span> build/input build/output</span></code></pre>
+<hr>
+<h2 id="快速决策树">快速决策树</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>[前置检查] 已固定用例？已检索API？已清理缓存？</span></span>
+<span class="line"><span>    │</span></span>
+<span class="line"><span>    └─ 否 → 先完成前置步骤</span></span>
+<span class="line"><span>    └─ 是 → 继续</span></span>
+<span class="line"><span>        │</span></span>
+<span class="line"><span>        ├─ [第0步] ⭐ 代码修改后输出完全不变？</span></span>
+<span class="line"><span>        │   ├─ 是 → 清理 build/ 和 kernel_cache 后重试</span></span>
+<span class="line"><span>        │   └─ 否 → 继续</span></span>
+<span class="line"><span>        │</span></span>
+<span class="line"><span>        ├─ [第0.5步] ⭐ 多 dtype 交叉验证</span></span>
+<span class="line"><span>        │   ├─ FP32通过但FP16/BF16失败 → 精度不足，见下方诊断模式</span></span>
+<span class="line"><span>        │   ├─ BF16通过但FP16/FP32失败 → API fallback 路径差异 或 精度阈值差异，见下方诊断模式</span></span>
+<span class="line"><span>        │   └─ 全部通过/全部失败 → 继续</span></span>
+<span class="line"><span>        │</span></span>
+<span class="line"><span>        ├─ [第一步] 排查数据搬运 ⭐⭐⭐</span></span>
+<span class="line"><span>        │   ├─ 输出是否全为 0 或随机错误？</span></span>
+<span class="line"><span>        │   │   ├─ 是 → 检查流水线同步（EnQue / DeQue）⭐⭐⭐</span></span>
+<span class="line"><span>        │   │   │       └─ DataCopy 后直接计算？→ 添加 EnQue/DeQue</span></span>
+<span class="line"><span>        │   │   │       └─ 临时验证：加 PipeBarrier，若正确则确认同步问题</span></span>
+<span class="line"><span>        │   │   ├─ 检查 DataCopy 是否 32 字节对齐</span></span>
+<span class="line"><span>        │   │   │       └─ 非对齐 → 改用 DataCopyPad</span></span>
+<span class="line"><span>        │   │   └─ 检查是否使用 GlobalTensor.SetValue</span></span>
+<span class="line"><span>        │   │           └─ 是 → 改用 LocalTensor.SetValue + DataCopyPad 搬出到 GM</span></span>
+<span class="line"><span>        │   └─ 验证：用 "CopyIn → CopyOut" 测试搬运</span></span>
+<span class="line"><span>        │</span></span>
+<span class="line"><span>        ├─ [第二步] 对比分析</span></span>
+<span class="line"><span>        │   └─ 对比官方示例与当前实现 → 发现差异</span></span>
+<span class="line"><span>        │</span></span>
+<span class="line"><span>        └─ [第三步] 诊断问题类型</span></span>
+<span class="line"><span>            ├─ 所有结果都差 → 公式/常量/API选择</span></span>
+<span class="line"><span>            ├─ 个别值错误 → 边界条件/除零/溢出</span></span>
+<span class="line"><span>            └─ 误差整体偏大 → FP16精度不足 → 尝试FP32中间计算</span></span></code></pre>
+<hr>
+<h2 id="症状-原因速查表">症状-原因速查表</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>症状</th><th>可能原因</th><th>诊断方向</th></tr></thead><tbody><tr><td><strong>输出全为 0 或随机错误</strong></td><td>流水线同步缺失 / DataCopy 非对齐 / GlobalTensor.SetValue</td><td>检查 EnQue / DeQue、数据对齐、改用 LocalTensor.SetValue + DataCopyPad ⭐⭐⭐</td></tr><tr><td><code>sum=0, max_err=输入级别</code></td><td>输出没写出</td><td>检查输出队列类型（VECIN vs VECOUT）</td></tr><tr><td><code>sum=0, max_err≈0</code></td><td>输出全0/未初始化</td><td>检查 UB 溢出、buffer 分配</td></tr><tr><td><code>特定参数范围失败</code></td><td>阈值/边界错误</td><td>验证阈值计算、检查分支条件</td></tr><tr><td><code>非对齐数据失败</code></td><td>DataCopy 对齐问题</td><td>改用 DataCopyPad</td></tr><tr><td><code>FP16 差但 FP32 好</code></td><td>精度不足</td><td>中间计算用 FP32</td></tr><tr><td><code>Cast 后数据错误</code></td><td>RoundMode 错误</td><td>half → float用CAST_NONE，float → half用CAST_ROUND</td></tr><tr><td><strong>BF16 通过但 FP16/FP32 失败</strong></td><td>(1) 部分 API 不支持 BF16，BF16 走了更简单的 fallback 路径反而正确；(2) BF16 与 FP16/FP32 精度特性不同（BF16 mantissa 7bit vs FP16 10bit），精度阈值或溢出行为差异</td><td>先排查 API fallback 分支差异，再检查精度阈值（rtol/atol）是否适配各 dtype</td></tr><tr><td><strong>FP32 通过但 FP16/BF16 失败</strong></td><td>半精度中间计算精度不足</td><td>升精度：Cast → FP32 计算 → Cast 回半精度</td></tr><tr><td><strong>修改代码后输出完全不变</strong></td><td>二进制未更新 / 编译器缓存</td><td>清理 build/ 和 $HOME/atc_data/kernel_cache/ 后重试</td></tr></tbody></table>
+<h3 id="诊断模式fp32-通过但-fp16bf16-失败">诊断模式：“FP32 通过但 FP16/BF16 失败”</h3>
+<p>这是最常见的精度诊断信号：FP16/BF16 在 Ascend C 中通常共享相同的 Cast-to-FP32 计算路径（<code>if constexpr (std::is_same_v&#x3C;T, bfloat16_t> || std::is_same_v&#x3C;T, half>)</code>），FP32 通过说明核心算法正确，问题在半精度转换环节。</p>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line code-line-target"><span class="code-token code-token-target">确认</span>: FP32通过，FP16/BF16失败</span>
+<span class="line code-line-recipe">    │</span>
+<span class="line code-line-recipe">    ├─ 检查中间计算精度</span>
+<span class="line code-line-recipe">    │   ├─ FP16/BF16 Cast→FP32 计算路径是否正确？</span>
+<span class="line code-line-recipe">    │   ├─ 是否有未升精度的中间运算（如直接 Add&#x3C;half>）？</span>
+<span class="line code-line-recipe">    │   └─ 验证：将 FP16 路径的中间计算全部用 FP32，观察结果</span>
+<span class="line code-line-recipe">    │</span>
+<span class="line code-line-recipe">    ├─ 检查 Cast RoundMode</span>
+<span class="line code-line-recipe">    │   ├─ half→float 应使用 CAST_NONE</span>
+<span class="line code-line-recipe">    │   ├─ float→half 应使用 CAST_ROUND</span>
+<span class="line code-line-recipe">    │   └─ 验证：对比 Cast 前后的数值</span>
+<span class="line code-line-recipe">    │</span>
+<span class="line code-line-recipe">    ├─ 检查 Pipeline 同步</span>
+<span class="line code-line-recipe">    │   ├─ FP16/BF16 路径有额外的 Cast 操作，Cast 后是否 EnQue/DeQue？</span>
+<span class="line code-line-recipe">    │   ├─ FP32 路径无 Cast，天然无此同步问题</span>
+<span class="line code-line-recipe">    │   └─ 验证：在 Cast 后加 PipeBarrier，若正确则确认同步问题</span>
+<span class="line code-line-recipe">    │</span>
+<span class="line code-line-recipe">    └─ 检查 Buffer 大小</span>
+<span class="line code-line-recipe">        ├─ FP16/BF16 路径需额外 Cast buffer（2× innerDim × sizeof(float)）</span>
+<span class="line code-line-recipe">        ├─ FP32 路径不需要 Cast buffer</span>
+<span class="line code-line-recipe">        └─ 验证：检查 Tiling 中 castBuf 大小计算</span></code></pre>
+<h3 id="诊断模式bf16-通过但-fp16fp32-失败">诊断模式：“BF16 通过，但 FP16/FP32 失败”</h3>
+<p>这是一个有价值的诊断信号，可能由两类原因导致：</p>
+<p><strong>原因1：API 不支持导致 fallback 路径差异</strong>。部分 Ascend C 算术/归约 API 不支持 BF16，开发者为 BF16 实现更简单的 fallback 路径。BF16 fallback 通过说明逻辑正确，问题出在 FP16/FP32 路径中调用的复杂 API 上。</p>
+<p><strong>原因2：精度阈值 / 数值范围差异</strong>。BF16 (mantissa 7bit, 指数范围同 FP32) 与 FP16 (mantissa 10bit, 指数范围更小) 精度特性不同：BF16 不易溢出但尾数精度低，FP16 易溢出但尾数精度高。如果验证阈值（rtol / atol）未区分适配，或 FP16 发生溢出而 BF16 没有，就会出现 BF16 通过但 FP16 失败。</p>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line code-line-target"><span class="code-token code-token-target">确认</span>: BF16通过，FP16/FP32失败</span>
+<span class="line code-line-recipe">    │</span>
+<span class="line code-line-recipe">    ├─ [原因1] API fallback 路径差异</span>
+<span class="line code-line-target code-line-recipe">    <span class="code-token code-token-target">│   ├─ 搜索代码中 if constexpr (std</span>::is_same_v&#x3C;T, bfloat16_t>) 分支</span>
+<span class="line code-line-recipe">    │   ├─ BF16 走的 fallback 路径 vs FP16/FP32 走的主路径，差异在哪里？</span>
+<span class="line code-line-recipe">    │   ├─ 列出 FP16 / FP32 路径中使用但 BF16 路径未使用的 API</span>
+<span class="line code-line-recipe">    │   ├─ 逐个验证差异 API 的参数（mask、repeatTime、stride）</span>
+<span class="line code-line-recipe">    │   └─ 临时将 FP16 路径改为与 BF16 相同的 fallback 实现，观察是否通过</span>
+<span class="line code-line-recipe">    │</span>
+<span class="line code-line-recipe">    ├─ [原因2] 精度阈值 / 数值范围差异</span>
+<span class="line code-line-recipe">    │   ├─ FP16 是否溢出？（FP16 max ≈ 65504，BF16 指数范围同 FP32）</span>
+<span class="line code-line-recipe">    │   ├─ 验证阈值（rtol/atol）是否按 dtype 区分？</span>
+<span class="line code-line-target code-line-recipe">    <span class="code-token code-token-target">│   │   ├─ BF16</span>: rtol=1e-2 级别（mantissa 仅 7bit）</span>
+<span class="line code-line-target code-line-recipe">    <span class="code-token code-token-target">│   │   └─ FP16</span>: rtol=1e-3 级别（mantissa 10bit）</span>
+<span class="line code-line-recipe">    │   └─ 检查中间计算是否因 FP16 的更高精度要求暴露了算法缺陷</span>
+<span class="line code-line-recipe">    │</span>
+<span class="line code-line-recipe">    └─ 交叉验证</span>
+<span class="line code-line-recipe">        ├─ 检查 asc-devkit 文档确认相关 API 是否支持 BF16</span>
+<span class="line code-line-recipe">        ├─ 如果 API 不支持 BF16 → 优先按原因1排查</span>
+<span class="line code-line-recipe">        └─ 如果 API 支持 BF16（BF16/FP16 走相同路径）→ 优先按原因2排查</span></code></pre>
+<hr>
+<h2 id="常见陷阱速查">常见陷阱速查</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>陷阱</th><th>症状</th><th>解决方案</th></tr></thead><tbody><tr><td><strong>流水线同步缺失</strong></td><td>输出全0或随机错误</td><td>DataCopy 后必须 EnQue/DeQue 同步 ⭐⭐⭐</td></tr><tr><td><strong>DataCopy 非对齐</strong></td><td>小规模数据全0/异常</td><td>使用 DataCopyPad ⭐⭐⭐</td></tr><tr><td><strong>GlobalTensor.SetValue</strong></td><td>输出全为0</td><td>改用 LocalTensor.SetValue + DataCopyPad 搬出到 GM ⭐⭐⭐</td></tr><tr><td><strong>Cast RoundMode</strong></td><td>Cast后数据混乱</td><td>half→float用CAST_NONE，float→half用CAST_ROUND ⭐</td></tr><tr><td>FP16 精度不足</td><td>简单计算也有误差</td><td>关键中间值用 FP32</td></tr><tr><td>exp/log 溢出</td><td>出现 Inf 或 NaN</td><td>先减最大值再计算</td></tr><tr><td>减法抵消</td><td>a≈b 时 a-b 误差大</td><td>使用数值稳定等价公式</td></tr><tr><td>Reduce 误差</td><td>Reduce 结果比逐元素误差大</td><td>使用 FP32 累加器</td></tr><tr><td>除零风险</td><td>NaN 或异常大值</td><td>添加 epsilon 保护</td></tr></tbody></table>
+<h3 id="流水线同步调试">流水线同步调试</h3>
+<p><strong>核心问题</strong>：DataCopy / DataCopyPad 是异步 DMA 操作，直接在搬运后的数据上做 Vector 计算可能读到未完成的数据！</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#6A737D">// ❌ 错误：AllocTensor 后直接用</span></span>
+<span class="line"><span style="color:#24292E">LocalTensor</span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">T</span><span style="color:#D73A49">></span><span style="color:#24292E"> x </span><span style="color:#D73A49">=</span><span style="color:#24292E"> inQueue.AllocTensor</span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">T</span><span style="color:#D73A49">></span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#6F42C1">DataCopy</span><span style="color:#24292E">(x, gm, size);</span></span>
+<span class="line"><span style="color:#6F42C1">Compute</span><span style="color:#24292E">(x);</span><span style="color:#6A737D">  // 错！可能读到未完成搬运的数据</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// ✅ 正确：DeQue 后再计算</span></span>
+<span class="line"><span style="color:#24292E">LocalTensor</span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">T</span><span style="color:#D73A49">></span><span style="color:#24292E"> x </span><span style="color:#D73A49">=</span><span style="color:#24292E"> inQueue.AllocTensor</span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">T</span><span style="color:#D73A49">></span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#6F42C1">DataCopy</span><span style="color:#24292E">(x, gm, size);</span></span>
+<span class="line"><span style="color:#24292E">inQueue.</span><span style="color:#6F42C1">EnQue</span><span style="color:#24292E">(x);</span></span>
+<span class="line"><span style="color:#24292E">LocalTensor</span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">T</span><span style="color:#D73A49">></span><span style="color:#24292E"> xIn </span><span style="color:#D73A49">=</span><span style="color:#24292E"> inQueue.DeQue</span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">T</span><span style="color:#D73A49">></span><span style="color:#24292E">();</span><span style="color:#6A737D">  // 等待搬运完成</span></span>
+<span class="line"><span style="color:#6F42C1">Compute</span><span style="color:#24292E">(xIn);</span></span></code></pre>
+<p><strong>临时调试方法</strong>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#6F42C1">DataCopy</span><span style="color:#24292E">(x, gm, size);</span></span>
+<span class="line"><span style="color:#6F42C1">PipeBarrier</span><span style="color:#24292E">&#x3C;</span><span style="color:#6F42C1">PIPE_ALL</span><span style="color:#24292E">>();</span><span style="color:#6A737D">  // 临时加，如果结果正确说明是同步问题</span></span>
+<span class="line"><span style="color:#6F42C1">Compute</span><span style="color:#24292E">(x);</span></span></code></pre>
+<p><strong>如果 PipeBarrier 能解决问题，说明是同步问题</strong> → 修复方案：改为 EnQue/DeQue 机制</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>误区</th><th>正确理解</th></tr></thead><tbody><tr><td>AllocTensor 后数据就可用</td><td>AllocTensor 只分配内存，不等待搬运</td></tr><tr><td>DataCopy 是同步的</td><td>DataCopy 是异步 DMA，立即返回</td></tr><tr><td>不用 EnQue/DeQue 也能正常工作</td><td>必须用 EnQue/DeQue 或 PipeBarrier 同步</td></tr><tr><td>PipeBarrier 性能好</td><td>PipeBarrier 是全流水线停顿，性能差</td></tr></tbody></table>
+<hr>
+<h2 id="调试策略层级">调试策略层级</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>调试方法</span></span>
+<span class="line"><span>    │</span></span>
+<span class="line"><span>    ├─ 快速方法（优先尝试，≤7次）</span></span>
+<span class="line"><span>    │   ├─ 误差分布分析 → 识别误差模式</span></span>
+<span class="line"><span>    │   ├─ Printf 特定位置 → 缩小范围</span></span>
+<span class="line"><span>    │   └─ 常见陷阱排查 → 对症下药</span></span>
+<span class="line"><span>    │</span></span>
+<span class="line"><span>    └─ 二分调试（保底手段）</span></span>
+<span class="line"><span>        └─ 快速方法尝试≥7次或方法穷尽时立即切换</span></span></code></pre>
+<blockquote>
+<p><strong>重要原则</strong>：不要盲目试错超过 7 次</p>
+</blockquote>
+<hr>
+<h2 id="问题定位方法">问题定位方法</h2>
+<h3 id="1-对比法与工作的代码对比">1. 对比法（与工作的代码对比）</h3>
+<p>找到正常工作的代码，逐行对比差异</p>
+<h3 id="2-边界二分法">2. 边界二分法</h3>
+<p>记录通过/失败的临界点，分析分支选择</p>
+<h3 id="3-数值验证法">3. 数值验证法</h3>
+<p>不要相信估算公式，用代码计算实际值</p>
+<h3 id="4-buffer-调试要点">4. Buffer 调试要点</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>问题</th><th>表现</th><th>解决方案</th></tr></thead><tbody><tr><td>VECIN 用于输出</td><td>输出等于输入</td><td>输出必须用 VECOUT 队列</td></tr><tr><td>Double Buffer 漏算</td><td>阈值错误</td><td>计算阈值时 ×2</td></tr></tbody></table>
+<hr>
+<h2 id="精度标准来源优先级">精度标准来源优先级</h2>
+<ol>
+<li><strong>优先级1</strong>：算子开发 Plan 中明确的精度要求</li>
+<li><strong>优先级2</strong>：华为昇腾官方精度标准文档</li>
+<li><strong>优先级3</strong>：本 Skill 默认值（仅作兜底）</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据类型</th><th>rtol</th><th>atol</th></tr></thead><tbody><tr><td>FP16</td><td>1e-3</td><td>1e-4</td></tr><tr><td>FP32</td><td>1e-5</td><td>1e-6</td></tr><tr><td>INT</td><td>-</td><td>0</td></tr></tbody></table></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .home-stage-orbit, .home-stage-path, .home-stage-strip, .home-stage-panel, .home-stage-tile, .home-stage-note, .home-stage-rail, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>

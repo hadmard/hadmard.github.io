@@ -1,0 +1,548 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="一个声明式的算子精度测试框架：用 YAML 描述算子规格（种类、输入输出数量/类型/属性），用 Python 写 PyTorch 参考实现（golden），工具自动生成不同 shape 的测试用例，加载算子 .so 调用 torch..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/en/redemption-road/huawei/cann-outreach/2026/kadc/op-tester/"><link rel="alternate" hreflang="zh-CN" href="https://hadmard.github.io/redemption-road/huawei/cann-outreach/2026/kadc/op-tester/"><title>op_tester — 通用 Ascend C 算子测试工具 | Redemption Road | Personal Blog</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.Btc3j4sV.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/en/" aria-label="Home"> <p class="text-[15px] font-semibold text-[#1d1d1f]">Personal Blog</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/en/"> Home </a> <a class="nav-link" href="/en/investments/"> Investments </a><a class="nav-link" href="/en/thinking/"> Thinking </a><a class="nav-link" href="/en/study-calendar/"> Study Calendar </a><a class="nav-link" href="/en/health-routine/"> Health Routine </a><a class="nav-link" href="/en/schedule/"> Schedule </a><a class="nav-link active" href="/en/redemption-road/" aria-current="page"> Redemption </a> </nav> <a href="/redemption-road/huawei/cann-outreach/2026/kadc/op-tester/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">EN</span> </a> </div> </header> <script type="module">const o=()=>{const n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.querySelectorAll(".glass-topbar nav").forEach(e=>{if(!(e instanceof HTMLElement))return;const t=e.querySelector(".nav-link.active");if(!(t instanceof HTMLElement)||e.scrollWidth<=e.clientWidth)return;const i=t.offsetLeft-e.clientWidth/2+t.offsetWidth/2;e.scrollTo({left:Math.max(0,i),behavior:n?"auto":"smooth"})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",o,{once:!0}):requestAnimationFrame(o);window.addEventListener("pageshow",o);</script> <a class="redemption-back-link" href="/en/redemption-road/"> <span aria-hidden="true"></span> Back to Redemption Road </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Notes</p> <h1>op_tester — 通用 Ascend C 算子测试工具</h1> <p>一个声明式的算子精度测试框架：用 YAML 描述算子规格（种类、输入输出数量/类型/属性），用 Python 写 PyTorch 参考实现（golden），工具自动生成不同 shape 的测试用例，加载算子 .so 调用 torch...</p> <div class="article-meta"> <span class="soft-label">3 min</span> <span class="signal-pill">README.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="Outline"> <button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span class="reading-outline-title">Outline</span> <span class="reading-outline-grip" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9"></path> </svg> </span> <span class="reading-outline-chevron" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="m5.8 8 4.2 4.2L14.2 8"></path> </svg> </span> </button> <nav class="reading-outline-list" data-reading-outline-list> <a href="#特性" class="reading-outline-link" data-outline-target="特性" style="--outline-depth: 0"> <span>特性</span> </a><a href="#安装" class="reading-outline-link" data-outline-target="安装" style="--outline-depth: 0"> <span>安装</span> </a><a href="#快速开始" class="reading-outline-link" data-outline-target="快速开始" style="--outline-depth: 0"> <span>快速开始</span> </a><a href="#yaml-配置说明" class="reading-outline-link" data-outline-target="yaml-配置说明" style="--outline-depth: 0"> <span>YAML 配置说明</span> </a><a href="#golden-函数" class="reading-outline-link" data-outline-target="golden-函数" style="--outline-depth: 1"> <span>golden 函数</span> </a><a href="#算子种类与多输入-shape-推导" class="reading-outline-link" data-outline-target="算子种类与多输入-shape-推导" style="--outline-depth: 0"> <span>算子种类与多输入 shape 推导</span> </a><a href="#cli-选项" class="reading-outline-link" data-outline-target="cli-选项" style="--outline-depth: 0"> <span>CLI 选项</span> </a><a href="#作为-python-库使用" class="reading-outline-link" data-outline-target="作为-python-库使用" style="--outline-depth: 0"> <span>作为 Python 库使用</span> </a><a href="#目录结构" class="reading-outline-link" data-outline-target="目录结构" style="--outline-depth: 0"> <span>目录结构</span> </a><a href="#适配现有算子工程" class="reading-outline-link" data-outline-target="适配现有算子工程" style="--outline-depth: 0"> <span>适配现有算子工程</span> </a> </nav> </aside> <script>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlines = [...document.querySelectorAll('[data-reading-outline]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length && !outlines.length) return;
+
+		let frame = 0;
+		const cleanups = [];
+		const on = (target, eventName, handler, options) => {
+			target.addEventListener(eventName, handler, options);
+			cleanups.push(() => target.removeEventListener(eventName, handler, options));
+		};
+
+		const readState = (key) => {
+			try {
+				return JSON.parse(window.localStorage.getItem(key) || '{}') || {};
+			} catch {
+				return {};
+			}
+		};
+
+		const writeState = (key, state) => {
+			try {
+				window.localStorage.setItem(key, JSON.stringify(state));
+			} catch {
+				// localStorage can be unavailable in private contexts.
+			}
+		};
+
+		const clampPosition = (outline, x, y) => {
+			const margin = 12;
+			const rect = outline.getBoundingClientRect();
+			const width = rect.width || outline.offsetWidth || 220;
+			const height = rect.height || outline.offsetHeight || 64;
+			const maxX = Math.max(margin, window.innerWidth - width - margin);
+			const maxY = Math.max(margin, window.innerHeight - height - margin);
+			return {
+				x: Math.min(maxX, Math.max(margin, x)),
+				y: Math.min(maxY, Math.max(margin, y)),
+			};
+		};
+
+		const applyPosition = (outline, x, y) => {
+			const position = clampPosition(outline, x, y);
+			outline.dataset.dragged = 'true';
+			outline.style.left = `${Math.round(position.x)}px`;
+			outline.style.top = `${Math.round(position.y)}px`;
+			outline.style.right = 'auto';
+			outline.style.bottom = 'auto';
+			return position;
+		};
+
+		const setCollapsed = (outline, toggle, collapsed) => {
+			outline.classList.toggle('is-collapsed', collapsed);
+			toggle.setAttribute('aria-expanded', String(!collapsed));
+		};
+
+		const setupOutlinePanel = (outline, index) => {
+			const toggle = outline.querySelector('[data-reading-outline-toggle]');
+			if (!toggle) return;
+
+			const stateKey = `reading-outline:${window.location.pathname}:${index}`;
+			const savedState = readState(stateKey);
+			const startsCollapsed =
+				typeof savedState.collapsed === 'boolean'
+					? savedState.collapsed
+					: window.matchMedia('(max-width: 640px)').matches;
+			setCollapsed(outline, toggle, startsCollapsed);
+
+			if (Number.isFinite(savedState.x) && Number.isFinite(savedState.y)) {
+				window.requestAnimationFrame(() => applyPosition(outline, savedState.x, savedState.y));
+			}
+
+			let dragState = null;
+			let suppressClick = false;
+
+			const persistCurrentState = () => {
+				const rect = outline.getBoundingClientRect();
+				const currentState = readState(stateKey);
+				writeState(stateKey, {
+					...currentState,
+					collapsed: outline.classList.contains('is-collapsed'),
+					...(outline.dataset.dragged === 'true'
+						? { x: Math.round(rect.left), y: Math.round(rect.top) }
+						: {}),
+				});
+			};
+
+			on(toggle, 'pointerdown', (event) => {
+				if (event.button !== undefined && event.button !== 0) return;
+				const rect = outline.getBoundingClientRect();
+				dragState = {
+					id: event.pointerId,
+					startX: event.clientX,
+					startY: event.clientY,
+					left: rect.left,
+					top: rect.top,
+					moved: false,
+				};
+				toggle.setPointerCapture?.(event.pointerId);
+				outline.classList.add('is-dragging');
+			});
+
+			on(toggle, 'pointermove', (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				const dx = event.clientX - dragState.startX;
+				const dy = event.clientY - dragState.startY;
+				if (!dragState.moved && Math.hypot(dx, dy) < 5) return;
+
+				dragState.moved = true;
+				event.preventDefault();
+				applyPosition(outline, dragState.left + dx, dragState.top + dy);
+			});
+
+			const endDrag = (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				outline.classList.remove('is-dragging');
+				toggle.releasePointerCapture?.(event.pointerId);
+
+				if (dragState.moved) {
+					suppressClick = true;
+					persistCurrentState();
+					window.setTimeout(() => {
+						suppressClick = false;
+					}, 0);
+				}
+
+				dragState = null;
+			};
+
+			on(toggle, 'pointerup', endDrag);
+			on(toggle, 'pointercancel', endDrag);
+
+			on(toggle, 'click', (event) => {
+				if (suppressClick) {
+					event.preventDefault();
+					return;
+				}
+
+				const collapsed = !outline.classList.contains('is-collapsed');
+				setCollapsed(outline, toggle, collapsed);
+				window.requestAnimationFrame(() => {
+					if (outline.dataset.dragged === 'true') {
+						const rect = outline.getBoundingClientRect();
+						applyPosition(outline, rect.left, rect.top);
+					}
+					persistCurrentState();
+				});
+			});
+		};
+
+		outlines.forEach(setupOutlinePanel);
+
+		const paragraphBlocks = [...document.querySelectorAll('.article-body .markdown-body > p')];
+		for (const link of outlineLinks) {
+			const targetId = link.dataset.outlineTarget || '';
+			if (!targetId.startsWith('paragraph-') || document.getElementById(targetId)) continue;
+
+			const paragraphIndex = Number(targetId.replace('paragraph-', '')) - 1;
+			const paragraph = paragraphBlocks[paragraphIndex];
+			if (paragraph && !paragraph.id) {
+				paragraph.id = targetId;
+			}
+		}
+
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		const handleResize = () => {
+			schedule();
+			for (const outline of outlines) {
+				if (outline.dataset.dragged !== 'true') continue;
+				const rect = outline.getBoundingClientRect();
+				applyPosition(outline, rect.left, rect.top);
+			}
+		};
+
+		on(window, 'scroll', schedule, { passive: true });
+		on(window, 'resize', handleResize);
+		window.__readingAssistCleanup = () => {
+			for (const cleanup of cleanups) cleanup();
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><p>一个声明式的算子精度测试框架：用 <strong>YAML</strong> 描述算子规格（种类、输入输出数量/类型/属性），用 <strong>Python</strong> 写 PyTorch 参考实现（golden），工具自动生成不同 shape 的测试用例，加载算子 <code>.so</code> 调用 <code>torch.ops.npu.&#x3C;op></code> 与 golden 对比，并支持显式指定 shape。</p>
+<h2 id="特性">特性</h2>
+<ul>
+<li><strong>声明式配置</strong>：算子规格写在 YAML，golden 写在独立 <code>.py</code>，复用性强、易批量管理。</li>
+<li><strong>按算子种类推导多输入 shape 关系</strong>：<code>elementwise</code> / <code>broadcast</code> / <code>reduction</code> / <code>matmul</code> / <code>custom</code>。</li>
+<li><strong>自动随机生成 shape</strong>：可配置维度数范围、每维范围、2 的幂偏置、用例数、种子。</li>
+<li><strong>显式指定 shape</strong>：CLI <code>--shape</code> 或 YAML <code>shapes</code> 段，可附带属性。</li>
+<li><strong>属性系统</strong>：支持 <code>default</code> / <code>choice</code> / <code>dim</code> / <code>random_int</code> / <code>random_float</code> 生成策略（如 reduction 的 <code>dim</code>、<code>keepdim</code>）。</li>
+<li><strong>多输出支持</strong>：golden 与 NPU 算子均可返回 tuple/list。</li>
+<li><strong>多种输入初始化</strong>：<code>random</code> / <code>zeros</code> / <code>ones</code> / <code>small</code> / <code>mixed</code> / <code>int</code>。</li>
+<li><strong>结果输出</strong>：表格化终端输出 + 可选 JSON 导出。</li>
+</ul>
+<h2 id="安装">安装</h2>
+<p>无需安装，直接以模块方式运行（需 <code>torch</code>、<code>torch_npu</code>、<code>pyyaml</code>）：</p>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span class="code-token code-token-command">python</span> <span class="code-token code-token-flag">-m</span> op_tester &#x3C;config.yaml> [options]</span></code></pre>
+<h2 id="快速开始">快速开始</h2>
+<p>以 <code>abs</code> 算子为例（假设算子工程已编译产出 <code>build/libabs_ops.so</code>）：</p>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span class="code-token code-token-command">cd</span> CANNBot/hpc_abs_verify/operators/abs</span>
+<span class="line"><span class="code-token code-token-command">python</span> <span class="code-token code-token-flag">-m</span> op_tester /path/to/op_tester/configs/examples/abs.yaml</span></code></pre>
+<p>工具会：加载 <code>build/libabs_ops.so</code> → 注册 <code>torch.ops.npu.abs</code> → 自动生成 12 个随机 shape 用例 + 2 个显式 shape 用例 → 对每个用例生成输入、跑 NPU 算子、与 <code>abs_golden.compute</code> 对比 → 打印表格。</p>
+<p>输出示例：</p>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line">==============================================================================</span>
+<span class="line code-line-target"><span class="code-token code-token-target">Op</span>: abs  kind=elementwise  inputs=1  outputs=1</span>
+<span class="line"><span class="code-token code-token-variable">atol</span>=1e-06  rtol=1e-06  cases=14</span>
+<span class="line">==============================================================================</span>
+<span class="line">case  shapes                                          result         max_diff   time(ms)</span>
+<span class="line">------------------------------------------------------------------------------</span>
+<span class="line">A1    [4096]                                           PASS          0.000e+00      0.12</span>
+<span class="line">A2    [73,128]                                         PASS          0.000e+00      0.08</span>
+<span class="line">...</span>
+<span class="line">S1    [4096]                                           PASS          0.000e+00      0.05</span>
+<span class="line">S2    [512,512]                                        PASS          0.000e+00      0.21</span>
+<span class="line">------------------------------------------------------------------------------</span>
+<span class="line code-line-target"><span class="code-token code-token-target">Total</span>: 14  Passed: 14  Failed: 0  =>  PASSED</span>
+<span class="line">==============================================================================</span></code></pre>
+<h2 id="yaml-配置说明">YAML 配置说明</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#22863A">op</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">  name</span><span style="color:#24292E">: </span><span style="color:#032F62">add</span><span style="color:#6A737D">                 # torch.ops.npu.&#x3C;name> 中的算子名（可带命名空间 myns.add）</span></span>
+<span class="line"><span style="color:#22863A">  so</span><span style="color:#24292E">: </span><span style="color:#032F62">build/libadd_ops.so</span><span style="color:#6A737D">   # 算子 .so 路径（相对配置文件目录解析）</span></span>
+<span class="line"><span style="color:#22863A">  kind</span><span style="color:#24292E">: </span><span style="color:#032F62">elementwise</span><span style="color:#6A737D">         # elementwise | broadcast | reduction | matmul | custom</span></span>
+<span class="line"><span style="color:#22863A">  num_inputs</span><span style="color:#24292E">: </span><span style="color:#005CC5">2</span></span>
+<span class="line"><span style="color:#22863A">  num_outputs</span><span style="color:#24292E">: </span><span style="color:#005CC5">1</span></span>
+<span class="line"><span style="color:#22863A">  dtype</span><span style="color:#24292E">: </span><span style="color:#032F62">float32</span><span style="color:#6A737D">            # 默认 dtype（所有输入输出）</span></span>
+<span class="line"><span style="color:#6A737D">  # input_dtypes: [float32, float16]   # 可选：逐输入 dtype</span></span>
+<span class="line"><span style="color:#6A737D">  # output_dtypes: [float32]           # 可选：逐输出 dtype（仅文档用，对比按 golden 实际输出）</span></span>
+<span class="line"><span style="color:#22863A">  input_init</span><span style="color:#24292E">: [</span><span style="color:#032F62">random</span><span style="color:#24292E">, </span><span style="color:#032F62">random</span><span style="color:#24292E">]         </span><span style="color:#6A737D"># 可选：逐输入初始化策略</span></span>
+<span class="line"><span style="color:#22863A">  attrs</span><span style="color:#24292E">:                    </span><span style="color:#6A737D"># 算子属性（作为 kwargs 传给 npu op 与 golden）</span></span>
+<span class="line"><span style="color:#24292E">    - {</span><span style="color:#22863A">name</span><span style="color:#24292E">: </span><span style="color:#032F62">alpha</span><span style="color:#24292E">, </span><span style="color:#22863A">type</span><span style="color:#24292E">: </span><span style="color:#032F62">float</span><span style="color:#24292E">, </span><span style="color:#22863A">gen</span><span style="color:#24292E">: </span><span style="color:#032F62">random_float</span><span style="color:#24292E">, </span><span style="color:#22863A">low</span><span style="color:#24292E">: </span><span style="color:#005CC5">-1.0</span><span style="color:#24292E">, </span><span style="color:#22863A">high</span><span style="color:#24292E">: </span><span style="color:#005CC5">1.0</span><span style="color:#24292E">}</span></span>
+<span class="line"><span style="color:#24292E">    - {</span><span style="color:#22863A">name</span><span style="color:#24292E">: </span><span style="color:#032F62">dim</span><span style="color:#24292E">, </span><span style="color:#22863A">type</span><span style="color:#24292E">: </span><span style="color:#032F62">int</span><span style="color:#24292E">, </span><span style="color:#22863A">gen</span><span style="color:#24292E">: </span><span style="color:#032F62">dim</span><span style="color:#24292E">}              </span><span style="color:#6A737D"># gen=dim 自动取有效维度</span></span>
+<span class="line"><span style="color:#24292E">    - {</span><span style="color:#22863A">name</span><span style="color:#24292E">: </span><span style="color:#032F62">keepdim</span><span style="color:#24292E">, </span><span style="color:#22863A">type</span><span style="color:#24292E">: </span><span style="color:#032F62">bool</span><span style="color:#24292E">, </span><span style="color:#22863A">gen</span><span style="color:#24292E">: </span><span style="color:#032F62">choice</span><span style="color:#24292E">, </span><span style="color:#22863A">choices</span><span style="color:#24292E">: [</span><span style="color:#005CC5">false</span><span style="color:#24292E">, </span><span style="color:#005CC5">true</span><span style="color:#24292E">]}</span></span>
+<span class="line"><span style="color:#22863A">  atol</span><span style="color:#24292E">: </span><span style="color:#032F62">1e-6</span></span>
+<span class="line"><span style="color:#22863A">  rtol</span><span style="color:#24292E">: </span><span style="color:#032F62">1e-6</span></span>
+<span class="line"><span style="color:#22863A">  golden</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">    module</span><span style="color:#24292E">: </span><span style="color:#032F62">add_golden</span><span style="color:#6A737D">      # 同目录下的 add_golden.py</span></span>
+<span class="line"><span style="color:#22863A">    func</span><span style="color:#24292E">: </span><span style="color:#032F62">compute</span><span style="color:#6A737D">           # 函数签名: compute(inputs: list[Tensor], attrs: dict) -> Tensor | list[Tensor]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A">shape_gen</span><span style="color:#24292E">:                  </span><span style="color:#6A737D"># 自动 shape 生成参数</span></span>
+<span class="line"><span style="color:#22863A">  ndim_min</span><span style="color:#24292E">: </span><span style="color:#005CC5">1</span></span>
+<span class="line"><span style="color:#22863A">  ndim_max</span><span style="color:#24292E">: </span><span style="color:#005CC5">4</span></span>
+<span class="line"><span style="color:#22863A">  dim_min</span><span style="color:#24292E">: </span><span style="color:#005CC5">1</span></span>
+<span class="line"><span style="color:#22863A">  dim_max</span><span style="color:#24292E">: </span><span style="color:#005CC5">4096</span></span>
+<span class="line"><span style="color:#22863A">  num_cases</span><span style="color:#24292E">: </span><span style="color:#005CC5">12</span></span>
+<span class="line"><span style="color:#22863A">  seed</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#22863A">  power_of_two_bias</span><span style="color:#24292E">: </span><span style="color:#005CC5">0.3</span><span style="color:#6A737D">    # 每维以该概率取 2 的幂（覆盖对齐边界）</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A">shapes</span><span style="color:#24292E">:                     </span><span style="color:#6A737D"># 可选：显式指定 shape 用例</span></span>
+<span class="line"><span style="color:#24292E">  - [[</span><span style="color:#005CC5">8</span><span style="color:#24292E">, </span><span style="color:#005CC5">16</span><span style="color:#24292E">], [</span><span style="color:#005CC5">8</span><span style="color:#24292E">, </span><span style="color:#005CC5">16</span><span style="color:#24292E">]]      </span><span style="color:#6A737D"># 列表形式：每个子列表是一个输入的 shape</span></span>
+<span class="line"><span style="color:#24292E">  - {</span><span style="color:#22863A">shapes</span><span style="color:#24292E">: [[</span><span style="color:#005CC5">4</span><span style="color:#24292E">, </span><span style="color:#005CC5">8</span><span style="color:#24292E">, </span><span style="color:#005CC5">16</span><span style="color:#24292E">]], </span><span style="color:#22863A">attrs</span><span style="color:#24292E">: {</span><span style="color:#22863A">dim</span><span style="color:#24292E">: </span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#22863A">keepdim</span><span style="color:#24292E">: </span><span style="color:#005CC5">false</span><span style="color:#24292E">}}   </span><span style="color:#6A737D"># 可附带属性</span></span></code></pre>
+<h3 id="golden-函数">golden 函数</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> compute</span><span style="color:#24292E">(inputs, attrs):</span></span>
+<span class="line"><span style="color:#24292E">    x, y </span><span style="color:#D73A49">=</span><span style="color:#24292E"> inputs[</span><span style="color:#005CC5">0</span><span style="color:#24292E">], inputs[</span><span style="color:#005CC5">1</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">    alpha </span><span style="color:#D73A49">=</span><span style="color:#24292E"> attrs.get(</span><span style="color:#032F62">"alpha"</span><span style="color:#24292E">, </span><span style="color:#005CC5">1.0</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> x </span><span style="color:#D73A49">+</span><span style="color:#24292E"> alpha </span><span style="color:#D73A49">*</span><span style="color:#24292E"> y</span></span></code></pre>
+<ul>
+<li><code>inputs</code>：CPU 上的 <code>torch.Tensor</code> 列表。</li>
+<li><code>attrs</code>：属性字典（已按生成策略采样）。</li>
+<li>返回单个 <code>Tensor</code> 或 <code>list/tuple[Tensor]</code>（多输出）。</li>
+<li>golden 在 CPU 上计算，作为标杆；NPU 算子结果搬回 CPU 后用 <code>torch.allclose(atol, rtol)</code> 对比。</li>
+</ul>
+<h2 id="算子种类与多输入-shape-推导">算子种类与多输入 shape 推导</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>kind</th><th>输入 shape 推导</th></tr></thead><tbody><tr><td>elementwise</td><td>所有输入共享同一随机 shape</td></tr><tr><td>reduction</td><td>所有输入共享同一随机 shape；<code>dim</code> 属性自动取有效维度</td></tr><tr><td>broadcast</td><td>输入 0 为基准 shape，其余输入随机将部分维度置为 1</td></tr><tr><td>matmul</td><td>随机 <code>(M,K)</code> 与 <code>(K,N)</code>（<code>num_inputs>2</code> 时余者取 <code>(M,N)</code>）</td></tr><tr><td>custom</td><td>同 elementwise（如需特殊关系，在 golden 模块里自定义）</td></tr></tbody></table>
+<h2 id="cli-选项">CLI 选项</h2>
+<pre class="astro-code github-light syntax-rich syntax-rich-makefile" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span class="code-token code-token-command">python</span> <span class="code-token code-token-flag">-m</span> op_tester &#x3C;config.yaml></span>
+<span class="line code-line-recipe">  <span class="code-token code-token-flag">--so</span> PATH              覆盖 .so 路径</span>
+<span class="line code-line-recipe">  <span class="code-token code-token-flag">-n</span>, <span class="code-token code-token-flag">--num-cases</span> N      覆盖自动用例数</span>
+<span class="line code-line-recipe">  <span class="code-token code-token-flag">--shape</span> SPEC           追加显式 shape 用例（可重复）</span>
+<span class="line code-line-target code-line-recipe">                         <span class="code-token code-token-target">SPEC</span>: '8,16;8,16' 或 '[[8,16],[8,16]]'</span>
+<span class="line code-line-recipe">  <span class="code-token code-token-flag">--no-auto</span>              只跑 <span class="code-token code-token-flag">--shape</span> 指定的用例</span>
+<span class="line code-line-recipe">  <span class="code-token code-token-flag">--seed</span> N               覆盖随机种子</span>
+<span class="line code-line-recipe">  <span class="code-token code-token-flag">--atol</span> F / <span class="code-token code-token-flag">--rtol</span> F    覆盖容差</span>
+<span class="line code-line-recipe">  <span class="code-token code-token-flag">--json</span> PATH            结果导出为 JSON</span>
+<span class="line code-line-recipe">  <span class="code-token code-token-flag">-q</span>, <span class="code-token code-token-flag">--quiet</span>            静默</span></code></pre>
+<p>示例：</p>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span class="code-token code-token-comment"># 只跑两个指定 shape</span></span>
+<span class="line"><span class="code-token code-token-command">python</span> <span class="code-token code-token-flag">-m</span> op_tester configs/examples/add.yaml <span class="code-token code-token-flag">--no-auto</span> \</span>
+<span class="line">    <span class="code-token code-token-flag">--shape</span> '1024,1024;1024,1024' <span class="code-token code-token-flag">--shape</span> '[[8],[8]]'</span>
+<span class="line"></span>
+<span class="line"><span class="code-token code-token-comment"># 增加 30 个随机用例并导出结果</span></span>
+<span class="line"><span class="code-token code-token-command">python</span> <span class="code-token code-token-flag">-m</span> op_tester configs/examples/matmul.yaml <span class="code-token code-token-flag">-n</span> 30 <span class="code-token code-token-flag">--json</span> result.json</span></code></pre>
+<h2 id="作为-python-库使用">作为 Python 库使用</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> op_tester </span><span style="color:#D73A49">import</span><span style="color:#24292E"> load_config, run_tests</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">spec, config_dir </span><span style="color:#D73A49">=</span><span style="color:#24292E"> load_config(</span><span style="color:#032F62">"configs/examples/add.yaml"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">results </span><span style="color:#D73A49">=</span><span style="color:#24292E"> run_tests(spec, config_dir, </span><span style="color:#E36209">num_cases</span><span style="color:#D73A49">=</span><span style="color:#005CC5">20</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#005CC5">sum</span><span style="color:#24292E">(r.passed </span><span style="color:#D73A49">for</span><span style="color:#24292E"> r </span><span style="color:#D73A49">in</span><span style="color:#24292E"> results), </span><span style="color:#032F62">"/"</span><span style="color:#24292E">, </span><span style="color:#005CC5">len</span><span style="color:#24292E">(results), </span><span style="color:#032F62">"passed"</span><span style="color:#24292E">)</span></span></code></pre>
+<h2 id="目录结构">目录结构</h2>
+<pre class="astro-code github-light syntax-rich syntax-rich-shell" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line">op_tester/</span>
+<span class="line">├── __init__.py        <span class="code-token code-token-comment"># 公开 API</span></span>
+<span class="line">├── __main__.py        <span class="code-token code-token-comment"># python -m op_tester 入口</span></span>
+<span class="line">├── cli.py             <span class="code-token code-token-comment"># CLI</span></span>
+<span class="line">├── spec.py            <span class="code-token code-token-comment"># OpSpec / AttrSpec / ShapeGenConfig 数据类</span></span>
+<span class="line">├── config.py          <span class="code-token code-token-comment"># YAML 加载 + golden 模块加载</span></span>
+<span class="line">├── shape_gen.py       <span class="code-token code-token-comment"># shape 与输入张量生成</span></span>
+<span class="line">├── runner.py          <span class="code-token code-token-comment"># 测试执行与对比</span></span>
+<span class="line">├── README.md</span>
+<span class="line">└── configs/examples/  <span class="code-token code-token-comment"># 示例配置</span></span>
+<span class="line">    ├── abs.yaml, abs_golden.py</span>
+<span class="line">    ├── add.yaml, add_golden.py</span>
+<span class="line">    ├── sum.yaml, sum_golden.py</span>
+<span class="line">    └── matmul.yaml, matmul_golden.py</span></code></pre>
+<h2 id="适配现有算子工程">适配现有算子工程</h2>
+<p>现有工程（如 <code>CANNBot/hpc_abs_verify/operators/abs</code>）已自带 <code>scripts/golden.py</code> 与 <code>build/libabs_ops.so</code>，可直接复用：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#22863A">op</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">  name</span><span style="color:#24292E">: </span><span style="color:#032F62">abs</span></span>
+<span class="line"><span style="color:#22863A">  so</span><span style="color:#24292E">: </span><span style="color:#032F62">build/libabs_ops.so</span></span>
+<span class="line"><span style="color:#22863A">  kind</span><span style="color:#24292E">: </span><span style="color:#032F62">elementwise</span></span>
+<span class="line"><span style="color:#22863A">  num_inputs</span><span style="color:#24292E">: </span><span style="color:#005CC5">1</span></span>
+<span class="line"><span style="color:#22863A">  num_outputs</span><span style="color:#24292E">: </span><span style="color:#005CC5">1</span></span>
+<span class="line"><span style="color:#22863A">  dtype</span><span style="color:#24292E">: </span><span style="color:#032F62">float32</span></span>
+<span class="line"><span style="color:#22863A">  golden</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">    module</span><span style="color:#24292E">: </span><span style="color:#032F62">scripts/golden</span><span style="color:#6A737D">   # 复用工程已有 golden</span></span>
+<span class="line"><span style="color:#22863A">    func</span><span style="color:#24292E">: </span><span style="color:#032F62">compute_golden</span></span></code></pre>
+<blockquote>
+<p>注意：工程自带 <code>golden.py</code> 的函数签名若是 <code>compute_golden(x1, x2)</code>（位置参数），可在 YAML 中用自定义 <code>golden.py</code> 适配为 <code>compute(inputs, attrs)</code> 签名，或直接新写一个薄包装。</p>
+</blockquote></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .home-stage-orbit, .home-stage-path, .home-stage-strip, .home-stage-panel, .home-stage-tile, .home-stage-note, .home-stage-rail, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>

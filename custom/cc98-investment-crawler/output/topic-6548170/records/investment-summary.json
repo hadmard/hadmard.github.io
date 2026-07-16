@@ -1,15 +1,15 @@
 {
   "sourceUrl": "https://www.cc98.org/topic/6548170",
-  "crawledAt": "2026-07-09T05:38:20.121Z",
+  "crawledAt": "2026-07-16T14:08:59.961Z",
   "topic": {
     "topicId": "6548170",
     "title": "chmod +x life [学习日记]",
     "boardId": 144,
-    "boardName": "",
+    "boardName": "一路走来",
     "authorName": "hadmard",
     "createdAt": "2026-06-22T15:29:22.0788572+08:00",
-    "replyCount": 25,
-    "hitCount": 459,
+    "replyCount": 34,
+    "hitCount": 597,
     "state": 0,
     "raw": {
       "id": 6548170,
@@ -21,14 +21,14 @@
       "userInfo": null,
       "isAnonymous": false,
       "disableHot": false,
-      "lastPostTime": "2026-07-09T13:03:28.6886788+08:00",
+      "lastPostTime": "2026-07-16T08:22:27.0304804+08:00",
       "state": 0,
       "type": 0,
-      "replyCount": 25,
-      "hitCount": 459,
+      "replyCount": 34,
+      "hitCount": 597,
       "totalVoteUserCount": 0,
       "lastPostUser": "hadmard",
-      "lastPostContent": "[quote][b]以下是引用21楼：用户hadmar...",
+      "lastPostContent": "## 七月十六日代办\n\n- 今日有一个小矛盾，HPC今...",
       "topState": 0,
       "bestState": 0,
       "isVote": false,
@@ -64,5 +64,5 @@
       "lotteryTopicDetail": null
     }
   },
-  "postCount": 26
+  "postCount": 35
 }

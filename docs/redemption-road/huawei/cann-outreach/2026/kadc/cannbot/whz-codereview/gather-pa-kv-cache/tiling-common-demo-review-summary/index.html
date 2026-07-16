@@ -1,0 +1,635 @@
+<!DOCTYPE html><html lang="zh-cn"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v6.4.2"><meta name="description" content="检视概览 代码文件：/mnt/workspace/gitCode/cann/cann-outreach/2026/KADC/CANNBot/demo/code-review/tiling common demo.txt 代码侧别：T..."><meta name="theme-color" content="#f8fafc"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://hadmard.github.io/redemption-road/huawei/cann-outreach/2026/kadc/cannbot/whz-codereview/gather-pa-kv-cache/tiling-common-demo-review-summary/"><link rel="alternate" hreflang="en" href="https://hadmard.github.io/en/redemption-road/huawei/cann-outreach/2026/kadc/cannbot/whz-codereview/gather-pa-kv-cache/tiling-common-demo-review-summary/"><title>代码检视报告 | 救赎之路 | 个人blog</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/LocaleSwitch.Btc3j4sV.css"></head> <body>  <main class="site-shell reading-shell"> <header class="glass-topbar flex flex-wrap items-center justify-between gap-4 mb-4"> <a class="brand-lockup" href="/" aria-label="首页"> <p class="text-[15px] font-semibold text-[#1d1d1f]">个人blog</p> </a> <div class="flex flex-wrap items-center gap-2 sm:gap-4"> <nav class="flex flex-wrap items-center gap-1"> <a class="nav-link" href="/"> 首页 </a> <a class="nav-link" href="/investments/"> 投资记录 </a><a class="nav-link" href="/thinking/"> 个人思考 </a><a class="nav-link" href="/study-calendar/"> 学习日历 </a><a class="nav-link" href="/health-routine/"> 健康作息 </a><a class="nav-link" href="/schedule/"> 日程 </a><a class="nav-link active" href="/redemption-road/" aria-current="page"> 救赎之路 </a> </nav> <a href="/en/redemption-road/huawei/cann-outreach/2026/kadc/cannbot/whz-codereview/gather-pa-kv-cache/tiling-common-demo-review-summary/" class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/40 backdrop-blur-md px-3 py-1.5 text-sm text-[#1d1d1f] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition duration-500 hover:border-black/10 hover:bg-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors bg-[#1d1d1f] text-white">中</span> <span class="rounded-full px-2 py-1 text-[11px] font-medium transition-colors text-[#1d1d1f]/60 hover:text-[#1d1d1f]">EN</span> </a> </div> </header> <script type="module">const o=()=>{const n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.querySelectorAll(".glass-topbar nav").forEach(e=>{if(!(e instanceof HTMLElement))return;const t=e.querySelector(".nav-link.active");if(!(t instanceof HTMLElement)||e.scrollWidth<=e.clientWidth)return;const i=t.offsetLeft-e.clientWidth/2+t.offsetWidth/2;e.scrollTo({left:Math.max(0,i),behavior:n?"auto":"smooth"})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",o,{once:!0}):requestAnimationFrame(o);window.addEventListener("pageshow",o);</script> <a class="redemption-back-link" href="/redemption-road/"> <span aria-hidden="true"></span> 返回救赎之路 </a> <section class="article-hero redemption-article-hero" data-reveal> <div class="max-w-4xl"> <p class="section-kicker">Notes</p> <h1>代码检视报告</h1> <p>检视概览 代码文件：/mnt/workspace/gitCode/cann/cann-outreach/2026/KADC/CANNBot/demo/code-review/tiling common demo.txt 代码侧别：T...</p> <div class="article-meta"> <span class="soft-label">4 分钟</span> <span class="signal-pill">tiling_common_demo_review_summary.md</span> </div> </div> </section> <div class="reading-progress-rail" aria-hidden="true"> <span class="reading-progress-fill" data-reading-progress-bar></span> </div> <aside class="reading-outline" data-reading-outline aria-label="笔记目录"> <button class="reading-outline-head" type="button" data-reading-outline-toggle aria-expanded="true"> <span class="reading-outline-icon" aria-hidden="true"> <svg viewBox="0 0 28 28" role="presentation"> <path d="M7.2 7.8h13.6M7.2 14h13.6M7.2 20.2h8.4"></path> <path d="M4.5 7.8h.1M4.5 14h.1M4.5 20.2h.1"></path> </svg> </span> <span class="reading-outline-title">笔记目录</span> <span class="reading-outline-grip" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9"></path> </svg> </span> <span class="reading-outline-chevron" aria-hidden="true"> <svg viewBox="0 0 20 20" role="presentation"> <path d="m5.8 8 4.2 4.2L14.2 8"></path> </svg> </span> </button> <nav class="reading-outline-list" data-reading-outline-list> <a href="#检视概览" class="reading-outline-link" data-outline-target="检视概览" style="--outline-depth: 0"> <span>检视概览</span> </a><a href="#检视统计" class="reading-outline-link" data-outline-target="检视统计" style="--outline-depth: 0"> <span>检视统计</span> </a><a href="#发现问题high-置信度" class="reading-outline-link" data-outline-target="发现问题high-置信度" style="--outline-depth: 0"> <span>发现问题（HIGH 置信度）</span> </a><a href="#sec-41-topk-1-topk-7-空指针解引用风险" class="reading-outline-link" data-outline-target="sec-41-topk-1-topk-7-空指针解引用风险" style="--outline-depth: 1"> <span>[SEC-4.1 + TOPK-1 + TOPK-7] 空指针解引用风险</span> </a><a href="#sec-35-topk-1-getattrpointer返回值未判空" class="reading-outline-link" data-outline-target="sec-35-topk-1-getattrpointer返回值未判空" style="--outline-depth: 1"> <span>[SEC-3.5 + TOPK-1] GetAttrPointer返回值未判空</span> </a><a href="#sec-21-topk-8-有符号整数溢出风险" class="reading-outline-link" data-outline-target="sec-21-topk-8-有符号整数溢出风险" style="--outline-depth: 1"> <span>[SEC-2.1 + TOPK-8] 有符号整数溢出风险</span> </a><a href="#topk-6-校验条件逻辑错误" class="reading-outline-link" data-outline-target="topk-6-校验条件逻辑错误" style="--outline-depth: 1"> <span>[TOPK-6] 校验条件逻辑错误</span> </a><a href="#sec-41-topk-7-多个参数缺少边界校验" class="reading-outline-link" data-outline-target="sec-41-topk-7-多个参数缺少边界校验" style="--outline-depth: 1"> <span>[SEC-4.1 + TOPK-7] 多个参数缺少边界校验</span> </a><a href="#需关注med-置信度" class="reading-outline-link" data-outline-target="需关注med-置信度" style="--outline-depth: 0"> <span>需关注（MED 置信度）</span> </a><a href="#sec-42-getrawtilingdata指针未判空" class="reading-outline-link" data-outline-target="sec-42-getrawtilingdata指针未判空" style="--outline-depth: 1"> <span>[SEC-4.2] GetRawTilingData指针未判空</span> </a><a href="#通过条例" class="reading-outline-link" data-outline-target="通过条例" style="--outline-depth: 0"> <span>通过条例</span> </a><a href="#被检视代码" class="reading-outline-link" data-outline-target="被检视代码" style="--outline-depth: 0"> <span>被检视代码</span> </a> </nav> </aside> <script>
+	const setupReadingAssist = () => {
+		if (window.__readingAssistCleanup) window.__readingAssistCleanup();
+
+		const progressBars = [...document.querySelectorAll('[data-reading-progress-bar]')];
+		const outlines = [...document.querySelectorAll('[data-reading-outline]')];
+		const outlineLinks = [...document.querySelectorAll('[data-outline-target]')];
+		if (!progressBars.length && !outlineLinks.length && !outlines.length) return;
+
+		let frame = 0;
+		const cleanups = [];
+		const on = (target, eventName, handler, options) => {
+			target.addEventListener(eventName, handler, options);
+			cleanups.push(() => target.removeEventListener(eventName, handler, options));
+		};
+
+		const readState = (key) => {
+			try {
+				return JSON.parse(window.localStorage.getItem(key) || '{}') || {};
+			} catch {
+				return {};
+			}
+		};
+
+		const writeState = (key, state) => {
+			try {
+				window.localStorage.setItem(key, JSON.stringify(state));
+			} catch {
+				// localStorage can be unavailable in private contexts.
+			}
+		};
+
+		const clampPosition = (outline, x, y) => {
+			const margin = 12;
+			const rect = outline.getBoundingClientRect();
+			const width = rect.width || outline.offsetWidth || 220;
+			const height = rect.height || outline.offsetHeight || 64;
+			const maxX = Math.max(margin, window.innerWidth - width - margin);
+			const maxY = Math.max(margin, window.innerHeight - height - margin);
+			return {
+				x: Math.min(maxX, Math.max(margin, x)),
+				y: Math.min(maxY, Math.max(margin, y)),
+			};
+		};
+
+		const applyPosition = (outline, x, y) => {
+			const position = clampPosition(outline, x, y);
+			outline.dataset.dragged = 'true';
+			outline.style.left = `${Math.round(position.x)}px`;
+			outline.style.top = `${Math.round(position.y)}px`;
+			outline.style.right = 'auto';
+			outline.style.bottom = 'auto';
+			return position;
+		};
+
+		const setCollapsed = (outline, toggle, collapsed) => {
+			outline.classList.toggle('is-collapsed', collapsed);
+			toggle.setAttribute('aria-expanded', String(!collapsed));
+		};
+
+		const setupOutlinePanel = (outline, index) => {
+			const toggle = outline.querySelector('[data-reading-outline-toggle]');
+			if (!toggle) return;
+
+			const stateKey = `reading-outline:${window.location.pathname}:${index}`;
+			const savedState = readState(stateKey);
+			const startsCollapsed =
+				typeof savedState.collapsed === 'boolean'
+					? savedState.collapsed
+					: window.matchMedia('(max-width: 640px)').matches;
+			setCollapsed(outline, toggle, startsCollapsed);
+
+			if (Number.isFinite(savedState.x) && Number.isFinite(savedState.y)) {
+				window.requestAnimationFrame(() => applyPosition(outline, savedState.x, savedState.y));
+			}
+
+			let dragState = null;
+			let suppressClick = false;
+
+			const persistCurrentState = () => {
+				const rect = outline.getBoundingClientRect();
+				const currentState = readState(stateKey);
+				writeState(stateKey, {
+					...currentState,
+					collapsed: outline.classList.contains('is-collapsed'),
+					...(outline.dataset.dragged === 'true'
+						? { x: Math.round(rect.left), y: Math.round(rect.top) }
+						: {}),
+				});
+			};
+
+			on(toggle, 'pointerdown', (event) => {
+				if (event.button !== undefined && event.button !== 0) return;
+				const rect = outline.getBoundingClientRect();
+				dragState = {
+					id: event.pointerId,
+					startX: event.clientX,
+					startY: event.clientY,
+					left: rect.left,
+					top: rect.top,
+					moved: false,
+				};
+				toggle.setPointerCapture?.(event.pointerId);
+				outline.classList.add('is-dragging');
+			});
+
+			on(toggle, 'pointermove', (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				const dx = event.clientX - dragState.startX;
+				const dy = event.clientY - dragState.startY;
+				if (!dragState.moved && Math.hypot(dx, dy) < 5) return;
+
+				dragState.moved = true;
+				event.preventDefault();
+				applyPosition(outline, dragState.left + dx, dragState.top + dy);
+			});
+
+			const endDrag = (event) => {
+				if (!dragState || dragState.id !== event.pointerId) return;
+				outline.classList.remove('is-dragging');
+				toggle.releasePointerCapture?.(event.pointerId);
+
+				if (dragState.moved) {
+					suppressClick = true;
+					persistCurrentState();
+					window.setTimeout(() => {
+						suppressClick = false;
+					}, 0);
+				}
+
+				dragState = null;
+			};
+
+			on(toggle, 'pointerup', endDrag);
+			on(toggle, 'pointercancel', endDrag);
+
+			on(toggle, 'click', (event) => {
+				if (suppressClick) {
+					event.preventDefault();
+					return;
+				}
+
+				const collapsed = !outline.classList.contains('is-collapsed');
+				setCollapsed(outline, toggle, collapsed);
+				window.requestAnimationFrame(() => {
+					if (outline.dataset.dragged === 'true') {
+						const rect = outline.getBoundingClientRect();
+						applyPosition(outline, rect.left, rect.top);
+					}
+					persistCurrentState();
+				});
+			});
+		};
+
+		outlines.forEach(setupOutlinePanel);
+
+		const paragraphBlocks = [...document.querySelectorAll('.article-body .markdown-body > p')];
+		for (const link of outlineLinks) {
+			const targetId = link.dataset.outlineTarget || '';
+			if (!targetId.startsWith('paragraph-') || document.getElementById(targetId)) continue;
+
+			const paragraphIndex = Number(targetId.replace('paragraph-', '')) - 1;
+			const paragraph = paragraphBlocks[paragraphIndex];
+			if (paragraph && !paragraph.id) {
+				paragraph.id = targetId;
+			}
+		}
+
+		const sections = outlineLinks
+			.map((link) => ({
+				link,
+				target: document.getElementById(link.dataset.outlineTarget || ''),
+			}))
+			.filter((item) => item.target);
+
+		const setActive = (activeId) => {
+			for (const { link } of sections) {
+				link.classList.toggle('is-active', link.dataset.outlineTarget === activeId);
+			}
+		};
+
+		const update = () => {
+			frame = 0;
+			const root = document.documentElement;
+			const scrollable = Math.max(1, root.scrollHeight - window.innerHeight);
+			const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+			for (const bar of progressBars) {
+				bar.style.transform = `scaleX(${progress})`;
+			}
+
+			if (sections.length) {
+				const anchorY = window.innerHeight * 0.22;
+				let active = sections[0].target.id;
+				for (const { target } of sections) {
+					if (target.getBoundingClientRect().top <= anchorY) active = target.id;
+				}
+				setActive(active);
+			}
+		};
+
+		const schedule = () => {
+			if (!frame) frame = window.requestAnimationFrame(update);
+		};
+
+		const handleResize = () => {
+			schedule();
+			for (const outline of outlines) {
+				if (outline.dataset.dragged !== 'true') continue;
+				const rect = outline.getBoundingClientRect();
+				applyPosition(outline, rect.left, rect.top);
+			}
+		};
+
+		on(window, 'scroll', schedule, { passive: true });
+		on(window, 'resize', handleResize);
+		window.__readingAssistCleanup = () => {
+			for (const cleanup of cleanups) cleanup();
+			if (frame) window.cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		update();
+	};
+
+	document.addEventListener('astro:page-load', setupReadingAssist);
+	document.addEventListener('DOMContentLoaded', setupReadingAssist);
+</script> <section class="redemption-article-layout"> <article class="panel-strong article-body redemption-article-body"> <div class="prose-thought markdown-body"><h2 id="检视概览">检视概览</h2>
+<ul>
+<li>代码文件：/mnt/workspace/gitCode/cann/cann-outreach/2026/KADC/CANNBot/demo/code-review/tiling_common_demo.txt</li>
+<li>代码侧别：Tiling侧</li>
+<li>检视文档：cpp-secure.md, ascendc-topk.md</li>
+<li>总条例数：10组（安全类条例优先检视）</li>
+<li>检视时间：2026-05-22</li>
+</ul>
+<h2 id="检视统计">检视统计</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>状态</th><th>条例数</th><th>占比</th></tr></thead><tbody><tr><td>PASS</td><td>~20</td><td>67%</td></tr><tr><td>FAIL（发现问题）</td><td>15</td><td>33%</td></tr><tr><td>SUSPICIOUS（需关注）</td><td>1</td><td>-</td></tr></tbody></table>
+<h2 id="发现问题high-置信度">发现问题（HIGH 置信度）</h2>
+<h3 id="sec-41--topk-1--topk-7-空指针解引用风险">[SEC-4.1 + TOPK-1 + TOPK-7] 空指针解引用风险</h3>
+<p><strong>问题描述</strong>：多处指针返回值未判空直接使用，存在空指针解引用风险</p>
+<p><strong>代码片段</strong>（行 37-38）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49">auto</span><span style="color:#24292E"> attrs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetAttrs</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#D73A49">const</span><span style="color:#D73A49"> char</span><span style="color:#D73A49"> *</span><span style="color:#24292E">mode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> attrs->GetAttrPointer</span><span style="color:#D73A49">&#x3C;char></span><span style="color:#24292E">(CACHE_MODE_INDEX);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#24292E"> (</span><span style="color:#6F42C1">strcmp</span><span style="color:#24292E">(mode, </span><span style="color:#032F62">"PA_NZ"</span><span style="color:#24292E">) </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">) {</span></span></code></pre>
+<p><strong>修复建议</strong>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49">auto</span><span style="color:#24292E"> attrs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetAttrs</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#24292E"> (attrs </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> nullptr</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#6F42C1">    OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"GetAttrs() returned nullptr"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"><span style="color:#D73A49">const</span><span style="color:#D73A49"> char</span><span style="color:#D73A49"> *</span><span style="color:#24292E">mode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> attrs->GetAttrPointer</span><span style="color:#D73A49">&#x3C;char></span><span style="color:#24292E">(CACHE_MODE_INDEX);</span></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#24292E"> (mode </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> nullptr</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#6F42C1">    OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"mode is null"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<hr>
+<h3 id="sec-35--topk-1-getattrpointer返回值未判空">[SEC-3.5 + TOPK-1] GetAttrPointer返回值未判空</h3>
+<p><strong>问题描述</strong>：isSeqLensCumsum 指针未判空直接解引用</p>
+<p><strong>代码片段</strong>（行 76-84）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49">auto</span><span style="color:#24292E"> isSeqLensCumsum </span><span style="color:#D73A49">=</span><span style="color:#24292E"> attrs->GetAttrPointer</span><span style="color:#D73A49">&#x3C;bool></span><span style="color:#24292E">(IS_SEQ_LENS_CUNSUM_INDEX);</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_blockSize</span><span style="color:#24292E">(blockSize);</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_numTokens</span><span style="color:#24292E">(numTokens);</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_numblkTabCol</span><span style="color:#24292E">(numblkTabCol);</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_tokenSizeK</span><span style="color:#24292E">(tokenSizeK);</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_tokenSizeV</span><span style="color:#24292E">(tokenSizeV);</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_typeByte</span><span style="color:#24292E">(typeByte);</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_hasSeqStarts</span><span style="color:#24292E">(hasSeqStarts);</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_isSeqLensCumsum</span><span style="color:#24292E">(</span><span style="color:#D73A49">*</span><span style="color:#24292E">isSeqLensCumsum);</span></span></code></pre>
+<p><strong>修复建议</strong>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49">auto</span><span style="color:#24292E"> isSeqLensCumsum </span><span style="color:#D73A49">=</span><span style="color:#24292E"> attrs->GetAttrPointer</span><span style="color:#D73A49">&#x3C;bool></span><span style="color:#24292E">(IS_SEQ_LENS_CUNSUM_INDEX);</span></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#24292E"> (isSeqLensCumsum </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> nullptr</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#6F42C1">    OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"isSeqLensCumsum attribute is null"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">set_isSeqLensCumsum</span><span style="color:#24292E">(</span><span style="color:#D73A49">*</span><span style="color:#24292E">isSeqLensCumsum);</span></span></code></pre>
+<hr>
+<h3 id="sec-21--topk-8-有符号整数溢出风险">[SEC-2.1 + TOPK-8] 有符号整数溢出风险</h3>
+<p><strong>问题描述</strong>：tokenSizeK/V 乘法运算可能溢出 int32_t 范围，违反”gm内存偏移必须用int64表示”</p>
+<p><strong>代码片段</strong>（行 53-56）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#24292E">tokenSizeK </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">    kShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> kShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_2));</span></span>
+<span class="line"><span style="color:#24292E">tokenSizeV </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">    vShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> vShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_2));</span></span></code></pre>
+<p><strong>风险分析</strong>：GetDim 返回 int64_t，两值相乘可能超过 INT_MAX (2147483647)，强制转换为 int32_t 会截断。</p>
+<p><strong>工具验证</strong>：dim1=65536, dim2=32768 →乘积=2147483648 →截断为 -2147483648</p>
+<p><strong>修复建议</strong>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49">int64_t</span><span style="color:#24292E"> dim1 </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1);</span></span>
+<span class="line"><span style="color:#D73A49">int64_t</span><span style="color:#24292E"> dim2 </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_2);</span></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#24292E"> (dim1 </span><span style="color:#D73A49">></span><span style="color:#005CC5"> 0</span><span style="color:#D73A49"> &#x26;&#x26;</span><span style="color:#24292E"> dim2 </span><span style="color:#D73A49">></span><span style="color:#24292E"> INT_MAX </span><span style="color:#D73A49">/</span><span style="color:#24292E"> dim1) {</span></span>
+<span class="line"><span style="color:#6F42C1">    OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"tokenSizeK multiplication overflow"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"><span style="color:#24292E">tokenSizeK </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(dim1 </span><span style="color:#D73A49">*</span><span style="color:#24292E"> dim2);</span></span></code></pre>
+<hr>
+<h3 id="topk-6-校验条件逻辑错误">[TOPK-6] 校验条件逻辑错误</h3>
+<p><strong>问题描述</strong>：numTokens 校验条件 <code>(numTokens &#x3C;= 0 &#x26;&#x26; numTokens > INT_MAX)</code> 永远为 false，校验失效</p>
+<p><strong>代码片段</strong>（行 67-68）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#6F42C1">OP_CHECK_IF</span><span style="color:#24292E">((numTokens </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#005CC5"> 0</span><span style="color:#D73A49"> &#x26;&#x26;</span><span style="color:#24292E"> numTokens </span><span style="color:#D73A49">></span><span style="color:#24292E"> INT_MAX),</span></span>
+<span class="line"><span style="color:#6F42C1">            OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"numTokens is invalid."</span><span style="color:#24292E">), </span><span style="color:#D73A49">return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">);</span></span></code></pre>
+<p><strong>修复建议</strong>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#6F42C1">OP_CHECK_IF</span><span style="color:#24292E">((numTokens </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#005CC5"> 0</span><span style="color:#D73A49"> ||</span><span style="color:#24292E"> numTokens </span><span style="color:#D73A49">></span><span style="color:#24292E"> INT_MAX),</span></span>
+<span class="line"><span style="color:#6F42C1">            OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"numTokens is invalid."</span><span style="color:#24292E">), </span><span style="color:#D73A49">return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">);</span></span></code></pre>
+<hr>
+<h3 id="sec-41--topk-7-多个参数缺少边界校验">[SEC-4.1 + TOPK-7] 多个参数缺少边界校验</h3>
+<p><strong>问题描述</strong>：tokenSizeK、tokenSizeV、numblkTabCol、typeByte 缺少边界校验</p>
+<p><strong>代码片段</strong>（行 40-44, 62-63）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49">int32_t</span><span style="color:#24292E"> blockSize;</span></span>
+<span class="line"><span style="color:#D73A49">int32_t</span><span style="color:#24292E"> tokenSizeK;</span></span>
+<span class="line"><span style="color:#D73A49">int32_t</span><span style="color:#24292E"> tokenSizeV;</span></span>
+<span class="line"><span style="color:#D73A49">auto</span><span style="color:#24292E"> inDtype </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetInputDesc</span><span style="color:#24292E">(DIM_0)-></span><span style="color:#6F42C1">GetDataType</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#D73A49">uint32_t</span><span style="color:#24292E"> typeByte </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;uint32_t></span><span style="color:#24292E">(</span><span style="color:#6F42C1">GetTensorElementSizes</span><span style="color:#24292E">(inDtype));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">int32_t</span><span style="color:#24292E"> numTokens </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(blockTablesShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_0));</span></span>
+<span class="line"><span style="color:#D73A49">int32_t</span><span style="color:#24292E"> numblkTabCol </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(blockTablesShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1));</span></span></code></pre>
+<p><strong>修复建议</strong>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#6F42C1">OP_CHECK_IF</span><span style="color:#24292E">((tokenSizeK </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">), </span><span style="color:#6F42C1">OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"tokenSizeK is invalid"</span><span style="color:#24292E">), </span><span style="color:#D73A49">return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#6F42C1">OP_CHECK_IF</span><span style="color:#24292E">((tokenSizeV </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">), </span><span style="color:#6F42C1">OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"tokenSizeV is invalid"</span><span style="color:#24292E">), </span><span style="color:#D73A49">return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#6F42C1">OP_CHECK_IF</span><span style="color:#24292E">((numblkTabCol </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">), </span><span style="color:#6F42C1">OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"numblkTabCol is invalid"</span><span style="color:#24292E">), </span><span style="color:#D73A49">return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#6F42C1">OP_CHECK_IF</span><span style="color:#24292E">((typeByte </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">), </span><span style="color:#6F42C1">OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"typeByte is invalid"</span><span style="color:#24292E">), </span><span style="color:#D73A49">return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">);</span></span></code></pre>
+<hr>
+<h2 id="需关注med-置信度">需关注（MED 置信度）</h2>
+<h3 id="sec-42-getrawtilingdata指针未判空">[SEC-4.2] GetRawTilingData指针未判空</h3>
+<p><strong>问题描述</strong>：SaveToBuffer 前未判空GetRawTilingData()，但框架 API 可能提供保护</p>
+<p><strong>代码片段</strong>（行 89-90）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">SaveToBuffer</span><span style="color:#24292E">(context-></span><span style="color:#6F42C1">GetRawTilingData</span><span style="color:#24292E">()-></span><span style="color:#6F42C1">GetData</span><span style="color:#24292E">(),</span></span>
+<span class="line"><span style="color:#24292E">                        context-></span><span style="color:#6F42C1">GetRawTilingData</span><span style="color:#24292E">()-></span><span style="color:#6F42C1">GetCapacity</span><span style="color:#24292E">());</span></span></code></pre>
+<p><strong>修复建议</strong>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#D73A49">auto</span><span style="color:#24292E"> rawTilingData </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetRawTilingData</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#24292E"> (rawTilingData </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> nullptr</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#6F42C1">    OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"rawTilingData is null"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"><span style="color:#24292E">tilingData.</span><span style="color:#6F42C1">SaveToBuffer</span><span style="color:#24292E">(rawTilingData-></span><span style="color:#6F42C1">GetData</span><span style="color:#24292E">(), rawTilingData-></span><span style="color:#6F42C1">GetCapacity</span><span style="color:#24292E">());</span></span></code></pre>
+<hr>
+<h2 id="通过条例">通过条例</h2>
+<ul>
+<li>SEC-1.1：类型安全（部分PASS，缩窄转换需关注）</li>
+<li>SEC-1.2：内存安全（部分FAIL）</li>
+<li>SEC-1.3：未定义行为（部分FAIL）</li>
+<li>SEC-2.2：无符号整数回绕（PASS）</li>
+<li>SEC-2.3：除零保护（PASS，无除法运算）</li>
+<li>SEC-3.1：未初始化变量（PASS，有分支保护）</li>
+<li>SEC-3.2：资源释放后置空（PASS，无资源释放）</li>
+<li>SEC-3.3：数组索引校验（PASS，无外部数据索引）</li>
+<li>SEC-3.4：sizeof指针（PASS）</li>
+<li>SEC-3.6：字符串存储空间（PASS）</li>
+<li>SEC-5.1-5.4：资源管理（PASS，无资源申请）</li>
+<li>SEC-8.1-8.3：安全函数（PASS，无使用）</li>
+<li>SEC-11.1-11.4：LOG API安全（PASS）</li>
+<li>TOPK-2：GetInputDesc获取Dtype（PASS）</li>
+<li>TOPK-3：生命周期管理（PASS）</li>
+<li>TOPK-4：属性获取来源（PASS）</li>
+<li>TOPK-5：属性类型一致性（PASS）</li>
+<li>TOPK-10：整数计算优先（PASS）</li>
+<li>TOPK-12：宏变量命名（PASS）</li>
+<li>TOPK-13：thread_local禁用（PASS）</li>
+</ul>
+<hr>
+<h2 id="被检视代码">被检视代码</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#6A737D">/**</span></span>
+<span class="line"><span style="color:#6A737D"> * Copyright (c) 2025 Huawei Technologies Co., Ltd.</span></span>
+<span class="line"><span style="color:#6A737D"> * Licensed under CANN Open Software License Agreement Version 2.0.</span></span>
+<span class="line"><span style="color:#6A737D"> */</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">/*!</span></span>
+<span class="line"><span style="color:#6A737D"> * </span><span style="color:#D73A49">\file</span><span style="color:#6A737D"> gather_pa_kv_cache_tiling.cpp</span></span>
+<span class="line"><span style="color:#6A737D"> * </span><span style="color:#D73A49">\brief</span><span style="color:#6A737D"> core tiling logic for gather_pa_kv_cache</span></span>
+<span class="line"><span style="color:#6A737D"> */</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> &#x3C;climits></span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "log/log.h"</span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "platform/platform_info_def.h"</span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "tiling/tiling_api.h"</span></span>
+<span class="line"><span style="color:#D73A49"># include</span><span style="color:#032F62"> "gather_pa_kv_cache_tiling.h"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">using</span><span style="color:#D73A49"> namespace</span><span style="color:#6F42C1"> Ops</span><span style="color:#24292E">::</span><span style="color:#6F42C1">Transformer</span><span style="color:#24292E">::</span><span style="color:#6F42C1">OpTiling</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">namespace</span><span style="color:#6F42C1"> optiling</span><span style="color:#24292E"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> DIM_0 </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> DIM_1 </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> DIM_2 </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 2</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> DIM_3 </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 3</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> DIM_6 </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 6</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> CACHE_MODE_INDEX </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> IS_SEQ_LENS_CUNSUM_INDEX </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">constexpr</span><span style="color:#D73A49"> uint64_t</span><span style="color:#24292E"> ASCENDC_TOOLS_WORKSPACE </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;uint64_t></span><span style="color:#24292E">(</span><span style="color:#005CC5">8</span><span style="color:#24292E">) </span><span style="color:#D73A49">*</span><span style="color:#005CC5"> 1024</span><span style="color:#D73A49"> *</span><span style="color:#005CC5"> 1024</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">static</span><span style="color:#D73A49"> constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> TILING_KEY_NZ </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 577</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">static</span><span style="color:#D73A49"> constexpr</span><span style="color:#D73A49"> uint32_t</span><span style="color:#24292E"> TILING_KEY_ND </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 617</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">bool</span><span style="color:#6F42C1"> CommonGatherPaKvCacheTiling</span><span style="color:#24292E">(</span><span style="color:#6F42C1">gert</span><span style="color:#24292E">::</span><span style="color:#6F42C1">TilingContext</span><span style="color:#D73A49"> *</span><span style="color:#E36209">context</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#D73A49">    auto</span><span style="color:#24292E"> kCacheShape </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetInputShape</span><span style="color:#24292E">(DIM_0);</span></span>
+<span class="line"><span style="color:#D73A49">    auto</span><span style="color:#24292E"> blockTablesShape </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetInputShape</span><span style="color:#24292E">(DIM_2);</span></span>
+<span class="line"><span style="color:#D73A49">    auto</span><span style="color:#24292E"> kShape </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetOutputShape</span><span style="color:#24292E">(DIM_0);</span></span>
+<span class="line"><span style="color:#D73A49">    auto</span><span style="color:#24292E"> vShape </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetOutputShape</span><span style="color:#24292E">(DIM_1);</span></span>
+<span class="line"><span style="color:#D73A49">    auto</span><span style="color:#24292E"> attrs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetAttrs</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#D73A49">    const</span><span style="color:#D73A49"> char</span><span style="color:#D73A49"> *</span><span style="color:#24292E">mode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> attrs->GetAttrPointer</span><span style="color:#D73A49">&#x3C;char></span><span style="color:#24292E">(CACHE_MODE_INDEX);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    int32_t</span><span style="color:#24292E"> blockSize;</span></span>
+<span class="line"><span style="color:#D73A49">    int32_t</span><span style="color:#24292E"> tokenSizeK;</span></span>
+<span class="line"><span style="color:#D73A49">    int32_t</span><span style="color:#24292E"> tokenSizeV;</span></span>
+<span class="line"><span style="color:#D73A49">    auto</span><span style="color:#24292E"> inDtype </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetInputDesc</span><span style="color:#24292E">(DIM_0)-></span><span style="color:#6F42C1">GetDataType</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#D73A49">    uint32_t</span><span style="color:#24292E"> typeByte </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;uint32_t></span><span style="color:#24292E">(</span><span style="color:#6F42C1">GetTensorElementSizes</span><span style="color:#24292E">(inDtype));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> (</span><span style="color:#6F42C1">strcmp</span><span style="color:#24292E">(mode, </span><span style="color:#032F62">"PA_NZ"</span><span style="color:#24292E">) </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#24292E">        blockSize </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(kCacheShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1));</span></span>
+<span class="line"><span style="color:#24292E">        tokenSizeK </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(kShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1));</span></span>
+<span class="line"><span style="color:#24292E">        tokenSizeV </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(vShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1));</span></span>
+<span class="line"><span style="color:#24292E">        context-></span><span style="color:#6F42C1">SetTilingKey</span><span style="color:#24292E">(TILING_KEY_NZ);</span></span>
+<span class="line"><span style="color:#24292E">    } </span><span style="color:#D73A49">else</span><span style="color:#D73A49"> if</span><span style="color:#24292E"> (</span><span style="color:#6F42C1">strcmp</span><span style="color:#24292E">(mode, </span><span style="color:#032F62">"Norm"</span><span style="color:#24292E">) </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#24292E">        blockSize </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(kCacheShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1));</span></span>
+<span class="line"><span style="color:#24292E">        tokenSizeK </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">            kShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> kShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_2));</span></span>
+<span class="line"><span style="color:#24292E">        tokenSizeV </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">            vShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> vShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_2));</span></span>
+<span class="line"><span style="color:#24292E">        context-></span><span style="color:#6F42C1">SetTilingKey</span><span style="color:#24292E">(TILING_KEY_ND </span><span style="color:#D73A49">+</span><span style="color:#24292E"> typeByte);</span></span>
+<span class="line"><span style="color:#24292E">    } </span><span style="color:#D73A49">else</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    int32_t</span><span style="color:#24292E"> numTokens </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(blockTablesShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_0));</span></span>
+<span class="line"><span style="color:#D73A49">    int32_t</span><span style="color:#24292E"> numblkTabCol </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> static_cast&#x3C;int32_t></span><span style="color:#24292E">(blockTablesShape-></span><span style="color:#6F42C1">GetStorageShape</span><span style="color:#24292E">().</span><span style="color:#6F42C1">GetDim</span><span style="color:#24292E">(DIM_1));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">    OP_CHECK_IF</span><span style="color:#24292E">((blockSize </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#005CC5"> 0</span><span style="color:#D73A49"> ||</span><span style="color:#24292E"> blockSize </span><span style="color:#D73A49">></span><span style="color:#24292E"> INT_MAX),</span></span>
+<span class="line"><span style="color:#6F42C1">                OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"blockSize is invalid."</span><span style="color:#24292E">), </span><span style="color:#D73A49">return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#6F42C1">    OP_CHECK_IF</span><span style="color:#24292E">((numTokens </span><span style="color:#D73A49">&#x3C;=</span><span style="color:#005CC5"> 0</span><span style="color:#D73A49"> &#x26;&#x26;</span><span style="color:#24292E"> numTokens </span><span style="color:#D73A49">></span><span style="color:#24292E"> INT_MAX),</span></span>
+<span class="line"><span style="color:#6F42C1">                OP_LOGE</span><span style="color:#24292E">(context, </span><span style="color:#032F62">"numTokens is invalid."</span><span style="color:#24292E">), </span><span style="color:#D73A49">return</span><span style="color:#005CC5"> false</span><span style="color:#24292E">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    GatherPaKvCacheTilingData tilingData;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    int32_t</span><span style="color:#24292E"> hasSeqStarts;</span></span>
+<span class="line"><span style="color:#D73A49">    auto</span><span style="color:#24292E"> seqStartsTensor </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetOptionalInputTensor</span><span style="color:#24292E">(DIM_6);</span></span>
+<span class="line"><span style="color:#24292E">    seqStartsTensor </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> nullptr</span><span style="color:#D73A49"> ?</span><span style="color:#24292E"> hasSeqStarts </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span><span style="color:#D73A49"> :</span><span style="color:#24292E"> hasSeqStarts </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    auto</span><span style="color:#24292E"> isSeqLensCumsum </span><span style="color:#D73A49">=</span><span style="color:#24292E"> attrs->GetAttrPointer</span><span style="color:#D73A49">&#x3C;bool></span><span style="color:#24292E">(IS_SEQ_LENS_CUNSUM_INDEX);</span></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">set_blockSize</span><span style="color:#24292E">(blockSize);</span></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">set_numTokens</span><span style="color:#24292E">(numTokens);</span></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">set_numblkTabCol</span><span style="color:#24292E">(numblkTabCol);</span></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">set_tokenSizeK</span><span style="color:#24292E">(tokenSizeK);</span></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">set_tokenSizeV</span><span style="color:#24292E">(tokenSizeV);</span></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">set_typeByte</span><span style="color:#24292E">(typeByte);</span></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">set_hasSeqStarts</span><span style="color:#24292E">(hasSeqStarts);</span></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">set_isSeqLensCumsum</span><span style="color:#24292E">(</span><span style="color:#D73A49">*</span><span style="color:#24292E">isSeqLensCumsum);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    size_t</span><span style="color:#D73A49"> *</span><span style="color:#24292E">workspaceSize </span><span style="color:#D73A49">=</span><span style="color:#24292E"> context-></span><span style="color:#6F42C1">GetWorkspaceSizes</span><span style="color:#24292E">(</span><span style="color:#005CC5">1</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">    *</span><span style="color:#24292E">workspaceSize </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ASCENDC_TOOLS_WORKSPACE;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    tilingData.</span><span style="color:#6F42C1">SaveToBuffer</span><span style="color:#24292E">(context-></span><span style="color:#6F42C1">GetRawTilingData</span><span style="color:#24292E">()-></span><span style="color:#6F42C1">GetData</span><span style="color:#24292E">(),</span></span>
+<span class="line"><span style="color:#24292E">                            context-></span><span style="color:#6F42C1">GetRawTilingData</span><span style="color:#24292E">()-></span><span style="color:#6F42C1">GetCapacity</span><span style="color:#24292E">());</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#005CC5"> true</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">}</span><span style="color:#6A737D"> // namespace optiling</span></span></code></pre>
+<p><strong>代码行数</strong>：94 行</p></div> </article> </section> </main>  <script>
+			const setupReveal = () => {
+				const items = document.querySelectorAll('[data-reveal]');
+				if (!items.length) return;
+
+				items.forEach((item, index) => {
+					if (item instanceof HTMLElement) {
+						item.style.setProperty('--reveal-index', String(Math.min(index, 6)));
+					}
+				});
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px 18% 0px' },
+				);
+
+				for (const item of items) {
+					observer.observe(item);
+				}
+			};
+
+			const setupMaterialMotion = () => {
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+				const controller = window.__materialMotionController ?? (() => {
+					const states = [];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					let frame = 0;
+					let scrollFrame = 0;
+
+					const requestTick = () => {
+						if (!frame) frame = window.requestAnimationFrame(tick);
+					};
+
+					const tick = () => {
+						frame = 0;
+						let moving = false;
+
+						for (const state of states) {
+							if (!state.root.isConnected) continue;
+
+							state.x += (state.targetX - state.x) * 0.075;
+							state.y += (state.targetY - state.y) * 0.075;
+							state.scroll += (state.targetScroll - state.scroll) * 0.055;
+
+							const dx = Math.abs(state.targetX - state.x);
+							const dy = Math.abs(state.targetY - state.y);
+							const ds = Math.abs(state.targetScroll - state.scroll);
+							moving ||= dx > 0.0006 || dy > 0.0006 || ds > 0.0006;
+
+							state.root.style.setProperty('--spotlight-x', `${50 + state.x * 18}%`);
+							state.root.style.setProperty('--spotlight-y', `${48 + state.y * 14}%`);
+							state.root.style.setProperty('--motion-amount', `${Math.min(1, Math.abs(state.x) + Math.abs(state.y))}`);
+
+							for (const child of state.children) {
+								const y = state.y * child.depth * 0.38 + state.scroll * child.scrollDepth * 0.55;
+								child.element.style.setProperty('--parallax-x', `${state.x * child.depth * 0.52}px`);
+								child.element.style.setProperty('--parallax-y', `${y}px`);
+								child.element.style.setProperty('--parallax-rx', `${state.y * -1.1}deg`);
+								child.element.style.setProperty('--parallax-ry', `${state.x * 1.35}deg`);
+							}
+						}
+
+						if (moving) requestTick();
+					};
+
+					const updateScrollTargets = () => {
+						scrollFrame = 0;
+						const viewportCenter = window.innerHeight * 0.5;
+
+						for (const state of states) {
+							if (!state.root.isConnected || !state.children.length) continue;
+							const rect = state.root.getBoundingClientRect();
+							const center = rect.top + rect.height * 0.5;
+							state.targetScroll = clamp((viewportCenter - center) / window.innerHeight, -1, 1);
+						}
+
+						requestTick();
+					};
+
+					const scheduleScroll = () => {
+						if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollTargets);
+					};
+
+					window.addEventListener('scroll', scheduleScroll, { passive: true });
+					window.addEventListener('resize', scheduleScroll);
+
+					return {
+						addRoot(root) {
+							if (!(root instanceof HTMLElement) || root.dataset.motionReady === 'true') return;
+							root.dataset.motionReady = 'true';
+
+							const children = [
+								...root.querySelectorAll(
+									'.journal-sheet, .journal-accent, .journal-halo, .hero-symbol, .hero-slab, .market-orbit, .home-stage-orbit, .home-stage-path, .home-stage-strip, .home-stage-panel, .home-stage-tile, .home-stage-note, .home-stage-rail, .module-glyph, .card-arrow, .button-glyph, .timeline-node, .study-date-chip, .study-card-glyph, .investment-node, .investment-glyph',
+								),
+							]
+								.filter((child) => child instanceof HTMLElement)
+								.map((element, index) => {
+									const style = getComputedStyle(element);
+									const depth = Number.parseFloat(style.getPropertyValue('--motion-depth')) || (index + 1) * 4.5;
+									const scrollDepth = Number.parseFloat(style.getPropertyValue('--scroll-depth')) || depth * 0.28;
+									return { element, depth, scrollDepth };
+								});
+
+							const state = {
+								root,
+								children,
+								targetX: 0,
+								targetY: 0,
+								targetScroll: 0,
+								x: 0,
+								y: 0,
+								scroll: 0,
+							};
+							states.push(state);
+
+							root.addEventListener('pointermove', (event) => {
+								const rect = root.getBoundingClientRect();
+								state.targetX = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 1.35, -0.8, 0.8);
+								state.targetY = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 1.35, -0.8, 0.8);
+								requestTick();
+							});
+
+							root.addEventListener('pointerleave', () => {
+								state.targetX = 0;
+								state.targetY = 0;
+								requestTick();
+							});
+
+							updateScrollTargets();
+						},
+						updateScrollTargets,
+					};
+				})();
+
+				window.__materialMotionController = controller;
+
+				document.querySelectorAll(
+					'.blog-hero, .reading-hero, .article-hero, .blog-card, .thought-card, .raw-entry, .raw-empty, .study-entry, .reading-outline',
+				).forEach((root) => controller.addRoot(root));
+
+				controller.updateScrollTargets();
+			};
+
+			document.addEventListener('astro:page-load', setupReveal);
+			document.addEventListener('astro:page-load', setupMaterialMotion);
+			document.addEventListener('DOMContentLoaded', setupReveal);
+			document.addEventListener('DOMContentLoaded', setupMaterialMotion);
+		</script> </body> </html>
