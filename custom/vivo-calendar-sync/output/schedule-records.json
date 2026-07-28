@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-16T14:07:32.717Z",
+  "generatedAt": "2026-07-28T13:37:11.299Z",
   "source": {
     "type": "vivo-calendar-sqlite",
     "databasePath": "/Users/yifei/Library/Application Support/pcsuite/database/CalendarSync.db",
@@ -689,6 +689,30 @@
       "type": "tutoring"
     },
     {
+      "id": 89,
+      "title": "做PROJECT1",
+      "date": "2026-07-17",
+      "startTime": "20:30",
+      "endTime": "22:00",
+      "startIso": "2026-07-17T20:30:00+08:00",
+      "endIso": "2026-07-17T22:00:00+08:00",
+      "durationMinutes": 90,
+      "allDay": false,
+      "calendarId": 1,
+      "calendarName": "Local calendar",
+      "calendarColor": -9215145,
+      "location": "",
+      "source": {
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "startIso": "2026-07-17T20:30:00+08:00",
+        "endIso": "2026-07-17T22:00:00+08:00"
+      },
+      "isCourse": false,
+      "normalizedByRule": false,
+      "type": "plan"
+    },
+    {
       "id": 67,
       "title": "新加坡",
       "date": "2026-07-19",
@@ -701,30 +725,6 @@
       "calendarId": 2,
       "calendarName": "vivo work",
       "calendarColor": -1159088,
-      "location": "新加坡",
-      "source": {
-        "startTime": "08:00",
-        "endTime": "08:00",
-        "startIso": "2026-07-19T08:00:00+08:00",
-        "endIso": "2026-07-25T08:00:00+08:00"
-      },
-      "isCourse": false,
-      "normalizedByRule": false,
-      "type": "travel"
-    },
-    {
-      "id": 84,
-      "title": "新加坡出差",
-      "date": "2026-07-19",
-      "startTime": "08:00",
-      "endTime": "08:00",
-      "startIso": "2026-07-19T08:00:00+08:00",
-      "endIso": "2026-07-25T08:00:00+08:00",
-      "durationMinutes": 8640,
-      "allDay": true,
-      "calendarId": 1,
-      "calendarName": "Local calendar",
-      "calendarColor": -9215145,
       "location": "新加坡",
       "source": {
         "startTime": "08:00",
@@ -1527,6 +1527,30 @@
           "isCourse": false,
           "normalizedByRule": false,
           "type": "tutoring"
+        },
+        {
+          "id": 89,
+          "title": "做PROJECT1",
+          "date": "2026-07-17",
+          "startTime": "20:30",
+          "endTime": "22:00",
+          "startIso": "2026-07-17T20:30:00+08:00",
+          "endIso": "2026-07-17T22:00:00+08:00",
+          "durationMinutes": 90,
+          "allDay": false,
+          "calendarId": 1,
+          "calendarName": "Local calendar",
+          "calendarColor": -9215145,
+          "location": "",
+          "source": {
+            "startTime": "20:30",
+            "endTime": "22:00",
+            "startIso": "2026-07-17T20:30:00+08:00",
+            "endIso": "2026-07-17T22:00:00+08:00"
+          },
+          "isCourse": false,
+          "normalizedByRule": false,
+          "type": "plan"
         }
       ],
       "solarTerms": []
@@ -1548,30 +1572,6 @@
           "calendarId": 2,
           "calendarName": "vivo work",
           "calendarColor": -1159088,
-          "location": "新加坡",
-          "source": {
-            "startTime": "08:00",
-            "endTime": "08:00",
-            "startIso": "2026-07-19T08:00:00+08:00",
-            "endIso": "2026-07-25T08:00:00+08:00"
-          },
-          "isCourse": false,
-          "normalizedByRule": false,
-          "type": "travel"
-        },
-        {
-          "id": 84,
-          "title": "新加坡出差",
-          "date": "2026-07-19",
-          "startTime": "08:00",
-          "endTime": "08:00",
-          "startIso": "2026-07-19T08:00:00+08:00",
-          "endIso": "2026-07-25T08:00:00+08:00",
-          "durationMinutes": 8640,
-          "allDay": true,
-          "calendarId": 1,
-          "calendarName": "Local calendar",
-          "calendarColor": -9215145,
           "location": "新加坡",
           "source": {
             "startTime": "08:00",
@@ -1634,6 +1634,6 @@
     "total": 31,
     "courses": 16,
     "normalized": 4,
-    "allDay": 3
+    "allDay": 2
   }
 }
